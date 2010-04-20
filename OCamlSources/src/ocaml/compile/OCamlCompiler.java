@@ -1,0 +1,309 @@
+/*
+ * OCaml Support For IntelliJ Platform.
+ * Copyright (C) 2010 Maxim Manuylov
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/gpl-2.0.html>.
+ */
+
+package ocaml.compile;
+
+import com.intellij.compiler.impl.CompilerContentIterator;
+import com.intellij.execution.ExecutionException;
+import com.intellij.execution.configurations.GeneralCommandLine;
+import com.intellij.execution.process.ProcessOutput;
+import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.application.ModalityState;
+import com.intellij.openapi.compiler.*;
+import com.intellij.openapi.module.Module;
+import com.intellij.openapi.module.ModuleManager;
+import com.intellij.openapi.progress.ProgressIndicator;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.roots.ModuleFileIndex;
+import com.intellij.openapi.roots.ModuleRootManager;
+import com.intellij.openapi.roots.ProjectFileIndex;
+import com.intellij.openapi.roots.ProjectRootManager;
+import com.intellij.openapi.util.Computable;
+import com.intellij.openapi.vfs.LocalFileSystem;
+import com.intellij.openapi.vfs.VirtualFile;
+import ocaml.entity.CyclicDependencyException;
+import ocaml.entity.OCamlModule;
+import ocaml.module.OCamlModuleType;
+import ocaml.util.OCamlFileUtil;
+import ocaml.util.OCamlSystemUtil;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.io.DataInput;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
+
+import static com.intellij.openapi.compiler.CompilerMessageCategory.ERROR;
+import static com.intellij.openapi.compiler.CompilerMessageCategory.INFORMATION;
+
+/**
+ * @author Maxim.Manuylov
+ *         Date: 05.04.2010
+ */
+public class OCamlCompiler extends BaseOCamlCompiler implements SourceInstrumentingCompiler {
+    @NotNull
+    public ProcessingItem[] getProcessingItems(@NotNull final CompileContext context) {
+        final ProgressIndicator progressIndicator = context.getProgressIndicator();
+        progressIndicator.setIndeterminate(true);
+        progressIndicator.setText("Preparing files for compiling...");
+
+        final ArrayList<ProcessingItem> items = new ArrayList<ProcessingItem>();
+        final ArrayList<OCamlModule> ocamlModules = new ArrayList<OCamlModule>();
+
+        final OCamlCompileContext ocamlContext = OCamlCompileContext.createOn(context);
+        final boolean isDebugMode = ocamlContext.isDebugMode();
+
+        try {
+            if (ocamlContext.isStandaloneCompile()) {
+                ocamlModules.addAll(collectItemsForStandaloneCompile(context, items, isDebugMode));
+            }
+            else {
+                final OCamlModule mainOCamlModule = getMainOCamlModule(ocamlContext);
+                ocamlModules.add(mainOCamlModule);
+                ocamlModules.addAll(mainOCamlModule.collectAllDependencies());
+                Collections.reverse(ocamlModules);
+            }
+        }
+        catch (final CyclicDependencyException e) {
+            context.addMessage(ERROR, e.getMessage(), null, -1, -1);
+            return new ProcessingItem[0];
+        }
+
+        final LocalFileSystem fileSystem = LocalFileSystem.getInstance();
+        for (final OCamlModule ocamlModule : ocamlModules) {
+            processFile(fileSystem.findFileByIoFile(ocamlModule.getInterfaceFile()), items, isDebugMode);
+            processFile(fileSystem.findFileByIoFile(ocamlModule.getImplementationFile()), items, isDebugMode);
+        }
+
+        return items.toArray(new ProcessingItem[items.size()]);
+    }
+
+    private void processFile(@Nullable final VirtualFile file, @NotNull final ArrayList<ProcessingItem> items, final boolean isDebugMode) {
+        if (file != null) {
+            items.add(createProcessingItem(file, isDebugMode));
+        }
+    }
+
+    @NotNull
+    private List<OCamlModule> collectItemsForStandaloneCompile(@NotNull final CompileContext context,
+                                                               @NotNull final ArrayList<ProcessingItem> items,
+                                                               final boolean isDebugMode) throws CyclicDependencyException {
+        final Project project = context.getProject();
+        final Set<OCamlModule> ocamlModules = new HashSet<OCamlModule>();
+        final Module[] modules = ModuleManager.getInstance(project).getModules();
+        for (final Module module : modules) {
+            if (!OCamlModuleType.ID.equals(module.getModuleType().getId())) continue;
+            final ModuleFileIndex fileIndex = ModuleRootManager.getInstance(module).getFileIndex();
+            final Collection<VirtualFile> files = new ArrayList<VirtualFile>();
+            fileIndex.iterateContent(new CompilerContentIterator(null, fileIndex, true, files));
+            for (final VirtualFile file : files) {
+                if (OCamlFileUtil.isOCamlSourceFile(file)) {
+                    final OCamlModule ocamlModule = OCamlModule.getBySourceFile(file, project);
+                    assert ocamlModule != null;
+                    ocamlModules.add(ocamlModule);
+                }
+                else {
+                    items.add(createProcessingItem(file, isDebugMode));
+                }
+            }
+        }
+        final ProgressIndicator indicator = context.getProgressIndicator();
+        final String oldText = indicator.getText();
+        indicator.setText("Computing dependencies...");
+        try {
+            return OCamlModule.sortAccordingToDependencies(ocamlModules);
+        }
+        finally {
+            indicator.setText(oldText);
+        }
+    }
+
+    @NotNull
+    public ProcessingItem[] process(@NotNull final CompileContext context, @NotNull final ProcessingItem[] items) {
+        final ProgressIndicator progressIndicator = context.getProgressIndicator();
+        progressIndicator.setIndeterminate(false);
+        progressIndicator.setText("Compiling...");
+
+        final double allCount = items.length;
+        int processedCount = -1;
+
+        final ArrayList<ProcessingItem> processedItems = new ArrayList<ProcessingItem>();
+        final ProjectFileIndex fileIndex = ProjectRootManager.getInstance(context.getProject()).getFileIndex();
+        final OCamlCompileContext ocamlContext = OCamlCompileContext.createOn(context);
+        final boolean isDebugMode = ocamlContext.isDebugMode();
+
+        for (final ProcessingItem item : items) {
+            processedCount++;
+            progressIndicator.setFraction(processedCount / allCount);
+
+            final VirtualFile file = item.getFile();
+            progressIndicator.setText2(file.getPath());
+
+            final VirtualFile destDir = getDestination(file, fileIndex);
+            if (destDir == null) {
+                context.addMessage(ERROR, "Cannot determine destination directory for \"" + file.getPath() + "\" file.", file.getUrl(), -1, -1);
+                continue;
+            }
+
+            if (OCamlFileUtil.isOCamlSourceFile(file)) {
+                context.putUserData(THERE_WAS_RECOMPILATION, true);
+                if (!compile(file, fileIndex, context, ocamlContext, destDir)) continue;
+            }
+            else {
+                try {
+                    file.copy(this, destDir, file.getName());
+                } catch (final IOException e) {
+                    context.addMessage(ERROR, "Cannot copy \"" + file.getPath() + "\" file to \"" + destDir.getPath() + "\" directory: " + e.getLocalizedMessage(), file.getUrl(), -1, -1);
+                    continue;
+                }
+            }
+            processedItems.add(item);
+        }
+
+        progressIndicator.setFraction(1.0);
+        progressIndicator.setText2("");
+
+        return processedItems.toArray(new ProcessingItem[processedItems.size()]);
+    }
+
+    private boolean compile(@NotNull final VirtualFile file,
+                            @NotNull final ProjectFileIndex fileIndex,
+                            @NotNull final CompileContext context,
+                            @NotNull final OCamlCompileContext ocamlContext,
+                            final VirtualFile destDir) {
+        final OCamlModule ocamlModule = OCamlModule.getBySourceFile(file, context.getProject());
+        assert ocamlModule != null;
+        
+        final GeneralCommandLine cmd = getBaseCompilerCommandLineForFile(file, fileIndex, context, ocamlContext.isDebugMode());
+        if (cmd == null) return false;
+
+        cmd.addParameter("-c");
+
+        final Set<String> addedPaths = new HashSet<String>();
+        for (final OCamlModule dependency : ocamlModule.collectExactDependencies()) {
+            final String path = OCamlFileUtil.getCompiledDir(fileIndex, dependency.getSourcesDir()).getPath();
+            if (!addedPaths.contains(path)) {
+                cmd.addParameter("-I");
+                cmd.addParameter(path);
+            }
+            addedPaths.add(path);
+        }
+        
+        cmd.addParameter("-o");
+        final String destFileWithoutExtension = new File(destDir.getPath(), file.getNameWithoutExtension()).getAbsolutePath();
+        cmd.addParameter(destFileWithoutExtension);
+
+        if (!ocamlContext.isStandaloneCompile()) {
+            cmd.getParametersList().addParametersString(getRunConfiguration(ocamlContext).getCompilerOptions());
+        }
+            
+        cmd.addParameter(file.getPath());
+
+        try {
+            final ProcessOutput processOutput = OCamlSystemUtil.execute(cmd);
+            processLines(processOutput.getStdoutLines(), context, file, INFORMATION);
+
+            final List<String> errLines = processOutput.getStderrLines();
+            processLines(errLines, context, file, ERROR);
+
+            if (!errLines.isEmpty()) return false;
+        }
+        catch (final ExecutionException e) {
+            context.addMessage(ERROR, e.getLocalizedMessage(), file.getUrl(), -1, -1);
+            return false;
+        }
+
+        return true;
+    }
+
+    @NotNull
+    public ValidityState createValidityState(@NotNull final DataInput in) throws IOException {
+        return OCamlValidityState.load(in);
+    }
+
+    @NotNull
+    public String getDescription() {
+        return "OCaml Files Compiler";
+    }
+
+    public boolean validateConfiguration(@NotNull final CompileScope scope) {
+        return true;
+    }
+
+    @Nullable
+    private VirtualFile getDestination(@NotNull final VirtualFile file, @NotNull final ProjectFileIndex fileIndex) {
+        if (!fileIndex.isInSourceContent(file)) return null;
+
+        final VirtualFile sourcesDir = file.getParent();
+        if (sourcesDir == null) return null;
+        final File compiledDir = OCamlFileUtil.getCompiledDir(fileIndex, sourcesDir);
+
+        final LocalFileSystem fileSystem = LocalFileSystem.getInstance();
+
+        final ArrayList<String> relativeDirs = new ArrayList<String>();
+        File dir = compiledDir;
+        final VirtualFile[] destDir = new VirtualFile[] { fileSystem.findFileByIoFile(dir) };
+        while (dir != null && destDir[0] == null) {
+            relativeDirs.add(0, dir.getName());
+            dir = dir.getParentFile();
+            destDir[0] = fileSystem.findFileByIoFile(dir);
+        }
+        if (dir == null) return null;
+
+        for (final String dirName : relativeDirs) {
+            ApplicationManager.getApplication().invokeAndWait(new Runnable() {
+                public void run() {
+                    destDir[0] = ApplicationManager.getApplication().runWriteAction(new Computable<VirtualFile>() {
+                        public VirtualFile compute() {
+                            try {
+                                return destDir[0].createChildDirectory(OCamlCompiler.this, dirName);
+                            } catch (final IOException e) {
+                                return null;
+                            }
+                        }
+                    });
+                }
+            }, ModalityState.defaultModalityState());
+            if (destDir[0] == null) return null;
+        }
+
+        return destDir[0];
+    }
+
+    @NotNull
+    private ProcessingItem createProcessingItem(@NotNull final VirtualFile file, final boolean isDebugMode) {
+        return new ProcessingItem() {
+            @NotNull
+            public VirtualFile getFile() {
+                return file;
+            }
+
+            @NotNull
+            public ValidityState getValidityState() {
+                final TimestampValidityState timestampValidityState = new TimestampValidityState(file.getTimeStamp());
+                if (OCamlFileUtil.isOCamlSourceFile(file)) {
+                    return new OCamlValidityState(timestampValidityState, isDebugMode);
+                }
+                else {
+                    return timestampValidityState;
+                }
+            }
+        };
+    }
+}

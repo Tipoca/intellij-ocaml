@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="JFlex">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/LexerGeneration/jflex/lib/JFlex.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/LexerGeneration/jflex/src/JFlex-1.4.1.zip!/src" />
+    </SOURCES>
+  </library>
+</component>
