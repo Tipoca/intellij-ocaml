@@ -197,24 +197,184 @@ public class ValueResolvingTest extends ResolvingTestCase {
         doTest(41, "" +
             "match 1 with {{a}} as b -> }{a");
 
+        doTest(42, "" +
+            "let [{{a}}; b] = [1; 2] in }{a + b;;");
 
-        
-                                                     /*
-module-expr	::=	module-path
- 	?	 struct { definition  [;;]
- 	?	 expr ;; } end
- 	?	 functor ( module-name :  module-type ) ->  module-expr
- 	?	 module-expr (  module-expr )
- 	?	 ( module-expr )
- 	?	 ( module-expr :  module-type )
-        + module find actual definition + module type
-                              *
-                              *
-                              * let <pattern> = ... ??
-                              * */
+        doTest(43, "" +
+            "let [a; {{b}}] = [1; 2] in a + }{b;;");
 
+        doTest(44, "" +
+            "module M1 = " +
+            "struct " +
+            "  module M2 = " +
+            "  struct " +
+            "    let {{f}} = 12;; " +
+            "  end;; " +
+            "end;; " +
+            "module M = M1.M2;; " +
+            "let a = M.}{f;;");
 
+        doTest(45, "" +
+            "module M1 = " +
+            "struct " +
+            "  module M2 = " +
+            "  struct " +
+            "    let {{f}} = 12;; " +
+            "  end;; " +
+            "end;; " +
+            "module M = functor (Mod : ModType) -> M1.M2;; " +
+            "let a = M.}{f;;");
 
-        //todo {< inst-var-name =  expr  { ; inst-var-name =  expr } >} + classes + module types
+        doTest(46, "" +
+            "module M1 = " +
+            "struct " +
+            "  module M2 = " +
+            "  struct " +
+            "    let {{f}} = 12;; " +
+            "  end;; " +
+            "end;; " +
+            "module M = M1.M2(ModParam);; " +
+            "let a = M.}{f;;");
+
+        doTest(47, "" +
+            "module M1 = " +
+            "struct " +
+            "  module M2 = " +
+            "  struct " +
+            "    let {{f}} = 12;; " +
+            "  end;; " +
+            "end;; " +
+            "module M = (M1.M2);; " +
+            "let a = M.}{f;;");
+
+        doTest(48, "" +
+            "module M1 = " +
+            "struct " +
+            "  module M2 = " +
+            "  struct " +
+            "    let {{f}} = 12;; " +
+            "  end;; " +
+            "end;; " +
+            "module M = (M1.M2 : ModType);; " +
+            "let a = M.}{f;;");
+
+        doTest(49, "" +
+            "module M1 = " +
+            "struct " +
+            "  module M2 = " +
+            "  struct " +
+            "    let {{f}} = 12;; " +
+            "  end;; " +
+            "end;; " +
+            "module M = (M1.M2 : ModType);; " +
+            "let a = M.}{f;;");
+
+        doTest(50, "" +
+            "module M : sig " +
+            "             val {{f}} : int;; " +
+            "           end = struct end;; " +
+            "let a = M.}{f;;");
+
+        doTest(51, "" +
+            "module type MT = " +
+            "sig " +
+            "  val {{f}} : int;; " +
+            "end;; " +
+            "module M : MT = struct end;; " +
+            "let a = M.}{f;;");
+
+        doTest(52, "" +
+            "module MM = " +
+            "struct " +
+            "  module type MT = " +
+            "  sig " +
+            "    val {{f}} : int;; " +
+            "  end;; " +
+            "end;; " +
+            "module M : MM.MT = struct end;; " +
+            "let a = M.}{f;;");
+
+        doTest(53, "" +
+            "module MM = " +
+            "struct " +
+            "  module type MT = " +
+            "  sig " +
+            "    val {{f}} : int;; " +
+            "  end;; " +
+            "end;; " +
+            "module M : functor (Mod : ModType) -> MM.MT = struct end;; " +
+            "let a = M.}{f;;");
+
+        doTest(54, "" +
+            "module MM = " +
+            "struct " +
+            "  module type MT1 = " +
+            "  sig " +
+            "  end;; " +
+            "  module type MT2 = " +
+            "  sig " +
+            "    val {{f}} : int;; " +
+            "  end;; " +
+            "end;; " +
+            "module M : functor (Mod : MM.MT1) -> MM.MT2 = struct end;; " +
+            "let a = M.}{f;;");
+
+        doTest(55, "" +
+            "module MM = " +
+            "struct " +
+            "  module type MT1 = " +
+            "  sig " +
+            "    val f : int;; " +
+            "  end;; " +
+            "  module type MT2 = " +
+            "  sig " +
+            "  end;; " +
+            "end;; " +
+            "module M : functor (Mod : MM.MT1) -> MM.MT2 = struct end;; " +
+            "let a = M.}{f;;");
+
+        doTest(56, "" +
+            "module MM = " +
+            "struct " +
+            "  module type MT = " +
+            "  sig " +
+            "    val {{f}} : int;; " +
+            "  end;; " +
+            "end;; " +
+            "module M : (MM.MT) = struct end;; " +
+            "let a = M.}{f;;");
+
+        doTest(57, "" +
+            "module MM = " +
+            "struct " +
+            "  module type MT = " +
+            "  sig " +
+            "    val {{f}} : int;; " +
+            "  end;; " +
+            "end;; " +
+            "module M : MM.MT with module M = M = struct end;; " +
+            "let a = M.}{f;;");
+
+        doTest(58, "" +
+            "class clazz0 = object end;; " +
+            "class clazz = " +
+            "object " +
+            "  inherit clazz0 as {{super}} " +
+            "  val x = }{super " +
+            "end;;");
+
+        doTest(59, "" +
+            "class clazz = " +
+            "object " +
+            "  val {{x}} = 12 " +
+            "  method m = }{x " +
+            "end;;");
+
+        doTest(60, "" +
+            "class clazz = " +
+            "object " +
+            "  val {{x}} = 12 " +
+            "  method m = {< }{x = 10 >} " +
+            "end;;");
     }
 }

@@ -90,10 +90,15 @@ public class ResolvingBuilder {
         return myLastParentPosition == ElementPosition.Child && myLastParent == childElement;
     }
 
-    public boolean tryProcessModule(@NotNull final String moduleName, @NotNull final ModuleProcessor processor) {
+    public boolean tryProcessModule(@NotNull final String moduleName, @NotNull final ModuleProcessor... processors) {
         if (processModuleStart(moduleName)) {
             try {
-                return processor.process();
+                for (final ModuleProcessor processor : processors) {
+                    if (processor != null && processor.process()) {
+                        return true;
+                    }
+                }
+                return false;
             }
             finally {
                 processModuleEnd();

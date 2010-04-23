@@ -20,11 +20,15 @@ package ocaml.lang.processing.parser.psi.element.impl;
 
 import com.intellij.lang.ASTNode;
 import ocaml.lang.feature.resolving.NameType;
+import ocaml.lang.feature.resolving.ResolvingBuilder;
 import ocaml.lang.feature.resolving.impl.BaseOCamlResolvedReference;
+import ocaml.lang.feature.resolving.util.OCamlDeclarationsUtil;
 import ocaml.lang.processing.parser.ast.element.OCamlElementTypes;
 import ocaml.lang.processing.parser.ast.util.OCamlASTTreeUtil;
 import ocaml.lang.processing.parser.psi.OCamlElementVisitor;
+import ocaml.lang.processing.parser.psi.element.OCamlInstVarNamePattern;
 import ocaml.lang.processing.parser.psi.element.OCamlObjectSelfDefinition;
+import ocaml.lang.processing.parser.psi.element.OCamlPattern;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -32,7 +36,7 @@ import org.jetbrains.annotations.Nullable;
  * @author Maxim.Manuylov
  *         Date: 03.05.2009
  */
-public class OCamlObjectSelfDefinitionImpl extends BaseOCamlResolvedReference implements OCamlObjectSelfDefinition {
+public class OCamlObjectSelfDefinitionImpl extends BaseOCamlElement implements OCamlObjectSelfDefinition {
     public OCamlObjectSelfDefinitionImpl(@NotNull final ASTNode node) {
         super(node);
     }
@@ -41,18 +45,8 @@ public class OCamlObjectSelfDefinitionImpl extends BaseOCamlResolvedReference im
         visitor.visitObjectSelfDefinition(this);
     }
 
-    @Nullable
-    public ASTNode getNameElement() {
-        return OCamlASTTreeUtil.findChildOfType(getNode(), OCamlElementTypes.VALUE_NAME, true);
-    }
-
-    @NotNull
-    public NameType getNameType() {
-        return NameType.ValueName;
-    }
-
-    @NotNull
-    public String getDescription() {
-        return "variable";
+    @Override
+    public boolean processDeclarations(@NotNull final ResolvingBuilder builder) {
+        return OCamlDeclarationsUtil.processDeclarationsInChildren(builder, this, OCamlPattern.class);
     }
 }

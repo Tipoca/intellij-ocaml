@@ -171,11 +171,11 @@ class ModuleParsing extends Parsing {
 
         checkMatches(builder, OCamlTokenTypes.LPAR, Strings.LPAR_EXPECTED);
 
-        parseModuleParameter(builder);
+        parseModuleParameterInner(builder);
 
         checkMatches(builder, OCamlTokenTypes.RPAR, Strings.RPAR_EXPECTED);
 
-        marker.done(OCamlElementTypes.PARENTHESES);
+        marker.done(OCamlElementTypes.MODULE_PARAMETER);
 
         checkMatches(builder, OCamlTokenTypes.MINUS_GT, Strings.MINUS_GT_EXPECTED);
 
@@ -184,16 +184,12 @@ class ModuleParsing extends Parsing {
         functorModuleExpressionMarker.done(OCamlElementTypes.FUNCTOR_MODULE_EXPRESSION);
     }
 
-    private static void parseModuleParameter(final PsiBuilder builder) {
-        final PsiBuilder.Marker marker = builder.mark();
-
+    private static void parseModuleParameterInner(final PsiBuilder builder) {
         NameParsing.parseModuleName(builder);
 
         checkMatches(builder, OCamlTokenTypes.COLON, Strings.COLON_EXPECTED);
 
         parseModuleType(builder);
-
-        marker.done(OCamlElementTypes.MODULE_PARAMETER);
     }
 
     private static void parseStructModuleExpression(@NotNull final PsiBuilder builder) {
@@ -283,15 +279,11 @@ class ModuleParsing extends Parsing {
 
         checkMatches(builder, OCamlTokenTypes.LPAR, Strings.LPAR_EXPECTED);
 
-        NameParsing.parseModuleName(builder);
-
-        checkMatches(builder, OCamlTokenTypes.COLON, Strings.COLON_EXPECTED);
-
-        parseModuleType(builder);
+        parseModuleParameterInner(builder);
 
         checkMatches(builder, OCamlTokenTypes.RPAR, Strings.RPAR_EXPECTED);
 
-        marker.done(OCamlElementTypes.PARENTHESES);
+        marker.done(OCamlElementTypes.MODULE_PARAMETER);
 
         checkMatches(builder, OCamlTokenTypes.MINUS_GT, Strings.MINUS_GT_EXPECTED);
 
@@ -356,11 +348,11 @@ class ModuleParsing extends Parsing {
         PsiBuilder.Marker marker = builder.mark();
 
         while (ignore(builder, OCamlTokenTypes.LPAR)) {
-            parseModuleParameter(builder);
+            parseModuleParameterInner(builder);
 
             checkMatches(builder, OCamlTokenTypes.RPAR, Strings.RPAR_EXPECTED);
 
-            marker.done(OCamlElementTypes.PARENTHESES);
+            marker.done(OCamlElementTypes.MODULE_PARAMETER);
             marker = builder.mark();
         }
 

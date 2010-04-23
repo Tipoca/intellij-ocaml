@@ -21,27 +21,29 @@ package ocaml.lang.processing.parser.psi.element.impl;
 import com.intellij.lang.ASTNode;
 import ocaml.lang.feature.resolving.NameType;
 import ocaml.lang.feature.resolving.OCamlResolvedReference;
+import ocaml.lang.feature.resolving.ResolvingBuilder;
 import ocaml.lang.feature.resolving.impl.BaseOCamlReference;
 import ocaml.lang.processing.parser.psi.OCamlElementVisitor;
-import ocaml.lang.processing.parser.psi.OCamlPsiUtil;
-import ocaml.lang.processing.parser.psi.element.*;
+import ocaml.lang.processing.parser.psi.element.OCamlExtendedModuleName;
+import ocaml.lang.processing.parser.psi.element.OCamlInstVarNamePattern;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * @author Maxim.Manuylov
- *         Date: 21.03.2009
+ *         Date: 23.04.2010
  */
-public class OCamlValueNameImpl extends BaseOCamlReference implements OCamlValueName {
-    public OCamlValueNameImpl(@NotNull final ASTNode node) {
+public class OCamlInstVarNamePatternImpl extends BaseOCamlReference implements OCamlInstVarNamePattern {
+    public OCamlInstVarNamePatternImpl(@NotNull final ASTNode node) {
         super(node);
     }
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {
-        visitor.visitValueName(this);
+        visitor.visitInstVarNamePattern(this);
     }
 
     @Nullable
@@ -51,22 +53,36 @@ public class OCamlValueNameImpl extends BaseOCamlReference implements OCamlValue
 
     @NotNull
     public NameType getNameType() {
-        return NameType.ValueName;
+        return NameType.LowerCase;
     }
 
     @NotNull
     public String getDescription() {
-        return "variable";
+        return "instance variable";
     }
 
     @NotNull
     public List<Class<? extends OCamlResolvedReference>> getPossibleResolvedTypes() {
-        return Arrays.<Class<? extends OCamlResolvedReference>>asList(OCamlInstVarNamePattern.class,
-            OCamlValueNamePattern.class, OCamlForExpressionIndexVariableName.class);
+        return Arrays.<Class<? extends OCamlResolvedReference>>asList(OCamlInstVarNamePattern.class);
     }
 
     @NotNull
     public List<OCamlExtendedModuleName> getModulePath() {
-        return OCamlPsiUtil.getModulePath(this, OCamlValuePath.class, OCamlExtendedModuleName.class);
+        return Collections.emptyList();
+    }
+
+    @Nullable
+    public String getCanonicalPath() {
+        return getCanonicalName(); //todo smth
+    }
+
+    @Override
+    public OCamlResolvedReference resolve() {  //todo getVariants()???
+        return this;
+    }
+
+    @Override
+    public boolean processDeclarations(@NotNull final ResolvingBuilder builder) {
+        return builder.getProcessor().process(this);
     }
 }

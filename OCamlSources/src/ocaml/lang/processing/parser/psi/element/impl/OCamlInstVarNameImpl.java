@@ -61,7 +61,7 @@ public class OCamlInstVarNameImpl extends BaseOCamlReference implements OCamlIns
 
     @NotNull
     public List<Class<? extends OCamlResolvedReference>> getPossibleResolvedTypes() {
-        return Arrays.asList(OCamlValueClassFieldDefinition.class, OCamlValueClassFieldSpecification.class, OCamlInheritClassFieldDefinition.class);  // todo maybe also OCamlInstanceDuplicatingExpressionImpl.class
+        return Arrays.<Class<? extends OCamlResolvedReference>>asList(OCamlInstVarNamePattern.class);
     }
 
     @NotNull

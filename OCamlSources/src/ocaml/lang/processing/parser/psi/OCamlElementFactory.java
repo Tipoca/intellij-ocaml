@@ -277,6 +277,9 @@ public class OCamlElementFactory {
         else if (elementType == VALUE_NAME_PATTERN) {
             return new OCamlValueNamePatternImpl(node);
         }
+        else if (elementType == INST_VAR_NAME_PATTERN) {
+            return new OCamlInstVarNamePatternImpl(node);
+        }
         else if (elementType == OPERATOR_NAME) {
             return new OCamlOperatorNameImpl(node);
         }

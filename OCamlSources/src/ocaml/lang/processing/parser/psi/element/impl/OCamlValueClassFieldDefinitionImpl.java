@@ -20,11 +20,14 @@ package ocaml.lang.processing.parser.psi.element.impl;
 
 import com.intellij.lang.ASTNode;
 import ocaml.lang.feature.resolving.NameType;
+import ocaml.lang.feature.resolving.ResolvingBuilder;
 import ocaml.lang.feature.resolving.impl.BaseOCamlResolvedReference;
+import ocaml.lang.feature.resolving.util.OCamlDeclarationsUtil;
 import ocaml.lang.processing.lexer.token.OCamlTokenTypes;
 import ocaml.lang.processing.parser.ast.element.OCamlElementTypes;
 import ocaml.lang.processing.parser.ast.util.OCamlASTTreeUtil;
 import ocaml.lang.processing.parser.psi.OCamlElementVisitor;
+import ocaml.lang.processing.parser.psi.element.OCamlInstVarNamePattern;
 import ocaml.lang.processing.parser.psi.element.OCamlValueClassFieldDefinition;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -33,7 +36,7 @@ import org.jetbrains.annotations.Nullable;
  * @author Maxim.Manuylov
  *         Date: 21.03.2009
  */
-public class OCamlValueClassFieldDefinitionImpl extends BaseOCamlResolvedReference implements OCamlValueClassFieldDefinition {
+public class OCamlValueClassFieldDefinitionImpl extends BaseOCamlElement implements OCamlValueClassFieldDefinition {
     public OCamlValueClassFieldDefinitionImpl(@NotNull final ASTNode node) {
         super(node);
     }
@@ -42,18 +45,8 @@ public class OCamlValueClassFieldDefinitionImpl extends BaseOCamlResolvedReferen
         visitor.visitValueClassFieldDefinition(this);
     }
 
-    @Nullable
-    public ASTNode getNameElement() {
-        return OCamlASTTreeUtil.findChildOfType(getNode(), OCamlElementTypes.INST_VAR_NAME, false, OCamlTokenTypes.EQ);
-    }
-
-    @NotNull
-    public NameType getNameType() {
-        return NameType.LowerCase;
-    }
-
-    @NotNull
-    public String getDescription() {
-        return "instance variable";
+    @Override
+    public boolean processDeclarations(@NotNull final ResolvingBuilder builder) {
+        return OCamlDeclarationsUtil.processDeclarationsInChildren(builder, this, OCamlInstVarNamePattern.class);
     }
 }

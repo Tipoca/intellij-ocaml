@@ -136,7 +136,7 @@ public class StatementParsing extends Parsing {
 
         checkMatches(builder, OCamlTokenTypes.VAL_KEYWORD, Strings.VAL_KEYWORD_EXPECTED);
 
-        NameParsing.parseValueName(builder, false);
+        NameParsing.parseValueName(builder, true);
 
         checkMatches(builder, OCamlTokenTypes.COLON, Strings.COLON_EXPECTED);
 
@@ -207,7 +207,7 @@ public class StatementParsing extends Parsing {
 
         checkMatches(builder, OCamlTokenTypes.EXTERNAL_KEYWORD, Strings.EXTERNAL_KEYWORD_EXPECTED);
 
-        NameParsing.parseValueName(builder, false);
+        NameParsing.parseValueName(builder, true);
 
         checkMatches(builder, OCamlTokenTypes.COLON, Strings.COLON_EXPECTED);
 

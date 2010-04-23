@@ -232,8 +232,8 @@ class NameParsing extends Parsing {
         }
     }
 
-    public static void parseInstVarName(@NotNull final PsiBuilder builder) {
-        if (!tryParseInstVarName(builder)) {
+    public static void parseInstVarName(@NotNull final PsiBuilder builder, final boolean isPattern) {
+        if (!tryParseInstVarName(builder, isPattern)) {
             builder.error(Strings.INSTANCE_VARIABLE_NAME_EXPECTED);
         }
     }
@@ -367,7 +367,7 @@ class NameParsing extends Parsing {
         return true;
     }
 
-    private static boolean tryParseInstVarName(@NotNull final PsiBuilder builder) {
+    private static boolean tryParseInstVarName(@NotNull final PsiBuilder builder, final boolean isPattern) {
         final PsiBuilder.Marker instVarNameMarker = builder.mark();
 
         if (!ignore(builder, OCamlTokenTypes.LCFC_IDENTIFIER)) {
@@ -375,7 +375,7 @@ class NameParsing extends Parsing {
             return false;
         }
 
-        instVarNameMarker.done(OCamlElementTypes.INST_VAR_NAME);
+        instVarNameMarker.done(isPattern ? OCamlElementTypes.INST_VAR_NAME_PATTERN : OCamlElementTypes.INST_VAR_NAME);
 
         return true;
     }

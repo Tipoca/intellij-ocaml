@@ -167,7 +167,7 @@ class ExpressionParsing extends Parsing {
         checkMatches(builder, OCamlTokenTypes.LBRACE_LT, Strings.LBRACE_LT_EXPECTED);
 
         do {
-            NameParsing.parseInstVarName(builder);
+            NameParsing.parseInstVarName(builder, false);
 
             checkMatches(builder, OCamlTokenTypes.EQ, Strings.EQ_EXPECTED);
 

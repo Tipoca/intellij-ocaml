@@ -29,26 +29,12 @@ import org.jetbrains.annotations.NotNull;
  * @author Maxim.Manuylov
  *         Date: 21.03.2009
  */
-public class OCamlInitializerClassFieldDefinitionImpl extends BaseOCamlResolvedReference implements OCamlInitializerClassFieldDefinition {
+public class OCamlInitializerClassFieldDefinitionImpl extends BaseOCamlElement implements OCamlInitializerClassFieldDefinition {
     public OCamlInitializerClassFieldDefinitionImpl(@NotNull final ASTNode node) {
         super(node);
     }
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {
         visitor.visitInitializerClassFieldDefinition(this);
-    }
-
-    public ASTNode getNameElement() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.todo
-    }
-
-    @NotNull
-    public NameType getNameType() {
-        return NameType.AnyCase;  //To change body of implemented methods use File | Settings | File Templates.todo
-    }
-
-    @NotNull
-    public String getDescription() {
-        return "";  //To change body of implemented methods use File | Settings | File Templates.todo
     }
 }

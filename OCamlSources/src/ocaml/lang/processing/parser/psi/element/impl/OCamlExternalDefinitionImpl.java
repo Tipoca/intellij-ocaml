@@ -20,11 +20,15 @@ package ocaml.lang.processing.parser.psi.element.impl;
 
 import com.intellij.lang.ASTNode;
 import ocaml.lang.feature.resolving.NameType;
+import ocaml.lang.feature.resolving.ResolvingBuilder;
 import ocaml.lang.feature.resolving.impl.BaseOCamlResolvedReference;
+import ocaml.lang.feature.resolving.util.OCamlDeclarationsUtil;
 import ocaml.lang.processing.parser.ast.element.OCamlElementTypes;
 import ocaml.lang.processing.parser.ast.util.OCamlASTTreeUtil;
 import ocaml.lang.processing.parser.psi.OCamlElementVisitor;
 import ocaml.lang.processing.parser.psi.element.OCamlExternalDefinition;
+import ocaml.lang.processing.parser.psi.element.OCamlInstVarNamePattern;
+import ocaml.lang.processing.parser.psi.element.OCamlValueNamePattern;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -32,7 +36,7 @@ import org.jetbrains.annotations.Nullable;
  * @author Maxim.Manuylov
  *         Date: 21.03.2009
  */
-public class OCamlExternalDefinitionImpl extends BaseOCamlResolvedReference implements OCamlExternalDefinition {
+public class OCamlExternalDefinitionImpl extends BaseOCamlElement implements OCamlExternalDefinition {
     public OCamlExternalDefinitionImpl(@NotNull final ASTNode node) {
         super(node);
     }                    
@@ -41,19 +45,8 @@ public class OCamlExternalDefinitionImpl extends BaseOCamlResolvedReference impl
         visitor.visitExternalDefinition(this);
     }
 
-    @Nullable
-    public ASTNode getNameElement() {
-        final ASTNode firstChildNode = getNode().getFirstChildNode();
-        return firstChildNode == null ? null : OCamlASTTreeUtil.checkNodeType(firstChildNode.getTreeNext(), OCamlElementTypes.VALUE_NAME);
-    }
-
-    @NotNull
-    public NameType getNameType() {
-        return NameType.ValueName;
-    }
-
-    @NotNull
-    public String getDescription() {
-        return "external function";
+    @Override
+    public boolean processDeclarations(@NotNull final ResolvingBuilder builder) {
+        return OCamlDeclarationsUtil.processDeclarationsInChildren(builder, this, OCamlValueNamePattern.class);
     }
 }

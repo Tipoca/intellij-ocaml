@@ -209,6 +209,7 @@ public interface OCamlElementTypes {
     /* Pattern parsing { */
 
     IElementType VALUE_NAME_PATTERN = new OCamlElementType("VALUE_NAME_PATTERN");
+    IElementType INST_VAR_NAME_PATTERN = new OCamlElementType("INST_VAR_NAME_PATTERN");
     IElementType AS_PATTERN = new OCamlElementType("AS_PATTERN");
     IElementType OR_PATTERN = new OCamlElementType("OR_PATTERN");
     IElementType COMMA_PATTERN = new OCamlElementType("COMMA_PATTERN");

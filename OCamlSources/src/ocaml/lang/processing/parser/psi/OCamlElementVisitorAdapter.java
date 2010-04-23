@@ -496,4 +496,7 @@ public class OCamlElementVisitorAdapter extends OCamlElementVisitor {
 
     public void visitRecordFieldInitializationInPattern(@NotNull final OCamlRecordFieldInitializationInPattern psiElement) {
     }
+
+    public void visitInstVarNamePattern(@NotNull final OCamlInstVarNamePattern psiElement) {
+    }
 }

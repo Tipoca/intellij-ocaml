@@ -19,10 +19,11 @@
 package ocaml.lang.processing.parser.psi.element;
 
 import ocaml.lang.feature.resolving.OCamlResolvedReference;
+import ocaml.lang.processing.parser.psi.OCamlElement;
 
 /**
  * @author Maxim.Manuylov
  *         Date: 03.05.2009
  */
-public interface OCamlObjectSelfDefinition extends OCamlResolvedReference {
+public interface OCamlObjectSelfDefinition extends OCamlElement {
 }

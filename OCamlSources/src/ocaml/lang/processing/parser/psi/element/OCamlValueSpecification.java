@@ -24,8 +24,7 @@ import ocaml.lang.feature.resolving.OCamlResolvedReference;
  * @author Maxim.Manuylov
  *         Date: 21.03.2009
  */
-public interface OCamlValueSpecification extends OCamlSpecification, OCamlResolvedReference {
+public interface OCamlValueSpecification extends OCamlSpecification {
 }
 
-//todo make binding: [val [s : int]]
 //todo see also OCamlValueClassFieldSpecification and other keywords (method, ...) class def, module def etc.

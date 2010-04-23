@@ -25,6 +25,7 @@ import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiInvalidElementAccessException;
 import com.intellij.psi.PsiReference;
+import ocaml.lang.feature.resolving.OCamlResolvedReference;
 import ocaml.lang.fileType.OCamlFileTypeLanguage;
 import ocaml.lang.fileType.ml.MLFileTypeLanguage;
 import ocaml.lang.processing.parser.psi.element.OCamlUnknownElement;
@@ -145,7 +146,8 @@ public abstract class ResolvingTestCase extends Assert {
         }
         else {
             assertNotNull(element, errorText);
-            assertEquals(element.getTextRange(), resolvedReferenceRange, errorText);
+            assertTrue(element instanceof OCamlResolvedReference, errorText);
+            assertEquals(((OCamlResolvedReference) element).getNameElement().getTextRange(), resolvedReferenceRange, errorText);
             assertFalse(containingFileRequested, errorText);
         }
     }

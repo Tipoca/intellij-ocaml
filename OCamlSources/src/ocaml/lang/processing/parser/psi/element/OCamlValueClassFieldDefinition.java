@@ -24,5 +24,5 @@ import ocaml.lang.feature.resolving.OCamlResolvedReference;
  * @author Maxim.Manuylov
  *         Date: 21.03.2009
  */
-public interface OCamlValueClassFieldDefinition extends OCamlClassFieldDefinition, OCamlResolvedReference {
+public interface OCamlValueClassFieldDefinition extends OCamlClassFieldDefinition {
 }

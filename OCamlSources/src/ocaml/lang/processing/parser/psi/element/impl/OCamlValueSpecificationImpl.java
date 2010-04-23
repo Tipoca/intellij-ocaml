@@ -20,10 +20,13 @@ package ocaml.lang.processing.parser.psi.element.impl;
 
 import com.intellij.lang.ASTNode;
 import ocaml.lang.feature.resolving.NameType;
+import ocaml.lang.feature.resolving.ResolvingBuilder;
 import ocaml.lang.feature.resolving.impl.BaseOCamlResolvedReference;
+import ocaml.lang.feature.resolving.util.OCamlDeclarationsUtil;
 import ocaml.lang.processing.parser.ast.element.OCamlElementTypes;
 import ocaml.lang.processing.parser.ast.util.OCamlASTTreeUtil;
 import ocaml.lang.processing.parser.psi.OCamlElementVisitor;
+import ocaml.lang.processing.parser.psi.element.OCamlPattern;
 import ocaml.lang.processing.parser.psi.element.OCamlValueSpecification;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -32,7 +35,7 @@ import org.jetbrains.annotations.Nullable;
  * @author Maxim.Manuylov
  *         Date: 21.03.2009
  */
-public class OCamlValueSpecificationImpl extends BaseOCamlResolvedReference implements OCamlValueSpecification {
+public class OCamlValueSpecificationImpl extends BaseOCamlElement implements OCamlValueSpecification {
     public OCamlValueSpecificationImpl(@NotNull final ASTNode node) {
         super(node);
     }
@@ -43,7 +46,7 @@ public class OCamlValueSpecificationImpl extends BaseOCamlResolvedReference impl
 
     @Nullable
     public ASTNode getNameElement() {
-        return OCamlASTTreeUtil.findChildOfType(getNode(), OCamlElementTypes.VALUE_NAME, false);
+        return OCamlASTTreeUtil.findChildOfType(getNode(), OCamlElementTypes.VALUE_NAME_PATTERN, false);
     }
 
     @NotNull
@@ -54,5 +57,10 @@ public class OCamlValueSpecificationImpl extends BaseOCamlResolvedReference impl
     @NotNull
     public String getDescription() {
         return "variable";
+    }
+
+    @Override
+    public boolean processDeclarations(@NotNull final ResolvingBuilder builder) {
+        return OCamlDeclarationsUtil.processDeclarationsInChildren(builder, this, OCamlPattern.class);
     }
 }

@@ -29,6 +29,8 @@ import ocaml.lang.processing.parser.psi.OCamlElementVisitor;
 import ocaml.lang.processing.parser.psi.OCamlPsiUtil;
 import ocaml.lang.processing.parser.psi.element.OCamlModuleDefinitionBinding;
 import ocaml.lang.processing.parser.psi.element.OCamlModuleExpression;
+import ocaml.lang.processing.parser.psi.element.OCamlModuleType;
+import ocaml.lang.processing.parser.psi.element.OCamlParentheses;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -68,5 +70,10 @@ public class OCamlModuleDefinitionBindingImpl extends BaseOCamlResolvedReference
     @Nullable
     public OCamlModuleExpression getExpression() {
         return OCamlPsiUtil.getLastChildOfType(this, OCamlModuleExpression.class);
+    }
+
+    @Nullable
+    public OCamlModuleType getModuleType() {
+        return OCamlPsiUtil.getLastChildOfType(this, OCamlModuleType.class);
     }
 }

@@ -21,8 +21,7 @@ package ocaml.lang.feature.resolving.util;
 import ocaml.lang.feature.resolving.ResolvingBuilder;
 import ocaml.lang.processing.parser.psi.OCamlElement;
 import ocaml.lang.processing.parser.psi.OCamlPsiUtil;
-import ocaml.lang.processing.parser.psi.element.OCamlBinding;
-import ocaml.lang.processing.parser.psi.element.OCamlStructuredElement;
+import ocaml.lang.processing.parser.psi.element.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -47,16 +46,29 @@ public class OCamlDeclarationsUtil {
     }
 
     public static boolean processDeclarationsInModuleBinding(@NotNull final ResolvingBuilder builder,
-                                                             @NotNull final OCamlBinding<? extends OCamlStructuredElement> binding) {
+                                                             @NotNull final OCamlStructuredBinding binding) {
         final OCamlStructuredElement expression = binding.getExpression();
         if (expression != null && builder.childWasAlreadyProcessed(expression)) return false;
         if (builder.getProcessor().process(binding)) return true;
         final String moduleName = binding.getCanonicalName();
-        return moduleName != null && builder.tryProcessModule(moduleName, new ResolvingBuilder.ModuleProcessor() {
+        final ResolvingBuilder.ModuleProcessor moduleProcessor = new ResolvingBuilder.ModuleProcessor() {
             public boolean process() {
-                return processDeclarationsInStructuredElement(builder, binding.getExpression());
+                return processDeclarationsInStructuredElement(builder, expression);
             }
-        });
+        };
+        ResolvingBuilder.ModuleProcessor additionalModuleProcessor = null;
+        if (binding instanceof OCamlModuleDefinitionBinding) {
+            final OCamlModuleType moduleType = ((OCamlModuleDefinitionBinding) binding).getModuleType();
+            if (moduleType != null) {
+                if (builder.childWasAlreadyProcessed(moduleType)) return false;
+                additionalModuleProcessor = new ResolvingBuilder.ModuleProcessor() {
+                    public boolean process() {
+                        return processDeclarationsInStructuredElement(builder, moduleType);
+                    }
+                };
+            }
+        }
+        return moduleName != null && builder.tryProcessModule(moduleName, moduleProcessor, additionalModuleProcessor);
     }
 
     public static boolean processDeclarationsInStructuredElement(@NotNull final ResolvingBuilder builder, @Nullable final OCamlStructuredElement psiElement) {

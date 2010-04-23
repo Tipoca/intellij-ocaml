@@ -29,6 +29,8 @@ import ocaml.lang.processing.parser.psi.OCamlElementVisitor;
 import ocaml.lang.processing.parser.psi.OCamlPsiUtil;
 import ocaml.lang.processing.parser.psi.element.OCamlClassExpression;
 import ocaml.lang.processing.parser.psi.element.OCamlInheritClassFieldDefinition;
+import ocaml.lang.processing.parser.psi.element.OCamlInstVarName;
+import ocaml.lang.processing.parser.psi.element.OCamlInstVarNamePattern;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -36,7 +38,7 @@ import org.jetbrains.annotations.Nullable;
  * @author Maxim.Manuylov
  *         Date: 21.03.2009
  */
-public class OCamlInheritClassFieldDefinitionImpl extends BaseOCamlResolvedReference implements OCamlInheritClassFieldDefinition { // todo should be resolved to value-name only, not whole string
+public class OCamlInheritClassFieldDefinitionImpl extends BaseOCamlElement implements OCamlInheritClassFieldDefinition {
     public OCamlInheritClassFieldDefinitionImpl(@NotNull final ASTNode node) {
         super(node);
     }
@@ -45,24 +47,9 @@ public class OCamlInheritClassFieldDefinitionImpl extends BaseOCamlResolvedRefer
         visitor.visitInheritClassFieldDefinition(this);
     }
 
-    @Nullable
-    public ASTNode getNameElement() {
-        return OCamlASTTreeUtil.findChildOfType(getNode(), OCamlElementTypes.INST_VAR_NAME, false);
-    }
-
-    @NotNull
-    public NameType getNameType() {
-        return NameType.LowerCase;
-    }
-
-    @NotNull
-    public String getDescription() {
-        return "instance variable";
-    }
-
     @Override
     public boolean processDeclarations(@NotNull final ResolvingBuilder builder) {
-        if (builder.getProcessor().process(this)) return true;
+        if (OCamlDeclarationsUtil.processDeclarationsInChildren(builder, this, OCamlInstVarNamePattern.class)) return true;
         final OCamlClassExpression expression = OCamlPsiUtil.getFirstChildOfType(this, OCamlClassExpression.class);
         return OCamlDeclarationsUtil.processDeclarationsInStructuredElement(builder, expression);
     }

@@ -20,16 +20,22 @@ package ocaml.lang.fileType.ml.parser.psi.element.impl;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.fileTypes.FileType;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.FileViewProvider;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiManager;
 import ocaml.lang.feature.resolving.NameType;
 import ocaml.lang.feature.resolving.ResolvingBuilder;
 import ocaml.lang.feature.resolving.util.OCamlDeclarationsUtil;
 import ocaml.lang.fileType.ml.MLFileType;
 import ocaml.lang.fileType.ml.MLFileTypeLanguage;
+import ocaml.lang.fileType.mli.MLIFileType;
+import ocaml.lang.fileType.mli.parser.psi.element.impl.MLIFile;
 import ocaml.lang.processing.parser.psi.OCamlPsiUtil;
 import ocaml.lang.processing.parser.psi.element.OCamlFileModuleExpression;
 import ocaml.lang.processing.parser.psi.element.OCamlModuleDefinitionBinding;
 import ocaml.lang.processing.parser.psi.element.OCamlModuleExpression;
+import ocaml.lang.processing.parser.psi.element.OCamlModuleType;
 import ocaml.lang.processing.parser.psi.element.impl.BaseOCamlFile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -75,5 +81,19 @@ public class MLFile extends BaseOCamlFile implements OCamlModuleDefinitionBindin
     @Nullable
     public OCamlModuleExpression getExpression() {
         return OCamlPsiUtil.getLastChildOfType(this, OCamlFileModuleExpression.class);
+    }
+
+    @Nullable
+    public OCamlModuleType getModuleType() {
+        final VirtualFile mlVirtualFile = getVirtualFile();
+        if (mlVirtualFile == null) return null;
+        final VirtualFile parent = mlVirtualFile.getParent();
+        if (parent == null) return null;
+        final String mliFileName = mlVirtualFile.getNameWithoutExtension() + "." + MLIFileType.INSTANCE.getDefaultExtension();
+        final VirtualFile mliVirtualFile = parent.findChild(mliFileName);
+        if (mliVirtualFile == null) return null;
+        final PsiFile mliFile = PsiManager.getInstance(getProject()).findFile(mliVirtualFile);
+        if (mliFile == null || !(mliFile instanceof MLIFile)) return null;
+        return ((MLIFile)mliFile).getExpression();
     }
 }
