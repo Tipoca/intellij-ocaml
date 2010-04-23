@@ -147,7 +147,7 @@ public abstract class ResolvingTestCase extends Assert {
         else {
             assertNotNull(element, errorText);
             assertTrue(element instanceof OCamlResolvedReference, errorText);
-            assertEquals(((OCamlResolvedReference) element).getNameElement().getTextRange(), resolvedReferenceRange, errorText);
+            assertEquals(element.getTextRange(), resolvedReferenceRange, errorText);
             assertFalse(containingFileRequested, errorText);
         }
     }
