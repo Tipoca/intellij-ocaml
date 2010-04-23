@@ -20,6 +20,7 @@ package ocaml.lang.processing.parser.psi.resolving.testCase;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.LanguageParserDefinitions;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ex.ApplicationManagerEx;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
@@ -39,6 +40,13 @@ import org.testng.annotations.Test;
 /**
  * @author Maxim.Manuylov
  *         Date: 18.06.2009
+ *
+ * todo test MethodName
+ * todo test FieldName
+ * todo test LabelName
+ * todo test TagName
+ * todo test TypeParameterName
+ *
  */
 @Test
 public abstract class ResolvingTestCase extends Assert {
@@ -53,8 +61,10 @@ public abstract class ResolvingTestCase extends Assert {
     @BeforeMethod
     public void setUp() throws NoSuchMethodException {
         testNumber = 0;
-        ApplicationManagerEx.createApplication(true, false, false, false, "Test Application");
-        LanguageParserDefinitions.INSTANCE.addExplicitExtension(ourLanguage, ourLanguage.getParserDefinition());
+        if (ApplicationManagerEx.getApplication() == null) {
+            ApplicationManagerEx.createApplication(true, false, false, false, "Test Application");
+            LanguageParserDefinitions.INSTANCE.addExplicitExtension(ourLanguage, ourLanguage.getParserDefinition());
+        }
     }
 
     protected void doTest(final int n, @NotNull final String text) throws Exception {

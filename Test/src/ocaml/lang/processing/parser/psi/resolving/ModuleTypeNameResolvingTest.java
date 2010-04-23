@@ -111,5 +111,8 @@ public class ModuleTypeNameResolvingTest extends ResolvingTestCase {
             "  module type M1 = sig end;; " +
             "end;; " +
             "module M2 = }{M1;;");
+
+        doTest(11, "" +
+            "module type {{}{M = sig end}};;");
     }
 }

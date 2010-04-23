@@ -23,6 +23,7 @@ import ocaml.lang.feature.resolving.ResolvingBuilder;
 import ocaml.lang.feature.resolving.util.OCamlDeclarationsUtil;
 import ocaml.lang.processing.parser.psi.OCamlElementVisitor;
 import ocaml.lang.processing.parser.psi.element.OCamlClassType;
+import ocaml.lang.processing.parser.psi.element.OCamlClassTypeBinding;
 import ocaml.lang.processing.parser.psi.element.OCamlClassTypeDefinition;
 import org.jetbrains.annotations.NotNull;
 
@@ -41,6 +42,6 @@ public class OCamlClassTypeDefinitionImpl extends BaseOCamlElement implements OC
 
     @Override
     public boolean processDeclarations(@NotNull final ResolvingBuilder builder) {
-        return OCamlDeclarationsUtil.processDeclarationsInChildren(builder, this, OCamlClassType.class);
+        return OCamlDeclarationsUtil.processDeclarationsInChildren(builder, this, OCamlClassTypeBinding.class);
     }
 }

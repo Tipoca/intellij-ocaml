@@ -133,7 +133,7 @@ class ClassParsing extends Parsing {
     private static void parseClassTypeBinding(@NotNull final PsiBuilder builder) {
         final PsiBuilder.Marker classTypeBindingMarker = builder.mark();
 
-        doParseBindingStart(builder);
+        doParseBindingStart(builder, true);
 
         checkMatches(builder, OCamlTokenTypes.EQ, Strings.EQ_EXPECTED);
 
@@ -157,7 +157,7 @@ class ClassParsing extends Parsing {
     private static void parseClassBinding(@NotNull final PsiBuilder builder) {
         final PsiBuilder.Marker classBindingMarker = builder.mark();
 
-        doParseBindingStart(builder);
+        doParseBindingStart(builder, false);
 
         final Runnable parsing = new Runnable() {
             public void run() {
@@ -551,7 +551,7 @@ class ClassParsing extends Parsing {
     private static void parseClassSpecificationBinding(@NotNull final PsiBuilder builder) {
         final PsiBuilder.Marker classSpecificationBindingMarker = builder.mark();
 
-        doParseBindingStart(builder);
+        doParseBindingStart(builder, false);
 
         checkMatches(builder, OCamlTokenTypes.COLON, Strings.COLON_EXPECTED);
 
@@ -570,14 +570,19 @@ class ClassParsing extends Parsing {
         TypeParsing.parseTypeExpression(builder);
     }
 
-    private static void doParseBindingStart(@NotNull final PsiBuilder builder) {
+    private static void doParseBindingStart(@NotNull final PsiBuilder builder, final boolean isClassType) {
         ignore(builder, OCamlTokenTypes.VIRTUAL_KEYWORD);
 
         if (builder.getTokenType() == OCamlTokenTypes.LBRACKET) {
             parseTypeParameters(builder);
         }
 
-        NameParsing.parseClassName(builder);
+        if (isClassType) {
+            NameParsing.parseTypeConstructorName(builder);
+        }
+        else {
+            NameParsing.parseClassName(builder);
+        }
     }
 
     private static void doParseClassExpressionInParentheses(@NotNull final PsiBuilder builder) {

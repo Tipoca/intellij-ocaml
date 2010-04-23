@@ -16,15 +16,19 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/gpl-2.0.html>.
  */
 
-package ocaml.lang.processing.parser.psi.element;
+package ocaml.lang.processing.parser.psi.resolving;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
+import ocaml.lang.processing.parser.psi.resolving.testCase.ResolvingTestCase;
+import org.testng.annotations.Test;
 
 /**
  * @author Maxim.Manuylov
- *         Date: 21.03.2009
+ *         Date: 19.06.2009
  */
-public interface OCamlTypeDefinition extends OCamlDefinition, OCamlSpecification {
+@Test
+public class ForExpressionIndexVariableNameResolvingTest extends ResolvingTestCase {
+    public void testForExpressionIndexVariableNameResolving() throws Exception {
+        doTest(1, "" +
+            "for {{}{i}} = 1 to 2 do done;;");
+    }
 }

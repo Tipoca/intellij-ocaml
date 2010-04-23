@@ -369,12 +369,5 @@ public class ValueNameResolvingTest extends ResolvingTestCase {
             "  val {{x}} = 12 " +
             "  method m = }{x " +
             "end;;");
-
-        doTest(60, "" +
-            "class clazz = " +
-            "object " +
-            "  val {{x}} = 12 " +
-            "  method m = {< }{x = 10 >} " +
-            "end;;");
-    }
+   }
 }

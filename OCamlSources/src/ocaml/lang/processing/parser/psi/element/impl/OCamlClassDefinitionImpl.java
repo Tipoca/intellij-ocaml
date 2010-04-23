@@ -24,6 +24,7 @@ import ocaml.lang.feature.resolving.util.OCamlDeclarationsUtil;
 import ocaml.lang.processing.parser.psi.OCamlElementVisitor;
 import ocaml.lang.processing.parser.psi.element.OCamlClassBinding;
 import ocaml.lang.processing.parser.psi.element.OCamlClassDefinition;
+import ocaml.lang.processing.parser.psi.element.OCamlClassExpression;
 import org.jetbrains.annotations.NotNull;
 
 /**

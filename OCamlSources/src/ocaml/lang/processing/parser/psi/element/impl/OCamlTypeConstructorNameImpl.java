@@ -62,7 +62,8 @@ public class OCamlTypeConstructorNameImpl extends BaseOCamlReference implements 
 
     @NotNull
     public List<Class<? extends OCamlResolvedReference>> getPossibleResolvedTypes() {
-        return Arrays.<Class<? extends OCamlResolvedReference>>asList(OCamlTypeBinding.class, OCamlClassBinding.class, OCamlClassSpecificationBinding.class);
+        return Arrays.<Class<? extends OCamlResolvedReference>>asList(OCamlTypeBinding.class, 
+            OCamlClassTypeBinding.class, OCamlClassBinding.class, OCamlClassSpecificationBinding.class);
     }
 
     @NotNull

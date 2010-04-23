@@ -183,5 +183,8 @@ public class ModuleNameResolvingTest extends ResolvingTestCase {
             "include M;;" +
             "include M1;;" +
             "module M2 = }{M3;;");
+
+        doTest(18, "" +
+            "module {{}{M = struct end}};;");
     }
 }

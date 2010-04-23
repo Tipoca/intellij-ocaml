@@ -38,5 +38,14 @@ public class ClassNameResolvingTest extends ResolvingTestCase {
             "  class {{c1 = object end}};; " +
             "end;; " +
             "class c2 = M.}{c1;;");
+
+        doTest(3, "" +
+            "class {{}{c = object end}};;");
+
+        doTest(4, "" +
+            "module M : sig" +
+            "             class {{c1 : object end}};; " +
+            "           end = struct end;; " +
+            "class c2 = M.}{c1;;");
     }
 }
