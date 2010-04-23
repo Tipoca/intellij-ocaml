@@ -26,7 +26,7 @@ import org.testng.annotations.Test;
  *         Date: 19.06.2009
  */
 @Test
-public class ModuleTypeResolvingTest extends ResolvingTestCase {
+public class ModuleTypeNameResolvingTest extends ResolvingTestCase {
     public void testModuleTypeResolving() throws Exception {
         doTest(1, "" +
             "module type {{M = M1}};;" +

@@ -26,8 +26,8 @@ import org.testng.annotations.Test;
  *         Date: 19.06.2009
  */
 @Test
-public class ValueResolvingTest extends ResolvingTestCase {
-    public void testValueResolving() throws Exception {
+public class ValueNameResolvingTest extends ResolvingTestCase {
+    public void testValueNameResolving() throws Exception {
         doTest(1, "" +
             "let {{a}} = 0;; let f = }{a;;");
 
