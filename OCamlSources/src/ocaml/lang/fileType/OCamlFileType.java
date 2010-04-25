@@ -38,4 +38,7 @@ public abstract class OCamlFileType extends LanguageFileType implements FileType
     public OCamlFileTypeLanguage getOCamlFileTypeLanguage() {
         return myLanguage;
     }
+
+    @NotNull
+    public abstract OCamlFileType getAnotherFileType();
 }

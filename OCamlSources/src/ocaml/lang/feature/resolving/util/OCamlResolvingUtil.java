@@ -18,36 +18,36 @@
 
 package ocaml.lang.feature.resolving.util;
 
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtil;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.roots.ContentIterator;
-import com.intellij.openapi.roots.ModuleRootManager;
-import com.intellij.openapi.util.Computable;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiManager;
-import ocaml.entity.OCamlModule;
+import com.intellij.psi.search.FilenameIndex;
+import com.intellij.psi.search.GlobalSearchScope;
 import ocaml.lang.feature.resolving.*;
 import ocaml.lang.fileType.ml.MLFileType;
 import ocaml.lang.fileType.mli.MLIFileType;
 import ocaml.lang.processing.parser.psi.OCamlElement;
 import ocaml.lang.processing.parser.psi.OCamlPsiUtil;
 import ocaml.lang.processing.parser.psi.element.*;
-import ocaml.module.OCamlModuleType;
+import ocaml.util.OCamlFileUtil;
+import ocaml.util.OCamlStringUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+
+import static com.intellij.psi.search.GlobalSearchScope.getScopeRestrictedByFileTypes;
+import static com.intellij.psi.search.GlobalSearchScope.moduleWithDependenciesAndLibrariesScope;
 
 /**
  * @author Maxim.Manuylov
  *         Date: 23.03.2009
  */
 public class OCamlResolvingUtil {
+    @NotNull public static final String PERVASIVES = "Pervasives";
+
     @Nullable
     public static OCamlStructuredElement findActualDefinitionOfStructuredElement(@NotNull final OCamlReference reference) {
         final OCamlResolvedReference resolvedReference = reference.resolve();
@@ -87,13 +87,18 @@ public class OCamlResolvingUtil {
             parent = OCamlPsiUtil.getParent(parent);
         }
 
-        if (builder.getModulePathOffset() == 0 && builder.getContext().getModulePath().size() > 0) {
-            String moduleName = builder.getCurrentModuleName();
-            if (moduleName == null && builder.getContext().getSourceElement() instanceof OCamlModuleName) {
+        if (builder.getModulePathOffset() == 0) {
+            final PsiFile sourceFile = builder.getContext().getSourceElement().getContainingFile();
+            if (tryProcessPervasives(builder, sourceFile)) return;
+
+            String moduleName = null;
+            if (builder.getContext().getModulePath().size() > 0) {
+                moduleName = builder.getCurrentModuleName();
+            }
+            else if (builder.getContext().getSourceElement() instanceof OCamlModuleName) {
                 moduleName = builder.getContext().getSourceElement().getName();
             }
             if (moduleName != null) {
-                final PsiFile sourceFile = builder.getContext().getSourceElement().getContainingFile();
                 final OCamlElement targetFile = findFileModule(sourceFile, moduleName);
                 if (targetFile != null) {
                     processSibling(targetFile, builder);
@@ -110,6 +115,11 @@ public class OCamlResolvingUtil {
     private static boolean processSibling(@NotNull final OCamlElement sibling, @NotNull final ResolvingBuilder builder) {
         builder.setLastParentPosition(ElementPosition.Sibling);
         return sibling.processDeclarations(builder);
+    }
+
+    private static boolean tryProcessPervasives(@NotNull final ResolvingBuilder builder, @NotNull final PsiFile sourceFile) {
+        final OCamlElement pervasivesFile = findFileModule(sourceFile, PERVASIVES);
+        return pervasivesFile != null && processSibling(pervasivesFile, builder);
     }
 
     @Nullable
@@ -142,52 +152,28 @@ public class OCamlResolvingUtil {
                                                          @NotNull final String moduleName,
                                                          @NotNull final FileType fileType,
                                                          @NotNull final Class<T> type) {
-        final Object[] foundFile = new Object[] { null };
-
         final Project project = sourceFile.getProject();
-        final ContentIterator contentIterator = new ContentIterator() {
-            public boolean processFile(@NotNull final VirtualFile fileOrDir) {
-                if (fileOrDir.getFileType() != fileType) return true;
-                final OCamlModule ocamlModule = OCamlModule.getBySourceFile(fileOrDir, project);
-                if (ocamlModule != null && ocamlModule.getName().equals(moduleName)) {
-                    final PsiFile psiFile = ApplicationManager.getApplication().runReadAction(new Computable<PsiFile>() {
-                        @Nullable
-                        public PsiFile compute() {
-                            return PsiManager.getInstance(project).findFile(fileOrDir);
-                        }
-                    });
-                    if (psiFile != null && type.isInstance(psiFile)) {
-                        foundFile[0] = psiFile;
-                        return false;
-                    }
-                }
-                return true;
-            }
-        };
 
         final Module module = ModuleUtil.findModuleForPsiElement(sourceFile);
         if (module == null) return null;
 
-        final PsiDirectory sourceDir = sourceFile.getParent();
-        if (sourceDir == null) return null;
+        final String fileName = OCamlFileUtil.getFileName(moduleName, fileType);
+        final GlobalSearchScope scope = getScopeRestrictedByFileTypes(moduleWithDependenciesAndLibrariesScope(module), fileType);
+        final T file = findFileByName(project, scope, type, fileName);
+        return file == null ? findFileByName(project, scope, type, OCamlStringUtil.changeFirstLetterCase(fileName)) : file;
+    }
 
-        final ModuleRootManager rootManager = ModuleRootManager.getInstance(module);
+    @Nullable
+    private static <T extends OCamlElement> T findFileByName(@NotNull final Project project,
+                                                             @NotNull final GlobalSearchScope scope,
+                                                             @NotNull final Class<T> type,
+                                                             @NotNull final String fileName) {
+        final PsiFile[] files = FilenameIndex.getFilesByName(project, fileName, scope);
 
-        rootManager.getFileIndex().iterateContentUnderDirectory(sourceDir.getVirtualFile(), contentIterator);
-        if (foundFile[0] != null) {
-            return (T) foundFile[0];
-        }
-
-        rootManager.getFileIndex().iterateContent(contentIterator);
-        if (foundFile[0] != null) {
-            return (T) foundFile[0];
-        }
-
-        for (final Module dependency : rootManager.getDependencies()) {
-            if (!(dependency.getModuleType() instanceof OCamlModuleType)) continue;
-            ModuleRootManager.getInstance(dependency).getFileIndex().iterateContent(contentIterator);
-            if (foundFile[0] != null) {
-                return (T) foundFile[0];
+        for (final PsiFile file : files) {
+            if (type.isInstance(file)) {
+                //noinspection unchecked
+                return (T) file;
             }
         }
 

@@ -75,11 +75,14 @@ class TypeParsing extends Parsing {
     }
 
     private static void parseTypeBinding(@NotNull final PsiBuilder builder) {
-        final PsiBuilder.Marker typeBindingMarker = builder.mark();
+        PsiBuilder.Marker typeParameterizedBindingMarker = null;
 
         if (builder.getTokenType() != OCamlTokenTypes.LCFC_IDENTIFIER) {
+            typeParameterizedBindingMarker = builder.mark();
             parseTypeParameters(builder);
         }
+
+        final PsiBuilder.Marker typeBindingMarker = builder.mark();
 
         NameParsing.parseTypeConstructorName(builder);
 
@@ -88,6 +91,10 @@ class TypeParsing extends Parsing {
         }
 
         typeBindingMarker.done(OCamlElementTypes.TYPE_BINDING);
+
+        if (typeParameterizedBindingMarker != null) {
+            typeParameterizedBindingMarker.done(OCamlElementTypes.TYPE_PARAMETERIZED_BINDING);
+        }
     }
 
     private static void parseTypeInformation(@NotNull final PsiBuilder builder) {
@@ -140,7 +147,7 @@ class TypeParsing extends Parsing {
     private static void parseTypeConstructorDefinition(@NotNull final PsiBuilder builder) {
         final PsiBuilder.Marker typeConstructorDefinitionMarker = builder.mark();
 
-        NameParsing.parseConstructorName(builder);
+        NameParsing.parseConstructorName(builder, false);
 
         if (ignore(builder, OCamlTokenTypes.OF_KEYWORD)) {
             parseTypeExpression(builder);

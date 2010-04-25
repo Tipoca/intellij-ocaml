@@ -138,5 +138,8 @@ public class TypeConstructorNameResolvingTest extends ResolvingTestCase {
             "  end;; " +
             "end;; " +
             "type t2 = M.M1.}{t;;");
+
+        doTest(19, "" +
+            "type 'a {{}{t = One}};;");
    }
 }

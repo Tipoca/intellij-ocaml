@@ -16,13 +16,23 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/gpl-2.0.html>.
  */
 
-package ocaml.lang.processing.parser.psi.element;
+package ocaml.lang.feature.completion;
 
-import ocaml.lang.feature.resolving.OCamlResolvedReference;
+import com.intellij.codeInsight.completion.CompletionContributor;
+import com.intellij.codeInsight.completion.CompletionInitializationContext;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Maxim.Manuylov
- *         Date: 21.03.2009
+ *         Date: 25.04.2010
  */
-public interface OCamlExceptionDefinition extends OCamlDefinition {
+public class OCamlCompletionContributor extends CompletionContributor {
+    @Override
+    public void beforeCompletion(@NotNull final CompletionInitializationContext context) {
+        //context.
+    }
+
+    public OCamlCompletionContributor() {
+        //extend();
+    }
 }

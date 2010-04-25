@@ -18,11 +18,11 @@
 
 package ocaml.lang.processing.parser.psi.element;
 
-import ocaml.lang.feature.resolving.OCamlResolvedReference;
+import ocaml.lang.processing.parser.psi.OCamlElement;
 
 /**
  * @author Maxim.Manuylov
- *         Date: 21.03.2009
+ *         Date: 25.04.2010
  */
-public interface OCamlExceptionDefinition extends OCamlDefinition {
+public interface OCamlTypeParameterizedBinding extends OCamlElement {
 }

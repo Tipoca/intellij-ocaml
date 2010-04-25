@@ -32,6 +32,7 @@ import ocaml.lang.processing.parser.ast.element.OCamlElementTypes;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Stack;
 
 /**
@@ -105,7 +106,15 @@ public class CommentsParserPsiBuilder implements PsiBuilder {
     }
 
     public LighterASTNode getLatestDoneMarker() {
-        return myBuilder.getLatestDoneMarker();
+        try {
+            return (LighterASTNode) myBuilder.getClass().getMethod("getLatestDoneMarker").invoke(myBuilder);
+        } catch (final IllegalAccessException e) {
+            return null;
+        } catch (InvocationTargetException e) {
+            return null;
+        } catch (NoSuchMethodException e) {
+            return null;
+        }
     }
 
     public <T> T getUserData(@NotNull final Key<T> key) {

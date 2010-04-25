@@ -20,7 +20,6 @@ package ocaml.lang.processing.parser.psi.resolving.testCase;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.LanguageParserDefinitions;
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ex.ApplicationManagerEx;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
@@ -47,6 +46,9 @@ import org.testng.annotations.Test;
  * todo test TagName
  * todo test TypeParameterName
  *
+ * todo see getPossibleResTypes() methods in all reference types and check if there are the tests for each case
+ * todo resolving for prefix and infix operators (e.g. " a + b ")
+ * 
  */
 @Test
 public abstract class ResolvingTestCase extends Assert {

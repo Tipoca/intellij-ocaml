@@ -84,5 +84,24 @@ public class ConstructorNameResolvingTest extends ResolvingTestCase {
 
         doTest(11, "" +
             "type t = {{}{One}};;");
+
+        doTest(12, "" +
+            "exception {{}{Ex}};;");
+
+        doTest(13, "" +
+            "exception {{}{Ex}} = Ex2;;");
+
+        doTest(14, "" +
+            "exception {{}{Ex}} of int;;");
+
+        doTest(15, "" +
+            "exception {{Ex}};; " +
+            "exception Ex2 = }{Ex;;");
+
+        doTest(16, "" +
+            "module M : sig " +
+            "             exception {{Ex}};; " +
+            "           end = struct end;; " +
+            "exception Ex2 = M.}{Ex;;");
    }
 }

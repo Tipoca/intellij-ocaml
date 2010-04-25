@@ -65,10 +65,14 @@ OctDigit_              = {OctDigit} | [_]
 BinDigit               = [01]
 BinDigit_              = {BinDigit} | [_]
 
-IntegerLiteral         = ({Digit} {Digit_}*)
-                       | (("0x" | "0X") {HexDigit} {HexDigit_}*)
-                       | (("0o" | "0O") {OctDigit} {OctDigit_}*)
-                       | (("0b" | "0B") {BinDigit} {BinDigit_}*)
+IntegerLiteralPostfix  = [lLn]
+
+IntegerLiteral         = (
+                           ({Digit} {Digit_}*)
+                         | (("0x" | "0X") {HexDigit} {HexDigit_}*)
+                         | (("0o" | "0O") {OctDigit} {OctDigit_}*)
+                         | (("0b" | "0B") {BinDigit} {BinDigit_}*)
+                         ) {IntegerLiteralPostfix}?
 
 FloatLiteral           = {Digit} {Digit_}* ("." {Digit_}*)? ([eE] [+-]? {Digit} {Digit_}*)?
 

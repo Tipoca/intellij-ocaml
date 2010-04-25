@@ -19,6 +19,7 @@
 package ocaml.lang.fileType.ml;
 
 import ocaml.lang.fileType.OCamlFileType;
+import ocaml.lang.fileType.mli.MLIFileType;
 import ocaml.util.OCamlIconUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -53,5 +54,11 @@ public class MLFileType extends OCamlFileType {
     @NotNull
     public Icon getIcon() {
         return OCamlIconUtil.getMLFileIcon();
+    }
+
+    @NotNull
+    @Override
+    public OCamlFileType getAnotherFileType() {
+        return MLIFileType.INSTANCE;
     }
 }

@@ -369,5 +369,21 @@ public class ValueNameResolvingTest extends ResolvingTestCase {
             "  val {{x}} = 12 " +
             "  method m = }{x " +
             "end;;");
+
+        doTest(60, "" +
+            "external {{d}} : int = \"ddd\";; " +
+            "let ff = }{d;;");
+
+        doTest(61, "" +
+            "let f {{x}} = }{x;; ");
+
+        doTest(62, "" +
+            "let f ~label:{{x}} = }{x;; ");
+
+        doTest(63, "" +
+            "let f ?label:{{x}} = }{x;; ");
+
+        doTest(64, "" +
+            "let f ?label:({{x}}) = }{x;; ");
    }
 }

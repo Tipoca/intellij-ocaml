@@ -30,5 +30,8 @@ public class ValueNamePatternResolvingTest extends ResolvingTestCase {
     public void testValueNamePatternResolving() throws Exception {
         doTest(1, "" +
             "let {{}{a}} = b;;");
+
+        doTest(2, "" +
+            "external {{}{a}} : int = \"sss\";;");
      }
 }

@@ -18,6 +18,7 @@
 
 package ocaml.actions;
 
+import com.intellij.openapi.fileTypes.FileType;
 import ocaml.lang.fileType.ml.MLFileType;
 import ocaml.util.OCamlIconUtil;
 import org.jetbrains.annotations.NotNull;
@@ -37,7 +38,7 @@ public class CreateMLFileAction extends BaseCreateOCamlFileAction {
     }
 
     @NotNull
-    protected String getExtension() {
-        return MLFileType.INSTANCE.getDefaultExtension();
+    protected FileType getFileType() {
+        return MLFileType.INSTANCE;
     }
 }

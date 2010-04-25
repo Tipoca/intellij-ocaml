@@ -24,14 +24,14 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtil;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
-import ocaml.lang.fileType.ml.MLFileType;
-import ocaml.entity.OCamlModule;
 import ocaml.module.OCamlModuleType;
+import ocaml.util.OCamlFileUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,33 +53,38 @@ public class SwitchModuleFileAction extends AnAction {
         final VirtualFile file = PlatformDataKeys.VIRTUAL_FILE.getData(dataContext);
         if (file == null) return;
 
-        final Module module = ModuleUtil.findModuleForFile(file, project);
-        if (module == null || !(module.getModuleType() instanceof OCamlModuleType)) return;
+        final VirtualFile parent = file.getParent();
+        if (parent == null) return;
 
-        final OCamlModule ocamlModule = OCamlModule.getBySourceFile(file, project);
-        if (ocamlModule == null) return;
-
-        final File anotherFile = file.getFileType() == MLFileType.INSTANCE ? ocamlModule.getInterfaceFile() : ocamlModule.getImplementationFile();
+        final File anotherFile = new File(parent.getPath(), OCamlFileUtil.getAnotherFileName(file));
         VirtualFile anotherVirtualFile = LocalFileSystem.getInstance().findFileByIoFile(anotherFile);
 
         if (anotherVirtualFile == null) {
             final String anotherFilePath = anotherFile.getAbsolutePath();
-            if (Messages.showYesNoDialog(project,
-                "File \"" + anotherFilePath + "\" does not exist. Do you want to create it?",
-                "Open file \"" + anotherFilePath + "\"", Messages.getQuestionIcon()) != 0) {
+            final Module module = ModuleUtil.findModuleForFile(file, project);
+            if (module != null && module.getModuleType() instanceof OCamlModuleType 
+                && ModuleRootManager.getInstance(module).getFileIndex().isInSourceContent(file)) {
+                if (Messages.showYesNoDialog(project,
+                    "File \"" + anotherFilePath + "\" does not exist. Do you want to create it?",
+                    "Open file \"" + anotherFilePath + "\"", Messages.getQuestionIcon()) != 0) {
+                    return;
+                }
+                ApplicationManager.getApplication().runWriteAction(new Runnable() {
+                    public void run() {
+                        try {
+                            parent.createChildData(SwitchModuleFileAction.this, anotherFile.getName());
+                        } catch (final IOException e) {
+                            Messages.showErrorDialog(project, e.getMessage(), "Error");
+                        }
+                    }
+                });
+                anotherVirtualFile = LocalFileSystem.getInstance().findFileByIoFile(anotherFile);
+                if (anotherVirtualFile == null) return;
+            }
+            else {
+                Messages.showErrorDialog(project, "File \"" + anotherFilePath + "\" does not exist.", "Open file \"" + anotherFilePath + "\"");
                 return;
             }
-            ApplicationManager.getApplication().runWriteAction(new Runnable() {
-                public void run() {
-                    try {
-                        ocamlModule.getSourcesDir().createChildData(SwitchModuleFileAction.this, anotherFile.getName());
-                    } catch (final IOException e) {
-                        Messages.showErrorDialog(project, e.getMessage(), "Error");
-                    }
-                }
-            });
-            anotherVirtualFile = LocalFileSystem.getInstance().findFileByIoFile(anotherFile);
-            if (anotherVirtualFile == null) return;
         }
 
         final PsiFile anotherPsiFile = PsiManager.getInstance(project).findFile(anotherVirtualFile);

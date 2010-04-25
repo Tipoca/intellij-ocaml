@@ -82,6 +82,9 @@ public class OCamlElementFactory {
         else if (elementType == TYPE_BINDING) {
             return new OCamlTypeBindingImpl(node);
         }
+        else if (elementType == TYPE_PARAMETERIZED_BINDING) {
+            return new OCamlTypeParameterizedBindingImpl(node);
+        }
         else if (elementType == TYPE_PARAMETER) {
             return new OCamlTypeParameterImpl(node);
         }
@@ -277,8 +280,11 @@ public class OCamlElementFactory {
         else if (elementType == VALUE_NAME_PATTERN) {
             return new OCamlValueNamePatternImpl(node);
         }
-        else if (elementType == INST_VAR_NAME_PATTERN) {
-            return new OCamlInstVarNamePatternImpl(node);
+        else if (elementType == INST_VAR_NAME_DEFINITION) {
+            return new OCamlInstVarNameDefinitionImpl(node);
+        }
+        else if (elementType == CONSTRUCTOR_NAME_DEFINITION) {
+            return new OCamlConstructorNameDefinitionImpl(node);
         }
         else if (elementType == OPERATOR_NAME) {
             return new OCamlOperatorNameImpl(node);
@@ -498,6 +504,9 @@ public class OCamlElementFactory {
         }
         else if (elementType == TYPE_CONSTRAINT_PATTERN) {
             return new OCamlTypeConstraintPatternImpl(node);
+        }
+        else if (elementType == CHAR_RANGE_PATTERN) {
+            return new OCamlCharRangePatternImpl(node);
         }
         else if (elementType == FOR_EXPRESSION_INDEX_VARIABLE_NAME) {
             return new OCamlForExpressionIndexVariableNameImpl(node);

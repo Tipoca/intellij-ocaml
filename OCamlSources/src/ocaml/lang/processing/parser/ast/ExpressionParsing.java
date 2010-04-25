@@ -869,7 +869,7 @@ class ExpressionParsing extends Parsing {
     private static boolean tryParseConstructorApplicationExpression(@NotNull final PsiBuilder builder) {
         final PsiBuilder.Marker constructorApplicationExpressionMarker = builder.mark();
 
-        if (!NameParsing.tryParseConstructorPath(builder)) {
+        if (!NameParsing.tryParseConstructorPath(builder, false)) {
             constructorApplicationExpressionMarker.drop();
             return false;
         }

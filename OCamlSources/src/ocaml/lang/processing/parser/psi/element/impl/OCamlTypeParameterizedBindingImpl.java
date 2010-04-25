@@ -22,26 +22,25 @@ import com.intellij.lang.ASTNode;
 import ocaml.lang.feature.resolving.ResolvingBuilder;
 import ocaml.lang.feature.resolving.util.OCamlDeclarationsUtil;
 import ocaml.lang.processing.parser.psi.OCamlElementVisitor;
-import ocaml.lang.processing.parser.psi.element.OCamlParameter;
-import ocaml.lang.processing.parser.psi.element.OCamlParentheses;
-import ocaml.lang.processing.parser.psi.element.OCamlPattern;
+import ocaml.lang.processing.parser.psi.element.OCamlTypeParameterizedBinding;
+import ocaml.lang.processing.parser.psi.element.OCamlTypeParameters;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Maxim.Manuylov
- *         Date: 21.03.2009
+ *         Date: 25.04.2010
  */
-public class OCamlParameterImpl extends BaseOCamlElement implements OCamlParameter {
-    public OCamlParameterImpl(@NotNull final ASTNode node) {
+public class OCamlTypeParameterizedBindingImpl extends BaseOCamlElement implements OCamlTypeParameterizedBinding {
+    public OCamlTypeParameterizedBindingImpl(@NotNull final ASTNode node) {
         super(node);
     }
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {
-        visitor.visitParameter(this);
+        visitor.visitTypeParameterizedBinding(this);
     }
 
     @Override
     public boolean processDeclarations(@NotNull final ResolvingBuilder builder) {
-        return OCamlDeclarationsUtil.processDeclarationsInChildren(builder, this, OCamlPattern.class, OCamlParentheses.class);
+        return OCamlDeclarationsUtil.processDeclarationsInChildren(builder, this, OCamlTypeParameters.class, OCamlTypeParameterizedBinding.class);
     }
 }

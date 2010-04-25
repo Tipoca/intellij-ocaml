@@ -19,11 +19,12 @@
 package ocaml.lang.processing.parser.ast;
 
 import com.intellij.psi.tree.IElementType;
-import static ocaml.lang.processing.lexer.token.OCamlTokenTypes.*;
-import static ocaml.lang.processing.parser.ast.element.OCamlElementTypes.*;
 import ocaml.lang.processing.parser.ast.testCase.ParsingTestCase;
 import org.jetbrains.annotations.NotNull;
 import org.testng.annotations.Test;
+
+import static ocaml.lang.processing.lexer.token.OCamlTokenTypes.*;
+import static ocaml.lang.processing.parser.ast.element.OCamlElementTypes.*;
 
 /**
  * @author Maxim.Manuylov
@@ -145,7 +146,7 @@ public abstract class BaseModuleParsingTest extends ParsingTestCase {
         myTree.addNode(4, EQ);
         myTree.addNode(4, FUNCTOR_MODULE_TYPE);
         myTree.addNode(5, FUNCTOR_KEYWORD);
-        myTree.addNode(5, PARENTHESES);
+        myTree.addNode(5, MODULE_PARAMETER);
         myTree.addNode(6, LPAR);
         myTree.addNode(6, MODULE_NAME);
         myTree.addNode(7, UCFC_IDENTIFIER, "ModuleName");
@@ -172,7 +173,7 @@ public abstract class BaseModuleParsingTest extends ParsingTestCase {
         myTree.addNode(5, SIG_KEYWORD);
         myTree.addNode(5, VALUE_SPECIFICATION);
         myTree.addNode(6, VAL_KEYWORD);
-        myTree.addNode(6, VALUE_NAME);
+        myTree.addNode(6, VALUE_NAME_PATTERN);
         myTree.addNode(7, LCFC_IDENTIFIER, "a");
         myTree.addNode(6, COLON);
         myTree.addNode(6, TYPE_CONSTRUCTOR_NAME);

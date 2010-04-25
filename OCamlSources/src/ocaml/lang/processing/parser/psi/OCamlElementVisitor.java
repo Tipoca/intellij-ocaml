@@ -20,8 +20,8 @@ package ocaml.lang.processing.parser.psi;
 
 import com.intellij.psi.PsiElementVisitor;
 import ocaml.lang.processing.parser.psi.element.*;
-import ocaml.lang.processing.parser.psi.element.impl.OCamlInstVarNamePatternImpl;
-import ocaml.lang.processing.parser.psi.element.impl.OCamlRecordFieldInitializationInPatternImpl;
+import ocaml.lang.processing.parser.psi.element.impl.OCamlCharRangePatternImpl;
+import ocaml.lang.processing.parser.psi.element.impl.OCamlTypeParameterizedBindingImpl;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -343,5 +343,11 @@ public abstract class OCamlElementVisitor extends PsiElementVisitor {
 
     public abstract void visitRecordFieldInitializationInPattern(@NotNull final OCamlRecordFieldInitializationInPattern psiElement);
 
-    public abstract void visitInstVarNamePattern(@NotNull final OCamlInstVarNamePattern psiElement);
+    public abstract void visitInstVarNameDefinition(@NotNull final OCamlInstVarNameDefinition psiElement);
+
+    public abstract void visitConstructorNameDefinition(@NotNull final OCamlConstructorNameDefinition psiElement);
+
+    public abstract void visitTypeParameterizedBinding(@NotNull final OCamlTypeParameterizedBinding psiElement);
+
+    public abstract void visitCharRangePattern(@NotNull final OCamlCharRangePattern psiElement);
 }

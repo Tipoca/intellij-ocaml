@@ -56,7 +56,7 @@ public class OCamlAnnotatingVisitor extends OCamlElementVisitorAdapter implement
     public void process(@NotNull final OCamlElement psiElement) {
         if (psiElement instanceof OCamlReference) {
             final OCamlReference ref = (OCamlReference) psiElement;
-            if (!ref.isSoft() && ref.resolve() == null) {
+            if (!ref.isSoft() && !ref.isBundled() && ref.resolve() == null) {
                 final Annotation annotation = myAnnotationHolder.createErrorAnnotation(psiElement, "Unknown " + ref.getDescription());
                 annotation.setEnforcedTextAttributes(new TextAttributes(Color.red, null, null, null, Font.PLAIN));
             }

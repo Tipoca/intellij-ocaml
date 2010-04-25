@@ -270,6 +270,28 @@ public class ExpressionParsingTest extends MLParsingTestCase {
         myTree.addNode(4, VALUE_NAME);
         myTree.addNode(5, LCFC_IDENTIFIER, "c");
         myTree.addNode(3, ARGUMENT);
+        myTree.addNode(4, CONSTRUCTOR_NAME);
+        myTree.addNode(5, UCFC_IDENTIFIER, "Constr");
+        myTree.addNode(3, ARGUMENT);
+        myTree.addNode(4, CONSTANT);
+        myTree.addNode(5, TRUE_KEYWORD);
+        myTree.addNode(3, ARGUMENT);
+        myTree.addNode(4, CONSTANT);
+        myTree.addNode(5, FALSE_KEYWORD);
+        myTree.addNode(3, ARGUMENT);
+        myTree.addNode(4, LIST_EXPRESSION);
+        myTree.addNode(5, LBRACKET);
+        myTree.addNode(5, RBRACKET);
+        myTree.addNode(3, ARGUMENT);
+        myTree.addNode(4, CONSTANT);
+        myTree.addNode(5, LPAR);
+        myTree.addNode(5, RPAR);
+        myTree.addNode(3, ARGUMENT);
+        myTree.addNode(4, CONSTANT);
+        myTree.addNode(5, ACCENT);
+        myTree.addNode(5, TAG_NAME);
+        myTree.addNode(6, LCFC_IDENTIFIER, "tag");
+        myTree.addNode(3, ARGUMENT);
         myTree.addNode(4, TILDE);
         myTree.addNode(4, LABEL_NAME);
         myTree.addNode(5, LCFC_IDENTIFIER, "lbl1");
@@ -295,7 +317,7 @@ public class ExpressionParsingTest extends MLParsingTestCase {
         myTree.addNode(4, VALUE_NAME);
         myTree.addNode(5, LCFC_IDENTIFIER, "g");
 
-        doTest("f a b 2 c ~lbl1 ~lbl2: 3 ?lbl3 ?lbl4: 4 g", myTree.getStringRepresentation());
+        doTest("f a b 2 c Constr true false [] () `tag ~lbl1 ~lbl2: 3 ?lbl3 ?lbl4: 4 g", myTree.getStringRepresentation());
     }
 
     public void testPrefixOperator() throws Exception {
@@ -643,7 +665,7 @@ public class ExpressionParsingTest extends MLParsingTestCase {
         myTree.addNode(3, OBJECT_KEYWORD);
         myTree.addNode(3, VALUE_CLASS_FIELD_DEFINITION);
         myTree.addNode(4, VAL_KEYWORD);
-        myTree.addNode(4, INST_VAR_NAME);
+        myTree.addNode(4, INST_VAR_NAME_DEFINITION);
         myTree.addNode(5, LCFC_IDENTIFIER, "a");
         myTree.addNode(4, EQ);
         myTree.addNode(4, CONSTANT);
@@ -705,8 +727,9 @@ public class ExpressionParsingTest extends MLParsingTestCase {
         myTree.addNode(2, LET_STATEMENT);
         myTree.addNode(3, LET_KEYWORD);
         myTree.addNode(3, LET_BINDING);
-        myTree.addNode(4, VALUE_NAME_PATTERN);
-        myTree.addNode(5, LCFC_IDENTIFIER, "a");
+        myTree.addNode(4, LET_BINDING_PATTERN);
+        myTree.addNode(5, VALUE_NAME_PATTERN);
+        myTree.addNode(6, LCFC_IDENTIFIER, "a");
         myTree.addNode(4, PARAMETER);
         myTree.addNode(5, VALUE_NAME_PATTERN);
         myTree.addNode(6, LCFC_IDENTIFIER, "b");

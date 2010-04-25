@@ -61,7 +61,7 @@ public class OCamlInstVarNameImpl extends BaseOCamlReference implements OCamlIns
 
     @NotNull
     public List<Class<? extends OCamlResolvedReference>> getPossibleResolvedTypes() {
-        return Arrays.<Class<? extends OCamlResolvedReference>>asList(OCamlInstVarNamePattern.class);
+        return Arrays.<Class<? extends OCamlResolvedReference>>asList(OCamlInstVarNameDefinition.class);
     }
 
     @NotNull

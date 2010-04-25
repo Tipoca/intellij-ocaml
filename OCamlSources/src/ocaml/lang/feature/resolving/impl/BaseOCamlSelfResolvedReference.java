@@ -16,16 +16,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/gpl-2.0.html>.
  */
 
-package ocaml.lang.processing.parser.psi.element.impl;
+package ocaml.lang.feature.resolving.impl;
 
 import com.intellij.lang.ASTNode;
-import ocaml.lang.feature.resolving.NameType;
 import ocaml.lang.feature.resolving.OCamlResolvedReference;
 import ocaml.lang.feature.resolving.ResolvingBuilder;
-import ocaml.lang.feature.resolving.impl.BaseOCamlReference;
-import ocaml.lang.processing.parser.psi.OCamlElementVisitor;
 import ocaml.lang.processing.parser.psi.element.OCamlExtendedModuleName;
-import ocaml.lang.processing.parser.psi.element.OCamlInstVarNamePattern;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -35,15 +31,11 @@ import java.util.List;
 
 /**
  * @author Maxim.Manuylov
- *         Date: 23.04.2010
+ *         Date: 25.04.2010
  */
-public class OCamlInstVarNamePatternImpl extends BaseOCamlReference implements OCamlInstVarNamePattern {
-    public OCamlInstVarNamePatternImpl(@NotNull final ASTNode node) {
+public abstract class BaseOCamlSelfResolvedReference extends BaseOCamlReference implements OCamlResolvedReference {
+    public BaseOCamlSelfResolvedReference(@NotNull final ASTNode node) {
         super(node);
-    }
-
-    public void visit(@NotNull final OCamlElementVisitor visitor) {
-        visitor.visitInstVarNamePattern(this);
     }
 
     @Nullable
@@ -52,18 +44,8 @@ public class OCamlInstVarNamePatternImpl extends BaseOCamlReference implements O
     }
 
     @NotNull
-    public NameType getNameType() {
-        return NameType.LowerCase;
-    }
-
-    @NotNull
-    public String getDescription() {
-        return "instance variable";
-    }
-
-    @NotNull
     public List<Class<? extends OCamlResolvedReference>> getPossibleResolvedTypes() {
-        return Arrays.<Class<? extends OCamlResolvedReference>>asList(OCamlInstVarNamePattern.class);
+        return Arrays.<Class<? extends OCamlResolvedReference>>asList(getClass());
     }
 
     @NotNull

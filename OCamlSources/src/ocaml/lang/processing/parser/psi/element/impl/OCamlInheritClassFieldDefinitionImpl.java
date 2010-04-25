@@ -19,20 +19,14 @@
 package ocaml.lang.processing.parser.psi.element.impl;
 
 import com.intellij.lang.ASTNode;
-import ocaml.lang.feature.resolving.NameType;
 import ocaml.lang.feature.resolving.ResolvingBuilder;
-import ocaml.lang.feature.resolving.impl.BaseOCamlResolvedReference;
 import ocaml.lang.feature.resolving.util.OCamlDeclarationsUtil;
-import ocaml.lang.processing.parser.ast.element.OCamlElementTypes;
-import ocaml.lang.processing.parser.ast.util.OCamlASTTreeUtil;
 import ocaml.lang.processing.parser.psi.OCamlElementVisitor;
 import ocaml.lang.processing.parser.psi.OCamlPsiUtil;
 import ocaml.lang.processing.parser.psi.element.OCamlClassExpression;
 import ocaml.lang.processing.parser.psi.element.OCamlInheritClassFieldDefinition;
-import ocaml.lang.processing.parser.psi.element.OCamlInstVarName;
-import ocaml.lang.processing.parser.psi.element.OCamlInstVarNamePattern;
+import ocaml.lang.processing.parser.psi.element.OCamlInstVarNameDefinition;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Maxim.Manuylov
@@ -49,7 +43,7 @@ public class OCamlInheritClassFieldDefinitionImpl extends BaseOCamlElement imple
 
     @Override
     public boolean processDeclarations(@NotNull final ResolvingBuilder builder) {
-        if (OCamlDeclarationsUtil.processDeclarationsInChildren(builder, this, OCamlInstVarNamePattern.class)) return true;
+        if (OCamlDeclarationsUtil.processDeclarationsInChildren(builder, this, OCamlInstVarNameDefinition.class)) return true;
         final OCamlClassExpression expression = OCamlPsiUtil.getFirstChildOfType(this, OCamlClassExpression.class);
         return OCamlDeclarationsUtil.processDeclarationsInStructuredElement(builder, expression);
     }

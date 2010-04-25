@@ -19,29 +19,32 @@
 package ocaml.lang.processing.parser.psi.element.impl;
 
 import com.intellij.lang.ASTNode;
-import ocaml.lang.feature.resolving.ResolvingBuilder;
-import ocaml.lang.feature.resolving.util.OCamlDeclarationsUtil;
+import ocaml.lang.feature.resolving.NameType;
+import ocaml.lang.feature.resolving.impl.BaseOCamlSelfResolvedReference;
 import ocaml.lang.processing.parser.psi.OCamlElementVisitor;
-import ocaml.lang.processing.parser.psi.element.OCamlParameter;
-import ocaml.lang.processing.parser.psi.element.OCamlParentheses;
-import ocaml.lang.processing.parser.psi.element.OCamlPattern;
+import ocaml.lang.processing.parser.psi.element.OCamlConstructorNameDefinition;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Maxim.Manuylov
- *         Date: 21.03.2009
+ *         Date: 25.04.2010
  */
-public class OCamlParameterImpl extends BaseOCamlElement implements OCamlParameter {
-    public OCamlParameterImpl(@NotNull final ASTNode node) {
+public class OCamlConstructorNameDefinitionImpl extends BaseOCamlSelfResolvedReference implements OCamlConstructorNameDefinition {
+    public OCamlConstructorNameDefinitionImpl(@NotNull final ASTNode node) {
         super(node);
     }
 
-    public void visit(@NotNull final OCamlElementVisitor visitor) {
-        visitor.visitParameter(this);
+    @NotNull
+    public NameType getNameType() {
+        return NameType.UpperCase;
     }
 
-    @Override
-    public boolean processDeclarations(@NotNull final ResolvingBuilder builder) {
-        return OCamlDeclarationsUtil.processDeclarationsInChildren(builder, this, OCamlPattern.class, OCamlParentheses.class);
+    @NotNull
+    public String getDescription() {
+        return "constructor";
+    }
+
+    public void visit(@NotNull final OCamlElementVisitor visitor) {
+        visitor.visitConstructorNameDefinition(this);
     }
 }

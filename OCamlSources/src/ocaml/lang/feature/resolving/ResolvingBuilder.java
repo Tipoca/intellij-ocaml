@@ -18,6 +18,7 @@
 
 package ocaml.lang.feature.resolving;
 
+import ocaml.lang.feature.resolving.util.OCamlResolvingUtil;
 import ocaml.lang.processing.parser.psi.OCamlElement;
 import ocaml.lang.processing.parser.psi.element.OCamlExtendedModuleName;
 import org.jetbrains.annotations.NotNull;
@@ -101,13 +102,17 @@ public class ResolvingBuilder {
                 return false;
             }
             finally {
-                processModuleEnd();
+                processModuleEnd(moduleName);
             }
         }
         return false;
     }
 
     private boolean processModuleStart(@NotNull final String moduleName) {
+        if (myModulePathOffset == 0 && moduleName.equals(OCamlResolvingUtil.PERVASIVES)) {
+            return true;
+        }
+
         final List<? extends OCamlExtendedModuleName> modulePath = myContext.getModulePath();
         if (myModulePathOffset < modulePath.size() && moduleName.equals(modulePath.get(myModulePathOffset).getName())) {
             myModulePathOffset++;
@@ -117,7 +122,11 @@ public class ResolvingBuilder {
         return false;
     }
 
-    private void processModuleEnd() {
+    private void processModuleEnd(final String moduleName) {
+        if (moduleName.equals(OCamlResolvingUtil.PERVASIVES)) {
+            myModulePathOffset = 0;
+            return;
+        }
         myResolvingFinished = true;
     }
 

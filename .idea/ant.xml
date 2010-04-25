@@ -4,7 +4,7 @@
     <defaultAnt bundledAnt="true" />
     <buildFile url="file://$PROJECT_DIR$/LexerGeneration/build.xml">
       <additionalClassPath>
-        <entry path="file://$PROJECT_DIR$/LexerGeneration/lib/JFlex.jar" />
+        <entry path="file://$PROJECT_DIR$/LexerGeneration/jflex/lib/JFlex.jar" />
       </additionalClassPath>
       <antReference projectDefault="true" />
       <customJdkName value="" />

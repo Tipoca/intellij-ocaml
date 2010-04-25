@@ -58,6 +58,7 @@ public interface OCamlElementTypes {
     /* Type parsing { */
 
     IElementType TYPE_DEFINITION = new OCamlElementType("TYPE_DEFINITION");
+    IElementType TYPE_PARAMETERIZED_BINDING = new OCamlElementType("TYPE_PARAMETERIZED_BINDING");
     IElementType TYPE_BINDING = new OCamlElementType("TYPE_BINDING");
     IElementType TYPE_PARAMETER = new OCamlElementType("TYPE_PARAMETER");
     IElementType TYPE_PARAMETER_DEFINITION = new OCamlElementType("TYPE_PARAMETER_DEFINITION");
@@ -143,6 +144,8 @@ public interface OCamlElementTypes {
     IElementType CONSTRUCTOR_PATH = new OCamlElementType("CONSTRUCTOR_PATH");
     IElementType CONSTRUCTOR_NAME = new OCamlElementType("CONSTRUCTOR_NAME");
     IElementType TYPE_CONSTRUCTOR_NAME = new OCamlElementType("TYPE_CONSTRUCTOR_NAME");
+    IElementType INST_VAR_NAME_DEFINITION = new OCamlElementType("INST_VAR_NAME_DEFINITION");
+    IElementType CONSTRUCTOR_NAME_DEFINITION = new OCamlElementType("CONSTRUCTOR_NAME_DEFINITION");
     IElementType TYPE_PARAMETER_NAME = new OCamlElementType("TYPE_PARAMETER_NAME");
     IElementType FIELD_NAME = new OCamlElementType("FIELD_NAME");
     IElementType CLASS_PATH = new OCamlElementType("CLASS_PATH");
@@ -209,7 +212,6 @@ public interface OCamlElementTypes {
     /* Pattern parsing { */
 
     IElementType VALUE_NAME_PATTERN = new OCamlElementType("VALUE_NAME_PATTERN");
-    IElementType INST_VAR_NAME_PATTERN = new OCamlElementType("INST_VAR_NAME_PATTERN");
     IElementType AS_PATTERN = new OCamlElementType("AS_PATTERN");
     IElementType OR_PATTERN = new OCamlElementType("OR_PATTERN");
     IElementType COMMA_PATTERN = new OCamlElementType("COMMA_PATTERN");
@@ -222,6 +224,7 @@ public interface OCamlElementTypes {
     IElementType ARRAY_PATTERN = new OCamlElementType("ARRAY_PATTERN");
     IElementType RECORD_PATTERN = new OCamlElementType("RECORD_PATTERN");
     IElementType TYPE_CONSTRAINT_PATTERN = new OCamlElementType("TYPE_CONSTRAINT_PATTERN");
+    IElementType CHAR_RANGE_PATTERN = new OCamlElementType("CHAR_RANGE_PATTERN");
 
     /* } */
 

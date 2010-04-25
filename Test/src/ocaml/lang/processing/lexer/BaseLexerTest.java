@@ -70,6 +70,18 @@ public abstract class BaseLexerTest extends LexerTestCase {
         doTest("0x12T", token(OCamlTokenTypes.INTEGER_LITERAL, "0x12"), token(OCamlTokenTypes.UCFC_IDENTIFIER, "T"));
         doTest("0o128", token(OCamlTokenTypes.INTEGER_LITERAL, "0o12"), token(OCamlTokenTypes.INTEGER_LITERAL, "8"));
         doTest("0b12", token(OCamlTokenTypes.INTEGER_LITERAL, "0b1"), token(OCamlTokenTypes.INTEGER_LITERAL, "2"));
+        doTest("2l", token(OCamlTokenTypes.INTEGER_LITERAL, "2l"));
+        doTest("2L", token(OCamlTokenTypes.INTEGER_LITERAL, "2L"));
+        doTest("2n", token(OCamlTokenTypes.INTEGER_LITERAL, "2n"));
+        doTest("0b1l", token(OCamlTokenTypes.INTEGER_LITERAL, "0b1l"));
+        doTest("0b1L", token(OCamlTokenTypes.INTEGER_LITERAL, "0b1L"));
+        doTest("0b1n", token(OCamlTokenTypes.INTEGER_LITERAL, "0b1n"));
+        doTest("0o1l", token(OCamlTokenTypes.INTEGER_LITERAL, "0o1l"));
+        doTest("0o1L", token(OCamlTokenTypes.INTEGER_LITERAL, "0o1L"));
+        doTest("0o1n", token(OCamlTokenTypes.INTEGER_LITERAL, "0o1n"));
+        doTest("0x1l", token(OCamlTokenTypes.INTEGER_LITERAL, "0x1l"));
+        doTest("0x1L", token(OCamlTokenTypes.INTEGER_LITERAL, "0x1L"));
+        doTest("0x1n", token(OCamlTokenTypes.INTEGER_LITERAL, "0x1n"));
     }
 
     public void testFloatLiteral() {

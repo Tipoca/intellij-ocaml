@@ -28,15 +28,28 @@ import ocaml.lang.processing.parser.psi.element.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Maxim.Manuylov
  *         Date: 21.03.2009
  */
 public class OCamlConstructorNameImpl extends BaseOCamlReference implements OCamlConstructorName {
+    @NotNull private static final Set<String> ourBundledConstructors = new HashSet<String>() {{
+        add("Division_by_zero");
+        add("End_of_file");
+        add("Failure");
+        add("Invalid_argument");
+        add("None");
+        add("Some");
+        add("Sys_error");
+    }};
+
+    @Override
+    public boolean isBundled() {
+        return ourBundledConstructors.contains(getName());
+    }
+
     public OCamlConstructorNameImpl(@NotNull final ASTNode node) {
         super(node);
     }
@@ -62,7 +75,7 @@ public class OCamlConstructorNameImpl extends BaseOCamlReference implements OCam
 
     @NotNull
     public List<Class<? extends OCamlResolvedReference>> getPossibleResolvedTypes() {
-        return Arrays.asList(OCamlConstructorDefinition.class, OCamlExceptionDefinition.class, OCamlExceptionSpecification.class);
+        return Arrays.asList(OCamlConstructorDefinition.class, OCamlConstructorNameDefinition.class);
     }
 
     @NotNull

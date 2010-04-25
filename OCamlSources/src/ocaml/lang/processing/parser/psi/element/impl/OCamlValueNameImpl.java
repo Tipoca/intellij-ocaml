@@ -61,7 +61,7 @@ public class OCamlValueNameImpl extends BaseOCamlReference implements OCamlValue
 
     @NotNull
     public List<Class<? extends OCamlResolvedReference>> getPossibleResolvedTypes() {
-        return Arrays.<Class<? extends OCamlResolvedReference>>asList(OCamlInstVarNamePattern.class,
+        return Arrays.<Class<? extends OCamlResolvedReference>>asList(OCamlInstVarNameDefinition.class,
             OCamlValueNamePattern.class, OCamlForExpressionIndexVariableName.class);
     }
 

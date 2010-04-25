@@ -18,7 +18,6 @@
 
 package ocaml.util;
 
-import ocaml.lang.feature.resolving.OCamlNamedElement;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -36,5 +35,16 @@ public class OCamlStringUtil {
     public static String capitalize(@NotNull final String string) {
         if (string.length() == 0) return string;
         return Character.toUpperCase(string.charAt(0)) + string.substring(1);
+    }
+
+    @NotNull
+    public static String changeFirstLetterCase(final String string) {
+        if (string.length() == 0) return string;
+        return changeLetterCase(string.charAt(0)) + string.substring(1);
+    }
+
+    private static char changeLetterCase(final char letter) {
+        final char upperCaseLetter = Character.toUpperCase(letter);
+        return letter == upperCaseLetter ? Character.toLowerCase(letter) : upperCaseLetter;
     }
 }

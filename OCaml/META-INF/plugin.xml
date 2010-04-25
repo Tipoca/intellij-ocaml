@@ -51,6 +51,8 @@
         <lang.foldingBuilder language="OCAML_MLI" implementationClass="ocaml.lang.feature.folding.OCamlFoldingBuilder"/>
         <lang.commenter language="OCAML_ML" implementationClass="ocaml.lang.feature.commenting.OCamlCommenter"/>
         <lang.commenter language="OCAML_MLI" implementationClass="ocaml.lang.feature.commenting.OCamlCommenter"/>
+        <completion.contributor language="OCAML_ML" implementationClass="ocaml.lang.feature.completion.OCamlCompletionContributor"/>
+        <completion.contributor language="OCAML_MLI" implementationClass="ocaml.lang.feature.completion.OCamlCompletionContributor"/>
 
         <sdkType implementation="ocaml.sdk.OCamlSdkType"/>
 

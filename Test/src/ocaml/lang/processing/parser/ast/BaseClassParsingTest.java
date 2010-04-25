@@ -37,7 +37,7 @@ public abstract class BaseClassParsingTest extends ParsingTestCase {
         myTree.addNode(3, AND_KEYWORD);
         myTree.addNode(3, CLASS_TYPE_BINDING);
         myTree.addNode(4, VIRTUAL_KEYWORD);
-        myTree.addNode(4, CLASS_NAME);
+        myTree.addNode(4, TYPE_CONSTRUCTOR_NAME);
         myTree.addNode(5, LCFC_IDENTIFIER, "class2");
         myTree.addNode(4, EQ);
         myTree.addNode(4, CLASS_NAME);
@@ -61,7 +61,7 @@ public abstract class BaseClassParsingTest extends ParsingTestCase {
         myTree.addNode(6, TYPE_PARAMETER_NAME);
         myTree.addNode(7, LCFC_IDENTIFIER, "c");
         myTree.addNode(5, RBRACKET);
-        myTree.addNode(4, CLASS_NAME);
+        myTree.addNode(4, TYPE_CONSTRUCTOR_NAME);
         myTree.addNode(5, LCFC_IDENTIFIER, "class3");
         myTree.addNode(4, EQ);
         myTree.addNode(4, CLASS_NAME);
@@ -86,7 +86,7 @@ public abstract class BaseClassParsingTest extends ParsingTestCase {
         myTree.addNode(6, TYPE_PARAMETER_NAME);
         myTree.addNode(7, LCFC_IDENTIFIER, "c");
         myTree.addNode(5, RBRACKET);
-        myTree.addNode(4, CLASS_NAME);
+        myTree.addNode(4, TYPE_CONSTRUCTOR_NAME);
         myTree.addNode(5, LCFC_IDENTIFIER, "class3");
         myTree.addNode(4, EQ);
         myTree.addNode(4, CLASS_NAME);
@@ -170,7 +170,7 @@ public abstract class BaseClassParsingTest extends ParsingTestCase {
         myTree.addNode(7, LCFC_IDENTIFIER, "class0");
         myTree.addNode(5, VALUE_CLASS_FIELD_SPECIFICATION);
         myTree.addNode(6, VAL_KEYWORD);
-        myTree.addNode(6, INST_VAR_NAME);
+        myTree.addNode(6, INST_VAR_NAME_DEFINITION);
         myTree.addNode(7, LCFC_IDENTIFIER, "x");
         myTree.addNode(6, COLON);
         myTree.addNode(6, TYPE_CONSTRUCTOR_NAME);
@@ -178,7 +178,7 @@ public abstract class BaseClassParsingTest extends ParsingTestCase {
         myTree.addNode(5, VALUE_CLASS_FIELD_SPECIFICATION);
         myTree.addNode(6, VAL_KEYWORD);
         myTree.addNode(6, MUTABLE_KEYWORD);
-        myTree.addNode(6, INST_VAR_NAME);
+        myTree.addNode(6, INST_VAR_NAME_DEFINITION);
         myTree.addNode(7, LCFC_IDENTIFIER, "x");
         myTree.addNode(6, COLON);
         myTree.addNode(6, TYPE_CONSTRUCTOR_NAME);
@@ -186,7 +186,7 @@ public abstract class BaseClassParsingTest extends ParsingTestCase {
         myTree.addNode(5, VALUE_CLASS_FIELD_SPECIFICATION);
         myTree.addNode(6, VAL_KEYWORD);
         myTree.addNode(6, VIRTUAL_KEYWORD);
-        myTree.addNode(6, INST_VAR_NAME);
+        myTree.addNode(6, INST_VAR_NAME_DEFINITION);
         myTree.addNode(7, LCFC_IDENTIFIER, "x");
         myTree.addNode(6, COLON);
         myTree.addNode(6, TYPE_CONSTRUCTOR_NAME);
@@ -195,7 +195,7 @@ public abstract class BaseClassParsingTest extends ParsingTestCase {
         myTree.addNode(6, VAL_KEYWORD);
         myTree.addNode(6, MUTABLE_KEYWORD);
         myTree.addNode(6, VIRTUAL_KEYWORD);
-        myTree.addNode(6, INST_VAR_NAME);
+        myTree.addNode(6, INST_VAR_NAME_DEFINITION);
         myTree.addNode(7, LCFC_IDENTIFIER, "x");
         myTree.addNode(6, COLON);
         myTree.addNode(6, TYPE_CONSTRUCTOR_NAME);
@@ -296,7 +296,7 @@ public abstract class BaseClassParsingTest extends ParsingTestCase {
         myTree.addNode(7, LCFC_IDENTIFIER, "class0");
         myTree.addNode(5, VALUE_CLASS_FIELD_SPECIFICATION);
         myTree.addNode(6, VAL_KEYWORD);
-        myTree.addNode(6, INST_VAR_NAME);
+        myTree.addNode(6, INST_VAR_NAME_DEFINITION);
         myTree.addNode(7, LCFC_IDENTIFIER, "x");
         myTree.addNode(6, COLON);
         myTree.addNode(6, TYPE_CONSTRUCTOR_NAME);
@@ -304,7 +304,7 @@ public abstract class BaseClassParsingTest extends ParsingTestCase {
         myTree.addNode(5, VALUE_CLASS_FIELD_SPECIFICATION);
         myTree.addNode(6, VAL_KEYWORD);
         myTree.addNode(6, MUTABLE_KEYWORD);
-        myTree.addNode(6, INST_VAR_NAME);
+        myTree.addNode(6, INST_VAR_NAME_DEFINITION);
         myTree.addNode(7, LCFC_IDENTIFIER, "x");
         myTree.addNode(6, COLON);
         myTree.addNode(6, TYPE_CONSTRUCTOR_NAME);
@@ -312,7 +312,7 @@ public abstract class BaseClassParsingTest extends ParsingTestCase {
         myTree.addNode(5, VALUE_CLASS_FIELD_SPECIFICATION);
         myTree.addNode(6, VAL_KEYWORD);
         myTree.addNode(6, VIRTUAL_KEYWORD);
-        myTree.addNode(6, INST_VAR_NAME);
+        myTree.addNode(6, INST_VAR_NAME_DEFINITION);
         myTree.addNode(7, LCFC_IDENTIFIER, "x");
         myTree.addNode(6, COLON);
         myTree.addNode(6, TYPE_CONSTRUCTOR_NAME);
@@ -321,7 +321,7 @@ public abstract class BaseClassParsingTest extends ParsingTestCase {
         myTree.addNode(6, VAL_KEYWORD);
         myTree.addNode(6, MUTABLE_KEYWORD);
         myTree.addNode(6, VIRTUAL_KEYWORD);
-        myTree.addNode(6, INST_VAR_NAME);
+        myTree.addNode(6, INST_VAR_NAME_DEFINITION);
         myTree.addNode(7, LCFC_IDENTIFIER, "x");
         myTree.addNode(6, COLON);
         myTree.addNode(6, TYPE_CONSTRUCTOR_NAME);
@@ -477,7 +477,7 @@ public abstract class BaseClassParsingTest extends ParsingTestCase {
         myTree.addNode(3, CLASS_KEYWORD);
         myTree.addNode(3, TYPE_KEYWORD);
         myTree.addNode(3, CLASS_TYPE_BINDING);
-        myTree.addNode(4, CLASS_NAME);
+        myTree.addNode(4, TYPE_CONSTRUCTOR_NAME);
         myTree.addNode(5, LCFC_IDENTIFIER, "class1");
         myTree.addNode(4, EQ);
     }

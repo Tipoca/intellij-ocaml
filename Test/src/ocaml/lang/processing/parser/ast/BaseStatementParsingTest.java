@@ -35,7 +35,7 @@ public abstract class BaseStatementParsingTest extends ParsingTestCase {
     public void testExternal() throws Exception {
         myTree.addNode(2, EXTERNAL_DEFINITION);
         myTree.addNode(3, EXTERNAL_KEYWORD);
-        myTree.addNode(3, VALUE_NAME);
+        myTree.addNode(3, VALUE_NAME_PATTERN);
         myTree.addNode(4, LCFC_IDENTIFIER, "myFunc");
         myTree.addNode(3, COLON);
         myTree.addNode(3, FUNCTION_TYPE_EXPRESSION);

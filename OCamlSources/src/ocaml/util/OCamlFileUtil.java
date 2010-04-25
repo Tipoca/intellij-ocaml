@@ -23,9 +23,11 @@ import com.intellij.openapi.module.Module;
 import com.intellij.openapi.roots.CompilerModuleExtension;
 import com.intellij.openapi.roots.ProjectFileIndex;
 import com.intellij.openapi.vfs.VirtualFile;
+import ocaml.lang.fileType.OCamlFileType;
 import ocaml.lang.fileType.ml.MLFileType;
 import ocaml.lang.fileType.mli.MLIFileType;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -67,5 +69,25 @@ public class OCamlFileUtil {
         }
 
         return destDir;
+    }
+
+    @NotNull
+    public static String getAnotherFileName(@NotNull final VirtualFile file) {
+        final FileType type = file.getFileType();
+        assert type instanceof OCamlFileType;
+        return getFileName(file.getNameWithoutExtension(), ((OCamlFileType) type).getAnotherFileType());
+    }
+
+    @NotNull
+    public static String getFileName(@NotNull final String nameWithoutExtension, @NotNull final FileType type) {
+        return nameWithoutExtension + "." + type.getDefaultExtension();
+    }
+
+    @Nullable
+    public static VirtualFile getAnotherFile(@Nullable final VirtualFile file) {
+        if (file == null) return null;
+        final VirtualFile parent = file.getParent();
+        if (parent == null) return null;
+        return parent.findChild(getAnotherFileName(file));
     }
 }

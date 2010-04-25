@@ -90,6 +90,10 @@ public abstract class BaseOCamlReference extends BaseOCamlNamedElement implement
         return OCamlResolvingUtil.resolve(getResolvingContext(), getPossibleResolvedTypes());
     }
 
+    public boolean isBundled() {
+        return false;
+    }
+
     @NotNull
     private ResolvingContext getResolvingContext() {
         return new ResolvingContext(this, getModulePath());

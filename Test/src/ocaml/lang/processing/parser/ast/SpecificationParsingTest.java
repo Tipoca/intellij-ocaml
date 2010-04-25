@@ -38,14 +38,14 @@ public class SpecificationParsingTest extends BaseStatementParsingTest {
     public void testDoubleSemicolon() throws Exception {
         myTree.addNode(2, VALUE_SPECIFICATION);
         myTree.addNode(3, VAL_KEYWORD);
-        myTree.addNode(3, VALUE_NAME);
+        myTree.addNode(3, VALUE_NAME_PATTERN);
         myTree.addNode(4, LCFC_IDENTIFIER, "a");
         myTree.addNode(3, COLON);
         myTree.addNode(3, TYPE_CONSTRUCTOR_NAME);
         myTree.addNode(4, LCFC_IDENTIFIER, "int");
         myTree.addNode(2, VALUE_SPECIFICATION);
         myTree.addNode(3, VAL_KEYWORD);
-        myTree.addNode(3, VALUE_NAME);
+        myTree.addNode(3, VALUE_NAME_PATTERN);
         myTree.addNode(4, LCFC_IDENTIFIER, "b");
         myTree.addNode(3, COLON);
         myTree.addNode(3, TYPE_CONSTRUCTOR_NAME);
@@ -53,7 +53,7 @@ public class SpecificationParsingTest extends BaseStatementParsingTest {
         myTree.addNode(2, SEMICOLON_SEMICOLON);
         myTree.addNode(2, VALUE_SPECIFICATION);
         myTree.addNode(3, VAL_KEYWORD);
-        myTree.addNode(3, VALUE_NAME);
+        myTree.addNode(3, VALUE_NAME_PATTERN);
         myTree.addNode(4, LCFC_IDENTIFIER, "c");
         myTree.addNode(3, COLON);
         myTree.addNode(3, TYPE_CONSTRUCTOR_NAME);
@@ -65,7 +65,7 @@ public class SpecificationParsingTest extends BaseStatementParsingTest {
     public void testValueSpecification() throws Exception {
         myTree.addNode(2, VALUE_SPECIFICATION);
         myTree.addNode(3, VAL_KEYWORD);
-        myTree.addNode(3, VALUE_NAME);
+        myTree.addNode(3, VALUE_NAME_PATTERN);
         myTree.addNode(4, LCFC_IDENTIFIER, "a");
         myTree.addNode(3, COLON);
         myTree.addNode(3, TYPE_CONSTRUCTOR_NAME);
@@ -77,7 +77,7 @@ public class SpecificationParsingTest extends BaseStatementParsingTest {
     public void testExceptionSpecification() throws Exception {
         myTree.addNode(2, EXCEPTION_SPECIFICATION);
         myTree.addNode(3, EXCEPTION_KEYWORD);
-        myTree.addNode(3, CONSTRUCTOR_NAME);
+        myTree.addNode(3, CONSTRUCTOR_NAME_DEFINITION);
         myTree.addNode(4, UCFC_IDENTIFIER, "Error");
 
         doTest("exception Error", myTree.getStringRepresentation());
@@ -86,7 +86,7 @@ public class SpecificationParsingTest extends BaseStatementParsingTest {
 
         myTree.addNode(2, EXCEPTION_SPECIFICATION);
         myTree.addNode(3, EXCEPTION_KEYWORD);
-        myTree.addNode(3, CONSTRUCTOR_NAME);
+        myTree.addNode(3, CONSTRUCTOR_NAME_DEFINITION);
         myTree.addNode(4, UCFC_IDENTIFIER, "Error");
         myTree.addNode(3, OF_KEYWORD);
         myTree.addNode(3, TYPE_CONSTRUCTOR_NAME);

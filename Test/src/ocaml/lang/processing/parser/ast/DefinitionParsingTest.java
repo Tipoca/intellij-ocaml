@@ -41,16 +41,18 @@ public class DefinitionParsingTest extends BaseStatementParsingTest {
         myTree.addNode(2, LET_STATEMENT);
         myTree.addNode(3, LET_KEYWORD);
         myTree.addNode(3, LET_BINDING);
-        myTree.addNode(4, VALUE_NAME_PATTERN);
-        myTree.addNode(5, LCFC_IDENTIFIER, "a");
+        myTree.addNode(4, LET_BINDING_PATTERN);
+        myTree.addNode(5, VALUE_NAME_PATTERN);
+        myTree.addNode(6, LCFC_IDENTIFIER, "a");
         myTree.addNode(4, EQ);
         myTree.addNode(4, CONSTANT);
         myTree.addNode(5, INTEGER_LITERAL, "7");
         myTree.addNode(2, LET_STATEMENT);
         myTree.addNode(3, LET_KEYWORD);
         myTree.addNode(3, LET_BINDING);
-        myTree.addNode(4, VALUE_NAME_PATTERN);
-        myTree.addNode(5, LCFC_IDENTIFIER, "c");
+        myTree.addNode(4, LET_BINDING_PATTERN);
+        myTree.addNode(5, VALUE_NAME_PATTERN);
+        myTree.addNode(6, LCFC_IDENTIFIER, "c");
         myTree.addNode(4, EQ);
         myTree.addNode(4, CONSTANT);
         myTree.addNode(5, INTEGER_LITERAL, "0");
@@ -65,8 +67,9 @@ public class DefinitionParsingTest extends BaseStatementParsingTest {
         myTree.addNode(2, LET_STATEMENT);
         myTree.addNode(3, LET_KEYWORD);
         myTree.addNode(3, LET_BINDING);
-        myTree.addNode(4, VALUE_NAME_PATTERN);
-        myTree.addNode(5, LCFC_IDENTIFIER, "c");
+        myTree.addNode(4, LET_BINDING_PATTERN);
+        myTree.addNode(5, VALUE_NAME_PATTERN);
+        myTree.addNode(6, LCFC_IDENTIFIER, "c");
         myTree.addNode(4, EQ);
         myTree.addNode(4, CONSTANT);
         myTree.addNode(5, INTEGER_LITERAL, "0");
@@ -74,8 +77,9 @@ public class DefinitionParsingTest extends BaseStatementParsingTest {
         myTree.addNode(2, LET_EXPRESSION);
         myTree.addNode(3, LET_KEYWORD);
         myTree.addNode(3, LET_BINDING);
-        myTree.addNode(4, VALUE_NAME_PATTERN);
-        myTree.addNode(5, LCFC_IDENTIFIER, "s");
+        myTree.addNode(4, LET_BINDING_PATTERN);
+        myTree.addNode(5, VALUE_NAME_PATTERN);
+        myTree.addNode(6, LCFC_IDENTIFIER, "s");
         myTree.addNode(4, EQ);
         myTree.addNode(4, CONSTANT);
         myTree.addNode(5, INTEGER_LITERAL, "2");
@@ -115,7 +119,7 @@ public class DefinitionParsingTest extends BaseStatementParsingTest {
     public void testExceptionDefinition() throws Exception {
         myTree.addNode(2, EXCEPTION_DEFINITION);
         myTree.addNode(3, EXCEPTION_KEYWORD);
-        myTree.addNode(3, CONSTRUCTOR_NAME);
+        myTree.addNode(3, CONSTRUCTOR_NAME_DEFINITION);
         myTree.addNode(4, UCFC_IDENTIFIER, "Error");
 
         doTest("exception Error", myTree.getStringRepresentation());
@@ -124,7 +128,7 @@ public class DefinitionParsingTest extends BaseStatementParsingTest {
 
         myTree.addNode(2, EXCEPTION_DEFINITION);
         myTree.addNode(3, EXCEPTION_KEYWORD);
-        myTree.addNode(3, CONSTRUCTOR_NAME);
+        myTree.addNode(3, CONSTRUCTOR_NAME_DEFINITION);
         myTree.addNode(4, UCFC_IDENTIFIER, "Error1");
         myTree.addNode(3, EQ);
         myTree.addNode(3, CONSTRUCTOR_NAME);
@@ -136,7 +140,7 @@ public class DefinitionParsingTest extends BaseStatementParsingTest {
 
         myTree.addNode(2, EXCEPTION_DEFINITION);
         myTree.addNode(3, EXCEPTION_KEYWORD);
-        myTree.addNode(3, CONSTRUCTOR_NAME);
+        myTree.addNode(3, CONSTRUCTOR_NAME_DEFINITION);
         myTree.addNode(4, UCFC_IDENTIFIER, "Error");
         myTree.addNode(3, OF_KEYWORD);
         myTree.addNode(3, TYPE_CONSTRUCTOR_NAME);

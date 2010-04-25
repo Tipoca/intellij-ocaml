@@ -59,6 +59,37 @@ public class PatternParsingTest extends MLParsingTestCase {
         doTest("match a with _ -> 0", myTree.getStringRepresentation());
     }
 
+    public void testCharRange() throws Exception {
+        addStartNodes();
+        myTree.addNode(4, CHAR_RANGE_PATTERN);
+        myTree.addNode(5, CHAR_LITERAL, "'a'");
+        myTree.addNode(5, DOT_DOT);
+        myTree.addNode(5, CHAR_LITERAL, "'z'");
+        addEndNodes();
+
+        doTest("match a with 'a' .. 'z' -> 0", myTree.getStringRepresentation());
+    }
+
+    public void testEmptyListPattern() throws Exception {
+        addStartNodes();
+        myTree.addNode(4, LIST_PATTERN);
+        myTree.addNode(5, LBRACKET);
+        myTree.addNode(5, RBRACKET);
+        addEndNodes();
+
+        doTest("match a with [] -> 0", myTree.getStringRepresentation());
+    }
+
+    public void testEmptyArrayPattern() throws Exception {
+        addStartNodes();
+        myTree.addNode(4, ARRAY_PATTERN);
+        myTree.addNode(5, LBRACKET_VBAR);
+        myTree.addNode(5, VBAR_RBRACKET);
+        addEndNodes();
+
+        doTest("match a with [||] -> 0", myTree.getStringRepresentation());
+    }
+
     public void testConstant() throws Exception {
         addStartNodes();
         myTree.addNode(4, CONSTANT);
@@ -115,7 +146,7 @@ public class PatternParsingTest extends MLParsingTestCase {
         myTree.addNode(5, CONSTANT);
         myTree.addNode(6, INTEGER_LITERAL, "1");
         myTree.addNode(5, AS_KEYWORD);
-        myTree.addNode(5, VALUE_NAME);
+        myTree.addNode(5, VALUE_NAME_PATTERN);
         myTree.addNode(6, LCFC_IDENTIFIER, "a");
         addEndNodes();
 
@@ -215,17 +246,19 @@ public class PatternParsingTest extends MLParsingTestCase {
         addStartNodes();
         myTree.addNode(4, RECORD_PATTERN);
         myTree.addNode(5, LBRACE);
-        myTree.addNode(5, FIELD_NAME);
-        myTree.addNode(6, LCFC_IDENTIFIER, "a");
-        myTree.addNode(5, EQ);
-        myTree.addNode(5, CONSTANT);
-        myTree.addNode(6, INTEGER_LITERAL, "0");
+        myTree.addNode(5, RECORD_FIELD_INITIALIZATION_IN_PATTERN);
+        myTree.addNode(6, FIELD_NAME);
+        myTree.addNode(7, LCFC_IDENTIFIER, "a");
+        myTree.addNode(6, EQ);
+        myTree.addNode(6, CONSTANT);
+        myTree.addNode(7, INTEGER_LITERAL, "0");
         myTree.addNode(5, SEMICOLON);
-        myTree.addNode(5, FIELD_NAME);
-        myTree.addNode(6, LCFC_IDENTIFIER, "b");
-        myTree.addNode(5, EQ);
-        myTree.addNode(5, CONSTANT);
-        myTree.addNode(6, INTEGER_LITERAL, "1");
+        myTree.addNode(5, RECORD_FIELD_INITIALIZATION_IN_PATTERN);
+        myTree.addNode(6, FIELD_NAME);
+        myTree.addNode(7, LCFC_IDENTIFIER, "b");
+        myTree.addNode(6, EQ);
+        myTree.addNode(6, CONSTANT);
+        myTree.addNode(7, INTEGER_LITERAL, "1");
         myTree.addNode(5, RBRACE);
         addEndNodes();
 

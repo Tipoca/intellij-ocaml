@@ -61,8 +61,9 @@ public class NameParsingTest extends MLParsingTestCase {
         myTree.addNode(2, LET_STATEMENT);
         myTree.addNode(3, LET_KEYWORD);
         myTree.addNode(3, LET_BINDING);
-        myTree.addNode(4, VALUE_NAME_PATTERN);
-        myTree.addNode(5, LCFC_IDENTIFIER, "a");
+        myTree.addNode(4, LET_BINDING_PATTERN);
+        myTree.addNode(5, VALUE_NAME_PATTERN);
+        myTree.addNode(6, LCFC_IDENTIFIER, "a");
         myTree.addNode(4, PARAMETER);
         myTree.addNode(5, TILDE);
         myTree.addNode(5, LABEL_DEFINITION);

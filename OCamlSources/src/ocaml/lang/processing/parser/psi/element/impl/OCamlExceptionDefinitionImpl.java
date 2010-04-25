@@ -19,20 +19,18 @@
 package ocaml.lang.processing.parser.psi.element.impl;
 
 import com.intellij.lang.ASTNode;
-import ocaml.lang.feature.resolving.NameType;
-import ocaml.lang.feature.resolving.impl.BaseOCamlResolvedReference;
-import ocaml.lang.processing.parser.ast.element.OCamlElementTypes;
-import ocaml.lang.processing.parser.ast.util.OCamlASTTreeUtil;
+import ocaml.lang.feature.resolving.ResolvingBuilder;
+import ocaml.lang.feature.resolving.util.OCamlDeclarationsUtil;
 import ocaml.lang.processing.parser.psi.OCamlElementVisitor;
+import ocaml.lang.processing.parser.psi.element.OCamlConstructorNameDefinition;
 import ocaml.lang.processing.parser.psi.element.OCamlExceptionDefinition;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Maxim.Manuylov
  *         Date: 21.03.2009
  */
-public class OCamlExceptionDefinitionImpl extends BaseOCamlResolvedReference implements OCamlExceptionDefinition {
+public class OCamlExceptionDefinitionImpl extends BaseOCamlElement implements OCamlExceptionDefinition {
     public OCamlExceptionDefinitionImpl(@NotNull final ASTNode node) {
         super(node);
     }
@@ -41,19 +39,8 @@ public class OCamlExceptionDefinitionImpl extends BaseOCamlResolvedReference imp
         visitor.visitExceptionDefinition(this);
     }
 
-    @Nullable
-    public ASTNode getNameElement() {
-        final ASTNode firstChildNode = getNode().getFirstChildNode();
-        return firstChildNode == null ? null : OCamlASTTreeUtil.checkNodeType(firstChildNode.getTreeNext(), OCamlElementTypes.CONSTRUCTOR_NAME);
-    }
-
-    @NotNull
-    public NameType getNameType() {
-        return NameType.UpperCase;
-    }
-
-    @NotNull
-    public String getDescription() {
-        return "exception";
+    @Override
+    public boolean processDeclarations(@NotNull final ResolvingBuilder builder) {
+        return OCamlDeclarationsUtil.processDeclarationsInChildren(builder, this, OCamlConstructorNameDefinition.class);
     }
 }

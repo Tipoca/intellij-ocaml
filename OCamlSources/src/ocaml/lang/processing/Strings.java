@@ -185,6 +185,7 @@ public interface Strings {
     String ACCENT_EXPECTED = "'`' expected";
     String RBRACKET_EXPECTED = "']' expected";
     String GT_EXPECTED = "'>' expected";
+    String CHAR_LITERAL_EXPECTED = "character literal expected";
     String DOT_EXPECTED = "'.' expected";
     String SEMICOLON_SEMICOLON_EXPECTED = "';;' expected";
     String INHERIT_OR_VAL_OR_METHOD_OR_CONSTRAINT_OR_INITIALIZER_EXPECTED = "'inherit', 'val', 'method', 'constraint' or 'initializer' expected";

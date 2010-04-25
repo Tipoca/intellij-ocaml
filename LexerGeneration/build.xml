@@ -21,20 +21,21 @@
   <taskdef name="jflex" classname="JFlex.anttask.JFlexTask" />
 
   <property name="module.ocaml.sources.basedir" value="${basedir}/../OCamlSources"/>
+  <property name="skeleton.file" value="${basedir}/jflex/idea-flex.skeleton"/>
 
   <target name="Generate.Highlighting.Lexer">
-    <jflex file="${basedir}/flex/highlighting-lexer-specification.flex"
+    <jflex file="${basedir}/src/highlighting-lexer-specification.flex"
            destdir="${module.ocaml.sources.basedir}/src"
-           skeleton="${basedir}/flex/idea-flex.skeleton"
+           skeleton="${skeleton.file}"
            verbose="on"
            charat="on"
            nobak="on" />
   </target>
 
   <target name="Generate.Parsing.Lexer">
-    <jflex file="${basedir}/flex/parsing-lexer-specification.flex"
+    <jflex file="${basedir}/src/parsing-lexer-specification.flex"
            destdir="${module.ocaml.sources.basedir}/src"
-           skeleton="${basedir}/flex/idea-flex.skeleton"
+           skeleton="${skeleton.file}"
            verbose="on"
            charat="on"
            nobak="on" />

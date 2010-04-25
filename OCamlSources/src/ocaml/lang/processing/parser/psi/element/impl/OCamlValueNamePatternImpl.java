@@ -20,35 +20,23 @@ package ocaml.lang.processing.parser.psi.element.impl;
 
 import com.intellij.lang.ASTNode;
 import ocaml.lang.feature.resolving.NameType;
-import ocaml.lang.feature.resolving.OCamlResolvedReference;
-import ocaml.lang.feature.resolving.ResolvingBuilder;
-import ocaml.lang.feature.resolving.impl.BaseOCamlReference;
+import ocaml.lang.feature.resolving.impl.BaseOCamlSelfResolvedReference;
 import ocaml.lang.processing.parser.psi.OCamlElementVisitor;
-import ocaml.lang.processing.parser.psi.element.OCamlExtendedModuleName;
 import ocaml.lang.processing.parser.psi.element.OCamlValueNamePattern;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * @author Maxim.Manuylov
  *         Date: 15.04.2010
  */
-public class OCamlValueNamePatternImpl extends BaseOCamlReference implements OCamlValueNamePattern {
+public class OCamlValueNamePatternImpl extends BaseOCamlSelfResolvedReference implements OCamlValueNamePattern {
     public OCamlValueNamePatternImpl(@NotNull final ASTNode node) {
         super(node);
     }
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {
         visitor.visitValueNamePattern(this);
-    }
-
-    @Nullable
-    public ASTNode getNameElement() {
-        return getNode();
     }
 
     @NotNull
@@ -59,30 +47,5 @@ public class OCamlValueNamePatternImpl extends BaseOCamlReference implements OCa
     @NotNull
     public String getDescription() {
         return "variable";
-    }
-
-    @NotNull
-    public List<Class<? extends OCamlResolvedReference>> getPossibleResolvedTypes() {
-        return Arrays.<Class<? extends OCamlResolvedReference>>asList(OCamlValueNamePattern.class);
-    }
-
-    @NotNull
-    public List<OCamlExtendedModuleName> getModulePath() {
-        return Collections.emptyList();
-    }
-
-    @Nullable
-    public String getCanonicalPath() {
-        return getCanonicalName(); //todo smth
-    }
-
-    @Override
-    public OCamlResolvedReference resolve() {  //todo getVariants()???
-        return this;
-    }
-
-    @Override
-    public boolean processDeclarations(@NotNull final ResolvingBuilder builder) {
-        return builder.getProcessor().process(this);
     }
 }

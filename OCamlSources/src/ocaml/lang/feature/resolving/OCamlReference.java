@@ -38,4 +38,6 @@ public interface OCamlReference extends OCamlNamedElement, PsiReference {
 
     @NotNull
     List<? extends OCamlExtendedModuleName> getModulePath();
+
+    boolean isBundled();
 }

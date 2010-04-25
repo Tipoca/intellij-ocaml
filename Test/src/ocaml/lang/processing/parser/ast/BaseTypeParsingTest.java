@@ -47,13 +47,14 @@ public abstract class BaseTypeParsingTest extends ParsingTestCase {
     public void testTypeParameters() throws Exception {
         myTree.addNode(2, TYPE_DEFINITION);
         myTree.addNode(3, TYPE_KEYWORD);
-        myTree.addNode(3, TYPE_BINDING);
+        myTree.addNode(3, TYPE_PARAMETERIZED_BINDING);
         myTree.addNode(4, PLUS_MINUS_TYPE_PARAMETER);
         myTree.addNode(5, QUOTE);
         myTree.addNode(5, TYPE_PARAMETER_NAME);
         myTree.addNode(6, LCFC_IDENTIFIER, "a");
-        myTree.addNode(4, TYPE_CONSTRUCTOR_NAME);
-        myTree.addNode(5, LCFC_IDENTIFIER, "t");
+        myTree.addNode(4, TYPE_BINDING);
+        myTree.addNode(5, TYPE_CONSTRUCTOR_NAME);
+        myTree.addNode(6, LCFC_IDENTIFIER, "t");
 
         doTest("type 'a t", myTree.getStringRepresentation());
 
@@ -61,13 +62,14 @@ public abstract class BaseTypeParsingTest extends ParsingTestCase {
 
         myTree.addNode(2, TYPE_DEFINITION);
         myTree.addNode(3, TYPE_KEYWORD);
-        myTree.addNode(3, TYPE_BINDING);
+        myTree.addNode(3, TYPE_PARAMETERIZED_BINDING);
         myTree.addNode(4, PLUS_MINUS_TYPE_PARAMETER);
         myTree.addNode(5, QUOTE);
         myTree.addNode(5, TYPE_PARAMETER_NAME);
         myTree.addNode(6, LCFC_IDENTIFIER, "_a");
-        myTree.addNode(4, TYPE_CONSTRUCTOR_NAME);
-        myTree.addNode(5, LCFC_IDENTIFIER, "t");
+        myTree.addNode(4, TYPE_BINDING);
+        myTree.addNode(5, TYPE_CONSTRUCTOR_NAME);
+        myTree.addNode(6, LCFC_IDENTIFIER, "t");
 
         doTest("type '_a t", myTree.getStringRepresentation());
 
@@ -75,13 +77,14 @@ public abstract class BaseTypeParsingTest extends ParsingTestCase {
 
         myTree.addNode(2, TYPE_DEFINITION);
         myTree.addNode(3, TYPE_KEYWORD);
-        myTree.addNode(3, TYPE_BINDING);
+        myTree.addNode(3, TYPE_PARAMETERIZED_BINDING);
         myTree.addNode(4, PLUS_MINUS_TYPE_PARAMETER);
         myTree.addNode(5, QUOTE);
         myTree.addNode(5, TYPE_PARAMETER_NAME);
         myTree.addNode(6, UCFC_IDENTIFIER, "A");
-        myTree.addNode(4, TYPE_CONSTRUCTOR_NAME);
-        myTree.addNode(5, LCFC_IDENTIFIER, "t");
+        myTree.addNode(4, TYPE_BINDING);
+        myTree.addNode(5, TYPE_CONSTRUCTOR_NAME);
+        myTree.addNode(6, LCFC_IDENTIFIER, "t");
 
         doTest("type 'A t", myTree.getStringRepresentation());
 
@@ -89,14 +92,15 @@ public abstract class BaseTypeParsingTest extends ParsingTestCase {
 
         myTree.addNode(2, TYPE_DEFINITION);
         myTree.addNode(3, TYPE_KEYWORD);
-        myTree.addNode(3, TYPE_BINDING);
+        myTree.addNode(3, TYPE_PARAMETERIZED_BINDING);
         myTree.addNode(4, PLUS_MINUS_TYPE_PARAMETER);
         myTree.addNode(5, PLUS);
         myTree.addNode(5, QUOTE);
         myTree.addNode(5, TYPE_PARAMETER_NAME);
         myTree.addNode(6, LCFC_IDENTIFIER, "a");
-        myTree.addNode(4, TYPE_CONSTRUCTOR_NAME);
-        myTree.addNode(5, LCFC_IDENTIFIER, "t");
+        myTree.addNode(4, TYPE_BINDING);
+        myTree.addNode(5, TYPE_CONSTRUCTOR_NAME);
+        myTree.addNode(6, LCFC_IDENTIFIER, "t");
 
         doTest("type +'a t", myTree.getStringRepresentation());
 
@@ -104,14 +108,15 @@ public abstract class BaseTypeParsingTest extends ParsingTestCase {
 
         myTree.addNode(2, TYPE_DEFINITION);
         myTree.addNode(3, TYPE_KEYWORD);
-        myTree.addNode(3, TYPE_BINDING);
+        myTree.addNode(3, TYPE_PARAMETERIZED_BINDING);
         myTree.addNode(4, PLUS_MINUS_TYPE_PARAMETER);
         myTree.addNode(5, MINUS);
         myTree.addNode(5, QUOTE);
         myTree.addNode(5, TYPE_PARAMETER_NAME);
         myTree.addNode(6, LCFC_IDENTIFIER, "a");
-        myTree.addNode(4, TYPE_CONSTRUCTOR_NAME);
-        myTree.addNode(5, LCFC_IDENTIFIER, "t");
+        myTree.addNode(4, TYPE_BINDING);
+        myTree.addNode(5, TYPE_CONSTRUCTOR_NAME);
+        myTree.addNode(6, LCFC_IDENTIFIER, "t");
 
         doTest("type -'a t", myTree.getStringRepresentation());
 
@@ -119,7 +124,7 @@ public abstract class BaseTypeParsingTest extends ParsingTestCase {
 
         myTree.addNode(2, TYPE_DEFINITION);
         myTree.addNode(3, TYPE_KEYWORD);
-        myTree.addNode(3, TYPE_BINDING);
+        myTree.addNode(3, TYPE_PARAMETERIZED_BINDING);
         myTree.addNode(4, PARENTHESES);
         myTree.addNode(5, LPAR);
         myTree.addNode(5, PLUS_MINUS_TYPE_PARAMETER);
@@ -127,8 +132,9 @@ public abstract class BaseTypeParsingTest extends ParsingTestCase {
         myTree.addNode(6, TYPE_PARAMETER_NAME);
         myTree.addNode(7, LCFC_IDENTIFIER, "a");
         myTree.addNode(5, RPAR);
-        myTree.addNode(4, TYPE_CONSTRUCTOR_NAME);
-        myTree.addNode(5, LCFC_IDENTIFIER, "t");
+        myTree.addNode(4, TYPE_BINDING);
+        myTree.addNode(5, TYPE_CONSTRUCTOR_NAME);
+        myTree.addNode(6, LCFC_IDENTIFIER, "t");
 
         doTest("type ('a) t", myTree.getStringRepresentation());
 
@@ -136,7 +142,7 @@ public abstract class BaseTypeParsingTest extends ParsingTestCase {
 
         myTree.addNode(2, TYPE_DEFINITION);
         myTree.addNode(3, TYPE_KEYWORD);
-        myTree.addNode(3, TYPE_BINDING);
+        myTree.addNode(3, TYPE_PARAMETERIZED_BINDING);
         myTree.addNode(4, PARENTHESES);
         myTree.addNode(5, LPAR);
         myTree.addNode(5, PLUS_MINUS_TYPE_PARAMETER);
@@ -145,8 +151,9 @@ public abstract class BaseTypeParsingTest extends ParsingTestCase {
         myTree.addNode(6, TYPE_PARAMETER_NAME);
         myTree.addNode(7, LCFC_IDENTIFIER, "a");
         myTree.addNode(5, RPAR);
-        myTree.addNode(4, TYPE_CONSTRUCTOR_NAME);
-        myTree.addNode(5, LCFC_IDENTIFIER, "t");
+        myTree.addNode(4, TYPE_BINDING);
+        myTree.addNode(5, TYPE_CONSTRUCTOR_NAME);
+        myTree.addNode(6, LCFC_IDENTIFIER, "t");
 
         doTest("type (+'a) t", myTree.getStringRepresentation());
 
@@ -154,7 +161,7 @@ public abstract class BaseTypeParsingTest extends ParsingTestCase {
 
         myTree.addNode(2, TYPE_DEFINITION);
         myTree.addNode(3, TYPE_KEYWORD);
-        myTree.addNode(3, TYPE_BINDING);
+        myTree.addNode(3, TYPE_PARAMETERIZED_BINDING);
         myTree.addNode(4, PARENTHESES);
         myTree.addNode(5, LPAR);
         myTree.addNode(5, PLUS_MINUS_TYPE_PARAMETER);
@@ -163,8 +170,9 @@ public abstract class BaseTypeParsingTest extends ParsingTestCase {
         myTree.addNode(6, TYPE_PARAMETER_NAME);
         myTree.addNode(7, LCFC_IDENTIFIER, "a");
         myTree.addNode(5, RPAR);
-        myTree.addNode(4, TYPE_CONSTRUCTOR_NAME);
-        myTree.addNode(5, LCFC_IDENTIFIER, "t");
+        myTree.addNode(4, TYPE_BINDING);
+        myTree.addNode(5, TYPE_CONSTRUCTOR_NAME);
+        myTree.addNode(6, LCFC_IDENTIFIER, "t");
 
         doTest("type (-'a) t", myTree.getStringRepresentation());
 
@@ -172,7 +180,7 @@ public abstract class BaseTypeParsingTest extends ParsingTestCase {
 
         myTree.addNode(2, TYPE_DEFINITION);
         myTree.addNode(3, TYPE_KEYWORD);
-        myTree.addNode(3, TYPE_BINDING);
+        myTree.addNode(3, TYPE_PARAMETERIZED_BINDING);
         myTree.addNode(4, PARENTHESES);
         myTree.addNode(5, LPAR);
         myTree.addNode(5, PLUS_MINUS_TYPE_PARAMETER);
@@ -185,8 +193,9 @@ public abstract class BaseTypeParsingTest extends ParsingTestCase {
         myTree.addNode(6, TYPE_PARAMETER_NAME);
         myTree.addNode(7, LCFC_IDENTIFIER, "b");
         myTree.addNode(5, RPAR);
-        myTree.addNode(4, TYPE_CONSTRUCTOR_NAME);
-        myTree.addNode(5, LCFC_IDENTIFIER, "t");
+        myTree.addNode(4, TYPE_BINDING);
+        myTree.addNode(5, TYPE_CONSTRUCTOR_NAME);
+        myTree.addNode(6, LCFC_IDENTIFIER, "t");
 
         doTest("type ('a, 'b) t", myTree.getStringRepresentation());
 
@@ -194,7 +203,7 @@ public abstract class BaseTypeParsingTest extends ParsingTestCase {
 
         myTree.addNode(2, TYPE_DEFINITION);
         myTree.addNode(3, TYPE_KEYWORD);
-        myTree.addNode(3, TYPE_BINDING);
+        myTree.addNode(3, TYPE_PARAMETERIZED_BINDING);
         myTree.addNode(4, PARENTHESES);
         myTree.addNode(5, LPAR);
         myTree.addNode(5, PLUS_MINUS_TYPE_PARAMETER);
@@ -209,8 +218,9 @@ public abstract class BaseTypeParsingTest extends ParsingTestCase {
         myTree.addNode(6, TYPE_PARAMETER_NAME);
         myTree.addNode(7, LCFC_IDENTIFIER, "b");
         myTree.addNode(5, RPAR);
-        myTree.addNode(4, TYPE_CONSTRUCTOR_NAME);
-        myTree.addNode(5, LCFC_IDENTIFIER, "t");
+        myTree.addNode(4, TYPE_BINDING);
+        myTree.addNode(5, TYPE_CONSTRUCTOR_NAME);
+        myTree.addNode(6, LCFC_IDENTIFIER, "t");
 
         doTest("type (+'a, -'b) t", myTree.getStringRepresentation());
     }

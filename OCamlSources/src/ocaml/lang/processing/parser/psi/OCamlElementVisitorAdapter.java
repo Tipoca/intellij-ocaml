@@ -497,6 +497,15 @@ public class OCamlElementVisitorAdapter extends OCamlElementVisitor {
     public void visitRecordFieldInitializationInPattern(@NotNull final OCamlRecordFieldInitializationInPattern psiElement) {
     }
 
-    public void visitInstVarNamePattern(@NotNull final OCamlInstVarNamePattern psiElement) {
+    public void visitInstVarNameDefinition(@NotNull final OCamlInstVarNameDefinition psiElement) {
+    }
+
+    public void visitConstructorNameDefinition(@NotNull final OCamlConstructorNameDefinition psiElement) {
+    }
+
+    public void visitTypeParameterizedBinding(@NotNull final OCamlTypeParameterizedBinding psiElement) {
+    }
+
+    public void visitCharRangePattern(@NotNull final OCamlCharRangePattern psiElement) {
     }
 }

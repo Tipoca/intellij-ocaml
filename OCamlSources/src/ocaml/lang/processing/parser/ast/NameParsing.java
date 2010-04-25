@@ -58,8 +58,8 @@ class NameParsing extends Parsing {
         }
     }
 
-    public static void parseConstructorPath(@NotNull final PsiBuilder builder) {
-        if (!tryParseConstructorPath(builder)) {
+    public static void parseConstructorPath(@NotNull final PsiBuilder builder, final boolean isDefinition) {
+        if (!tryParseConstructorPath(builder, isDefinition)) {
             builder.error(Strings.CONSTRUCTOR_PATH_EXPECTED);
         }
     }
@@ -226,14 +226,14 @@ class NameParsing extends Parsing {
         }
     }
 
-    public static void parseConstructorName(@NotNull final PsiBuilder builder) {
-        if (!tryParseConstructorName(builder)) {
+    public static void parseConstructorName(@NotNull final PsiBuilder builder, final boolean isDefinition) {
+        if (!tryParseConstructorName(builder, isDefinition)) {
             builder.error(Strings.CONSTRUCTOR_NAME_EXPECTED);
         }
     }
 
-    public static void parseInstVarName(@NotNull final PsiBuilder builder, final boolean isPattern) {
-        if (!tryParseInstVarName(builder, isPattern)) {
+    public static void parseInstVarName(@NotNull final PsiBuilder builder, final boolean isDefinition) {
+        if (!tryParseInstVarName(builder, isDefinition)) {
             builder.error(Strings.INSTANCE_VARIABLE_NAME_EXPECTED);
         }
     }
@@ -290,11 +290,11 @@ class NameParsing extends Parsing {
         return true;
     }
 
-    public static boolean tryParseConstructorPath(@NotNull final PsiBuilder builder) {
-        return tryParseModulePathWithLastPart(builder, OCamlElementTypes.CONSTRUCTOR_PATH);
+    public static boolean tryParseConstructorPath(@NotNull final PsiBuilder builder, final boolean isDefinition) {
+        return tryParseModulePathWithLastPart(builder, OCamlElementTypes.CONSTRUCTOR_PATH, isDefinition);
     }
 
-    private static boolean tryParseConstructorName(@NotNull final PsiBuilder builder) {
+    private static boolean tryParseConstructorName(@NotNull final PsiBuilder builder, final boolean isDefinition) {
         final PsiBuilder.Marker constructorNameMarker = builder.mark();
 
         if (!ignore(builder, OCamlTokenTypes.UCFC_IDENTIFIER)) {
@@ -302,7 +302,7 @@ class NameParsing extends Parsing {
             return false;
         }
 
-        constructorNameMarker.done(OCamlElementTypes.CONSTRUCTOR_NAME);
+        constructorNameMarker.done(isDefinition ? OCamlElementTypes.CONSTRUCTOR_NAME_DEFINITION : OCamlElementTypes.CONSTRUCTOR_NAME);
 
         return true;
     }
@@ -338,7 +338,7 @@ class NameParsing extends Parsing {
     }
 
     public static boolean tryParseClassPath(@NotNull final PsiBuilder builder) {
-        return tryParseModulePathWithLastPart(builder, OCamlElementTypes.CLASS_PATH);
+        return tryParseModulePathWithLastPart(builder, OCamlElementTypes.CLASS_PATH, false);
     }
 
     private static boolean tryParseClassName(@NotNull final PsiBuilder builder) {
@@ -367,7 +367,7 @@ class NameParsing extends Parsing {
         return true;
     }
 
-    private static boolean tryParseInstVarName(@NotNull final PsiBuilder builder, final boolean isPattern) {
+    private static boolean tryParseInstVarName(@NotNull final PsiBuilder builder, final boolean isDefinition) {
         final PsiBuilder.Marker instVarNameMarker = builder.mark();
 
         if (!ignore(builder, OCamlTokenTypes.LCFC_IDENTIFIER)) {
@@ -375,7 +375,7 @@ class NameParsing extends Parsing {
             return false;
         }
 
-        instVarNameMarker.done(isPattern ? OCamlElementTypes.INST_VAR_NAME_PATTERN : OCamlElementTypes.INST_VAR_NAME);
+        instVarNameMarker.done(isDefinition ? OCamlElementTypes.INST_VAR_NAME_DEFINITION : OCamlElementTypes.INST_VAR_NAME);
 
         return true;
     }
@@ -465,10 +465,14 @@ class NameParsing extends Parsing {
     }
 
     private static boolean tryParseFieldPath(@NotNull final PsiBuilder builder) {
-        return tryParseModulePathWithLastPart(builder, OCamlElementTypes.FIELD_PATH);
+        return tryParseModulePathWithLastPart(builder, OCamlElementTypes.FIELD_PATH, false);
     }
 
     public static boolean tryParseConstant(@NotNull final PsiBuilder builder) {
+        if (tryParseConstructorPath(builder, false)) {
+            return true;
+        }
+
         final PsiBuilder.Marker constantMarker = builder.mark();
 
         if (!ignore(builder, TokenSet.create(OCamlTokenTypes.INTEGER_LITERAL, OCamlTokenTypes.FLOAT_LITERAL,
@@ -491,7 +495,7 @@ class NameParsing extends Parsing {
         }, true, isDefinition);
     }
 
-    private static boolean tryParseModulePathWithLastPart(@NotNull final PsiBuilder builder, final IElementType pathType) {
+    private static boolean tryParseModulePathWithLastPart(@NotNull final PsiBuilder builder, @NotNull final IElementType pathType, final boolean isDefinition) {
         final PsiBuilder.Marker pathMarker = builder.mark();
 
         boolean dotParsed = false;
@@ -516,7 +520,7 @@ class NameParsing extends Parsing {
         else {
             //noinspection SimplifiableIfStatement
             if (pathType == OCamlElementTypes.CONSTRUCTOR_PATH) {
-                lastPartParseResult = tryParseConstructorName(builder);
+                lastPartParseResult = tryParseConstructorName(builder, isDefinition);
             }
             else {
                 lastPartParseResult = false;

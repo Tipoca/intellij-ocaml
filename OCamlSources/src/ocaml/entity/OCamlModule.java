@@ -26,7 +26,6 @@ import com.intellij.openapi.util.Computable;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.packageDependencies.DependencyValidationManager;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
 import com.intellij.util.containers.MultiMap;
@@ -191,12 +190,12 @@ public class OCamlModule {
 
     @NotNull
     public File getImplementationFile() {
-        return new File(mySourcesDir.getPath(), myName + "." + MLFileType.INSTANCE.getDefaultExtension());
+        return new File(mySourcesDir.getPath(), OCamlFileUtil.getFileName(myName, MLFileType.INSTANCE));
     }
 
     @NotNull
     public File getInterfaceFile() {
-        return new File(mySourcesDir.getPath(), myName + "." + MLIFileType.INSTANCE.getDefaultExtension());
+        return new File(mySourcesDir.getPath(), OCamlFileUtil.getFileName(myName, MLIFileType.INSTANCE));
     }
 
     @NotNull
@@ -232,6 +231,7 @@ public class OCamlModule {
         final OCamlModule that = (OCamlModule) o;
 
         if (!myName.equals(that.myName)) return false;
+        //noinspection RedundantIfStatement
         if (!mySourcesDir.getPath().equals(that.mySourcesDir.getPath())) return false;
 
         return true;

@@ -30,13 +30,38 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Maxim.Manuylov
  *         Date: 21.03.2009
  */
 public class OCamlTypeConstructorNameImpl extends BaseOCamlReference implements OCamlTypeConstructorName {
+    @NotNull private static final Set<String> ourBundledTypes = new HashSet<String>() {{
+        add("array");
+        add("bool");
+        add("char");
+        add("exn");
+        add("float");
+        add("format4");
+        add("format6");
+        add("int");
+        add("int32");
+        add("int64");
+        add("list");
+        add("nativeint");
+        add("option");
+        add("string");
+        add("unit");
+    }};
+
+    @Override
+    public boolean isBundled() {
+        return ourBundledTypes.contains(getName());
+    }
+
     public OCamlTypeConstructorNameImpl(@NotNull final ASTNode node) {
         super(node);
     }

@@ -23,6 +23,7 @@ import com.intellij.ide.actions.CreateElementActionBase;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
+import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtil;
 import com.intellij.openapi.project.DumbService;
@@ -34,6 +35,7 @@ import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.IncorrectOperationException;
 import ocaml.module.OCamlModuleType;
+import ocaml.util.OCamlFileUtil;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -55,7 +57,7 @@ abstract class BaseCreateOCamlFileAction extends CreateElementActionBase {
     protected abstract String getCapitalizedType();
 
     @NotNull
-    protected abstract String getExtension();
+    protected abstract FileType getFileType();
 
     @NotNull
     @Override
@@ -75,7 +77,7 @@ abstract class BaseCreateOCamlFileAction extends CreateElementActionBase {
 
     @NotNull
     protected String getFileName(@NotNull final String newName) {
-        return newName + "." + getExtension();
+        return OCamlFileUtil.getFileName(newName, getFileType());
     }
 
     @NotNull
@@ -108,6 +110,7 @@ abstract class BaseCreateOCamlFileAction extends CreateElementActionBase {
         final VirtualFile virtualDir = dir.getVirtualFile();
 
         final Module module = ModuleUtil.findModuleForFile(virtualDir, project);
+        //noinspection SimplifiableIfStatement
         if (module == null || !(module.getModuleType() instanceof OCamlModuleType)) {
             return false;
         }

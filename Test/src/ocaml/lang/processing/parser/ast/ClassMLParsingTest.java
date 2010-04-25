@@ -394,7 +394,7 @@ public class ClassMLParsingTest extends BaseClassParsingTest {
         myTree.addNode(6, CLASS_NAME);
         myTree.addNode(7, LCFC_IDENTIFIER, "class1");
         myTree.addNode(6, AS_KEYWORD);
-        myTree.addNode(6, INST_VAR_NAME);
+        myTree.addNode(6, INST_VAR_NAME_DEFINITION);
         myTree.addNode(7, LCFC_IDENTIFIER, "super");
         myTree.addNode(5, END_KEYWORD);
 
@@ -412,7 +412,7 @@ public class ClassMLParsingTest extends BaseClassParsingTest {
         myTree.addNode(5, OBJECT_KEYWORD);
         myTree.addNode(5, VALUE_CLASS_FIELD_DEFINITION);
         myTree.addNode(6, VAL_KEYWORD);
-        myTree.addNode(6, INST_VAR_NAME);
+        myTree.addNode(6, INST_VAR_NAME_DEFINITION);
         myTree.addNode(7, LCFC_IDENTIFIER, "x");
         myTree.addNode(6, EQ);
         myTree.addNode(6, CONSTANT);
@@ -434,7 +434,7 @@ public class ClassMLParsingTest extends BaseClassParsingTest {
         myTree.addNode(5, VALUE_CLASS_FIELD_DEFINITION);
         myTree.addNode(6, VAL_KEYWORD);
         myTree.addNode(6, MUTABLE_KEYWORD);
-        myTree.addNode(6, INST_VAR_NAME);
+        myTree.addNode(6, INST_VAR_NAME_DEFINITION);
         myTree.addNode(7, LCFC_IDENTIFIER, "x");
         myTree.addNode(6, EQ);
         myTree.addNode(6, CONSTANT);
@@ -455,7 +455,7 @@ public class ClassMLParsingTest extends BaseClassParsingTest {
         myTree.addNode(5, OBJECT_KEYWORD);
         myTree.addNode(5, VALUE_CLASS_FIELD_DEFINITION);
         myTree.addNode(6, VAL_KEYWORD);
-        myTree.addNode(6, INST_VAR_NAME);
+        myTree.addNode(6, INST_VAR_NAME_DEFINITION);
         myTree.addNode(7, LCFC_IDENTIFIER, "x");
         myTree.addNode(6, COLON);
         myTree.addNode(6, TYPE_CONSTRUCTOR_NAME);
@@ -480,7 +480,7 @@ public class ClassMLParsingTest extends BaseClassParsingTest {
         myTree.addNode(5, VALUE_CLASS_FIELD_DEFINITION);
         myTree.addNode(6, VAL_KEYWORD);
         myTree.addNode(6, MUTABLE_KEYWORD);
-        myTree.addNode(6, INST_VAR_NAME);
+        myTree.addNode(6, INST_VAR_NAME_DEFINITION);
         myTree.addNode(7, LCFC_IDENTIFIER, "x");
         myTree.addNode(6, COLON);
         myTree.addNode(6, TYPE_CONSTRUCTOR_NAME);
@@ -505,7 +505,7 @@ public class ClassMLParsingTest extends BaseClassParsingTest {
         myTree.addNode(5, VALUE_CLASS_FIELD_DEFINITION);
         myTree.addNode(6, VAL_KEYWORD);
         myTree.addNode(6, VIRTUAL_KEYWORD);
-        myTree.addNode(6, INST_VAR_NAME);
+        myTree.addNode(6, INST_VAR_NAME_DEFINITION);
         myTree.addNode(7, LCFC_IDENTIFIER, "x");
         myTree.addNode(6, COLON);
         myTree.addNode(6, TYPE_CONSTRUCTOR_NAME);
@@ -528,7 +528,7 @@ public class ClassMLParsingTest extends BaseClassParsingTest {
         myTree.addNode(6, VAL_KEYWORD);
         myTree.addNode(6, MUTABLE_KEYWORD);
         myTree.addNode(6, VIRTUAL_KEYWORD);
-        myTree.addNode(6, INST_VAR_NAME);
+        myTree.addNode(6, INST_VAR_NAME_DEFINITION);
         myTree.addNode(7, LCFC_IDENTIFIER, "x");
         myTree.addNode(6, COLON);
         myTree.addNode(6, TYPE_CONSTRUCTOR_NAME);

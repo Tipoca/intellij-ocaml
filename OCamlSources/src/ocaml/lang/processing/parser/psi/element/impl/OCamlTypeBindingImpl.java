@@ -48,7 +48,7 @@ public class OCamlTypeBindingImpl extends BaseOCamlResolvedReference implements 
 
     @Nullable
     public ASTNode getNameElement() {
-        return OCamlASTTreeUtil.checkNodeType(getNode().getFirstChildNode(), OCamlElementTypes.TYPE_CONSTRUCTOR_NAME);
+        return OCamlASTTreeUtil.findChildOfType(getNode(), OCamlElementTypes.TYPE_CONSTRUCTOR_NAME, false);
     }
 
     @NotNull

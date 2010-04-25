@@ -19,29 +19,20 @@
 package ocaml.lang.processing.parser.psi.element.impl;
 
 import com.intellij.lang.ASTNode;
-import ocaml.lang.feature.resolving.ResolvingBuilder;
-import ocaml.lang.feature.resolving.util.OCamlDeclarationsUtil;
 import ocaml.lang.processing.parser.psi.OCamlElementVisitor;
-import ocaml.lang.processing.parser.psi.element.OCamlParameter;
-import ocaml.lang.processing.parser.psi.element.OCamlParentheses;
-import ocaml.lang.processing.parser.psi.element.OCamlPattern;
+import ocaml.lang.processing.parser.psi.element.OCamlCharRangePattern;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Maxim.Manuylov
- *         Date: 21.03.2009
+ *         Date: 25.04.2010
  */
-public class OCamlParameterImpl extends BaseOCamlElement implements OCamlParameter {
-    public OCamlParameterImpl(@NotNull final ASTNode node) {
+public class OCamlCharRangePatternImpl extends BaseOCamlPattern implements OCamlCharRangePattern {
+    public OCamlCharRangePatternImpl(@NotNull final ASTNode node) {
         super(node);
     }
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {
-        visitor.visitParameter(this);
-    }
-
-    @Override
-    public boolean processDeclarations(@NotNull final ResolvingBuilder builder) {
-        return OCamlDeclarationsUtil.processDeclarationsInChildren(builder, this, OCamlPattern.class, OCamlParentheses.class);
+        visitor.visitCharRangePattern(this);
     }
 }

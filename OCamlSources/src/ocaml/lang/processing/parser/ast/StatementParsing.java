@@ -193,7 +193,7 @@ public class StatementParsing extends Parsing {
         doParseExceptionSpecification(builder);
 
         if (ignore(builder, OCamlTokenTypes.EQ)) {
-            NameParsing.parseConstructorPath(builder);
+            NameParsing.parseConstructorPath(builder, false);
         }
         else if (ignore(builder, OCamlTokenTypes.OF_KEYWORD)) {
             TypeParsing.parseTypeExpression(builder);
@@ -223,7 +223,7 @@ public class StatementParsing extends Parsing {
     private static void parseExternalDeclaration(@NotNull final PsiBuilder builder) {
         final PsiBuilder.Marker externalDeclarationMarker = builder.mark();
 
-        ignore(builder, OCamlTokenTypes.STRING_LITERAL);
+        while (ignore(builder, OCamlTokenTypes.STRING_LITERAL)) {}
 
         externalDeclarationMarker.done(OCamlElementTypes.EXTERNAL_DECLARATION);
     }
@@ -231,7 +231,7 @@ public class StatementParsing extends Parsing {
     private static void doParseExceptionSpecification(@NotNull final PsiBuilder builder) {
         checkMatches(builder, OCamlTokenTypes.EXCEPTION_KEYWORD, Strings.EXCEPTION_KEYWORD_EXPECTED);
 
-        NameParsing.parseConstructorName(builder);
+        NameParsing.parseConstructorName(builder, true);
     }
 
     public static interface Condition {

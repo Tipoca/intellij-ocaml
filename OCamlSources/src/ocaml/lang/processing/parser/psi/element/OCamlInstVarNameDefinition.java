@@ -25,5 +25,5 @@ import ocaml.lang.feature.resolving.OCamlResolvedReference;
  * @author Maxim.Manuylov
  *         Date: 23.04.2010
  */
-public interface OCamlInstVarNamePattern extends OCamlReference, OCamlResolvedReference {
+public interface OCamlInstVarNameDefinition extends OCamlReference, OCamlResolvedReference {
 }

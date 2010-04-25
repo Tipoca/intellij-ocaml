@@ -22,12 +22,9 @@ import com.intellij.lang.ASTNode;
 import ocaml.lang.feature.resolving.ResolvingBuilder;
 import ocaml.lang.feature.resolving.util.OCamlDeclarationsUtil;
 import ocaml.lang.processing.parser.psi.OCamlElementVisitor;
-import ocaml.lang.processing.parser.psi.OCamlPsiUtil;
-import ocaml.lang.processing.parser.psi.element.OCamlTypeBinding;
 import ocaml.lang.processing.parser.psi.element.OCamlTypeDefinition;
+import ocaml.lang.processing.parser.psi.element.OCamlTypeParameterizedBinding;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 /**
  * @author Maxim.Manuylov
@@ -44,7 +41,7 @@ public class OCamlTypeDefinitionImpl extends BaseOCamlElement implements OCamlTy
 
     @Override
     public boolean processDeclarations(@NotNull final ResolvingBuilder builder) {
-        return OCamlDeclarationsUtil.processDeclarationsInChildren(builder, this, OCamlTypeBinding.class);
+        return OCamlDeclarationsUtil.processDeclarationsInChildren(builder, this, OCamlTypeParameterizedBinding.class);
     }
 }
 

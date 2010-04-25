@@ -137,7 +137,7 @@ class PatternParsing extends Parsing {
     private static boolean tryParseConstructorPattern(@NotNull final PsiBuilder builder) {
         final PsiBuilder.Marker constructorApplicationPatternMarker = builder.mark();
 
-        if (NameParsing.tryParseConstructorPath(builder)) {
+        if (NameParsing.tryParseConstructorPath(builder, false)) {
             if (tryParseSimplePattern(builder)) {
                 constructorApplicationPatternMarker.done(OCamlElementTypes.CONSTRUCTOR_APPLICATION_PATTERN);
             }
@@ -180,24 +180,28 @@ class PatternParsing extends Parsing {
             marker.done(OCamlElementTypes.LAZY_PATTERN);
         }
         else if (ignore(builder, OCamlTokenTypes.LBRACKET)) {
-            parsePattern(builder);
-
-            while (ignore(builder, OCamlTokenTypes.SEMICOLON)) {
+            if (!ignore(builder, OCamlTokenTypes.RBRACKET)) {
                 parsePattern(builder);
-            }
 
-            checkMatches(builder, OCamlTokenTypes.RBRACKET, Strings.RBRACKET_EXPECTED);
+                while (ignore(builder, OCamlTokenTypes.SEMICOLON)) {
+                    parsePattern(builder);
+                }
+
+                checkMatches(builder, OCamlTokenTypes.RBRACKET, Strings.RBRACKET_EXPECTED);
+            }
 
             marker.done(OCamlElementTypes.LIST_PATTERN);
         }
         else if (ignore(builder, OCamlTokenTypes.LBRACKET_VBAR)) {
-            parsePattern(builder);
-
-            while (ignore(builder, OCamlTokenTypes.SEMICOLON)) {
+            if (!ignore(builder, OCamlTokenTypes.VBAR_RBRACKET)) {
                 parsePattern(builder);
-            }
 
-            checkMatches(builder, OCamlTokenTypes.VBAR_RBRACKET, Strings.VBAR_RBRACKET_EXPECTED);
+                while (ignore(builder, OCamlTokenTypes.SEMICOLON)) {
+                    parsePattern(builder);
+                }
+
+                checkMatches(builder, OCamlTokenTypes.VBAR_RBRACKET, Strings.VBAR_RBRACKET_EXPECTED);
+            }
 
             marker.done(OCamlElementTypes.ARRAY_PATTERN);
         }
@@ -242,6 +246,12 @@ class PatternParsing extends Parsing {
 
                 builder.error(Strings.RPAR_OR_COLON_EXPECTED);
             }
+        }
+        else if (builder.getTokenType() == OCamlTokenTypes.CHAR_LITERAL && getNextTokenType(builder) == OCamlTokenTypes.DOT_DOT) {
+            builder.advanceLexer();
+            builder.advanceLexer();
+            checkMatches(builder, OCamlTokenTypes.CHAR_LITERAL, Strings.CHAR_LITERAL_EXPECTED);
+            marker.done(OCamlElementTypes.CHAR_RANGE_PATTERN);
         }
         else {
             marker.drop();

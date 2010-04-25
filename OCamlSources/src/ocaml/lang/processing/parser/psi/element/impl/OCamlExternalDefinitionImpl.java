@@ -19,18 +19,12 @@
 package ocaml.lang.processing.parser.psi.element.impl;
 
 import com.intellij.lang.ASTNode;
-import ocaml.lang.feature.resolving.NameType;
 import ocaml.lang.feature.resolving.ResolvingBuilder;
-import ocaml.lang.feature.resolving.impl.BaseOCamlResolvedReference;
 import ocaml.lang.feature.resolving.util.OCamlDeclarationsUtil;
-import ocaml.lang.processing.parser.ast.element.OCamlElementTypes;
-import ocaml.lang.processing.parser.ast.util.OCamlASTTreeUtil;
 import ocaml.lang.processing.parser.psi.OCamlElementVisitor;
 import ocaml.lang.processing.parser.psi.element.OCamlExternalDefinition;
-import ocaml.lang.processing.parser.psi.element.OCamlInstVarNamePattern;
 import ocaml.lang.processing.parser.psi.element.OCamlValueNamePattern;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Maxim.Manuylov
