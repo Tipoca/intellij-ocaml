@@ -19,7 +19,9 @@
 package ocaml.lang.fileType.ml.parser.psi.element.impl;
 
 import com.intellij.lang.ASTNode;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.fileTypes.FileType;
+import com.intellij.openapi.util.Computable;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiFile;
@@ -87,7 +89,11 @@ public class MLFile extends BaseOCamlFile implements OCamlModuleDefinitionBindin
     public OCamlModuleType getModuleType() {
         final VirtualFile mliVirtualFile = OCamlFileUtil.getAnotherFile(getVirtualFile());
         if (mliVirtualFile == null) return null;
-        final PsiFile mliFile = PsiManager.getInstance(getProject()).findFile(mliVirtualFile);
+        final PsiFile mliFile = ApplicationManager.getApplication().runReadAction(new Computable<PsiFile>() {
+            public PsiFile compute() {
+                return PsiManager.getInstance(getProject()).findFile(mliVirtualFile);
+            }
+        });
         if (mliFile == null || !(mliFile instanceof MLIFile)) return null;
         return ((MLIFile)mliFile).getExpression();
     }

@@ -36,10 +36,8 @@ import com.intellij.openapi.vfs.VirtualFile;
 import ocaml.entity.CyclicDependencyException;
 import ocaml.entity.OCamlModule;
 import ocaml.run.OCamlRunConfiguration;
-import ocaml.settings.OCamlSettings;
 import ocaml.util.OCamlSystemUtil;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.DataInput;
 import java.io.File;
@@ -64,7 +62,7 @@ public class OCamlLinker extends BaseOCamlCompiler implements ClassInstrumenting
 
         final OCamlCompileContext ocamlContext = OCamlCompileContext.createOn(context);
         if (!ocamlContext.isStandaloneCompile()) {
-            return new ProcessingItem[] { createProcessingItem(context, getMainOCamlModule(ocamlContext)) };
+            return new ProcessingItem[] { createProcessingItem(context, ocamlContext, getMainOCamlModule(ocamlContext)) };
         }
         
         final ArrayList<ProcessingItem> items = new ArrayList<ProcessingItem>();
@@ -73,7 +71,7 @@ public class OCamlLinker extends BaseOCamlCompiler implements ClassInstrumenting
             if (!(configuration instanceof OCamlRunConfiguration)) continue;
             final OCamlModule ocamlModule = ((OCamlRunConfiguration) configuration).getMainOCamlModule();
             if (ocamlModule == null) continue;
-            items.add(createProcessingItem(context, ocamlModule));            
+            items.add(createProcessingItem(context, ocamlContext, ocamlModule));
         }
         
         return items.toArray(new ProcessingItem[items.size()]);
@@ -91,7 +89,6 @@ public class OCamlLinker extends BaseOCamlCompiler implements ClassInstrumenting
         final ArrayList<ProcessingItem> processedItems = new ArrayList<ProcessingItem>();
         final ProjectFileIndex fileIndex = ProjectRootManager.getInstance(context.getProject()).getFileIndex();
         final OCamlCompileContext ocamlContext = OCamlCompileContext.createOn(context);
-        final boolean isDebugMode = ocamlContext.isDebugMode();
 
         for (final ProcessingItem item : items) {
             progressIndicator.setText2("");
@@ -113,9 +110,6 @@ public class OCamlLinker extends BaseOCamlCompiler implements ClassInstrumenting
             }
 
             processedItems.add(item);
-            final ValidityState state = item.getValidityState();
-            assert state != null && state instanceof FlagBasedValidityState;
-            OCamlSettings.getInstance().saveExeFileState(exeFilePath, (FlagBasedValidityState) state);
         }
 
         return processedItems.toArray(new ProcessingItem[processedItems.size()]);
@@ -163,49 +157,25 @@ public class OCamlLinker extends BaseOCamlCompiler implements ClassInstrumenting
 
     @NotNull
     public ValidityState createValidityState(@NotNull final DataInput in) throws IOException {
-        return FlagBasedValidityState.load(in);
+        return OCamlValidityState.load(in);
     }
 
     @NotNull
-    private ProcessingItem createProcessingItem(@NotNull final CompileContext context, @NotNull final OCamlModule mainOCamlModule) {
+    private ProcessingItem createProcessingItem(@NotNull final CompileContext context,
+                                                @NotNull final OCamlCompileContext ocamlContext,
+                                                @NotNull final OCamlModule mainOCamlModule) {
         final File cmoFile = mainOCamlModule.getCompiledImplementationFile();
-        VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(cmoFile);
+        VirtualFile file = LocalFileSystem.getInstance().refreshAndFindFileByIoFile(cmoFile);
         if (file == null) {
             context.addMessage(ERROR, "File \"" + FileUtil.toSystemDependentName(cmoFile.getAbsolutePath()) + "\" was not created. Rebuild the project.", null, -1, -1);
-            return doCreateProcessingItem(null, mainOCamlModule.getSourcesDir(), null);
+            return createFakeProcessingItem(mainOCamlModule.getSourcesDir());
         }
 
         final File exeFile = mainOCamlModule.getCompiledExecutableFile();
-        final FlagBasedValidityState oldState = OCamlSettings.getInstance().getExeFileState(exeFile.getAbsolutePath());
-        boolean relinkingIsNeeded = false;
         final Boolean thereWasRecompilation = context.getUserData(THERE_WAS_RECOMPILATION);
-        if ((thereWasRecompilation != null && thereWasRecompilation) || !exeFile.exists()) {
-            relinkingIsNeeded = true;
-        }
+        final boolean forceRecompilation = (thereWasRecompilation != null && thereWasRecompilation) || context.isRebuild();
 
-        return doCreateProcessingItem(mainOCamlModule, file, relinkingIsNeeded ? oldState.another() : oldState);
-    }
-
-    @NotNull
-    private ProcessingItem doCreateProcessingItem(@Nullable final OCamlModule ocamlModule,
-                                                  @NotNull final VirtualFile file,
-                                                  @Nullable final FlagBasedValidityState state) {
-        return new OCamlLinkerProcessingItem() {
-            @Nullable
-            public OCamlModule getOCamlModule() {
-                return ocamlModule;
-            }
-
-            @NotNull
-            public VirtualFile getFile() {
-                return file;
-            }
-
-            @Nullable
-            public ValidityState getValidityState() {
-                return state;
-            }
-        };
+        return createProcessingItem(mainOCamlModule, file, exeFile, ocamlContext.isDebugMode(), forceRecompilation);
     }
 
     @NotNull
@@ -215,10 +185,5 @@ public class OCamlLinker extends BaseOCamlCompiler implements ClassInstrumenting
 
     public boolean validateConfiguration(@NotNull final CompileScope scope) {
         return true;
-    }
-
-    private static interface OCamlLinkerProcessingItem extends ProcessingItem {
-        @Nullable
-        OCamlModule getOCamlModule();
     }
 }

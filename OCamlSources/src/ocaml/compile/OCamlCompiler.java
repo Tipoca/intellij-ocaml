@@ -71,7 +71,7 @@ public class OCamlCompiler extends BaseOCamlCompiler implements SourceInstrument
 
         try {
             if (ocamlContext.isStandaloneCompile()) {
-                ocamlModules.addAll(collectItemsForStandaloneCompile(context, items, isDebugMode));
+                ocamlModules.addAll(collectItemsForStandaloneCompile(context, items));
             }
             else {
                 final OCamlModule mainOCamlModule = getMainOCamlModule(ocamlContext);
@@ -85,26 +85,32 @@ public class OCamlCompiler extends BaseOCamlCompiler implements SourceInstrument
             return new ProcessingItem[0];
         }
 
+        final boolean isRebuild = context.isRebuild();
         final LocalFileSystem fileSystem = LocalFileSystem.getInstance();
         for (final OCamlModule ocamlModule : ocamlModules) {
-            processFile(fileSystem.findFileByIoFile(ocamlModule.getInterfaceFile()), items, isDebugMode);
-            processFile(fileSystem.findFileByIoFile(ocamlModule.getImplementationFile()), items, isDebugMode);
+            processFile(fileSystem.findFileByIoFile(ocamlModule.getInterfaceFile()), ocamlModule.getCompiledInterfaceFile(), items, isDebugMode, isRebuild);
+            processFile(fileSystem.findFileByIoFile(ocamlModule.getImplementationFile()), ocamlModule.getCompiledImplementationFile(), items, isDebugMode, isRebuild);
         }
 
         return items.toArray(new ProcessingItem[items.size()]);
     }
 
-    private void processFile(@Nullable final VirtualFile file, @NotNull final ArrayList<ProcessingItem> items, final boolean isDebugMode) {
+    private void processFile(@Nullable final VirtualFile file,
+                             @NotNull final File compiledFile,
+                             @NotNull final ArrayList<ProcessingItem> items,
+                             final boolean isDebugMode,
+                             final boolean isRebuild) {
         if (file != null) {
-            items.add(createProcessingItem(file, isDebugMode));
+            items.add(createProcessingItem(file, compiledFile, isDebugMode, isRebuild));
         }
     }
 
     @NotNull
     private List<OCamlModule> collectItemsForStandaloneCompile(@NotNull final CompileContext context,
-                                                               @NotNull final ArrayList<ProcessingItem> items,
-                                                               final boolean isDebugMode) throws CyclicDependencyException {
+                                                               @NotNull final ArrayList<ProcessingItem> items
+    ) throws CyclicDependencyException {
         final Project project = context.getProject();
+        final ProjectFileIndex projectFileIndex = ProjectRootManager.getInstance(project).getFileIndex();
         final Set<OCamlModule> ocamlModules = new HashSet<OCamlModule>();
         final Module[] modules = ModuleManager.getInstance(project).getModules();
         for (final Module module : modules) {
@@ -119,7 +125,8 @@ public class OCamlCompiler extends BaseOCamlCompiler implements SourceInstrument
                     ocamlModules.add(ocamlModule);
                 }
                 else {
-                    items.add(createProcessingItem(file, isDebugMode));
+                    final File destDir = OCamlFileUtil.getCompiledDir(projectFileIndex, file.getParent());
+                    items.add(createProcessingItem(file, new File(destDir, file.getName()), false, false));
                 }
             }
         }
@@ -146,7 +153,6 @@ public class OCamlCompiler extends BaseOCamlCompiler implements SourceInstrument
         final ArrayList<ProcessingItem> processedItems = new ArrayList<ProcessingItem>();
         final ProjectFileIndex fileIndex = ProjectRootManager.getInstance(context.getProject()).getFileIndex();
         final OCamlCompileContext ocamlContext = OCamlCompileContext.createOn(context);
-        final boolean isDebugMode = ocamlContext.isDebugMode();
 
         for (final ProcessingItem item : items) {
             processedCount++;
@@ -196,13 +202,10 @@ public class OCamlCompiler extends BaseOCamlCompiler implements SourceInstrument
         cmd.addParameter("-c");
 
         final Set<String> addedPaths = new HashSet<String>();
+        addPath(cmd, addedPaths, destDir.getPath());
         for (final OCamlModule dependency : ocamlModule.collectExactDependencies()) {
             final String path = OCamlFileUtil.getCompiledDir(fileIndex, dependency.getSourcesDir()).getPath();
-            if (!addedPaths.contains(path)) {
-                cmd.addParameter("-I");
-                cmd.addParameter(path);
-            }
-            addedPaths.add(path);
+            addPath(cmd, addedPaths, path);
         }
         
         cmd.addParameter("-o");
@@ -230,6 +233,14 @@ public class OCamlCompiler extends BaseOCamlCompiler implements SourceInstrument
         }
 
         return true;
+    }
+
+    private void addPath(@NotNull final GeneralCommandLine cmd, @NotNull final Set<String> addedPaths, @NotNull final String path) {
+        if (!addedPaths.contains(path)) {
+            cmd.addParameter("-I");
+            cmd.addParameter(path);
+        }
+        addedPaths.add(path);
     }
 
     @NotNull
@@ -284,26 +295,5 @@ public class OCamlCompiler extends BaseOCamlCompiler implements SourceInstrument
         }
 
         return destDir[0];
-    }
-
-    @NotNull
-    private ProcessingItem createProcessingItem(@NotNull final VirtualFile file, final boolean isDebugMode) {
-        return new ProcessingItem() {
-            @NotNull
-            public VirtualFile getFile() {
-                return file;
-            }
-
-            @NotNull
-            public ValidityState getValidityState() {
-                final TimestampValidityState timestampValidityState = new TimestampValidityState(file.getTimeStamp());
-                if (OCamlFileUtil.isOCamlSourceFile(file)) {
-                    return new OCamlValidityState(timestampValidityState, isDebugMode);
-                }
-                else {
-                    return timestampValidityState;
-                }
-            }
-        };
     }
 }

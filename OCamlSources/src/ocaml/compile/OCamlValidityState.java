@@ -20,13 +20,12 @@ package ocaml.compile;
 
 import com.intellij.openapi.compiler.TimestampValidityState;
 import com.intellij.openapi.compiler.ValidityState;
+import com.intellij.openapi.vfs.VirtualFile;
+import ocaml.util.OCamlFileUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.EOFException;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * @author Maxim.Manuylov
@@ -56,12 +55,44 @@ class OCamlValidityState implements ValidityState {
 
     @NotNull
     public static ValidityState load(@NotNull final DataInput in) throws IOException {
-        final TimestampValidityState timestampValidityState = TimestampValidityState.load(in);
         try {
-            return new OCamlValidityState(timestampValidityState, in.readBoolean());
+            final TimestampValidityState timestampValidityState = TimestampValidityState.load(in);
+            try {
+                return new OCamlValidityState(timestampValidityState, in.readBoolean());
+            }
+            catch (final EOFException e) {
+                return timestampValidityState;
+            }
+        } catch (final EOFException e) {
+            return NeedRecompilationValidityState.INSTANCE;
         }
-        catch (final EOFException e) {
+    }
+
+    @NotNull
+    public static ValidityState create(@NotNull final VirtualFile file,
+                                       @NotNull final File compiledFile,
+                                       final boolean isDebugMode,
+                                       final boolean forceRecompilation) {
+        final TimestampValidityState timestampValidityState = new TimestampValidityState(file.getTimeStamp());
+        if (OCamlFileUtil.isOCamlFile(file)) {
+            if (forceRecompilation || !compiledFile.exists()) {
+                return NeedRecompilationValidityState.INSTANCE;
+            }
+            return new OCamlValidityState(timestampValidityState, isDebugMode);
+        }
+        else {
             return timestampValidityState;
+        }
+    }
+
+    private static class NeedRecompilationValidityState implements ValidityState {
+        @NotNull public static final NeedRecompilationValidityState INSTANCE = new NeedRecompilationValidityState();
+
+        public boolean equalsTo(@NotNull final ValidityState otherState) {
+            return false;
+        }
+
+        public void save(@NotNull final DataOutput out) throws IOException {
         }
     }
 }

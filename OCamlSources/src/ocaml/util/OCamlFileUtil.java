@@ -42,6 +42,15 @@ public class OCamlFileUtil {
         return fileType == MLFileType.INSTANCE || fileType == MLIFileType.INSTANCE;
     }
 
+    public static boolean isOCamlFile(@NotNull final VirtualFile file) {
+        final FileType fileType = file.getFileType();
+        final String extension = file.getExtension();
+        return fileType == MLFileType.INSTANCE
+            || fileType == MLIFileType.INSTANCE
+            || "cmi".equals(extension)
+            || "cmo".equals(extension); //todo create CMI and CMO fileTypes
+    }
+
     @NotNull
     public static File getCompiledDir(@NotNull final ProjectFileIndex fileIndex, @NotNull final VirtualFile sourcesDir) {
         final VirtualFile sourceRoot = fileIndex.getSourceRootForFile(sourcesDir);

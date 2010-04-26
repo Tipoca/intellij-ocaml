@@ -18,10 +18,12 @@
 
 package ocaml.lang.feature.resolving.util;
 
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtil;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.Computable;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.search.FilenameIndex;
 import com.intellij.psi.search.GlobalSearchScope;
@@ -168,7 +170,11 @@ public class OCamlResolvingUtil {
                                                              @NotNull final GlobalSearchScope scope,
                                                              @NotNull final Class<T> type,
                                                              @NotNull final String fileName) {
-        final PsiFile[] files = FilenameIndex.getFilesByName(project, fileName, scope);
+        final PsiFile[] files = ApplicationManager.getApplication().runReadAction(new Computable<PsiFile[]>() {
+            public PsiFile[] compute() {
+                return FilenameIndex.getFilesByName(project, fileName, scope);
+            }
+        });
 
         for (final PsiFile file : files) {
             if (type.isInstance(file)) {

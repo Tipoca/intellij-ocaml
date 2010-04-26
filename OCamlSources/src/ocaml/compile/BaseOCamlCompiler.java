@@ -21,6 +21,8 @@ package ocaml.compile;
 import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.openapi.compiler.CompileContext;
 import com.intellij.openapi.compiler.CompilerMessageCategory;
+import com.intellij.openapi.compiler.FileProcessingCompiler;
+import com.intellij.openapi.compiler.ValidityState;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.roots.ModuleRootManager;
@@ -33,6 +35,7 @@ import ocaml.sdk.OCamlSdkType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.File;
 import java.util.List;
 
 import static com.intellij.openapi.compiler.CompilerMessageCategory.ERROR;
@@ -88,6 +91,63 @@ abstract class BaseOCamlCompiler {
         for (final String line : lines) {
             final String url = file == null ? null : file.getUrl();
             context.addMessage(category, line, url, -1, -1);
+        }
+    }
+
+    @NotNull
+    protected OCamlLinkerProcessingItem createFakeProcessingItem(@NotNull final VirtualFile file) {
+        return doCreateProcessingItem(null, file, null);
+    }
+
+    @NotNull
+    protected OCamlLinkerProcessingItem createProcessingItem(@NotNull final VirtualFile file,
+                                                             @NotNull final File compiledFile,
+                                                             final boolean isDebugMode,
+                                                             final boolean force) {
+        return createProcessingItem(null, file, compiledFile, isDebugMode, force);
+    }
+
+    @NotNull
+    protected OCamlLinkerProcessingItem createProcessingItem(@Nullable final OCamlModule ocamlModule,
+                                                             @NotNull final VirtualFile file,
+                                                             @NotNull final File compiledFile,
+                                                             final boolean isDebugMode,
+                                                             final boolean force) {
+        final ValidityState state = OCamlValidityState.create(file, compiledFile, isDebugMode, force);
+        return doCreateProcessingItem(ocamlModule, file, state);
+    }
+
+    @NotNull
+    private OCamlLinkerProcessingItem doCreateProcessingItem(@Nullable final OCamlModule ocamlModule,
+                                                             @NotNull final VirtualFile file,
+                                                             @Nullable final ValidityState state) {
+        return new OCamlLinkerProcessingItem(ocamlModule, file, state);
+    }
+
+    protected static class OCamlLinkerProcessingItem implements FileProcessingCompiler.ProcessingItem {
+        @Nullable private final OCamlModule myOCamlModule;
+        @NotNull private final VirtualFile myFile;
+        @Nullable private final ValidityState myState;
+
+        private OCamlLinkerProcessingItem(@Nullable final OCamlModule OCamlModule, @NotNull final VirtualFile file, @Nullable final ValidityState state) {
+            myOCamlModule = OCamlModule;
+            myFile = file;
+            myState = state;
+        }
+
+        @Nullable
+        OCamlModule getOCamlModule() {
+            return myOCamlModule;
+        }
+
+        @NotNull
+        public VirtualFile getFile() {
+            return myFile;
+        }
+
+        @Nullable
+        public ValidityState getValidityState() {
+            return myState;
         }
     }
 }
