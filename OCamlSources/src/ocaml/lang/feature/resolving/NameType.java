@@ -31,7 +31,7 @@ public enum NameType {
     LowerCase("[_a-z][_0-9a-zA-Z']*"),
     UpperCase("[A-Z][_0-9a-zA-Z']*"),
     AnyCase("[_a-zA-Z][_0-9a-zA-Z']*"),
-    ValueName("(" + LowerCase.myRegexp +")|(\\([=<>@\\^\\|\\&/$%!\\?~+-\\*][!$%\\&\\*+-./:<=>\\?@^\\|~]*\\))") {
+    ValueName("(" + LowerCase.myRegexp +")|(\\([=<>@\\^\\|\\&/$%!\\?~\\-+\\*][!$%\\&\\*\\-+./:<=>\\?@^\\|~]*\\))") {
         @Override
         public void checkNameIsCorrect(@NotNull final OCamlNamedElement reference, @NotNull final String name) throws IncorrectOperationException {
             super.checkNameIsCorrect(reference, name);
@@ -45,8 +45,12 @@ public enum NameType {
     }
 
     public void checkNameIsCorrect(@NotNull final OCamlNamedElement reference, @NotNull final String name) throws IncorrectOperationException {
-        if (!Pattern.matches(myRegexp, name)) {
+        if (!isNameIsCorrect(name)) {
             throw new IncorrectOperationException("Name \"" + name + "\" is not possible for " + reference.getDescription());
         }
+    }
+
+    public boolean isNameIsCorrect(@NotNull final String name) {
+        return Pattern.matches(myRegexp, name);
     }
 }

@@ -18,6 +18,7 @@
 
 package ocaml.lang.processing.parser.psi.element.impl;
 
+import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.lang.ASTNode;
 import ocaml.lang.feature.resolving.NameType;
 import ocaml.lang.feature.resolving.OCamlResolvedReference;
@@ -83,7 +84,7 @@ public class OCamlTypeParameterNameImpl extends BaseOCamlReference implements OC
 
     @NotNull
     @Override
-    public OCamlResolvedReference[] getVariants() {
-        return new OCamlResolvedReference[0]; //todo
+    public LookupElement[] getVariants() {
+        return new LookupElement[0]; //todo
     }
 }

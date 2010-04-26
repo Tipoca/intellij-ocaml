@@ -50,7 +50,7 @@ public class MLIFile extends BaseOCamlFile implements OCamlModuleSpecificationBi
 
     @NotNull
     public String getCanonicalPath() {
-        return getName();    //todo see this method in MLFile
+        return getCanonicalName();
     }
 
     @Nullable

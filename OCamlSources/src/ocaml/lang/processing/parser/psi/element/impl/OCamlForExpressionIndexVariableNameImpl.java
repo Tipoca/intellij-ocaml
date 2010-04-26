@@ -20,35 +20,22 @@ package ocaml.lang.processing.parser.psi.element.impl;
 
 import com.intellij.lang.ASTNode;
 import ocaml.lang.feature.resolving.NameType;
-import ocaml.lang.feature.resolving.OCamlResolvedReference;
-import ocaml.lang.feature.resolving.ResolvingBuilder;
-import ocaml.lang.feature.resolving.impl.BaseOCamlReference;
+import ocaml.lang.feature.resolving.impl.BaseOCamlSelfResolvedReference;
 import ocaml.lang.processing.parser.psi.OCamlElementVisitor;
-import ocaml.lang.processing.parser.psi.element.OCamlExtendedModuleName;
 import ocaml.lang.processing.parser.psi.element.OCamlForExpressionIndexVariableName;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * @author Maxim.Manuylov
  *         Date: 23.03.2009
  */
-public class OCamlForExpressionIndexVariableNameImpl extends BaseOCamlReference implements OCamlForExpressionIndexVariableName {
+public class OCamlForExpressionIndexVariableNameImpl extends BaseOCamlSelfResolvedReference implements OCamlForExpressionIndexVariableName {
     public OCamlForExpressionIndexVariableNameImpl(@NotNull final ASTNode node) {
         super(node);
     }
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {
         visitor.visitForExpressionIndexVariableName(this);
-    }
-
-    @NotNull
-    public ASTNode getNameElement() {
-        return getNode();
     }
 
     @NotNull
@@ -59,30 +46,5 @@ public class OCamlForExpressionIndexVariableNameImpl extends BaseOCamlReference 
     @NotNull
     public String getDescription() {
         return "index variable";
-    }
-
-    @NotNull
-    public List<Class<? extends OCamlResolvedReference>> getPossibleResolvedTypes() {
-        return Arrays.<Class<? extends OCamlResolvedReference>>asList(OCamlForExpressionIndexVariableName.class);
-    }
-
-    @NotNull
-    public List<OCamlExtendedModuleName> getModulePath() {
-        return Collections.emptyList();
-    }
-
-    @Nullable
-    public String getCanonicalPath() {
-        return getCanonicalName(); //todo smth
-    }
-
-    @Override
-    public OCamlResolvedReference resolve() {  //todo getVariants()???
-        return this;
-    }
-
-    @Override
-    public boolean processDeclarations(@NotNull final ResolvingBuilder builder) {
-        return builder.getProcessor().process(this);
     }
 }

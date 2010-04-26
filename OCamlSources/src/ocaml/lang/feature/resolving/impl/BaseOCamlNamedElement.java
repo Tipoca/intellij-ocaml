@@ -21,9 +21,16 @@ package ocaml.lang.feature.resolving.impl;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.IncorrectOperationException;
+import ocaml.lang.feature.refactoring.rename.OCamlNamesValidator;
 import ocaml.lang.feature.resolving.OCamlNamedElement;
 import ocaml.lang.feature.resolving.util.OCamlASTNodeUtil;
+import ocaml.lang.processing.parser.psi.OCamlElement;
+import ocaml.lang.processing.parser.psi.OCamlElementProcessorAdapter;
+import ocaml.lang.processing.parser.psi.OCamlPsiUtil;
+import ocaml.lang.processing.parser.psi.element.OCamlModuleDefinitionBinding;
+import ocaml.lang.processing.parser.psi.element.OCamlModuleSpecificationBinding;
 import ocaml.lang.processing.parser.psi.element.impl.BaseOCamlElement;
+import ocaml.util.OCamlStringUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -41,6 +48,29 @@ public abstract class BaseOCamlNamedElement extends BaseOCamlElement implements 
         return getName();
     }
 
+    @Nullable
+    public String getCanonicalPath() { //todo 
+        final StringBuilder sb = new StringBuilder(OCamlStringUtil.getNotNull(getCanonicalName()));
+
+        final OCamlElementProcessorAdapter processor = new OCamlElementProcessorAdapter() {
+            public void process(@NotNull final OCamlElement psiElement) {
+                if (psiElement instanceof OCamlModuleDefinitionBinding || psiElement instanceof OCamlModuleSpecificationBinding) {
+                    sb.insert(0, ".");
+                    sb.insert(0, OCamlStringUtil.getNotNull(((OCamlNamedElement) psiElement).getCanonicalName()));
+                }
+            }
+        };
+
+        OCamlElement parent = OCamlPsiUtil.getParent(this);
+
+        while (parent != null) {
+            parent.accept(processor);
+            parent = OCamlPsiUtil.getParent(parent);
+        }
+
+        return sb.toString();
+    }
+
     @Override
     @Nullable
     public String getName() {
@@ -55,11 +85,24 @@ public abstract class BaseOCamlNamedElement extends BaseOCamlElement implements 
             throw new IncorrectOperationException("Incorrect " + getDescription() + " name");
         }
 
+        checkNameIsNotAKeyword(name);
         getNameType().checkNameIsCorrect(this, name);
 
-        getNode().replaceChild(nameElement, OCamlASTNodeUtil.createASTNode(name, nameElement.getElementType(), getProject()));
+        OCamlASTNodeUtil.replaceLeafText(nameElement.getFirstChildNode(), name);
 
         return this;
+    }
+
+    private void checkNameIsNotAKeyword(@NotNull final String name) throws IncorrectOperationException {
+        if (OCamlNamesValidator.isKeyword(name)) {
+            throw new IncorrectOperationException("It is not allowed to use a keyword as a " + getDescription() + " name.");
+        }
+    }
+
+    @Override
+    public int getTextOffset() {
+        final ASTNode nameElement = getNameElement();
+        return nameElement == null ? 0 : nameElement.getStartOffset();
     }
 
     @Override

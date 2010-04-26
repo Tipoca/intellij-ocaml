@@ -18,7 +18,7 @@
 
 package ocaml.lang.processing.lexer;
 
-import ocaml.lang.processing.Strings;
+import ocaml.lang.processing.Keywords;
 import ocaml.lang.processing.lexer.testCase.LexerTestCase;
 import ocaml.lang.processing.lexer.token.OCamlTokenTypes;
 import org.testng.annotations.Test;
@@ -57,15 +57,15 @@ public abstract class BaseLexerTest extends LexerTestCase {
 
     public void testIntegerLiteral() {
         doTest("2", token(OCamlTokenTypes.INTEGER_LITERAL, "2"));
-        doTest("-2", token(OCamlTokenTypes.MINUS, Strings.MINUS), token(OCamlTokenTypes.INTEGER_LITERAL, "2"));
-        doTest("-2_300", token(OCamlTokenTypes.MINUS, Strings.MINUS), token(OCamlTokenTypes.INTEGER_LITERAL, "2_300"));
+        doTest("-2", token(OCamlTokenTypes.MINUS, Keywords.MINUS), token(OCamlTokenTypes.INTEGER_LITERAL, "2"));
+        doTest("-2_300", token(OCamlTokenTypes.MINUS, Keywords.MINUS), token(OCamlTokenTypes.INTEGER_LITERAL, "2_300"));
         doTest("002_300", token(OCamlTokenTypes.INTEGER_LITERAL, "002_300"));
-        doTest("-0x02_48_AB_CD_EF", token(OCamlTokenTypes.MINUS, Strings.MINUS), token(OCamlTokenTypes.INTEGER_LITERAL, "0x02_48_AB_CD_EF"));
-        doTest("-0X02_48_AB_CD_EF", token(OCamlTokenTypes.MINUS, Strings.MINUS), token(OCamlTokenTypes.INTEGER_LITERAL, "0X02_48_AB_CD_EF"));
-        doTest("-0o02_47", token(OCamlTokenTypes.MINUS, Strings.MINUS), token(OCamlTokenTypes.INTEGER_LITERAL, "0o02_47"));
-        doTest("-0O02_47", token(OCamlTokenTypes.MINUS, Strings.MINUS), token(OCamlTokenTypes.INTEGER_LITERAL, "0O02_47"));
-        doTest("-0b00_11", token(OCamlTokenTypes.MINUS, Strings.MINUS), token(OCamlTokenTypes.INTEGER_LITERAL, "0b00_11"));
-        doTest("-0B11_00", token(OCamlTokenTypes.MINUS, Strings.MINUS), token(OCamlTokenTypes.INTEGER_LITERAL, "0B11_00"));
+        doTest("-0x02_48_AB_CD_EF", token(OCamlTokenTypes.MINUS, Keywords.MINUS), token(OCamlTokenTypes.INTEGER_LITERAL, "0x02_48_AB_CD_EF"));
+        doTest("-0X02_48_AB_CD_EF", token(OCamlTokenTypes.MINUS, Keywords.MINUS), token(OCamlTokenTypes.INTEGER_LITERAL, "0X02_48_AB_CD_EF"));
+        doTest("-0o02_47", token(OCamlTokenTypes.MINUS, Keywords.MINUS), token(OCamlTokenTypes.INTEGER_LITERAL, "0o02_47"));
+        doTest("-0O02_47", token(OCamlTokenTypes.MINUS, Keywords.MINUS), token(OCamlTokenTypes.INTEGER_LITERAL, "0O02_47"));
+        doTest("-0b00_11", token(OCamlTokenTypes.MINUS, Keywords.MINUS), token(OCamlTokenTypes.INTEGER_LITERAL, "0b00_11"));
+        doTest("-0B11_00", token(OCamlTokenTypes.MINUS, Keywords.MINUS), token(OCamlTokenTypes.INTEGER_LITERAL, "0B11_00"));
         doTest("12A", token(OCamlTokenTypes.INTEGER_LITERAL, "12"), token(OCamlTokenTypes.UCFC_IDENTIFIER, "A"));
         doTest("0x12T", token(OCamlTokenTypes.INTEGER_LITERAL, "0x12"), token(OCamlTokenTypes.UCFC_IDENTIFIER, "T"));
         doTest("0o128", token(OCamlTokenTypes.INTEGER_LITERAL, "0o12"), token(OCamlTokenTypes.INTEGER_LITERAL, "8"));
@@ -85,7 +85,7 @@ public abstract class BaseLexerTest extends LexerTestCase {
     }
 
     public void testFloatLiteral() {
-        doTest("-6_4.", token(OCamlTokenTypes.MINUS, Strings.MINUS), token(OCamlTokenTypes.FLOAT_LITERAL, "6_4."));
+        doTest("-6_4.", token(OCamlTokenTypes.MINUS, Keywords.MINUS), token(OCamlTokenTypes.FLOAT_LITERAL, "6_4."));
         doTest("6._", token(OCamlTokenTypes.FLOAT_LITERAL, "6._"));
         doTest("6.2", token(OCamlTokenTypes.FLOAT_LITERAL, "6.2"));
         doTest("6.2e2", token(OCamlTokenTypes.FLOAT_LITERAL, "6.2e2"));
@@ -134,17 +134,17 @@ public abstract class BaseLexerTest extends LexerTestCase {
         assertTrue(OCamlTokenTypes.INFIX_OPERATORS.contains(OCamlTokenTypes.LSR_KEYWORD));
         assertTrue(OCamlTokenTypes.INFIX_OPERATORS.contains(OCamlTokenTypes.ASR_KEYWORD));
 
-        doTest("=", token(OCamlTokenTypes.EQ, Strings.EQ));
-        doTest("<", token(OCamlTokenTypes.LT, Strings.LT));
-        doTest(">", token(OCamlTokenTypes.GT, Strings.GT));
+        doTest("=", token(OCamlTokenTypes.EQ, Keywords.EQ));
+        doTest("<", token(OCamlTokenTypes.LT, Keywords.LT));
+        doTest(">", token(OCamlTokenTypes.GT, Keywords.GT));
         doTest("@", token(OCamlTokenTypes.INFIX_OPERATOR, "@"));
         doTest("^", token(OCamlTokenTypes.INFIX_OPERATOR, "^"));
-        doTest("&", token(OCamlTokenTypes.AMP, Strings.AMP));
-        doTest("+", token(OCamlTokenTypes.PLUS, Strings.PLUS));
-        doTest("-", token(OCamlTokenTypes.MINUS, Strings.MINUS));
-        doTest("*", token(OCamlTokenTypes.MULT, Strings.MULT));
+        doTest("&", token(OCamlTokenTypes.AMP, Keywords.AMP));
+        doTest("+", token(OCamlTokenTypes.PLUS, Keywords.PLUS));
+        doTest("-", token(OCamlTokenTypes.MINUS, Keywords.MINUS));
+        doTest("*", token(OCamlTokenTypes.MULT, Keywords.MULT));
         doTest("/", token(OCamlTokenTypes.INFIX_OPERATOR, "/"));
-        doTest("$", token(OCamlTokenTypes.DOLLAR, Strings.DOLLAR));
+        doTest("$", token(OCamlTokenTypes.DOLLAR, Keywords.DOLLAR));
         doTest("%", token(OCamlTokenTypes.INFIX_OPERATOR, "%"));
 
         doTest("=!", token(OCamlTokenTypes.INFIX_OPERATOR, "=!"));
@@ -180,24 +180,24 @@ public abstract class BaseLexerTest extends LexerTestCase {
         doTest("%|", token(OCamlTokenTypes.INFIX_OPERATOR, "%|"));
         doTest("%~", token(OCamlTokenTypes.INFIX_OPERATOR, "%~"));
 
-        doTest("&&", token(OCamlTokenTypes.AMP_AMP, Strings.AMP_AMP));
-        doTest("-.", token(OCamlTokenTypes.MINUS_DOT, Strings.MINUS_DOT));
-        doTest("<-", token(OCamlTokenTypes.LT_MINUS, Strings.LT_MINUS));
-        doTest("||", token(OCamlTokenTypes.VBAR_VBAR, Strings.VBAR_VBAR));
-        doTest("<<", token(OCamlTokenTypes.LT_LT, Strings.LT_LT));
-        doTest("<:", token(OCamlTokenTypes.LT_COLON, Strings.LT_COLON));
-        doTest(">>", token(OCamlTokenTypes.GT_GT, Strings.GT_GT));
-        doTest("$$", token(OCamlTokenTypes.DOLLAR_DOLLAR, Strings.DOLLAR_DOLLAR));
-        doTest("$:", token(OCamlTokenTypes.DOLLAR_COLON, Strings.DOLLAR_COLON));
-        doTest("or", token(OCamlTokenTypes.OR_KEYWORD, Strings.OR_KEYWORD));
-        doTest(":=", token(OCamlTokenTypes.COLON_EQ, Strings.COLON_EQ));
-        doTest("mod", token(OCamlTokenTypes.MOD_KEYWORD, Strings.MOD_KEYWORD));
-        doTest("land", token(OCamlTokenTypes.LAND_KEYWORD, Strings.LAND_KEYWORD));
-        doTest("lor", token(OCamlTokenTypes.LOR_KEYWORD, Strings.LOR_KEYWORD));
-        doTest("lxor", token(OCamlTokenTypes.LXOR_KEYWORD, Strings.LXOR_KEYWORD));
-        doTest("lsl", token(OCamlTokenTypes.LSL_KEYWORD, Strings.LSL_KEYWORD));
-        doTest("lsr", token(OCamlTokenTypes.LSR_KEYWORD, Strings.LSR_KEYWORD));
-        doTest("asr", token(OCamlTokenTypes.ASR_KEYWORD, Strings.ASR_KEYWORD));
+        doTest("&&", token(OCamlTokenTypes.AMP_AMP, Keywords.AMP_AMP));
+        doTest("-.", token(OCamlTokenTypes.MINUS_DOT, Keywords.MINUS_DOT));
+        doTest("<-", token(OCamlTokenTypes.LT_MINUS, Keywords.LT_MINUS));
+        doTest("||", token(OCamlTokenTypes.VBAR_VBAR, Keywords.VBAR_VBAR));
+        doTest("<<", token(OCamlTokenTypes.LT_LT, Keywords.LT_LT));
+        doTest("<:", token(OCamlTokenTypes.LT_COLON, Keywords.LT_COLON));
+        doTest(">>", token(OCamlTokenTypes.GT_GT, Keywords.GT_GT));
+        doTest("$$", token(OCamlTokenTypes.DOLLAR_DOLLAR, Keywords.DOLLAR_DOLLAR));
+        doTest("$:", token(OCamlTokenTypes.DOLLAR_COLON, Keywords.DOLLAR_COLON));
+        doTest("or", token(OCamlTokenTypes.OR_KEYWORD, Keywords.OR_KEYWORD));
+        doTest(":=", token(OCamlTokenTypes.COLON_EQ, Keywords.COLON_EQ));
+        doTest("mod", token(OCamlTokenTypes.MOD_KEYWORD, Keywords.MOD_KEYWORD));
+        doTest("land", token(OCamlTokenTypes.LAND_KEYWORD, Keywords.LAND_KEYWORD));
+        doTest("lor", token(OCamlTokenTypes.LOR_KEYWORD, Keywords.LOR_KEYWORD));
+        doTest("lxor", token(OCamlTokenTypes.LXOR_KEYWORD, Keywords.LXOR_KEYWORD));
+        doTest("lsl", token(OCamlTokenTypes.LSL_KEYWORD, Keywords.LSL_KEYWORD));
+        doTest("lsr", token(OCamlTokenTypes.LSR_KEYWORD, Keywords.LSR_KEYWORD));
+        doTest("asr", token(OCamlTokenTypes.ASR_KEYWORD, Keywords.ASR_KEYWORD));
     }
 
     public void testPrefixSymbol() {
@@ -208,8 +208,8 @@ public abstract class BaseLexerTest extends LexerTestCase {
         assertTrue(OCamlTokenTypes.PREFIX_OPERATORS.contains(OCamlTokenTypes.QUEST_QUEST));
 
         doTest("!", token(OCamlTokenTypes.PREFIX_OPERATOR, "!"));
-        doTest("?", token(OCamlTokenTypes.QUEST, Strings.QUEST));
-        doTest("~", token(OCamlTokenTypes.TILDE, Strings.TILDE));
+        doTest("?", token(OCamlTokenTypes.QUEST, Keywords.QUEST));
+        doTest("~", token(OCamlTokenTypes.TILDE, Keywords.TILDE));
 
         doTest("!!", token(OCamlTokenTypes.PREFIX_OPERATOR, "!!"));
         doTest("?!", token(OCamlTokenTypes.PREFIX_OPERATOR, "?!"));
@@ -234,8 +234,8 @@ public abstract class BaseLexerTest extends LexerTestCase {
         doTest("~|", token(OCamlTokenTypes.PREFIX_OPERATOR, "~|"));
         doTest("~~", token(OCamlTokenTypes.PREFIX_OPERATOR, "~~"));
 
-        doTest("!=", token(OCamlTokenTypes.NOT_EQ, Strings.NOT_EQ));
-        doTest("??", token(OCamlTokenTypes.QUEST_QUEST, Strings.QUEST_QUEST));
+        doTest("!=", token(OCamlTokenTypes.NOT_EQ, Keywords.NOT_EQ));
+        doTest("??", token(OCamlTokenTypes.QUEST_QUEST, Keywords.QUEST_QUEST));
     }
 
     public void testLineNumberDirective() {
@@ -245,115 +245,115 @@ public abstract class BaseLexerTest extends LexerTestCase {
     }
 
     public void testKeyword() {
-        doTest("and", token(OCamlTokenTypes.AND_KEYWORD, Strings.AND_KEYWORD));
-        doTest("as", token(OCamlTokenTypes.AS_KEYWORD, Strings.AS_KEYWORD));
-        doTest("assert", token(OCamlTokenTypes.ASSERT_KEYWORD, Strings.ASSERT_KEYWORD));
-        doTest("asr", token(OCamlTokenTypes.ASR_KEYWORD, Strings.ASR_KEYWORD));
-        doTest("begin", token(OCamlTokenTypes.BEGIN_KEYWORD, Strings.BEGIN_KEYWORD));
-        doTest("class", token(OCamlTokenTypes.CLASS_KEYWORD, Strings.CLASS_KEYWORD));
-        doTest("constraint", token(OCamlTokenTypes.CONSTRAINT_KEYWORD, Strings.CONSTRAINT_KEYWORD));
-        doTest("do", token(OCamlTokenTypes.DO_KEYWORD, Strings.DO_KEYWORD));
-        doTest("done", token(OCamlTokenTypes.DONE_KEYWORD, Strings.DONE_KEYWORD));
-        doTest("downto", token(OCamlTokenTypes.DOWNTO_KEYWORD, Strings.DOWNTO_KEYWORD));
-        doTest("else", token(OCamlTokenTypes.ELSE_KEYWORD, Strings.ELSE_KEYWORD));
-        doTest("end", token(OCamlTokenTypes.END_KEYWORD, Strings.END_KEYWORD));
-        doTest("exception", token(OCamlTokenTypes.EXCEPTION_KEYWORD, Strings.EXCEPTION_KEYWORD));
-        doTest("external", token(OCamlTokenTypes.EXTERNAL_KEYWORD, Strings.EXTERNAL_KEYWORD));
-        doTest("false", token(OCamlTokenTypes.FALSE_KEYWORD, Strings.FALSE_KEYWORD));
-        doTest("for", token(OCamlTokenTypes.FOR_KEYWORD, Strings.FOR_KEYWORD));
-        doTest("fun", token(OCamlTokenTypes.FUN_KEYWORD, Strings.FUN_KEYWORD));
-        doTest("function", token(OCamlTokenTypes.FUNCTION_KEYWORD, Strings.FUNCTION_KEYWORD));
-        doTest("functor", token(OCamlTokenTypes.FUNCTOR_KEYWORD, Strings.FUNCTOR_KEYWORD));
-        doTest("if", token(OCamlTokenTypes.IF_KEYWORD, Strings.IF_KEYWORD));
-        doTest("in", token(OCamlTokenTypes.IN_KEYWORD, Strings.IN_KEYWORD));
-        doTest("include", token(OCamlTokenTypes.INCLUDE_KEYWORD, Strings.INCLUDE_KEYWORD));
-        doTest("inherit", token(OCamlTokenTypes.INHERIT_KEYWORD, Strings.INHERIT_KEYWORD));
-        doTest("initializer", token(OCamlTokenTypes.INITIALIZER_KEYWORD, Strings.INITIALIZER_KEYWORD));
-        doTest("land", token(OCamlTokenTypes.LAND_KEYWORD, Strings.LAND_KEYWORD));
-        doTest("lazy", token(OCamlTokenTypes.LAZY_KEYWORD, Strings.LAZY_KEYWORD));
-        doTest("let", token(OCamlTokenTypes.LET_KEYWORD, Strings.LET_KEYWORD));
-        doTest("lor", token(OCamlTokenTypes.LOR_KEYWORD, Strings.LOR_KEYWORD));
-        doTest("lsl", token(OCamlTokenTypes.LSL_KEYWORD, Strings.LSL_KEYWORD));
-        doTest("lsr", token(OCamlTokenTypes.LSR_KEYWORD, Strings.LSR_KEYWORD));
-        doTest("lxor", token(OCamlTokenTypes.LXOR_KEYWORD, Strings.LXOR_KEYWORD));
-        doTest("match", token(OCamlTokenTypes.MATCH_KEYWORD, Strings.MATCH_KEYWORD));
-        doTest("method", token(OCamlTokenTypes.METHOD_KEYWORD, Strings.METHOD_KEYWORD));
-        doTest("mod", token(OCamlTokenTypes.MOD_KEYWORD, Strings.MOD_KEYWORD));
-        doTest("module", token(OCamlTokenTypes.MODULE_KEYWORD, Strings.MODULE_KEYWORD));
-        doTest("mutable", token(OCamlTokenTypes.MUTABLE_KEYWORD, Strings.MUTABLE_KEYWORD));
-        doTest("new", token(OCamlTokenTypes.NEW_KEYWORD, Strings.NEW_KEYWORD));
-        doTest("object", token(OCamlTokenTypes.OBJECT_KEYWORD, Strings.OBJECT_KEYWORD));
-        doTest("of", token(OCamlTokenTypes.OF_KEYWORD, Strings.OF_KEYWORD));
-        doTest("open", token(OCamlTokenTypes.OPEN_KEYWORD, Strings.OPEN_KEYWORD));
-        doTest("or", token(OCamlTokenTypes.OR_KEYWORD, Strings.OR_KEYWORD));
-        doTest("private", token(OCamlTokenTypes.PRIVATE_KEYWORD, Strings.PRIVATE_KEYWORD));
-        doTest("rec", token(OCamlTokenTypes.REC_KEYWORD, Strings.REC_KEYWORD));
-        doTest("sig", token(OCamlTokenTypes.SIG_KEYWORD, Strings.SIG_KEYWORD));
-        doTest("struct", token(OCamlTokenTypes.STRUCT_KEYWORD, Strings.STRUCT_KEYWORD));
-        doTest("then", token(OCamlTokenTypes.THEN_KEYWORD, Strings.THEN_KEYWORD));
-        doTest("to", token(OCamlTokenTypes.TO_KEYWORD, Strings.TO_KEYWORD));
-        doTest("true", token(OCamlTokenTypes.TRUE_KEYWORD, Strings.TRUE_KEYWORD));
-        doTest("try", token(OCamlTokenTypes.TRY_KEYWORD, Strings.TRY_KEYWORD));
-        doTest("type", token(OCamlTokenTypes.TYPE_KEYWORD, Strings.TYPE_KEYWORD));
-        doTest("val", token(OCamlTokenTypes.VAL_KEYWORD, Strings.VAL_KEYWORD));
-        doTest("virtual", token(OCamlTokenTypes.VIRTUAL_KEYWORD, Strings.VIRTUAL_KEYWORD));
-        doTest("when", token(OCamlTokenTypes.WHEN_KEYWORD, Strings.WHEN_KEYWORD));
-        doTest("while", token(OCamlTokenTypes.WHILE_KEYWORD, Strings.WHILE_KEYWORD));
-        doTest("with", token(OCamlTokenTypes.WITH_KEYWORD, Strings.WITH_KEYWORD));
+        doTest("and", token(OCamlTokenTypes.AND_KEYWORD, Keywords.AND_KEYWORD));
+        doTest("as", token(OCamlTokenTypes.AS_KEYWORD, Keywords.AS_KEYWORD));
+        doTest("assert", token(OCamlTokenTypes.ASSERT_KEYWORD, Keywords.ASSERT_KEYWORD));
+        doTest("asr", token(OCamlTokenTypes.ASR_KEYWORD, Keywords.ASR_KEYWORD));
+        doTest("begin", token(OCamlTokenTypes.BEGIN_KEYWORD, Keywords.BEGIN_KEYWORD));
+        doTest("class", token(OCamlTokenTypes.CLASS_KEYWORD, Keywords.CLASS_KEYWORD));
+        doTest("constraint", token(OCamlTokenTypes.CONSTRAINT_KEYWORD, Keywords.CONSTRAINT_KEYWORD));
+        doTest("do", token(OCamlTokenTypes.DO_KEYWORD, Keywords.DO_KEYWORD));
+        doTest("done", token(OCamlTokenTypes.DONE_KEYWORD, Keywords.DONE_KEYWORD));
+        doTest("downto", token(OCamlTokenTypes.DOWNTO_KEYWORD, Keywords.DOWNTO_KEYWORD));
+        doTest("else", token(OCamlTokenTypes.ELSE_KEYWORD, Keywords.ELSE_KEYWORD));
+        doTest("end", token(OCamlTokenTypes.END_KEYWORD, Keywords.END_KEYWORD));
+        doTest("exception", token(OCamlTokenTypes.EXCEPTION_KEYWORD, Keywords.EXCEPTION_KEYWORD));
+        doTest("external", token(OCamlTokenTypes.EXTERNAL_KEYWORD, Keywords.EXTERNAL_KEYWORD));
+        doTest("false", token(OCamlTokenTypes.FALSE_KEYWORD, Keywords.FALSE_KEYWORD));
+        doTest("for", token(OCamlTokenTypes.FOR_KEYWORD, Keywords.FOR_KEYWORD));
+        doTest("fun", token(OCamlTokenTypes.FUN_KEYWORD, Keywords.FUN_KEYWORD));
+        doTest("function", token(OCamlTokenTypes.FUNCTION_KEYWORD, Keywords.FUNCTION_KEYWORD));
+        doTest("functor", token(OCamlTokenTypes.FUNCTOR_KEYWORD, Keywords.FUNCTOR_KEYWORD));
+        doTest("if", token(OCamlTokenTypes.IF_KEYWORD, Keywords.IF_KEYWORD));
+        doTest("in", token(OCamlTokenTypes.IN_KEYWORD, Keywords.IN_KEYWORD));
+        doTest("include", token(OCamlTokenTypes.INCLUDE_KEYWORD, Keywords.INCLUDE_KEYWORD));
+        doTest("inherit", token(OCamlTokenTypes.INHERIT_KEYWORD, Keywords.INHERIT_KEYWORD));
+        doTest("initializer", token(OCamlTokenTypes.INITIALIZER_KEYWORD, Keywords.INITIALIZER_KEYWORD));
+        doTest("land", token(OCamlTokenTypes.LAND_KEYWORD, Keywords.LAND_KEYWORD));
+        doTest("lazy", token(OCamlTokenTypes.LAZY_KEYWORD, Keywords.LAZY_KEYWORD));
+        doTest("let", token(OCamlTokenTypes.LET_KEYWORD, Keywords.LET_KEYWORD));
+        doTest("lor", token(OCamlTokenTypes.LOR_KEYWORD, Keywords.LOR_KEYWORD));
+        doTest("lsl", token(OCamlTokenTypes.LSL_KEYWORD, Keywords.LSL_KEYWORD));
+        doTest("lsr", token(OCamlTokenTypes.LSR_KEYWORD, Keywords.LSR_KEYWORD));
+        doTest("lxor", token(OCamlTokenTypes.LXOR_KEYWORD, Keywords.LXOR_KEYWORD));
+        doTest("match", token(OCamlTokenTypes.MATCH_KEYWORD, Keywords.MATCH_KEYWORD));
+        doTest("method", token(OCamlTokenTypes.METHOD_KEYWORD, Keywords.METHOD_KEYWORD));
+        doTest("mod", token(OCamlTokenTypes.MOD_KEYWORD, Keywords.MOD_KEYWORD));
+        doTest("module", token(OCamlTokenTypes.MODULE_KEYWORD, Keywords.MODULE_KEYWORD));
+        doTest("mutable", token(OCamlTokenTypes.MUTABLE_KEYWORD, Keywords.MUTABLE_KEYWORD));
+        doTest("new", token(OCamlTokenTypes.NEW_KEYWORD, Keywords.NEW_KEYWORD));
+        doTest("object", token(OCamlTokenTypes.OBJECT_KEYWORD, Keywords.OBJECT_KEYWORD));
+        doTest("of", token(OCamlTokenTypes.OF_KEYWORD, Keywords.OF_KEYWORD));
+        doTest("open", token(OCamlTokenTypes.OPEN_KEYWORD, Keywords.OPEN_KEYWORD));
+        doTest("or", token(OCamlTokenTypes.OR_KEYWORD, Keywords.OR_KEYWORD));
+        doTest("private", token(OCamlTokenTypes.PRIVATE_KEYWORD, Keywords.PRIVATE_KEYWORD));
+        doTest("rec", token(OCamlTokenTypes.REC_KEYWORD, Keywords.REC_KEYWORD));
+        doTest("sig", token(OCamlTokenTypes.SIG_KEYWORD, Keywords.SIG_KEYWORD));
+        doTest("struct", token(OCamlTokenTypes.STRUCT_KEYWORD, Keywords.STRUCT_KEYWORD));
+        doTest("then", token(OCamlTokenTypes.THEN_KEYWORD, Keywords.THEN_KEYWORD));
+        doTest("to", token(OCamlTokenTypes.TO_KEYWORD, Keywords.TO_KEYWORD));
+        doTest("true", token(OCamlTokenTypes.TRUE_KEYWORD, Keywords.TRUE_KEYWORD));
+        doTest("try", token(OCamlTokenTypes.TRY_KEYWORD, Keywords.TRY_KEYWORD));
+        doTest("type", token(OCamlTokenTypes.TYPE_KEYWORD, Keywords.TYPE_KEYWORD));
+        doTest("val", token(OCamlTokenTypes.VAL_KEYWORD, Keywords.VAL_KEYWORD));
+        doTest("virtual", token(OCamlTokenTypes.VIRTUAL_KEYWORD, Keywords.VIRTUAL_KEYWORD));
+        doTest("when", token(OCamlTokenTypes.WHEN_KEYWORD, Keywords.WHEN_KEYWORD));
+        doTest("while", token(OCamlTokenTypes.WHILE_KEYWORD, Keywords.WHILE_KEYWORD));
+        doTest("with", token(OCamlTokenTypes.WITH_KEYWORD, Keywords.WITH_KEYWORD));
 
-        doTest("!=", token(OCamlTokenTypes.NOT_EQ, Strings.NOT_EQ));
-        doTest("#", token(OCamlTokenTypes.HASH, Strings.HASH));
-        doTest("&", token(OCamlTokenTypes.AMP, Strings.AMP));
-        doTest("&&", token(OCamlTokenTypes.AMP_AMP, Strings.AMP_AMP));
-        doTest("'", token(OCamlTokenTypes.QUOTE, Strings.QUOTE));
-        doTest("(", token(OCamlTokenTypes.LPAR, Strings.LPAR));
-        doTest(")", token(OCamlTokenTypes.RPAR, Strings.RPAR));
-        doTest("*", token(OCamlTokenTypes.MULT, Strings.MULT));
-        doTest("+", token(OCamlTokenTypes.PLUS, Strings.PLUS));
-        doTest(",", token(OCamlTokenTypes.COMMA, Strings.COMMA));
-        doTest("-", token(OCamlTokenTypes.MINUS, Strings.MINUS));
-        doTest("-.", token(OCamlTokenTypes.MINUS_DOT, Strings.MINUS_DOT));
-        doTest("->", token(OCamlTokenTypes.MINUS_GT, Strings.MINUS_GT));
-        doTest(".", token(OCamlTokenTypes.DOT, Strings.DOT));
-        doTest("..", token(OCamlTokenTypes.DOT_DOT, Strings.DOT_DOT));
-        doTest(":", token(OCamlTokenTypes.COLON, Strings.COLON));
-        doTest("::", token(OCamlTokenTypes.COLON_COLON, Strings.COLON_COLON));
-        doTest(":=", token(OCamlTokenTypes.COLON_EQ, Strings.COLON_EQ));
-        doTest(":>", token(OCamlTokenTypes.COLON_GT, Strings.COLON_GT));
-        doTest(";", token(OCamlTokenTypes.SEMICOLON, Strings.SEMICOLON));
-        doTest(";;", token(OCamlTokenTypes.SEMICOLON_SEMICOLON, Strings.SEMICOLON_SEMICOLON));
-        doTest("<", token(OCamlTokenTypes.LT, Strings.LT));
-        doTest("<-", token(OCamlTokenTypes.LT_MINUS, Strings.LT_MINUS));
-        doTest("=", token(OCamlTokenTypes.EQ, Strings.EQ));
-        doTest(">", token(OCamlTokenTypes.GT, Strings.GT));
-        doTest(">]", token(OCamlTokenTypes.GT_RBRACKET, Strings.GT_RBRACKET));
-        doTest(">}", token(OCamlTokenTypes.GT_RBRACE, Strings.GT_RBRACE));
-        doTest("?", token(OCamlTokenTypes.QUEST, Strings.QUEST));
-        doTest("??", token(OCamlTokenTypes.QUEST_QUEST, Strings.QUEST_QUEST));
-        doTest("[", token(OCamlTokenTypes.LBRACKET, Strings.LBRACKET));
-        doTest("[<", token(OCamlTokenTypes.LBRACKET_LT, Strings.LBRACKET_LT));
-        doTest("[>", token(OCamlTokenTypes.LBRACKET_GT, Strings.LBRACKET_GT));
-        doTest("[|", token(OCamlTokenTypes.LBRACKET_VBAR, Strings.LBRACKET_VBAR));
-        doTest("]", token(OCamlTokenTypes.RBRACKET, Strings.RBRACKET));
-        doTest("_", token(OCamlTokenTypes.UNDERSCORE, Strings.UNDERSCORE));
-        doTest("`", token(OCamlTokenTypes.ACCENT, Strings.ACCENT));
-        doTest("{", token(OCamlTokenTypes.LBRACE, Strings.LBRACE));
-        doTest("{<", token(OCamlTokenTypes.LBRACE_LT, Strings.LBRACE_LT));
-        doTest("|", token(OCamlTokenTypes.VBAR, Strings.VBAR));
-        doTest("||", token(OCamlTokenTypes.VBAR_VBAR, Strings.VBAR_VBAR));
-        doTest("|]", token(OCamlTokenTypes.VBAR_RBRACKET, Strings.VBAR_RBRACKET));
-        doTest("}", token(OCamlTokenTypes.RBRACE, Strings.RBRACE));
-        doTest("~", token(OCamlTokenTypes.TILDE, Strings.TILDE));
+        doTest("!=", token(OCamlTokenTypes.NOT_EQ, Keywords.NOT_EQ));
+        doTest("#", token(OCamlTokenTypes.HASH, Keywords.HASH));
+        doTest("&", token(OCamlTokenTypes.AMP, Keywords.AMP));
+        doTest("&&", token(OCamlTokenTypes.AMP_AMP, Keywords.AMP_AMP));
+        doTest("'", token(OCamlTokenTypes.QUOTE, Keywords.QUOTE));
+        doTest("(", token(OCamlTokenTypes.LPAR, Keywords.LPAR));
+        doTest(")", token(OCamlTokenTypes.RPAR, Keywords.RPAR));
+        doTest("*", token(OCamlTokenTypes.MULT, Keywords.MULT));
+        doTest("+", token(OCamlTokenTypes.PLUS, Keywords.PLUS));
+        doTest(",", token(OCamlTokenTypes.COMMA, Keywords.COMMA));
+        doTest("-", token(OCamlTokenTypes.MINUS, Keywords.MINUS));
+        doTest("-.", token(OCamlTokenTypes.MINUS_DOT, Keywords.MINUS_DOT));
+        doTest("->", token(OCamlTokenTypes.MINUS_GT, Keywords.MINUS_GT));
+        doTest(".", token(OCamlTokenTypes.DOT, Keywords.DOT));
+        doTest("..", token(OCamlTokenTypes.DOT_DOT, Keywords.DOT_DOT));
+        doTest(":", token(OCamlTokenTypes.COLON, Keywords.COLON));
+        doTest("::", token(OCamlTokenTypes.COLON_COLON, Keywords.COLON_COLON));
+        doTest(":=", token(OCamlTokenTypes.COLON_EQ, Keywords.COLON_EQ));
+        doTest(":>", token(OCamlTokenTypes.COLON_GT, Keywords.COLON_GT));
+        doTest(";", token(OCamlTokenTypes.SEMICOLON, Keywords.SEMICOLON));
+        doTest(";;", token(OCamlTokenTypes.SEMICOLON_SEMICOLON, Keywords.SEMICOLON_SEMICOLON));
+        doTest("<", token(OCamlTokenTypes.LT, Keywords.LT));
+        doTest("<-", token(OCamlTokenTypes.LT_MINUS, Keywords.LT_MINUS));
+        doTest("=", token(OCamlTokenTypes.EQ, Keywords.EQ));
+        doTest(">", token(OCamlTokenTypes.GT, Keywords.GT));
+        doTest(">]", token(OCamlTokenTypes.GT_RBRACKET, Keywords.GT_RBRACKET));
+        doTest(">}", token(OCamlTokenTypes.GT_RBRACE, Keywords.GT_RBRACE));
+        doTest("?", token(OCamlTokenTypes.QUEST, Keywords.QUEST));
+        doTest("??", token(OCamlTokenTypes.QUEST_QUEST, Keywords.QUEST_QUEST));
+        doTest("[", token(OCamlTokenTypes.LBRACKET, Keywords.LBRACKET));
+        doTest("[<", token(OCamlTokenTypes.LBRACKET_LT, Keywords.LBRACKET_LT));
+        doTest("[>", token(OCamlTokenTypes.LBRACKET_GT, Keywords.LBRACKET_GT));
+        doTest("[|", token(OCamlTokenTypes.LBRACKET_VBAR, Keywords.LBRACKET_VBAR));
+        doTest("]", token(OCamlTokenTypes.RBRACKET, Keywords.RBRACKET));
+        doTest("_", token(OCamlTokenTypes.UNDERSCORE, Keywords.UNDERSCORE));
+        doTest("`", token(OCamlTokenTypes.ACCENT, Keywords.ACCENT));
+        doTest("{", token(OCamlTokenTypes.LBRACE, Keywords.LBRACE));
+        doTest("{<", token(OCamlTokenTypes.LBRACE_LT, Keywords.LBRACE_LT));
+        doTest("|", token(OCamlTokenTypes.VBAR, Keywords.VBAR));
+        doTest("||", token(OCamlTokenTypes.VBAR_VBAR, Keywords.VBAR_VBAR));
+        doTest("|]", token(OCamlTokenTypes.VBAR_RBRACKET, Keywords.VBAR_RBRACKET));
+        doTest("}", token(OCamlTokenTypes.RBRACE, Keywords.RBRACE));
+        doTest("~", token(OCamlTokenTypes.TILDE, Keywords.TILDE));
 
         /* Camlp4 extensions compatibility { */
 
-        doTest("parser", token(OCamlTokenTypes.PARSER_KEYWORD, Strings.PARSER_KEYWORD));
-        doTest("<<", token(OCamlTokenTypes.LT_LT, Strings.LT_LT));
-        doTest("<:", token(OCamlTokenTypes.LT_COLON, Strings.LT_COLON));
-        doTest(">>", token(OCamlTokenTypes.GT_GT, Strings.GT_GT));
-        doTest("$", token(OCamlTokenTypes.DOLLAR, Strings.DOLLAR));
-        doTest("$$", token(OCamlTokenTypes.DOLLAR_DOLLAR, Strings.DOLLAR_DOLLAR));
-        doTest("$:", token(OCamlTokenTypes.DOLLAR_COLON, Strings.DOLLAR_COLON));
+        doTest("parser", token(OCamlTokenTypes.PARSER_KEYWORD, Keywords.PARSER_KEYWORD));
+        doTest("<<", token(OCamlTokenTypes.LT_LT, Keywords.LT_LT));
+        doTest("<:", token(OCamlTokenTypes.LT_COLON, Keywords.LT_COLON));
+        doTest(">>", token(OCamlTokenTypes.GT_GT, Keywords.GT_GT));
+        doTest("$", token(OCamlTokenTypes.DOLLAR, Keywords.DOLLAR));
+        doTest("$$", token(OCamlTokenTypes.DOLLAR_DOLLAR, Keywords.DOLLAR_DOLLAR));
+        doTest("$:", token(OCamlTokenTypes.DOLLAR_COLON, Keywords.DOLLAR_COLON));
 
         /* } */
     }

@@ -20,6 +20,7 @@ package ocaml.lang.processing.parser.ast;
 
 import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.tree.TokenSet;
+import ocaml.lang.processing.Keywords;
 import ocaml.lang.processing.Strings;
 import ocaml.lang.processing.lexer.token.OCamlTokenTypes;
 import ocaml.lang.processing.parser.ast.element.OCamlElementTypes;
@@ -639,7 +640,7 @@ class ExpressionParsing extends Parsing {
         }
 
         while (tryParseInfixOperator(builder, TokenSet.create(OCamlTokenTypes.AMP, OCamlTokenTypes.AMP_AMP, OCamlTokenTypes.VBAR_VBAR), Collections.<String>emptySet(),
-                                     TokenSet.EMPTY, Strings.EQ, Strings.LT, Strings.GT, Strings.VBAR, Strings.AMP, Strings.DOLLAR)) {
+                                     TokenSet.EMPTY, Keywords.EQ, Keywords.LT, Keywords.GT, Keywords.VBAR, Keywords.AMP, Keywords.DOLLAR)) {
             if (!tryParseExpressionStartingWithKeyword(builder) && !tryParseAtXorOperatorExpression(builder)) {
                 builder.error(Strings.EXPRESSION_EXPECTED);
             }
@@ -691,7 +692,7 @@ class ExpressionParsing extends Parsing {
             return false;
         }
 
-        while (tryParseInfixOperator(builder, TokenSet.EMPTY, Collections.<String>emptySet(), TokenSet.EMPTY, Strings.AT, Strings.XOR)) {
+        while (tryParseInfixOperator(builder, TokenSet.EMPTY, Collections.<String>emptySet(), TokenSet.EMPTY, Keywords.AT, Keywords.XOR)) {
             binaryExpressionMarker.mark();
 
             if (!tryParseExpressionStartingWithKeyword(builder) && !tryParseHeadTailExpression(builder)) {
@@ -736,7 +737,7 @@ class ExpressionParsing extends Parsing {
             return false;
         }
 
-        while (tryParseInfixOperator(builder, TokenSet.EMPTY, Collections.<String>emptySet(), TokenSet.EMPTY, Strings.PLUS, Strings.MINUS)) {
+        while (tryParseInfixOperator(builder, TokenSet.EMPTY, Collections.<String>emptySet(), TokenSet.EMPTY, Keywords.PLUS, Keywords.MINUS)) {
             if (!tryParseExpressionStartingWithKeyword(builder) && !tryParseMultExpression(builder)) {
                 builder.error(Strings.EXPRESSION_EXPECTED);
             }
@@ -758,9 +759,9 @@ class ExpressionParsing extends Parsing {
             return false;
         }
 
-        while (tryParseInfixOperator(builder, TokenSet.EMPTY, Collections.singleton(Strings.POWER),
+        while (tryParseInfixOperator(builder, TokenSet.EMPTY, Collections.singleton(Keywords.POWER),
                                      TokenSet.create(OCamlTokenTypes.MOD_KEYWORD, OCamlTokenTypes.LAND_KEYWORD, OCamlTokenTypes.LOR_KEYWORD, OCamlTokenTypes.LXOR_KEYWORD),
-                                     Strings.MULT, Strings.DIV, Strings.PERCENT)) {
+                                     Keywords.MULT, Keywords.DIV, Keywords.PERCENT)) {
 
             if (!tryParseExpressionStartingWithKeyword(builder) && !tryParsePowerExpression(builder)) {
                 builder.error(Strings.EXPRESSION_EXPECTED);
@@ -785,7 +786,7 @@ class ExpressionParsing extends Parsing {
         }
 
         while (tryParseInfixOperator(builder, TokenSet.EMPTY, Collections.<String>emptySet(),
-                                     TokenSet.create(OCamlTokenTypes.LSL_KEYWORD, OCamlTokenTypes.LSR_KEYWORD, OCamlTokenTypes.ASR_KEYWORD), Strings.POWER)) {
+                                     TokenSet.create(OCamlTokenTypes.LSL_KEYWORD, OCamlTokenTypes.LSR_KEYWORD, OCamlTokenTypes.ASR_KEYWORD), Keywords.POWER)) {
             binaryExpressionMarker.mark();
 
             if (!tryParseExpressionStartingWithKeyword(builder) && !tryParseUnaryMinusExpression(builder)) {

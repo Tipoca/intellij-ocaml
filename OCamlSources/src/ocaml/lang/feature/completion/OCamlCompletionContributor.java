@@ -26,7 +26,7 @@ import org.jetbrains.annotations.NotNull;
  * @author Maxim.Manuylov
  *         Date: 25.04.2010
  */
-public class OCamlCompletionContributor extends CompletionContributor {
+public class OCamlCompletionContributor extends CompletionContributor { //todo
     @Override
     public void beforeCompletion(@NotNull final CompletionInitializationContext context) {
         //context.

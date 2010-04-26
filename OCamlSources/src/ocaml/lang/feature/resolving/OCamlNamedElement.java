@@ -35,6 +35,9 @@ public interface OCamlNamedElement extends OCamlElement, PsiNamedElement {
     @Nullable
     String getCanonicalName();
 
+    @Nullable
+    String getCanonicalPath();
+
     @NotNull
     NameType getNameType();
 

@@ -53,11 +53,6 @@ public abstract class BaseOCamlSelfResolvedReference extends BaseOCamlReference 
         return Collections.emptyList();
     }
 
-    @Nullable
-    public String getCanonicalPath() {
-        return getCanonicalName(); //todo smth
-    }
-
     @Override
     public OCamlResolvedReference resolve() {  //todo getVariants()???
         return this;

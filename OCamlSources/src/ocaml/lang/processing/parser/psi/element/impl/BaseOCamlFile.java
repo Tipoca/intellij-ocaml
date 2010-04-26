@@ -41,7 +41,9 @@ public abstract class BaseOCamlFile extends PsiFileBase implements OCamlFile {
     @NotNull
     public String getCanonicalName() {
         final VirtualFile file = getVirtualFile();
-        final String fileNameWithoutExtension = file == null ? getName() : file.getNameWithoutExtension();
+        final String fileNameWithoutExtension = file == null
+            ? OCamlStringUtil.dropFromLastDot(getName())
+            : file.getNameWithoutExtension();
         return OCamlStringUtil.capitalize(fileNameWithoutExtension);
     }
 

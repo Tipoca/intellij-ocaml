@@ -22,7 +22,7 @@
     <id>OCamlSupport</id>
     <description>OCaml language support</description>
     <change-notes>Initial release of the plugin.</change-notes>
-    <version>0.2</version>
+    <version>0.3</version>
     <vendor email="maxim.manuylov@gmail.com" logo="/img/ocaml-small.png">Maxim.Manuylov</vendor>
     <category>Custom Languages</category>
     <idea-version since-build="10000"/>
@@ -51,6 +51,12 @@
         <lang.foldingBuilder language="OCAML_MLI" implementationClass="ocaml.lang.feature.folding.OCamlFoldingBuilder"/>
         <lang.commenter language="OCAML_ML" implementationClass="ocaml.lang.feature.commenting.OCamlCommenter"/>
         <lang.commenter language="OCAML_MLI" implementationClass="ocaml.lang.feature.commenting.OCamlCommenter"/>
+        <lang.findUsagesProvider language="OCAML_ML" implementationClass="ocaml.lang.feature.findUsages.OCamlFindUsagesProvider"/>
+        <lang.findUsagesProvider language="OCAML_MLI" implementationClass="ocaml.lang.feature.findUsages.OCamlFindUsagesProvider"/>
+        <lang.namesValidator language="OCAML_ML" implementationClass="ocaml.lang.feature.refactoring.rename.OCamlNamesValidator"/>
+        <lang.namesValidator language="OCAML_MLI" implementationClass="ocaml.lang.feature.refactoring.rename.OCamlNamesValidator"/>
+        <lang.refactoringSupport language="OCAML_ML" implementationClass="ocaml.lang.feature.refactoring.OCamlRefactoringSupportProvider"/>
+        <lang.refactoringSupport language="OCAML_MLI" implementationClass="ocaml.lang.feature.refactoring.OCamlRefactoringSupportProvider"/>
         <completion.contributor language="OCAML_ML" implementationClass="ocaml.lang.feature.completion.OCamlCompletionContributor"/>
         <completion.contributor language="OCAML_MLI" implementationClass="ocaml.lang.feature.completion.OCamlCompletionContributor"/>
 

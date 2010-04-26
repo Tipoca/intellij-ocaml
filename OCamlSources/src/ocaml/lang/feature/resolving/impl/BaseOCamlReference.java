@@ -18,6 +18,7 @@
 
 package ocaml.lang.feature.resolving.impl;
 
+import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.Comparing;
 import com.intellij.openapi.util.TextRange;
@@ -57,9 +58,8 @@ public abstract class BaseOCamlReference extends BaseOCamlNamedElement implement
     }
 
     @Nullable
-    public String getCanonicalText() { // todo (see OCamlResolvedReference.getCanonicalPath()), maybe null should be returned
-        final OCamlResolvedReference resolvedReference = resolve();                    
-        return resolvedReference == null ? null : resolvedReference.getCanonicalPath();
+    public String getCanonicalText() {
+        return getCanonicalPath();
     }
 
     @NotNull
@@ -73,11 +73,13 @@ public abstract class BaseOCamlReference extends BaseOCamlNamedElement implement
     }
 
     public boolean isReferenceTo(@NotNull final PsiElement element) {
-        return element instanceof OCamlResolvedReference && Comparing.equal(getName(), ((OCamlResolvedReference) element).getName()) && resolve() == element;
+        return element instanceof OCamlResolvedReference
+            && Comparing.equal(getCanonicalName(), ((OCamlResolvedReference) element).getCanonicalName())
+            && resolve() == element;
     }
 
     @NotNull
-    public OCamlResolvedReference[] getVariants() {
+    public LookupElement[] getVariants() {
         return OCamlResolvingUtil.getVariants(getResolvingContext(), getPossibleResolvedTypes());
     }
 

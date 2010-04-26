@@ -18,30 +18,39 @@
 
 package ocaml.lang.feature.resolving.util;
 
+import com.intellij.codeInsight.lookup.LookupElement;
+import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import ocaml.lang.feature.resolving.OCamlResolvedReference;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Maxim.Manuylov
  *         Date: 27.03.2009
  */
 class VariantsCollectorProcessor extends BaseOCamlResolvedReferencesProcessor {
-    @NotNull private final ArrayList<OCamlResolvedReference> myVariants = new ArrayList<OCamlResolvedReference>();
+    @NotNull private final ArrayList<LookupElement> myVariants = new ArrayList<LookupElement>();
+    @NotNull private final Set<String> myPaths = new HashSet<String>();
 
     public VariantsCollectorProcessor(@NotNull final List<Class<? extends OCamlResolvedReference>> types) {
         super(types);
     }
 
     public boolean doProcess(@NotNull final OCamlResolvedReference psiElement) {
-        myVariants.add(psiElement);
+        final String path = psiElement.getCanonicalPath();
+        if (!myPaths.contains(path)) {
+            myPaths.add(path);
+            myVariants.add(LookupElementBuilder.create(psiElement));
+        }
         return false;
     }
 
     @NotNull
-    public OCamlResolvedReference[] getCollectedVariants() {
-        return myVariants.toArray(new OCamlResolvedReference[myVariants.size()]);
+    public LookupElement[] getCollectedVariants() {
+        return myVariants.toArray(new LookupElement[myVariants.size()]);
     }
 }

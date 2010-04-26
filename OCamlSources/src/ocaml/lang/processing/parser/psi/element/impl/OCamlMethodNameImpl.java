@@ -18,6 +18,7 @@
 
 package ocaml.lang.processing.parser.psi.element.impl;
 
+import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.lang.ASTNode;
 import ocaml.lang.feature.resolving.NameType;
 import ocaml.lang.feature.resolving.OCamlResolvedReference;
@@ -100,7 +101,7 @@ public class OCamlMethodNameImpl extends BaseOCamlReference implements OCamlMeth
 
     @NotNull
     @Override
-    public OCamlResolvedReference[] getVariants() {
+    public LookupElement[] getVariants() {
 /*
         final OCamlElement parent = OCamlPsiUtil.getParent(this);
         if (parent == null) return new OCamlResolvedReference[0];
@@ -113,7 +114,7 @@ public class OCamlMethodNameImpl extends BaseOCamlReference implements OCamlMeth
 
         return (OCamlResolvedReference[]) object.getAvailableMethods().toArray();
 */
-        return new OCamlResolvedReference[0]; //todo
+        return new LookupElement[0]; //todo
     }
 
     @Override

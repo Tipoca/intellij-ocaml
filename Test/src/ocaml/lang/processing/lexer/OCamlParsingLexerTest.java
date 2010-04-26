@@ -20,7 +20,7 @@ package ocaml.lang.processing.lexer;
 
 import com.intellij.lexer.Lexer;
 import com.intellij.psi.TokenType;
-import ocaml.lang.processing.Strings;
+import ocaml.lang.processing.Keywords;
 import ocaml.lang.processing.lexer.token.OCamlTokenTypes;
 import org.testng.annotations.Test;
 
@@ -31,7 +31,7 @@ import org.testng.annotations.Test;
 @Test
 public class OCamlParsingLexerTest extends BaseLexerTest {
     public void testCharLiteral() {
-        doTest("'a", token(OCamlTokenTypes.QUOTE, Strings.QUOTE), token(OCamlTokenTypes.LCFC_IDENTIFIER, "a"));
+        doTest("'a", token(OCamlTokenTypes.QUOTE, Keywords.QUOTE), token(OCamlTokenTypes.LCFC_IDENTIFIER, "a"));
         doTest("'a'", token(OCamlTokenTypes.CHAR_LITERAL, "'a'"));
         doTest("'\\\\'", token(OCamlTokenTypes.CHAR_LITERAL, "'\\\\'"));
         doTest("'\\\"'", token(OCamlTokenTypes.CHAR_LITERAL, "'\\\"'"));
@@ -46,7 +46,7 @@ public class OCamlParsingLexerTest extends BaseLexerTest {
     }
 
     public void testStringLiteral() {
-        doTest("\"a", token(TokenType.BAD_CHARACTER, Strings.DOUBLE_QUOTE), token(OCamlTokenTypes.LCFC_IDENTIFIER, "a"));
+        doTest("\"a", token(TokenType.BAD_CHARACTER, Keywords.DOUBLE_QUOTE), token(OCamlTokenTypes.LCFC_IDENTIFIER, "a"));
         doTest("\"a\"", token(OCamlTokenTypes.STRING_LITERAL, "\"a\""));
         doTest("\"abcdefskdn3\"", token(OCamlTokenTypes.STRING_LITERAL, "\"abcdefskdn3\""));
         doTest("\"abc\\n\\t\\rdef\"", token(OCamlTokenTypes.STRING_LITERAL, "\"abc\\n\\t\\rdef\""));

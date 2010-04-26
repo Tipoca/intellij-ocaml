@@ -18,6 +18,7 @@
 
 package ocaml.lang.feature.resolving.util;
 
+import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.module.Module;
@@ -59,7 +60,7 @@ public class OCamlResolvingUtil {
     }
 
     @NotNull
-    public static OCamlResolvedReference[] getVariants(@NotNull final ResolvingContext context, @NotNull final List<Class<? extends OCamlResolvedReference>> types) {
+    public static LookupElement[] getVariants(@NotNull final ResolvingContext context, @NotNull final List<Class<? extends OCamlResolvedReference>> types) {
         final VariantsCollectorProcessor processor = new VariantsCollectorProcessor(types);
         treeWalkUp(new ResolvingBuilder(processor, context));
         return processor.getCollectedVariants();

@@ -18,13 +18,9 @@
 
 package ocaml.lang.feature.resolving;
 
-import org.jetbrains.annotations.Nullable;
-
 /**
  * @author Maxim.Manuylov
  *         Date: 23.03.2009
  */
 public interface OCamlResolvedReference extends OCamlNamedElement {
-    @Nullable
-    String getCanonicalPath();
 }

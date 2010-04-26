@@ -184,5 +184,13 @@ public interface OCamlTokenTypes {
 
     TokenSet STRING_LITERALS = TokenSet.create( STRING_LITERAL );
     TokenSet COMMENTS = TokenSet.create( COMMENT, COMMENT_BEGIN, COMMENT_END );
+
+    /* TokenSets for DefaultWordsScanner { */
+
+    TokenSet DWS_IDENTIFIERS = IDENTIFIERS;
+    TokenSet DWS_COMMENTS = TokenSet.create( COMMENT );
+    TokenSet DWS_LITERALS = TokenSet.create( INTEGER_LITERAL, FLOAT_LITERAL, REGULAR_CHARS, ESCAPE_SEQUENCES );
+
+    /* } */
 }
 

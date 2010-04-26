@@ -22,6 +22,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiErrorElement;
 import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IElementType;
+import ocaml.lang.processing.Keywords;
 import ocaml.lang.processing.Strings;
 import ocaml.lang.processing.lexer.token.OCamlTokenTypes;
 import ocaml.lang.processing.parser.ast.element.OCamlElementTypes;
@@ -161,18 +162,25 @@ public class TreeStringBuilder {
         for (final Field field : fields) {
             try {
                 if (field.get(null) == type) {
-                    final Field[] stringFields = Strings.class.getFields();
-                    for (final Field stringField : stringFields) {
-                        if (stringField.getName().equals(field.getName())) {
-                            return String.valueOf(stringField.get(null));
-                        }
-                    }
+                    final String fieldName = field.getName();
+                    String text = findTextInClass(Strings.class, fieldName);
+                    if (text != null) return text;
+                    text = findTextInClass(Keywords.class, fieldName);
+                    if (text != null) return text;
                 }
             }
-            catch (IllegalAccessException ignored) {
-            }
+            catch (final IllegalAccessException ignored) { }
         }
 
         return null;
+    }
+
+    @Nullable
+    private String findTextInClass(@NotNull final Class<?> clazz, @NotNull final String fieldName) throws IllegalAccessException {
+        try {
+            return String.valueOf(clazz.getField(fieldName).get(null));
+        } catch (final NoSuchFieldException e) {
+            return null;
+        }
     }
 }

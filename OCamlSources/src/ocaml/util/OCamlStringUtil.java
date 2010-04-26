@@ -32,6 +32,13 @@ public class OCamlStringUtil {
     }
 
     @NotNull
+    public static String dropFromLastDot(@NotNull final String string) {
+        final int dotPos = string.lastIndexOf(".");
+        if (dotPos < 0) return string;
+        return string.substring(0, dotPos);
+    }
+
+    @NotNull
     public static String capitalize(@NotNull final String string) {
         if (string.length() == 0) return string;
         return Character.toUpperCase(string.charAt(0)) + string.substring(1);

@@ -40,29 +40,6 @@ public abstract class BaseOCamlResolvedReference extends BaseOCamlNamedElement i
         super(node);
     }
 
-    @Nullable
-    public String getCanonicalPath() { //todo 
-        final StringBuilder sb = new StringBuilder(OCamlStringUtil.getNotNull(getName()));
-
-        final OCamlElementProcessorAdapter processor = new OCamlElementProcessorAdapter() {
-            public void process(@NotNull final OCamlElement psiElement) {
-                if (psiElement instanceof OCamlModuleDefinitionBinding || psiElement instanceof OCamlModuleSpecificationBinding) {
-                    sb.insert(0, ".");
-                    sb.insert(0, OCamlStringUtil.getNotNull(((OCamlNamedElement) psiElement).getName()));
-                }
-            }
-        };
-
-        OCamlElement parent = OCamlPsiUtil.getParent(this);
-
-        while (parent != null) {
-            parent.accept(processor);
-            parent = OCamlPsiUtil.getParent(parent);
-        }
-
-        return sb.toString();
-    }
-
     @Override
     public boolean processDeclarations(@NotNull final ResolvingBuilder builder) {
         return builder.getProcessor().process(this);
