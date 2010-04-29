@@ -28,15 +28,16 @@ import com.intellij.openapi.projectRoots.ui.ProjectJdksEditor;
 import com.intellij.openapi.ui.ComponentWithBrowseButton;
 import com.intellij.openapi.ui.TextComponentAccessor;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
+import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.CollectionComboBoxModel;
 import com.intellij.ui.ColoredListCellRenderer;
 import com.intellij.ui.RawCommandLineEditor;
 import com.intellij.ui.SimpleTextAttributes;
-import ocaml.lang.fileType.ml.MLFileType;
 import ocaml.entity.OCamlModule;
 import ocaml.sdk.OCamlSdkType;
+import ocaml.util.OCamlFileUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -74,7 +75,7 @@ public class OCamlRunConfigurationForm implements OCamlRunConfigurationParams {
 
         final FileChooserDescriptor mlFileChooserDescriptor = new FileChooserDescriptor(true, false, false, false, false, false) {
             public boolean isFileVisible(@NotNull final VirtualFile file, final boolean showHiddenFiles) {
-                return file.isDirectory() || file.getFileType() == MLFileType.INSTANCE;
+                return file.isDirectory() || OCamlFileUtil.isImplementationFile(file);
             }
         };
         mlFileChooserDescriptor.setRoot(myProject.getBaseDir());
@@ -84,7 +85,7 @@ public class OCamlRunConfigurationForm implements OCamlRunConfigurationParams {
                 "", myMainFileEditor, myProject, mlFileChooserDescriptor, TextComponentAccessor.TEXT_FIELD_WHOLE_TEXT) {
                 protected void onFileChoosen(@NotNull final VirtualFile chosenFile) {
                     super.onFileChoosen(chosenFile);
-                    myWorkingDirectoryEditor.setText(chosenFile.getParent().getPath());
+                    setWorkingDirectory(chosenFile.getParent().getPath());
                 }
             };
 
@@ -156,14 +157,14 @@ public class OCamlRunConfigurationForm implements OCamlRunConfigurationParams {
 
     @Nullable
     public OCamlModule getMainOCamlModule() {
-        final String filePath = myMainFileEditor.getText();
+        final String filePath = FileUtil.toSystemIndependentName(myMainFileEditor.getText());
         final VirtualFile file = LocalFileSystem.getInstance().findFileByPath(filePath);
         if (file == null) return null;
         return OCamlModule.getBySourceFile(file, myProject);
     }
 
     public void setMainOCamlModule(@Nullable final OCamlModule ocamlModule) {
-        myMainFileEditor.setText(ocamlModule == null ? "" : ocamlModule.getImplementationFile().getAbsolutePath());
+        myMainFileEditor.setText(ocamlModule == null ? "" : FileUtil.toSystemDependentName(ocamlModule.getImplementationFile().getAbsolutePath()));
     }
 
     @NotNull
@@ -255,10 +256,10 @@ public class OCamlRunConfigurationForm implements OCamlRunConfigurationParams {
 
     @NotNull
     public String getWorkingDirectory() {
-        return myWorkingDirectoryEditor.getText();
+        return FileUtil.toSystemIndependentName(myWorkingDirectoryEditor.getText());
     }
 
     public void setWorkingDirectory(@NotNull final String dirPath) {
-        myWorkingDirectoryEditor.setText(dirPath);
+        myWorkingDirectoryEditor.setText(FileUtil.toSystemDependentName(dirPath));
     }
 }

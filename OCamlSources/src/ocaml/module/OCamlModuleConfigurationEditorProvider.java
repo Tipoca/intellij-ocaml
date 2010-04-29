@@ -23,6 +23,7 @@ import com.intellij.openapi.module.ModuleConfigurationEditor;
 import com.intellij.openapi.roots.ui.configuration.DefaultModuleConfigurationEditorFactory;
 import com.intellij.openapi.roots.ui.configuration.ModuleConfigurationEditorProvider;
 import com.intellij.openapi.roots.ui.configuration.ModuleConfigurationState;
+import ocaml.util.OCamlModuleUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ import java.util.List;
 public class OCamlModuleConfigurationEditorProvider implements ModuleConfigurationEditorProvider {
     public ModuleConfigurationEditor[] createEditors(@NotNull final ModuleConfigurationState state) {
         final Module module = state.getRootModel().getModule();
-        if (!(module.getModuleType() instanceof OCamlModuleType)) return ModuleConfigurationEditor.EMPTY;
+        if (!OCamlModuleUtil.isOCamlModule(module)) return ModuleConfigurationEditor.EMPTY;
         final DefaultModuleConfigurationEditorFactory editorFactory = DefaultModuleConfigurationEditorFactory.getInstance();
         final List<ModuleConfigurationEditor> editors = new ArrayList<ModuleConfigurationEditor>();
         editors.add(editorFactory.createModuleContentRootsEditor(state));

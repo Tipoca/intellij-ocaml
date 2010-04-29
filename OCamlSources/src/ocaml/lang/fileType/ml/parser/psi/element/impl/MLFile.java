@@ -58,7 +58,7 @@ public class MLFile extends BaseOCamlFile implements OCamlModuleDefinitionBindin
 
     @NotNull
     public String getCanonicalPath() {
-        return getCanonicalName();   // todo ??? + MLIFile
+        return getCanonicalName();
     }
 
     @Nullable

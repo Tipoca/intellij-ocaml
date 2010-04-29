@@ -35,6 +35,7 @@ import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.util.text.StringUtil;
 import ocaml.entity.OCamlModule;
 import ocaml.sdk.OCamlSdkType;
+import ocaml.util.OCamlModuleUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -108,7 +109,8 @@ public class OCamlCommandLineState extends CommandLineState {
                 sdk = ProjectRootManager.getInstance(myProject).getProjectJdk();
             }
         }
-        assert sdk != null && sdk.getSdkType() instanceof OCamlSdkType;
+        assert OCamlModuleUtil.isOCamlSdk(sdk);
+        //noinspection ConstantConditions
         return sdk;
     }
 }

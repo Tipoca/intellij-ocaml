@@ -78,7 +78,7 @@ public class OCamlSystemUtil {
         files.addAll(Arrays.asList(sdk.getRootProvider().getFiles(OrderRootType.CLASSES)));
         final Set<String> paths = new HashSet<String>();
         for (final VirtualFile file : files) {
-            paths.add(file.getPath());
+            paths.add(OCamlFileUtil.getPathToDisplay(file));
         }
         for (final String path : paths) {
             cmd.addParameter("-I");

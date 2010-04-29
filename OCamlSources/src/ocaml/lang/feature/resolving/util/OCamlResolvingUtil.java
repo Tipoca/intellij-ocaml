@@ -127,7 +127,7 @@ public class OCamlResolvingUtil {
 
     @Nullable
     private static OCamlElement findFileModule(@NotNull final PsiFile sourceFile, @NotNull final String moduleName) {
-        if (sourceFile.getFileType() == MLFileType.INSTANCE) {
+        if (OCamlFileUtil.isImplementationFile(sourceFile)) {
             final OCamlElement targetFile = findFileModuleDefinition(sourceFile, moduleName);
             if (targetFile != null) {
                 return targetFile;

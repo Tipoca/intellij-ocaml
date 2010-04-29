@@ -30,12 +30,13 @@ import com.intellij.openapi.project.DumbService;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.ui.Messages;
+import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.IncorrectOperationException;
-import ocaml.module.OCamlModuleType;
 import ocaml.util.OCamlFileUtil;
+import ocaml.util.OCamlModuleUtil;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -111,7 +112,7 @@ abstract class BaseCreateOCamlFileAction extends CreateElementActionBase {
 
         final Module module = ModuleUtil.findModuleForFile(virtualDir, project);
         //noinspection SimplifiableIfStatement
-        if (module == null || !(module.getModuleType() instanceof OCamlModuleType)) {
+        if (!OCamlModuleUtil.isOCamlModule(module)) {
             return false;
         }
 
@@ -138,6 +139,6 @@ abstract class BaseCreateOCamlFileAction extends CreateElementActionBase {
     @Override
     @NotNull
     protected String getActionName(@NotNull final PsiDirectory directory, @NotNull final String newName) {
-        return "Creating file \"" + new File(directory.getVirtualFile().getPath(), getFileName(newName)).getAbsolutePath() + "\"...";
+        return "Creating file \"" + FileUtil.toSystemDependentName(new File(directory.getVirtualFile().getPath(), getFileName(newName)).getAbsolutePath()) + "\"...";
     }
 }

@@ -37,8 +37,8 @@ import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import ocaml.entity.OCamlModule;
-import ocaml.module.OCamlModuleType;
 import ocaml.sdk.OCamlSdkType;
+import ocaml.util.OCamlModuleUtil;
 import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -72,7 +72,7 @@ public class OCamlRunConfiguration extends ModuleBasedConfiguration<RunConfigura
         final Module[] modules = ModuleManager.getInstance(getProject()).getModules();
         final List<Module> result = new ArrayList<Module>();
         for (final Module module : modules) {
-          if (OCamlModuleType.ID.equals(module.getModuleType().getId())) {
+          if (OCamlModuleUtil.isOCamlModule(module)) {
             result.add(module);
           }
         }
@@ -160,18 +160,18 @@ public class OCamlRunConfiguration extends ModuleBasedConfiguration<RunConfigura
                 throw new RuntimeConfigurationException("Please choose the valid OCaml module or select the \"Use specified SDK\" option.");
             }
             final Sdk sdk = ModuleRootManager.getInstance(module).getSdk();
-            if (sdk == null || !(sdk.getSdkType() instanceof OCamlSdkType)) {
+            if (!OCamlModuleUtil.isOCamlSdk(sdk)) {
                 throw new RuntimeConfigurationException("There is no valid OCaml SDK in the specified module.");
             }
         }
         else {
             if (mySpecifiedSdk == null) {
                 final Sdk projectSdk = ProjectRootManager.getInstance(getProject()).getProjectJdk();
-                if (projectSdk == null || !(projectSdk.getSdkType() instanceof OCamlSdkType)) {
+                if (!OCamlModuleUtil.isOCamlSdk(projectSdk)) {
                     throw new RuntimeConfigurationException("Project default SDK is not a valid OCaml SDK.");
                 }
             }
-            else if (!(mySpecifiedSdk.getSdkType() instanceof OCamlSdkType)) {
+            else if (!OCamlModuleUtil.isOCamlSdk(mySpecifiedSdk)) {
                 throw new RuntimeConfigurationException("The specified SDK is not a valid OCaml SDK.");
             }
         }

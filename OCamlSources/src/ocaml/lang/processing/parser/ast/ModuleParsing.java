@@ -184,7 +184,7 @@ class ModuleParsing extends Parsing {
         functorModuleExpressionMarker.done(OCamlElementTypes.FUNCTOR_MODULE_EXPRESSION);
     }
 
-    private static void parseModuleParameterInner(final PsiBuilder builder) {
+    private static void parseModuleParameterInner(@NotNull final PsiBuilder builder) {
         NameParsing.parseModuleName(builder);
 
         checkMatches(builder, OCamlTokenTypes.COLON, Strings.COLON_EXPECTED);
@@ -197,13 +197,27 @@ class ModuleParsing extends Parsing {
 
         checkMatches(builder, OCamlTokenTypes.STRUCT_KEYWORD, Strings.STRUCT_KEYWORD_EXPECTED);
 
-        StatementParsing.parseDefinitionsAndExpressions(builder, new StatementParsing.Condition() {
-            public boolean test() {
-                return builder.eof() || ignore(builder, OCamlTokenTypes.END_KEYWORD);
-            }
-        });
+        StatementParsing.parseDefinitionsAndExpressions(builder, createExitOnEndKeywordOrEofCondition(builder));
 
         structModuleExpressionMarker.done(OCamlElementTypes.STRUCT_END_MODULE_EXPRESSION);
+    }
+
+    @NotNull
+    private static StatementParsing.Condition createExitOnEndKeywordOrEofCondition(@NotNull final PsiBuilder builder) {
+        return new StatementParsing.Condition() {
+            public boolean test() {
+                if (ignore(builder, OCamlTokenTypes.END_KEYWORD)) {
+                    return true;
+                }
+                else if (builder.eof()) {
+                    builder.error(Strings.END_KEYWORD_EXPECTED);
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+        };
     }
 
     private static void parseModuleConstraint(@NotNull final PsiBuilder builder) {
@@ -257,11 +271,7 @@ class ModuleParsing extends Parsing {
 
         checkMatches(builder, OCamlTokenTypes.SIG_KEYWORD, Strings.SIG_KEYWORD_EXPECTED);
 
-        StatementParsing.parseSpecifications(builder, new StatementParsing.Condition() {
-            public boolean test() {
-                return builder.eof() || ignore(builder, OCamlTokenTypes.END_KEYWORD);
-            }
-        });
+        StatementParsing.parseSpecifications(builder, createExitOnEndKeywordOrEofCondition(builder));
 
         sigModuleTypeMarker.done(OCamlElementTypes.SIG_END_MODULE_TYPE);
     }

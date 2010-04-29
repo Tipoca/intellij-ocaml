@@ -21,9 +21,9 @@
     <name>OCaml Support</name>
     <id>OCamlSupport</id>
     <description>OCaml language support</description>
-    <change-notes>Initial release of the plugin.</change-notes>
-    <version>0.3</version>
-    <vendor email="maxim.manuylov@gmail.com" logo="/img/ocaml-small.png">Maxim.Manuylov</vendor>
+    <change-notes> </change-notes>
+    <version>0.9</version>
+    <vendor email="maxim.manuylov@gmail.com" logo="/img/ocaml-small.png">Maxim Manuylov</vendor>
     <category>Custom Languages</category>
     <idea-version since-build="10000"/>
 
@@ -33,6 +33,10 @@
     <project-components>
         <component>
             <implementation-class>ocaml.settings.OCamlSettings</implementation-class>
+        </component>
+
+        <component>
+            <implementation-class>ocaml.toolWindow.OCamlToolWindowComponent</implementation-class>
         </component>
     </project-components>
 
@@ -64,10 +68,6 @@
 
         <moduleType id="OCAML_MODULE" implementationClass="ocaml.module.OCamlModuleType"/>
         <moduleConfigurationEditorProvider implementation="ocaml.module.OCamlModuleConfigurationEditorProvider"/>
-
-        <toolWindow id="OCaml" anchor="bottom" secondary="false" icon="/img/ocaml-small.png"
-                    factoryClass="ocaml.toolWindow.OCamlToolWindowFactory"
-                    conditionClass="ocaml.toolWindow.OCamlToolWindowFactory"/>
 
         <compiler implementation="ocaml.compile.OCamlCompiler"/>
         <compiler implementation="ocaml.compile.OCamlLinker"/>

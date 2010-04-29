@@ -19,20 +19,11 @@
 package ocaml.toolWindow;
 
 import com.intellij.execution.ExecutionException;
-import com.intellij.openapi.components.PersistentStateComponent;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.ui.Messages;
-import com.intellij.openapi.util.Condition;
-import com.intellij.openapi.wm.ToolWindow;
-import com.intellij.openapi.wm.ToolWindowFactory;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentManager;
-import com.intellij.ui.content.ContentManagerAdapter;
-import com.intellij.ui.content.ContentManagerEvent;
-import ocaml.module.OCamlModuleType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -40,21 +31,7 @@ import org.jetbrains.annotations.Nullable;
  * @author Maxim.Manuylov
  *         Date: 03.04.2010
  */
-public class OCamlToolWindowFactory implements ToolWindowFactory, Condition<Project>, PersistentStateComponent<String> {
-    public void createToolWindowContent(@NotNull final Project project, @NotNull final ToolWindow toolWindow) {
-        final ContentManager contentManager = toolWindow.getContentManager();
-        contentManager.addContentManagerListener(new ContentManagerAdapter() {
-            @Override
-            public void contentRemoved(@NotNull final ContentManagerEvent event) {
-                if (contentManager.getContentCount() == 0) {
-                    addAndSelectStartContent(project, contentManager);
-                }
-            }
-        });
-
-        addAndSelectStartContent(project, contentManager);
-    }
-
+class OCamlToolWindowUtil {
     public static void addAndSelectStartContent(@NotNull final Project project, @NotNull final ContentManager contentManager) {
         final OCamlToolWindowStartView view = new OCamlToolWindowStartView(project, contentManager);
         addAndSelectContent(contentManager, view, null, false);
@@ -83,23 +60,5 @@ public class OCamlToolWindowFactory implements ToolWindowFactory, Condition<Proj
         content.setPreferredFocusableComponent(view);
         contentManager.addContent(content);
         contentManager.setSelectedContent(content, true);
-    }
-
-    public boolean value(@NotNull final Project project) {
-        final Module[] modules = ModuleManager.getInstance(project).getModules();
-        for (final Module module : modules) {
-            if (OCamlModuleType.ID.equals(module.getModuleType().getId())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public String getState() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    public void loadState(final String state) {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 }

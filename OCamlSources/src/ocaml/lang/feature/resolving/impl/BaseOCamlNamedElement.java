@@ -49,7 +49,7 @@ public abstract class BaseOCamlNamedElement extends BaseOCamlElement implements 
     }
 
     @Nullable
-    public String getCanonicalPath() { //todo 
+    public String getCanonicalPath() {
         final StringBuilder sb = new StringBuilder(OCamlStringUtil.getNotNull(getCanonicalName()));
 
         final OCamlElementProcessorAdapter processor = new OCamlElementProcessorAdapter() {

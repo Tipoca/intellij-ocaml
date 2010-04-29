@@ -24,7 +24,10 @@ import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.execution.process.ProcessOutput;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ModalityState;
-import com.intellij.openapi.compiler.*;
+import com.intellij.openapi.compiler.CompileContext;
+import com.intellij.openapi.compiler.CompileScope;
+import com.intellij.openapi.compiler.SourceInstrumentingCompiler;
+import com.intellij.openapi.compiler.ValidityState;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleManager;
 import com.intellij.openapi.progress.ProgressIndicator;
@@ -34,12 +37,13 @@ import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.roots.ProjectFileIndex;
 import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.util.Computable;
+import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import ocaml.entity.CyclicDependencyException;
 import ocaml.entity.OCamlModule;
-import ocaml.module.OCamlModuleType;
 import ocaml.util.OCamlFileUtil;
+import ocaml.util.OCamlModuleUtil;
 import ocaml.util.OCamlSystemUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -114,7 +118,7 @@ public class OCamlCompiler extends BaseOCamlCompiler implements SourceInstrument
         final Set<OCamlModule> ocamlModules = new HashSet<OCamlModule>();
         final Module[] modules = ModuleManager.getInstance(project).getModules();
         for (final Module module : modules) {
-            if (!OCamlModuleType.ID.equals(module.getModuleType().getId())) continue;
+            if (!OCamlModuleUtil.isOCamlModule(module)) continue;
             final ModuleFileIndex fileIndex = ModuleRootManager.getInstance(module).getFileIndex();
             final Collection<VirtualFile> files = new ArrayList<VirtualFile>();
             fileIndex.iterateContent(new CompilerContentIterator(null, fileIndex, true, files));
@@ -159,11 +163,11 @@ public class OCamlCompiler extends BaseOCamlCompiler implements SourceInstrument
             progressIndicator.setFraction(processedCount / allCount);
 
             final VirtualFile file = item.getFile();
-            progressIndicator.setText2(file.getPath());
+            progressIndicator.setText2(OCamlFileUtil.getPathToDisplay(file));
 
             final VirtualFile destDir = getDestination(file, fileIndex);
             if (destDir == null) {
-                context.addMessage(ERROR, "Cannot determine destination directory for \"" + file.getPath() + "\" file.", file.getUrl(), -1, -1);
+                context.addMessage(ERROR, "Cannot determine destination directory for \"" + OCamlFileUtil.getPathToDisplay(file) + "\" file.", file.getUrl(), -1, -1);
                 continue;
             }
 
@@ -175,7 +179,7 @@ public class OCamlCompiler extends BaseOCamlCompiler implements SourceInstrument
                 try {
                     file.copy(this, destDir, file.getName());
                 } catch (final IOException e) {
-                    context.addMessage(ERROR, "Cannot copy \"" + file.getPath() + "\" file to \"" + destDir.getPath() + "\" directory: " + e.getLocalizedMessage(), file.getUrl(), -1, -1);
+                    context.addMessage(ERROR, "Cannot copy \"" + OCamlFileUtil.getPathToDisplay(file) + "\" file to \"" + OCamlFileUtil.getPathToDisplay(destDir) + "\" directory: " + e.getLocalizedMessage(), file.getUrl(), -1, -1);
                     continue;
                 }
             }
@@ -202,21 +206,21 @@ public class OCamlCompiler extends BaseOCamlCompiler implements SourceInstrument
         cmd.addParameter("-c");
 
         final Set<String> addedPaths = new HashSet<String>();
-        addPath(cmd, addedPaths, destDir.getPath());
+        addPath(cmd, addedPaths, OCamlFileUtil.getPathToDisplay(destDir));
         for (final OCamlModule dependency : ocamlModule.collectExactDependencies()) {
             final String path = OCamlFileUtil.getCompiledDir(fileIndex, dependency.getSourcesDir()).getPath();
             addPath(cmd, addedPaths, path);
         }
         
         cmd.addParameter("-o");
-        final String destFileWithoutExtension = new File(destDir.getPath(), file.getNameWithoutExtension()).getAbsolutePath();
+        final String destFileWithoutExtension = FileUtil.toSystemDependentName(new File(destDir.getPath(), file.getNameWithoutExtension()).getAbsolutePath());
         cmd.addParameter(destFileWithoutExtension);
 
         if (!ocamlContext.isStandaloneCompile()) {
             cmd.getParametersList().addParametersString(getRunConfiguration(ocamlContext).getCompilerOptions());
         }
             
-        cmd.addParameter(file.getPath());
+        cmd.addParameter(OCamlFileUtil.getPathToDisplay(file));
 
         try {
             final ProcessOutput processOutput = OCamlSystemUtil.execute(cmd);

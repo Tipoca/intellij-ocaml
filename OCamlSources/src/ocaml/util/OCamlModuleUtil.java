@@ -16,23 +16,24 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/gpl-2.0.html>.
  */
 
-package ocaml.lang.processing.parser.psi.element.impl;
+package ocaml.util;
 
-import com.intellij.lang.ASTNode;
-import ocaml.lang.processing.parser.psi.OCamlElementVisitor;
-import ocaml.lang.processing.parser.psi.element.OCamlInstanceDuplicatingExpression;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.openapi.module.Module;
+import com.intellij.openapi.projectRoots.Sdk;
+import ocaml.module.OCamlModuleType;
+import ocaml.sdk.OCamlSdkType;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Maxim.Manuylov
- *         Date: 21.03.2009
+ *         Date: 29.04.2010
  */
-public class OCamlInstanceDuplicatingExpressionImpl extends BaseOCamlElement implements OCamlInstanceDuplicatingExpression {
-    public OCamlInstanceDuplicatingExpressionImpl(@NotNull final ASTNode node) {
-        super(node);
+public class OCamlModuleUtil {
+    public static boolean isOCamlSdk(@Nullable final Sdk sdk) {
+        return sdk != null && sdk.getSdkType() instanceof OCamlSdkType;
     }
 
-    public void visit(@NotNull final OCamlElementVisitor visitor) {
-        visitor.visitInstanceDuplicatingExpression(this);
+    public static boolean isOCamlModule(@Nullable final Module module) {
+        return module != null && OCamlModuleType.ID.equals(module.getModuleType().getId());
     }
 }

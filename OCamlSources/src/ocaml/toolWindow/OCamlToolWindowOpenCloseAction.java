@@ -26,9 +26,9 @@ import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentManager;
-import ocaml.sdk.OCamlSdkType;
 import ocaml.settings.OCamlSettings;
 import ocaml.util.OCamlIconUtil;
+import ocaml.util.OCamlModuleUtil;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -57,7 +57,7 @@ public class OCamlToolWindowOpenCloseAction extends AnAction {
             final Sdk topLevelSdk = OCamlSettings.getInstance().getTopLevelSdk();
             if (topLevelSdk == null) {
                 final Sdk projectSdk = ProjectRootManager.getInstance(myProject).getProjectJdk();
-                if (projectSdk == null || !(projectSdk.getSdkType() instanceof OCamlSdkType)) {
+                if (!OCamlModuleUtil.isOCamlSdk(projectSdk)) {
                     Messages.showErrorDialog("Please select OCaml SDK to run top level interactive console (project default SDK is not a valid OCaml SDK).", "Error");
                     final OCamlToolWindowSettingsAction settingsAction = new OCamlToolWindowSettingsAction(myProject, new Runnable() {
                         public void run() {
@@ -66,18 +66,18 @@ public class OCamlToolWindowOpenCloseAction extends AnAction {
                                 choosenSdk = ProjectRootManager.getInstance(myProject).getProjectJdk();
                             }
                             if (choosenSdk != null) {
-                                OCamlToolWindowFactory.addAndSelectTopLevelConsoleContent(myProject, myContentManager, choosenSdk);
+                                OCamlToolWindowUtil.addAndSelectTopLevelConsoleContent(myProject, myContentManager, choosenSdk);
                             }
                         }
                     });
                     settingsAction.showSettingsDialog();
                 }
                 else {
-                    OCamlToolWindowFactory.addAndSelectTopLevelConsoleContent(myProject, myContentManager, projectSdk);
+                    OCamlToolWindowUtil.addAndSelectTopLevelConsoleContent(myProject, myContentManager, projectSdk);
                 }
             }
             else {
-                OCamlToolWindowFactory.addAndSelectTopLevelConsoleContent(myProject, myContentManager, topLevelSdk);
+                OCamlToolWindowUtil.addAndSelectTopLevelConsoleContent(myProject, myContentManager, topLevelSdk);
             }
         }
         if (myCloseView && myContentManager.isSingleSelection()) {

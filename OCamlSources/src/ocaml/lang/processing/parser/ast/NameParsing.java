@@ -92,7 +92,7 @@ class NameParsing extends Parsing {
             return false;
         }
 
-        marker.done(OCamlElementTypes.FOR_EXPRESSION_INDEX_VARIABLE_NAME);      //todo seems it is not tested
+        marker.done(OCamlElementTypes.FOR_EXPRESSION_INDEX_VARIABLE_NAME);
 
         return true;
     }

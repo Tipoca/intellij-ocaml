@@ -32,6 +32,8 @@ import com.intellij.openapi.vfs.VirtualFile;
 import ocaml.entity.OCamlModule;
 import ocaml.run.OCamlRunConfiguration;
 import ocaml.sdk.OCamlSdkType;
+import ocaml.util.OCamlFileUtil;
+import ocaml.util.OCamlModuleUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -64,16 +66,17 @@ abstract class BaseOCamlCompiler {
                                                                    final boolean isDebugMode) {
         final Module module = fileIndex.getModuleForFile(file);
         if (module == null) {
-            context.addMessage(ERROR, "Cannot determine module for \"" + file.getPath() + "\" file.", file.getUrl(), -1, -1);
+            context.addMessage(ERROR, "Cannot determine module for \"" + OCamlFileUtil.getPathToDisplay(file) + "\" file.", file.getUrl(), -1, -1);
             return null;
         }
 
         final Sdk sdk = ModuleRootManager.getInstance(module).getSdk();
-        if (sdk == null || !(sdk.getSdkType() instanceof OCamlSdkType)) {
+        if (!OCamlModuleUtil.isOCamlSdk(sdk)) {
             context.addMessage(ERROR, "Sdk of module \"" + module.getName() + "\" is invalid.", file.getUrl(), -1, -1);
             return null;
         }
 
+        //noinspection ConstantConditions
         final String sdkHomePath = sdk.getHomePath();
         final String compilerExePath = OCamlSdkType.getByteCodeCompilerExecutable(sdkHomePath).getAbsolutePath();
 

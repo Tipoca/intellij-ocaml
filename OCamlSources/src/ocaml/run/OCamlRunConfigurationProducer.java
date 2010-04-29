@@ -29,8 +29,8 @@ import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
-import ocaml.lang.fileType.ml.MLFileType;
 import ocaml.entity.OCamlModule;
+import ocaml.util.OCamlFileUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -54,7 +54,7 @@ public class OCamlRunConfigurationProducer extends RuntimeConfigurationProducer 
     protected RunnerAndConfigurationSettingsImpl createConfigurationByElement(@NotNull final Location location,
                                                                               @NotNull final ConfigurationContext context) {
         final PsiFile psiFile = location.getPsiElement().getContainingFile();
-        if (psiFile == null || psiFile.getFileType() != MLFileType.INSTANCE) {
+        if (psiFile == null || !OCamlFileUtil.isImplementationFile(psiFile)) {
             return null;
         }
         final Project project = psiFile.getProject();

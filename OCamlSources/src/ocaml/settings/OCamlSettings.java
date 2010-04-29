@@ -38,13 +38,13 @@ import java.util.List;
     name = "OCamlSettings",
     storages = {
         @Storage(id = "default", file = "$PROJECT_FILE$"),
-        @Storage(id = "dir", file = "$PROJECT_CONFIG_DIR$/ocaml_settings.xml", scheme = StorageScheme.DIRECTORY_BASED) //todo test dir-based format
+        @Storage(id = "dir", file = "$PROJECT_CONFIG_DIR$/ocaml_settings.xml", scheme = StorageScheme.DIRECTORY_BASED)
     })
 public class OCamlSettings implements ProjectComponent, PersistentStateComponent<OCamlState> {
     @NotNull private final Project myProject;
     @Nullable private Sdk myTopLevelSdk = null;
-    @NotNull private String myTopLevelCmdParams;
-    @NotNull private String myTopLevelCmdWorkingDir;
+    @NotNull private String myTopLevelCmdParams = "";
+    @NotNull private String myTopLevelCmdWorkingDir = "";
 
     @NotNull private static OCamlSettings ourInstance;
 

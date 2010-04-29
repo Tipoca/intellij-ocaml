@@ -220,7 +220,7 @@ public class OCamlModule {
 
     @Override
     public String toString() {
-        return "OCamlModule{Name='" + myName + '\'' + ", SourcesDir='" + mySourcesDir.getPath() + "'}";
+        return "OCamlModule{Name='" + myName + '\'' + ", SourcesDir='" + OCamlFileUtil.getPathToDisplay(mySourcesDir) + "'}";
     }
 
     @Override

@@ -26,12 +26,13 @@ import com.intellij.openapi.module.ModuleUtil;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.ui.Messages;
+import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
-import ocaml.module.OCamlModuleType;
 import ocaml.util.OCamlFileUtil;
+import ocaml.util.OCamlModuleUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -60,9 +61,9 @@ public class SwitchModuleFileAction extends AnAction {
         VirtualFile anotherVirtualFile = LocalFileSystem.getInstance().findFileByIoFile(anotherFile);
 
         if (anotherVirtualFile == null) {
-            final String anotherFilePath = anotherFile.getAbsolutePath();
+            final String anotherFilePath = FileUtil.toSystemDependentName(anotherFile.getAbsolutePath());
             final Module module = ModuleUtil.findModuleForFile(file, project);
-            if (module != null && module.getModuleType() instanceof OCamlModuleType 
+            if (OCamlModuleUtil.isOCamlModule(module)
                 && ModuleRootManager.getInstance(module).getFileIndex().isInSourceContent(file)) {
                 if (Messages.showYesNoDialog(project,
                     "File \"" + anotherFilePath + "\" does not exist. Do you want to create it?",
@@ -80,8 +81,7 @@ public class SwitchModuleFileAction extends AnAction {
                 });
                 anotherVirtualFile = LocalFileSystem.getInstance().findFileByIoFile(anotherFile);
                 if (anotherVirtualFile == null) return;
-            }
-            else {
+            } else {
                 Messages.showErrorDialog(project, "File \"" + anotherFilePath + "\" does not exist.", "Open file \"" + anotherFilePath + "\"");
                 return;
             }

@@ -122,11 +122,3 @@ public class OCamlMethodNameImpl extends BaseOCamlReference implements OCamlMeth
         return true;
     }
 }
-
-/*todo: "g" will not be highlighted:
-*
-*
-* let a (m : <a:int; b:int> ) = m#g;;
-*
-* let a m = m#g;;
-* */

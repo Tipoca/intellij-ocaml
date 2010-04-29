@@ -22,7 +22,9 @@ import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.roots.CompilerModuleExtension;
 import com.intellij.openapi.roots.ProjectFileIndex;
+import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.psi.PsiFile;
 import ocaml.lang.fileType.OCamlFileType;
 import ocaml.lang.fileType.ml.MLFileType;
 import ocaml.lang.fileType.mli.MLIFileType;
@@ -98,5 +100,18 @@ public class OCamlFileUtil {
         final VirtualFile parent = file.getParent();
         if (parent == null) return null;
         return parent.findChild(getAnotherFileName(file));
+    }
+
+    public static boolean isImplementationFile(@NotNull final VirtualFile file) {
+        return file.getFileType() == MLFileType.INSTANCE;
+    }
+
+    public static boolean isImplementationFile(@NotNull final PsiFile file) {
+        return file.getFileType() == MLFileType.INSTANCE;
+    }
+
+    @NotNull
+    public static String getPathToDisplay(@NotNull final VirtualFile file) {
+        return FileUtil.toSystemDependentName(file.getPath());
     }
 }
