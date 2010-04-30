@@ -76,9 +76,9 @@
         <configurationProducer implementation="ocaml.run.OCamlRunConfigurationProducer"/>
         <programRunner implementation="ocaml.run.OCamlRunner"/>
 
-        <stubIndex implementation="ocaml.lang.processing.parser.psi.stub.OCamlClassIndex"/>
-        <stubIndex implementation="ocaml.lang.processing.parser.psi.stub.OCamlModuleIndex"/>
-        <stubIndex implementation="ocaml.lang.processing.parser.psi.stub.OCamlSymbolIndex"/>
+        <stubIndex implementation="ocaml.lang.processing.parser.stub.index.OCamlClassIndex"/>
+        <stubIndex implementation="ocaml.lang.processing.parser.stub.index.OCamlModuleIndex"/>
+        <stubIndex implementation="ocaml.lang.processing.parser.stub.index.OCamlSymbolIndex"/>
         <gotoClassContributor implementation="ocaml.lang.feature.navigation.OCamlGoToClassContributor"/>
         <gotoSymbolContributor implementation="ocaml.lang.feature.navigation.OCamlGoToSymbolContributor"/>
     </extensions>

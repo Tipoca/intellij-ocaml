@@ -16,17 +16,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/gpl-2.0.html>.
  */
 
-package ocaml.lang.feature.navigation;
+package ocaml.lang.processing.parser.stub;
 
-import ocaml.lang.processing.parser.stub.index.OCamlClassIndex;
-import ocaml.lang.processing.parser.stub.index.OCamlModuleIndex;
+import com.intellij.psi.stubs.StubElement;
+import ocaml.lang.processing.parser.psi.OCamlElement;
 
 /**
  * @author Maxim.Manuylov
- *         Date: 27.04.2010
+ *         Date: 30.04.2010
  */
-public class OCamlGoToClassContributor extends BaseOCamlChooseByNameContributor {
-    public OCamlGoToClassContributor() {
-        super(OCamlClassIndex.KEY, OCamlModuleIndex.KEY);
-    }
+public interface OCamlStubElement<T extends OCamlElement> extends StubElement<T> {    
 }

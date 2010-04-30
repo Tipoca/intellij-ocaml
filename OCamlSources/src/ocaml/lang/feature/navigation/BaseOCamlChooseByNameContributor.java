@@ -26,7 +26,7 @@ import com.intellij.psi.stubs.StubIndex;
 import com.intellij.psi.stubs.StubIndexKey;
 import com.intellij.util.ArrayUtil;
 import ocaml.lang.feature.resolving.OCamlNamedElement;
-import ocaml.lang.processing.parser.psi.stub.StubIndexHelper;
+import ocaml.lang.processing.parser.stub.index.StubIndexHelper;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

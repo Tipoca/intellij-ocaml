@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/gpl-2.0.html>.
  */
 
-package ocaml.lang.processing.parser.psi.stub;
+package ocaml.lang.processing.parser.stub.index;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;

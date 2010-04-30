@@ -19,6 +19,7 @@
 package ocaml.lang.processing.parser.psi;
 
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.stubs.StubElement;
 import ocaml.lang.feature.resolving.ResolvingBuilder;
 import org.jetbrains.annotations.NotNull;
 

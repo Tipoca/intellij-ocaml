@@ -18,7 +18,7 @@
 
 package ocaml.lang.feature.navigation;
 
-import ocaml.lang.processing.parser.psi.stub.OCamlSymbolIndex;
+import ocaml.lang.processing.parser.stub.index.OCamlSymbolIndex;
 
 /**
  * @author Maxim.Manuylov

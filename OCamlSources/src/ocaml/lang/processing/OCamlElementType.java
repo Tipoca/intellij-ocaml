@@ -28,7 +28,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class OCamlElementType extends IElementType {
     public OCamlElementType(@NotNull final String elementName) {                                 
-        super(elementName, MLFileTypeLanguage.INSTANCE); //todo base language or two different element types
+        super(elementName, MLFileTypeLanguage.INSTANCE); //todo base language or two different element types, see OCamlStubElementType
     }
 
     @Override                     
