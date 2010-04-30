@@ -24,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
  * @author Maxim.Manuylov
  *         Date: 23.05.2009
  */
-public interface OCamlModuleDefinitionBinding extends OCamlStructuredBinding<OCamlModuleExpression> {
+public interface OCamlModuleDefinitionBinding extends OCamlStructuredBinding<OCamlModuleExpression>, OCamlResolvedModuleName {
     @Nullable
     OCamlModuleType getModuleType();
 }

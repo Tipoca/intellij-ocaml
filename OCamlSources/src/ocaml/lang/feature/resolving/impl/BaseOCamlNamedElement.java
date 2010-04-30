@@ -19,6 +19,7 @@
 package ocaml.lang.feature.resolving.impl;
 
 import com.intellij.lang.ASTNode;
+import com.intellij.navigation.ItemPresentation;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.IncorrectOperationException;
 import ocaml.lang.feature.refactoring.rename.OCamlNamesValidator;
@@ -108,5 +109,10 @@ public abstract class BaseOCamlNamedElement extends BaseOCamlElement implements 
     @Override
     public String toString() {
         return getDescription();
+    }
+
+    @Override
+    public ItemPresentation getPresentation() {
+        return OCamlPsiUtil.getPresentation(this);
     }
 }

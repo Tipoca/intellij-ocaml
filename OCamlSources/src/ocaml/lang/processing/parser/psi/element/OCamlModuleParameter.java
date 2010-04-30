@@ -18,11 +18,9 @@
 
 package ocaml.lang.processing.parser.psi.element;
 
-import ocaml.lang.feature.resolving.OCamlResolvedReference;
-
 /**
  * @author Maxim.Manuylov
  *         Date: 24.05.2009
  */
-public interface OCamlModuleParameter extends OCamlResolvedReference {
+public interface OCamlModuleParameter extends OCamlResolvedModuleName {
 }

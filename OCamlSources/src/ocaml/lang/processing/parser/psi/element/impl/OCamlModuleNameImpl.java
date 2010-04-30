@@ -62,7 +62,7 @@ public class OCamlModuleNameImpl extends BaseOCamlReference implements OCamlModu
 
     @NotNull
     public List<Class<? extends OCamlResolvedReference>> getPossibleResolvedTypes() {
-        return Arrays.asList(OCamlModuleDefinitionBinding.class, OCamlModuleSpecificationBinding.class, OCamlModuleParameter.class);
+        return Arrays.<Class<? extends OCamlResolvedReference>>asList(OCamlResolvedModuleName.class);
     }
 
     @NotNull

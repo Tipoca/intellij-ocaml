@@ -22,5 +22,5 @@ package ocaml.lang.processing.parser.psi.element;
  * @author Maxim.Manuylov
  *         Date: 23.05.2009
  */
-public interface OCamlModuleSpecificationBinding extends OCamlStructuredBinding<OCamlModuleType> {
+public interface OCamlModuleSpecificationBinding extends OCamlStructuredBinding<OCamlModuleType>, OCamlResolvedModuleName {
 }

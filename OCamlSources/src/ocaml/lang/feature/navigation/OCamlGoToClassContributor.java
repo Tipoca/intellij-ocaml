@@ -18,28 +18,15 @@
 
 package ocaml.lang.feature.navigation;
 
-import com.intellij.navigation.ChooseByNameContributor;
-import com.intellij.navigation.NavigationItem;
-import com.intellij.openapi.project.Project;
-import org.jetbrains.annotations.NotNull;
+import ocaml.lang.processing.parser.psi.stub.OCamlClassIndex;
+import ocaml.lang.processing.parser.psi.stub.OCamlModuleIndex;
 
 /**
  * @author Maxim.Manuylov
  *         Date: 27.04.2010
  */
-public class OCamlGoToClassContributor implements ChooseByNameContributor { //todo
-    public String[] getNames(@NotNull final Project project, final boolean includeNonProjectItems) {
-//        com.intellij.psi.search.searches.ReferencesSearch.search((PsiElement) null).forEach()
-
-        //ModuleScope.
-//        FilenameIndex.
-//        GlobalSearchScope.projectScope(project).
-        //ProjectAndLibrariesScope.
-
-        return new String[0];  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    public NavigationItem[] getItemsByName(@NotNull final String name, @NotNull final String pattern, @NotNull final Project project, final boolean includeNonProjectItems) {
-        return new NavigationItem[0];  //To change body of implemented methods use File | Settings | File Templates.
+public class OCamlGoToClassContributor extends BaseOCamlChooseByNameContributor {
+    public OCamlGoToClassContributor() {
+        super(OCamlClassIndex.KEY, OCamlModuleIndex.KEY);
     }
 }

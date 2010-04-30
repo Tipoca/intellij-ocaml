@@ -16,11 +16,22 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/gpl-2.0.html>.
  */
 
-package ocaml.lang.processing.parser.psi.element;
+package ocaml.lang.processing.parser.psi.stub;
+
+import com.intellij.psi.stubs.StringStubIndexExtension;
+import com.intellij.psi.stubs.StubIndexKey;
+import ocaml.lang.processing.parser.psi.element.OCamlResolvedModuleName;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Maxim.Manuylov
- *         Date: 21.03.2009
+ *         Date: 30.04.2010
  */
-public interface OCamlClassSpecificationBinding extends OCamlStructuredBinding<OCamlClassType>, OCamlResolvedClassName {
+public class OCamlModuleIndex extends StringStubIndexExtension<OCamlResolvedModuleName> {
+    @NotNull public static final StubIndexKey<String, OCamlResolvedModuleName> KEY = StubIndexKey.createIndexKey("ocaml.module.shortname");
+
+    @NotNull
+    public StubIndexKey<String, OCamlResolvedModuleName> getKey() {
+        return KEY;
+    }
 }

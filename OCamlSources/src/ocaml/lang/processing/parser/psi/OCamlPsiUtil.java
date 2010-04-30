@@ -18,14 +18,18 @@
 
 package ocaml.lang.processing.parser.psi;
 
+import com.intellij.navigation.ItemPresentation;
 import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.util.Computable;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
+import ocaml.lang.feature.resolving.OCamlNamedElement;
 import ocaml.lang.processing.parser.psi.element.OCamlModuleName;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -205,5 +209,29 @@ public class OCamlPsiUtil {
             element.visit(visitor);
             stack.addAll(getChildren(element));
         }
+    }
+
+    public static ItemPresentation getPresentation(@NotNull final OCamlNamedElement element) {
+        return new ItemPresentation() {
+            @NotNull
+            public String getPresentableText() {
+                return element.getDescription() + ' ' + element.getCanonicalName();
+            }
+
+            @NotNull
+            public String getLocationString() {
+                return '(' + element.getContainingFile().getName() + ')';
+            }
+
+            @Nullable
+            public Icon getIcon(final boolean open) {
+                return null;
+            }
+
+            @Nullable
+            public TextAttributesKey getTextAttributesKey() {
+                return null;
+            }
+        };
     }
 }

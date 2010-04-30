@@ -62,7 +62,7 @@ public class OCamlClassNameImpl extends BaseOCamlReference implements OCamlClass
 
     @NotNull
     public List<Class<? extends OCamlResolvedReference>> getPossibleResolvedTypes() {
-        return Arrays.<Class<? extends OCamlResolvedReference>>asList(OCamlClassBinding.class, OCamlClassSpecificationBinding.class);
+        return Arrays.<Class<? extends OCamlResolvedReference>>asList(OCamlResolvedClassName.class);
     }
 
     @NotNull

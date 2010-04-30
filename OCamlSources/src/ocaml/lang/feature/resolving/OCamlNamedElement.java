@@ -19,6 +19,7 @@
 package ocaml.lang.feature.resolving;
 
 import com.intellij.lang.ASTNode;
+import com.intellij.navigation.NavigationItem;
 import com.intellij.psi.PsiNamedElement;
 import ocaml.lang.processing.parser.psi.OCamlElement;
 import org.jetbrains.annotations.NotNull;
@@ -28,7 +29,7 @@ import org.jetbrains.annotations.Nullable;
  * @author Maxim.Manuylov
  *         Date: 23.03.2009
  */
-public interface OCamlNamedElement extends OCamlElement, PsiNamedElement {
+public interface OCamlNamedElement extends OCamlElement, PsiNamedElement, NavigationItem {
     @Nullable
     ASTNode getNameElement();
 

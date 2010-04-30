@@ -20,6 +20,7 @@ package ocaml.lang.processing.parser.psi.element.impl;
 
 import com.intellij.extapi.psi.PsiFileBase;
 import com.intellij.lang.Language;
+import com.intellij.navigation.ItemPresentation;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiElementVisitor;
@@ -33,7 +34,7 @@ import org.jetbrains.annotations.NotNull;
  * @author Maxim.Manuylov
  *         Date: 22.03.2009
  */
-public abstract class BaseOCamlFile extends PsiFileBase implements OCamlFile {
+public abstract class BaseOCamlFile extends PsiFileBase implements OCamlFile { //todo maybe files should not be used as resolved references. seems it can fix several problems.
     protected BaseOCamlFile(@NotNull final FileViewProvider fileViewProvider, @NotNull final Language language) {
         super(fileViewProvider, language);
     }
@@ -56,5 +57,10 @@ public abstract class BaseOCamlFile extends PsiFileBase implements OCamlFile {
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {
         visitor.visitFile(this);
+    }
+
+    @Override
+    public ItemPresentation getPresentation() {
+        return OCamlPsiUtil.getPresentation(this);
     }
 }
