@@ -45,19 +45,14 @@ public abstract class BaseOCamlNamedElement extends BaseOCamlElement implements 
     }
 
     @Nullable
-    public String getCanonicalName() {
-        return getName();
-    }
-
-    @Nullable
     public String getCanonicalPath() {
-        final StringBuilder sb = new StringBuilder(OCamlStringUtil.getNotNull(getCanonicalName()));
+        final StringBuilder sb = new StringBuilder(OCamlStringUtil.getNotNull(getName()));
 
         final OCamlElementProcessorAdapter processor = new OCamlElementProcessorAdapter() {
             public void process(@NotNull final OCamlElement psiElement) {
                 if (psiElement instanceof OCamlModuleDefinitionBinding || psiElement instanceof OCamlModuleSpecificationBinding) {
                     sb.insert(0, ".");
-                    sb.insert(0, OCamlStringUtil.getNotNull(((OCamlNamedElement) psiElement).getCanonicalName()));
+                    sb.insert(0, OCamlStringUtil.getNotNull(((OCamlNamedElement) psiElement).getName()));
                 }
             }
         };
@@ -79,17 +74,18 @@ public abstract class BaseOCamlNamedElement extends BaseOCamlElement implements 
         return nameElement == null ? null : nameElement.getText();
     }
 
+    @Override
+    public int getTextOffset() {
+        final ASTNode nameElement = getNameElement();
+        return nameElement == null ? 0 : nameElement.getStartOffset();
+    }
+
     @NotNull
     public PsiElement setName(@NotNull final String name) throws IncorrectOperationException {
-        final ASTNode nameElement = getNameElement();
-        if (nameElement == null) {
-            throw new IncorrectOperationException("Incorrect " + getDescription() + " name");
-        }
-
         checkNameIsNotAKeyword(name);
         getNameType().checkNameIsCorrect(this, name);
 
-        OCamlASTNodeUtil.replaceLeafText(nameElement.getFirstChildNode(), name);
+        doSetName(name);
 
         return this;
     }
@@ -100,15 +96,18 @@ public abstract class BaseOCamlNamedElement extends BaseOCamlElement implements 
         }
     }
 
-    @Override
-    public int getTextOffset() {
+    protected void doSetName(@NotNull final String name) throws IncorrectOperationException {
         final ASTNode nameElement = getNameElement();
-        return nameElement == null ? 0 : nameElement.getStartOffset();
+        if (nameElement == null) {
+            throw new IncorrectOperationException("Incorrect " + getDescription() + " name element");
+        }
+
+        OCamlASTNodeUtil.replaceLeafText(nameElement.getFirstChildNode(), name);
     }
 
     @Override
     public String toString() {
-        return getDescription();
+        return getDescription() + " " + OCamlStringUtil.getNotNull(getName());
     }
 
     @Override

@@ -45,35 +45,40 @@ public class OCamlDeclarationsUtil {
         return false;
     }
 
-    public static boolean processDeclarationsInModuleBinding(@NotNull final ResolvingBuilder builder,
-                                                             @NotNull final OCamlStructuredBinding binding) {
-        final OCamlStructuredElement expression = binding.getExpression();
-        if (expression != null && builder.childWasAlreadyProcessed(expression)) return false;
-        if (builder.getProcessor().process(binding)) return true;
-        final String moduleName = binding.getCanonicalName();
-        final ResolvingBuilder.ModuleProcessor moduleProcessor = new ResolvingBuilder.ModuleProcessor() {
-            public boolean process() {
-                return processDeclarationsInStructuredElement(builder, expression);
-            }
-        };
-        ResolvingBuilder.ModuleProcessor additionalModuleProcessor = null;
-        if (binding instanceof OCamlModuleDefinitionBinding) {
-            final OCamlModuleType moduleType = ((OCamlModuleDefinitionBinding) binding).getModuleType();
-            if (moduleType != null) {
-                if (builder.childWasAlreadyProcessed(moduleType)) return false;
-                additionalModuleProcessor = new ResolvingBuilder.ModuleProcessor() {
-                    public boolean process() {
-                        return processDeclarationsInStructuredElement(builder, moduleType);
-                    }
-                };
+    public static boolean processDeclarationsInStructuredElement(@NotNull final ResolvingBuilder builder,
+                                                                 @Nullable final OCamlStructuredElement psiElement) {
+        if (psiElement == null || builder.childWasAlreadyProcessed(psiElement)) return false;
+        final List<OCamlStructuredElement> actualDefinitions = psiElement.findActualDefinitions();
+        for (final OCamlStructuredElement actualDefinition : actualDefinitions) {
+            if (actualDefinition.processDeclarations(builder)) {
+                return true;
             }
         }
-        return moduleName != null && builder.tryProcessModule(moduleName, moduleProcessor, additionalModuleProcessor);
+        return false;
     }
 
-    public static boolean processDeclarationsInStructuredElement(@NotNull final ResolvingBuilder builder, @Nullable final OCamlStructuredElement psiElement) {
-        if (psiElement == null || builder.childWasAlreadyProcessed(psiElement)) return false;
-        final OCamlStructuredElement actualDefinition = psiElement.findActualDefinition();
-        return actualDefinition != null && actualDefinition.processDeclarations(builder);
+    public static boolean processDeclarationsInStructuredBinding(@NotNull final ResolvingBuilder builder,
+                                                                 @NotNull final OCamlStructuredBinding binding) {
+        final OCamlStructuredElement expression = binding.getExpression();
+        if (expression != null && builder.childWasAlreadyProcessed(expression)) return false;
+
+        final OCamlStructuredElement typeExpression = binding.getTypeExpression();
+        if (typeExpression != null && builder.childWasAlreadyProcessed(typeExpression)) return false;
+
+        if (builder.getProcessor().process(binding)) return true;
+
+        final String moduleName = binding.getName();
+        return moduleName != null && builder.tryProcessModule(moduleName,
+            createModuleProcessor(builder, expression),
+            createModuleProcessor(builder, typeExpression));
+    }
+
+    private static ResolvingBuilder.ModuleProcessor createModuleProcessor(@NotNull final ResolvingBuilder builder,
+                                                                          @Nullable final OCamlStructuredElement moduleElement) {
+        return new ResolvingBuilder.ModuleProcessor() {
+            public boolean process() {
+                return processDeclarationsInStructuredElement(builder, moduleElement);
+            }
+        };
     }
 }

@@ -19,12 +19,13 @@
 package ocaml.lang.processing.parser.psi.element.impl;
 
 import com.intellij.lang.ASTNode;
+import ocaml.lang.feature.resolving.util.OCamlResolvingUtil;
 import ocaml.lang.processing.parser.psi.OCamlElementVisitor;
 import ocaml.lang.processing.parser.psi.OCamlPsiUtil;
-import ocaml.lang.processing.parser.psi.element.OCamlModuleType;
-import ocaml.lang.processing.parser.psi.element.OCamlModuleTypeWithConstraints;
-import ocaml.lang.processing.parser.psi.element.OCamlStructuredElement;
+import ocaml.lang.processing.parser.psi.element.*;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 /**
  * @author Maxim.Manuylov
@@ -39,8 +40,8 @@ public class OCamlModuleTypeWithConstraintsImpl extends BaseOCamlElement impleme
         visitor.visitModuleTypeWithConstraints(this);
     }
 
-    public OCamlStructuredElement findActualDefinition() {
-        final OCamlModuleType expression = OCamlPsiUtil.getFirstChildOfType(this, OCamlModuleType.class);
-        return expression == null ? null : expression.findActualDefinition();
+    @NotNull
+    public List<OCamlStructuredElement> findActualDefinitions() {
+        return OCamlResolvingUtil.collectActualDefinitionsOfStructuredElements(OCamlPsiUtil.getFirstChildOfType(this, OCamlModuleType.class));
     }
 }

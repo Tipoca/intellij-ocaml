@@ -19,11 +19,14 @@
 package ocaml.lang.processing.parser.psi.element;
 
 import com.intellij.psi.PsiFile;
-import ocaml.lang.feature.resolving.OCamlResolvedReference;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Maxim.Manuylov
  *         Date: 22.02.2009
  */
-public interface OCamlFile extends PsiFile, OCamlResolvedReference {
+public interface OCamlFile extends PsiFile {
+    @Nullable
+    <T extends OCamlStructuredBinding> T getModuleBinding(@NotNull Class<T> type);
 }

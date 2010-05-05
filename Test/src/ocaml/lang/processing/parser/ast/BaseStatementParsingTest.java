@@ -33,156 +33,156 @@ import static ocaml.lang.processing.parser.ast.element.OCamlElementTypes.*;
 @Test
 public abstract class BaseStatementParsingTest extends ParsingTestCase {
     public void testExternal() throws Exception {
-        myTree.addNode(2, EXTERNAL_DEFINITION);
-        myTree.addNode(3, EXTERNAL_KEYWORD);
-        myTree.addNode(3, VALUE_NAME_PATTERN);
-        myTree.addNode(4, LCFC_IDENTIFIER, "myFunc");
-        myTree.addNode(3, COLON);
-        myTree.addNode(3, FUNCTION_TYPE_EXPRESSION);
-        myTree.addNode(4, TYPE_CONSTRUCTOR_NAME);
-        myTree.addNode(5, LCFC_IDENTIFIER, "int");
-        myTree.addNode(4, MINUS_GT);
-        myTree.addNode(4, TYPE_CONSTRUCTOR_NAME);
-        myTree.addNode(5, LCFC_IDENTIFIER, "int");
-        myTree.addNode(3, EQ);
-        myTree.addNode(3, EXTERNAL_DECLARATION);
-        myTree.addNode(4, STRING_LITERAL, "\"myFunc\"");
+        myTree.addNode(3, EXTERNAL_DEFINITION);
+        myTree.addNode(4, EXTERNAL_KEYWORD);
+        myTree.addNode(4, VALUE_NAME_PATTERN);
+        myTree.addNode(5, LCFC_IDENTIFIER, "myFunc");
+        myTree.addNode(4, COLON);
+        myTree.addNode(4, FUNCTION_TYPE_EXPRESSION);
+        myTree.addNode(5, TYPE_CONSTRUCTOR_NAME);
+        myTree.addNode(6, LCFC_IDENTIFIER, "int");
+        myTree.addNode(5, MINUS_GT);
+        myTree.addNode(5, TYPE_CONSTRUCTOR_NAME);
+        myTree.addNode(6, LCFC_IDENTIFIER, "int");
+        myTree.addNode(4, EQ);
+        myTree.addNode(4, EXTERNAL_DECLARATION);
+        myTree.addNode(5, STRING_LITERAL, "\"myFunc\"");
 
         doTest("external myFunc : int -> int = \"myFunc\"", myTree.getStringRepresentation());
     }
 
     public void testOpenDirective() throws Exception {
-        myTree.addNode(2, OPEN_DIRECTIVE);
-        myTree.addNode(3, OPEN_KEYWORD);
-        myTree.addNode(3, MODULE_NAME);
-        myTree.addNode(4, UCFC_IDENTIFIER, "Module");
+        myTree.addNode(3, OPEN_DIRECTIVE);
+        myTree.addNode(4, OPEN_KEYWORD);
+        myTree.addNode(4, MODULE_NAME);
+        myTree.addNode(5, UCFC_IDENTIFIER, "Module");
 
         doTest("open Module", myTree.getStringRepresentation());
     }
 
     public void testSemicolonSemicolon() throws Exception {
-        myTree.addNode(2, SEMICOLON_SEMICOLON);
+        myTree.addNode(3, SEMICOLON_SEMICOLON);
 
         doTest(";;", myTree.getStringRepresentation());
     }
 
     public void testCommentBlock() throws Exception {
-        myTree.addNode(2, COMMENT_BLOCK);
-        myTree.addNode(3, COMMENT_BEGIN, "(*");
-        myTree.addNode(3, COMMENT, " comment ");
-        myTree.addNode(3, COMMENT_END, "*)");
+        myTree.addNode(3, COMMENT_BLOCK);
+        myTree.addNode(4, COMMENT_BEGIN, "(*");
+        myTree.addNode(4, COMMENT, " comment ");
+        myTree.addNode(4, COMMENT_END, "*)");
 
         doTest("(* comment *)", myTree.getStringRepresentation());
 
         recreateTree();
 
-        myTree.addNode(2, COMMENT_BLOCK);
-        myTree.addNode(3, COMMENT_BEGIN, "(*");
-        myTree.addNode(3, COMMENT_END, "*)");
+        myTree.addNode(3, COMMENT_BLOCK);
+        myTree.addNode(4, COMMENT_BEGIN, "(*");
+        myTree.addNode(4, COMMENT_END, "*)");
 
         doTest("(**)", myTree.getStringRepresentation());
 
         recreateTree();
 
-        myTree.addNode(2, COMMENT_BLOCK);
-        myTree.addNode(3, COMMENT_BEGIN, "(*");
         myTree.addNode(3, COMMENT_BLOCK);
         myTree.addNode(4, COMMENT_BEGIN, "(*");
+        myTree.addNode(4, COMMENT_BLOCK);
+        myTree.addNode(5, COMMENT_BEGIN, "(*");
+        myTree.addNode(5, COMMENT_END, "*)");
+        myTree.addNode(4, COMMENT_BLOCK);
+        myTree.addNode(5, COMMENT_BEGIN, "(*");
+        myTree.addNode(5, COMMENT_END, "*)");
         myTree.addNode(4, COMMENT_END, "*)");
-        myTree.addNode(3, COMMENT_BLOCK);
-        myTree.addNode(4, COMMENT_BEGIN, "(*");
-        myTree.addNode(4, COMMENT_END, "*)");
-        myTree.addNode(3, COMMENT_END, "*)");
 
         doTest("(*(**)(**)*)", myTree.getStringRepresentation());
 
         recreateTree();
 
-        myTree.addNode(2, COMMENT_BLOCK);
-        myTree.addNode(3, COMMENT_BEGIN, "(*");
-        myTree.addNode(3, COMMENT, "c");
         myTree.addNode(3, COMMENT_BLOCK);
         myTree.addNode(4, COMMENT_BEGIN, "(*");
         myTree.addNode(4, COMMENT, "c");
-        myTree.addNode(4, COMMENT_END, "*)");
-        myTree.addNode(3, COMMENT, "c");
-        myTree.addNode(3, COMMENT_BLOCK);
-        myTree.addNode(4, COMMENT_BEGIN, "(*");
+        myTree.addNode(4, COMMENT_BLOCK);
+        myTree.addNode(5, COMMENT_BEGIN, "(*");
+        myTree.addNode(5, COMMENT, "c");
+        myTree.addNode(5, COMMENT_END, "*)");
+        myTree.addNode(4, COMMENT, "c");
+        myTree.addNode(4, COMMENT_BLOCK);
+        myTree.addNode(5, COMMENT_BEGIN, "(*");
+        myTree.addNode(5, COMMENT, "c");
+        myTree.addNode(5, COMMENT_END, "*)");
         myTree.addNode(4, COMMENT, "c");
         myTree.addNode(4, COMMENT_END, "*)");
-        myTree.addNode(3, COMMENT, "c");
-        myTree.addNode(3, COMMENT_END, "*)");
 
         doTest("(*c(*c*)c(*c*)c*)", myTree.getStringRepresentation());
     }
 
     public void testUnclosedComment() throws Exception {
-        myTree.addNode(2, UNCLOSED_COMMENT);
-        myTree.addNode(3, COMMENT_BEGIN, "(*");
-        myTree.addNode(3, COMMENT, " comment");
-        myTree.addNode(2, ERROR_ELEMENT, Strings.UNCLOSED_COMMENT);
+        myTree.addNode(3, UNCLOSED_COMMENT);
+        myTree.addNode(4, COMMENT_BEGIN, "(*");
+        myTree.addNode(4, COMMENT, " comment");
+        myTree.addNode(3, ERROR_ELEMENT, Strings.UNCLOSED_COMMENT);
 
         doTest("(* comment", myTree.getStringRepresentation());
 
         recreateTree();
 
-        myTree.addNode(2, UNCLOSED_COMMENT);
-        myTree.addNode(3, COMMENT_BEGIN, "(*");
-        myTree.addNode(2, ERROR_ELEMENT, Strings.UNCLOSED_COMMENT);
+        myTree.addNode(3, UNCLOSED_COMMENT);
+        myTree.addNode(4, COMMENT_BEGIN, "(*");
+        myTree.addNode(3, ERROR_ELEMENT, Strings.UNCLOSED_COMMENT);
 
         doTest("(*", myTree.getStringRepresentation());
 
         recreateTree();
 
-        myTree.addNode(2, UNCLOSED_COMMENT);
-        myTree.addNode(3, COMMENT_BEGIN, "(*");
         myTree.addNode(3, UNCLOSED_COMMENT);
         myTree.addNode(4, COMMENT_BEGIN, "(*");
-        myTree.addNode(2, ERROR_ELEMENT, Strings.UNCLOSED_COMMENT);
+        myTree.addNode(4, UNCLOSED_COMMENT);
+        myTree.addNode(5, COMMENT_BEGIN, "(*");
+        myTree.addNode(3, ERROR_ELEMENT, Strings.UNCLOSED_COMMENT);
 
         doTest("(*(*", myTree.getStringRepresentation());
 
         recreateTree();
 
-        myTree.addNode(2, UNCLOSED_COMMENT);
-        myTree.addNode(3, COMMENT_BEGIN, "(*");
-        myTree.addNode(3, COMMENT_BLOCK);
+        myTree.addNode(3, UNCLOSED_COMMENT);
         myTree.addNode(4, COMMENT_BEGIN, "(*");
-        myTree.addNode(4, COMMENT_END, "*)");
-        myTree.addNode(2, ERROR_ELEMENT, Strings.UNCLOSED_COMMENT);
+        myTree.addNode(4, COMMENT_BLOCK);
+        myTree.addNode(5, COMMENT_BEGIN, "(*");
+        myTree.addNode(5, COMMENT_END, "*)");
+        myTree.addNode(3, ERROR_ELEMENT, Strings.UNCLOSED_COMMENT);
 
         doTest("(*(**)", myTree.getStringRepresentation());
 
         recreateTree();
 
-        myTree.addNode(2, UNCLOSED_COMMENT);
-        myTree.addNode(3, COMMENT_BEGIN, "(*");
-        myTree.addNode(3, COMMENT_BLOCK);
+        myTree.addNode(3, UNCLOSED_COMMENT);
         myTree.addNode(4, COMMENT_BEGIN, "(*");
-        myTree.addNode(4, COMMENT_END, "*)");
-        myTree.addNode(3, COMMENT_BLOCK);
-        myTree.addNode(4, COMMENT_BEGIN, "(*");
-        myTree.addNode(4, COMMENT_END, "*)");
-        myTree.addNode(2, ERROR_ELEMENT, Strings.UNCLOSED_COMMENT);
+        myTree.addNode(4, COMMENT_BLOCK);
+        myTree.addNode(5, COMMENT_BEGIN, "(*");
+        myTree.addNode(5, COMMENT_END, "*)");
+        myTree.addNode(4, COMMENT_BLOCK);
+        myTree.addNode(5, COMMENT_BEGIN, "(*");
+        myTree.addNode(5, COMMENT_END, "*)");
+        myTree.addNode(3, ERROR_ELEMENT, Strings.UNCLOSED_COMMENT);
 
         doTest("(*(**)(**)", myTree.getStringRepresentation());
 
         recreateTree();
 
-        myTree.addNode(2, UNCLOSED_COMMENT);
-        myTree.addNode(3, COMMENT_BEGIN, "(*");
-        myTree.addNode(3, COMMENT, "c");
-        myTree.addNode(3, COMMENT_BLOCK);
+        myTree.addNode(3, UNCLOSED_COMMENT);
         myTree.addNode(4, COMMENT_BEGIN, "(*");
         myTree.addNode(4, COMMENT, "c");
-        myTree.addNode(4, COMMENT_END, "*)");
-        myTree.addNode(3, COMMENT, "c");
-        myTree.addNode(3, COMMENT_BLOCK);
-        myTree.addNode(4, COMMENT_BEGIN, "(*");
+        myTree.addNode(4, COMMENT_BLOCK);
+        myTree.addNode(5, COMMENT_BEGIN, "(*");
+        myTree.addNode(5, COMMENT, "c");
+        myTree.addNode(5, COMMENT_END, "*)");
         myTree.addNode(4, COMMENT, "c");
-        myTree.addNode(4, COMMENT_END, "*)");
-        myTree.addNode(3, COMMENT, "c");
-        myTree.addNode(2, ERROR_ELEMENT, Strings.UNCLOSED_COMMENT);
+        myTree.addNode(4, COMMENT_BLOCK);
+        myTree.addNode(5, COMMENT_BEGIN, "(*");
+        myTree.addNode(5, COMMENT, "c");
+        myTree.addNode(5, COMMENT_END, "*)");
+        myTree.addNode(4, COMMENT, "c");
+        myTree.addNode(3, ERROR_ELEMENT, Strings.UNCLOSED_COMMENT);
 
         doTest("(*c(*c*)c(*c*)c", myTree.getStringRepresentation());
     }

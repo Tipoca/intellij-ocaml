@@ -16,11 +16,25 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/gpl-2.0.html>.
  */
 
-package ocaml.lang.processing.parser.psi.element;
+package ocaml.util;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Maxim.Manuylov
- *         Date: 21.03.2009
+ *         Date: 05.05.2010
  */
-public interface OCamlClassTypeBinding extends OCamlStructuredBinding<OCamlClassType, OCamlClassType> {
+public class OCamlCollectionsUtil {
+    public static <T> List<T> createNotNullValuesList(@NotNull final T... values) {
+        final List<T> result = new ArrayList<T>(values.length);
+        for (final T value : values) {
+            if (value != null) {
+                result.add(value);
+            }
+        }
+        return result;
+    }
 }

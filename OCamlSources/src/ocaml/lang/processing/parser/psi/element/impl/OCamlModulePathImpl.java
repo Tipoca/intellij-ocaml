@@ -22,11 +22,11 @@ import com.intellij.lang.ASTNode;
 import ocaml.lang.feature.resolving.util.OCamlResolvingUtil;
 import ocaml.lang.processing.parser.psi.OCamlElementVisitor;
 import ocaml.lang.processing.parser.psi.OCamlPsiUtil;
-import ocaml.lang.processing.parser.psi.element.OCamlModuleName;
-import ocaml.lang.processing.parser.psi.element.OCamlModulePath;
-import ocaml.lang.processing.parser.psi.element.OCamlStructuredElement;
+import ocaml.lang.processing.parser.psi.element.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 /**
  * @author Maxim.Manuylov
@@ -46,8 +46,8 @@ public class OCamlModulePathImpl extends BaseOCamlElement implements OCamlModule
         return OCamlPsiUtil.getLastChildOfType(this, OCamlModuleName.class);
     }
 
-    public OCamlStructuredElement findActualDefinition() {
-        final OCamlModuleName moduleName = getModuleName();
-        return moduleName == null ? null : OCamlResolvingUtil.findActualDefinitionOfStructuredElement(moduleName);
+    @NotNull
+    public List<OCamlStructuredElement> findActualDefinitions() {
+        return OCamlResolvingUtil.collectActualDefinitionsOfStructuredElements(getModuleName());
     }
 }

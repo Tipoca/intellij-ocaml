@@ -21,6 +21,7 @@ package ocaml.lang.processing.parser.psi.element.impl;
 import com.intellij.lang.ASTNode;
 import ocaml.lang.feature.resolving.ResolvingBuilder;
 import ocaml.lang.feature.resolving.util.OCamlDeclarationsUtil;
+import ocaml.lang.feature.resolving.util.OCamlResolvingUtil;
 import ocaml.lang.processing.parser.psi.OCamlElement;
 import ocaml.lang.processing.parser.psi.OCamlElementVisitor;
 import ocaml.lang.processing.parser.psi.OCamlPsiUtil;
@@ -30,6 +31,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author Maxim.Manuylov
@@ -63,9 +65,8 @@ public class OCamlParenthesesImpl extends BaseOCamlElement implements OCamlParen
         return it.hasNext() ? it.next() : null;
     }
 
-    @Nullable
-    public OCamlStructuredElement findActualDefinition() {
-        final OCamlStructuredElement internalElement = getInternalElement(OCamlStructuredElement.class);
-        return internalElement == null ? null : internalElement.findActualDefinition();
+    @NotNull
+    public List<OCamlStructuredElement> findActualDefinitions() {
+        return OCamlResolvingUtil.collectActualDefinitionsOfStructuredElements(getInternalElement(OCamlStructuredElement.class));
     }
 }

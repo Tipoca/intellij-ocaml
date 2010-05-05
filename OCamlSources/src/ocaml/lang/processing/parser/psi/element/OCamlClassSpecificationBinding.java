@@ -22,5 +22,5 @@ package ocaml.lang.processing.parser.psi.element;
  * @author Maxim.Manuylov
  *         Date: 21.03.2009
  */
-public interface OCamlClassSpecificationBinding extends OCamlStructuredBinding<OCamlClassType>, OCamlResolvedClassName {
+public interface OCamlClassSpecificationBinding extends OCamlResolvedClassName<OCamlClassType> {
 }

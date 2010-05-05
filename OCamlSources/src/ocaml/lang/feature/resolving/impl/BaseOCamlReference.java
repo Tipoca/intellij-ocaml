@@ -67,14 +67,14 @@ public abstract class BaseOCamlReference extends BaseOCamlNamedElement implement
         return setName(newElementName);
     }
 
-    @NotNull
-    public PsiElement bindToElement(@NotNull final PsiElement element) throws IncorrectOperationException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.     todo
+    @Nullable
+    public PsiElement bindToElement(@NotNull final PsiElement element) {
+        return null;
     }
 
     public boolean isReferenceTo(@NotNull final PsiElement element) {
         return element instanceof OCamlResolvedReference
-            && Comparing.equal(getCanonicalName(), ((OCamlResolvedReference) element).getCanonicalName())
+            && Comparing.equal(getName(), ((OCamlResolvedReference) element).getName())
             && resolve() == element;
     }
 

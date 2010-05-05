@@ -20,47 +20,24 @@ package ocaml.lang.processing.parser.psi.element.impl;
 
 import com.intellij.extapi.psi.PsiFileBase;
 import com.intellij.lang.Language;
-import com.intellij.navigation.ItemPresentation;
-import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.FileViewProvider;
-import com.intellij.psi.PsiElementVisitor;
-import ocaml.lang.processing.parser.psi.OCamlElementVisitor;
 import ocaml.lang.processing.parser.psi.OCamlPsiUtil;
 import ocaml.lang.processing.parser.psi.element.OCamlFile;
-import ocaml.util.OCamlStringUtil;
+import ocaml.lang.processing.parser.psi.element.OCamlStructuredBinding;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Maxim.Manuylov
  *         Date: 22.03.2009
  */
-public abstract class BaseOCamlFile extends PsiFileBase implements OCamlFile { //todo maybe files should not be used as resolved references. seems it can fix several problems.
+public abstract class BaseOCamlFile extends PsiFileBase implements OCamlFile {
     protected BaseOCamlFile(@NotNull final FileViewProvider fileViewProvider, @NotNull final Language language) {
         super(fileViewProvider, language);
     }
 
-    @NotNull
-    public String getCanonicalName() {
-        final VirtualFile file = getVirtualFile();
-        final String fileNameWithoutExtension = file == null
-            ? OCamlStringUtil.dropFromLastDot(getName())
-            : file.getNameWithoutExtension();
-        return OCamlStringUtil.capitalize(fileNameWithoutExtension);
-    }
-
-    @Override
-    public void accept(@NotNull final PsiElementVisitor psiElementVisitor) {
-        if (!OCamlPsiUtil.acceptOCamlElement(this, psiElementVisitor)) {
-            super.accept(psiElementVisitor);
-        }
-    }
-
-    public void visit(@NotNull final OCamlElementVisitor visitor) {
-        visitor.visitFile(this);
-    }
-
-    @Override
-    public ItemPresentation getPresentation() {
-        return OCamlPsiUtil.getPresentation(this);
+    @Nullable
+    public <T extends OCamlStructuredBinding> T getModuleBinding(@NotNull final Class<T> type) {
+        return OCamlPsiUtil.getFirstChildOfType(this, type);
     }
 }

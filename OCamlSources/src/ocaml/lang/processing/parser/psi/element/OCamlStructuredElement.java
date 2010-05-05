@@ -19,13 +19,15 @@
 package ocaml.lang.processing.parser.psi.element;
 
 import ocaml.lang.processing.parser.psi.OCamlElement;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 /**
  * @author Maxim.Manuylov
  *         Date: 15.04.2010
  */
 public interface OCamlStructuredElement extends OCamlElement {
-    @Nullable
-    OCamlStructuredElement findActualDefinition();
+    @NotNull
+    List<OCamlStructuredElement> findActualDefinitions();
 }

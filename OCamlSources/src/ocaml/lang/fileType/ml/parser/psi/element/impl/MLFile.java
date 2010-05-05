@@ -18,35 +18,18 @@
 
 package ocaml.lang.fileType.ml.parser.psi.element.impl;
 
-import com.intellij.lang.ASTNode;
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.fileTypes.FileType;
-import com.intellij.openapi.util.Computable;
-import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.FileViewProvider;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiManager;
-import ocaml.lang.feature.resolving.NameType;
-import ocaml.lang.feature.resolving.ResolvingBuilder;
-import ocaml.lang.feature.resolving.util.OCamlDeclarationsUtil;
 import ocaml.lang.fileType.ml.MLFileType;
 import ocaml.lang.fileType.ml.MLFileTypeLanguage;
-import ocaml.lang.fileType.mli.parser.psi.element.impl.MLIFile;
-import ocaml.lang.processing.parser.psi.OCamlPsiUtil;
-import ocaml.lang.processing.parser.psi.element.OCamlFileModuleExpression;
-import ocaml.lang.processing.parser.psi.element.OCamlModuleDefinitionBinding;
-import ocaml.lang.processing.parser.psi.element.OCamlModuleExpression;
-import ocaml.lang.processing.parser.psi.element.OCamlModuleType;
 import ocaml.lang.processing.parser.psi.element.impl.BaseOCamlFile;
-import ocaml.util.OCamlFileUtil;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Maxim.Manuylov
  *         Date: 22.02.2009
  */
-public class MLFile extends BaseOCamlFile implements OCamlModuleDefinitionBinding {
+public class MLFile extends BaseOCamlFile {
     public MLFile(@NotNull final FileViewProvider fileViewProvider) {
         super(fileViewProvider, MLFileTypeLanguage.INSTANCE);
     }
@@ -54,47 +37,5 @@ public class MLFile extends BaseOCamlFile implements OCamlModuleDefinitionBindin
     @NotNull
     public FileType getFileType() {
         return MLFileType.INSTANCE;
-    }
-
-    @NotNull
-    public String getCanonicalPath() {
-        return getCanonicalName();
-    }
-
-    @Nullable
-    public ASTNode getNameElement() {
-        return null;
-    }
-
-    @NotNull
-    public NameType getNameType() {
-        return NameType.UpperCase;
-    }
-
-    @NotNull
-    public String getDescription() {
-        return "module";
-    }
-
-    public boolean processDeclarations(@NotNull final ResolvingBuilder builder) {
-        return OCamlDeclarationsUtil.processDeclarationsInModuleBinding(builder, this);
-    }
-
-    @Nullable
-    public OCamlModuleExpression getExpression() {
-        return OCamlPsiUtil.getLastChildOfType(this, OCamlFileModuleExpression.class);
-    }
-
-    @Nullable
-    public OCamlModuleType getModuleType() {
-        final VirtualFile mliVirtualFile = OCamlFileUtil.getAnotherFile(getVirtualFile());
-        if (mliVirtualFile == null) return null;
-        final PsiFile mliFile = ApplicationManager.getApplication().runReadAction(new Computable<PsiFile>() {
-            public PsiFile compute() {
-                return PsiManager.getInstance(getProject()).findFile(mliVirtualFile);
-            }
-        });
-        if (mliFile == null || !(mliFile instanceof MLIFile)) return null;
-        return ((MLIFile)mliFile).getExpression();
     }
 }

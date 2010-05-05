@@ -70,4 +70,9 @@ public class OCamlTypeBindingImpl extends BaseOCamlResolvedReference implements 
     public OCamlTypeExpression getExpression() {
         return OCamlPsiUtil.getLastChildOfType(this, OCamlTypeExpression.class);
     }
+
+    @Nullable
+    public OCamlTypeExpression getTypeExpression() {
+        return null;
+    }
 }

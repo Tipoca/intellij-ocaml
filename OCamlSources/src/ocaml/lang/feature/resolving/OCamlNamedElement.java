@@ -34,9 +34,6 @@ public interface OCamlNamedElement extends OCamlElement, PsiNamedElement, Naviga
     ASTNode getNameElement();
 
     @Nullable
-    String getCanonicalName();
-
-    @Nullable
     String getCanonicalPath();
 
     @NotNull

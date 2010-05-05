@@ -64,23 +64,23 @@ public class OCamlFindUsagesProvider implements FindUsagesProvider {
 
     @NotNull
     public String getDescriptiveName(@NotNull final PsiElement element) {
-        return getCanonicalName(element);
+        return getName(element);
     }
 
     @NotNull
     public String getNodeText(@NotNull final PsiElement element, final boolean useFullName) {
-        final StringBuilder sb = new StringBuilder(OCamlStringUtil.capitalize(getType(element)));
+        final StringBuilder sb = new StringBuilder(OCamlStringUtil.firstLetterToUpperCase(getType(element)));
         if (sb.length() > 0) {
             sb.append(" ");
         }
-        sb.append(useFullName ? getCanonicalPath(element) : getCanonicalName(element));
+        sb.append(useFullName ? getCanonicalPath(element) : getName(element));
         return sb.toString();
     }
 
     @NotNull
-    private String getCanonicalName(@NotNull final PsiElement element) {
+    private String getName(@NotNull final PsiElement element) {
         if (element instanceof OCamlNamedElement) {
-            return OCamlStringUtil.getNotNull(((OCamlNamedElement) element).getCanonicalName());
+            return OCamlStringUtil.getNotNull(((OCamlNamedElement) element).getName());
         }
         return "";
     }

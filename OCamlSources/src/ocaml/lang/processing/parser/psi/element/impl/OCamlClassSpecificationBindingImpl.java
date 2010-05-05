@@ -62,4 +62,9 @@ public class OCamlClassSpecificationBindingImpl extends BaseOCamlResolvedReferen
     public OCamlClassType getExpression() {
         return OCamlPsiUtil.getLastChildOfType(this, OCamlClassType.class);
     }
+
+    @Nullable
+    public OCamlClassType getTypeExpression() {
+        return null;
+    }
 }

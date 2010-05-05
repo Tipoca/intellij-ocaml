@@ -184,7 +184,7 @@ public class OCamlElementFactory {
         else if (elementType == OBJECT_END_CLASS_EXPRESSION) {
             return new OCamlObjectEndClassExpressionImpl(node);
         }
-        else if (elementType == OBJECT_SELF_DEFINIFTION) {
+        else if (elementType == OBJECT_SELF_DEFINITION) {
             return new OCamlObjectSelfDefinitionImpl(node);
         }
         else if (elementType == INHERIT_CLASS_FIELD_DEFINITION) {
@@ -232,8 +232,14 @@ public class OCamlElementFactory {
         else if (elementType == MODULE_PARAMETER) {
             return new OCamlModuleParameterImpl(node);
         }
+        else if (elementType == FILE_MODULE_DEFINITION_BINDING) {
+            return new OCamlFileModuleDefinitionBindingImpl(node);
+        }
         else if (elementType == FILE_MODULE_EXPRESSION) {
             return new OCamlFileModuleExpressionImpl(node);
+        }
+        else if (elementType == FILE_MODULE_SPECIFICATION_BINDING) {
+            return new OCamlFileModuleSpecificationBindingImpl(node);
         }
         else if (elementType == FILE_MODULE_TYPE) {
             return new OCamlFileModuleTypeImpl(node);

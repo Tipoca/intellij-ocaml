@@ -20,11 +20,16 @@ package ocaml.lang.processing.parser.psi.element.impl;
 
 import com.intellij.lang.ASTNode;
 import ocaml.lang.feature.resolving.NameType;
+import ocaml.lang.feature.resolving.ResolvingBuilder;
 import ocaml.lang.feature.resolving.impl.BaseOCamlResolvedReference;
+import ocaml.lang.feature.resolving.util.OCamlDeclarationsUtil;
 import ocaml.lang.processing.parser.ast.element.OCamlElementTypes;
 import ocaml.lang.processing.parser.ast.util.OCamlASTTreeUtil;
 import ocaml.lang.processing.parser.psi.OCamlElementVisitor;
+import ocaml.lang.processing.parser.psi.OCamlPsiUtil;
+import ocaml.lang.processing.parser.psi.element.OCamlModuleExpression;
 import ocaml.lang.processing.parser.psi.element.OCamlModuleParameter;
+import ocaml.lang.processing.parser.psi.element.OCamlModuleType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -54,5 +59,20 @@ public class OCamlModuleParameterImpl extends BaseOCamlResolvedReference impleme
     @NotNull
     public String getDescription() {
         return "module";
+    }
+
+    @Nullable
+    public OCamlModuleExpression getExpression() {
+        return null;
+    }
+
+    @Nullable
+    public OCamlModuleType getTypeExpression() {
+        return OCamlPsiUtil.getLastChildOfType(this, OCamlModuleType.class);
+    }
+
+    @Override
+    public boolean processDeclarations(@NotNull final ResolvingBuilder builder) {
+        return OCamlDeclarationsUtil.processDeclarationsInStructuredBinding(builder, this);
     }
 }

@@ -33,17 +33,23 @@ import org.jetbrains.annotations.NotNull;
  */
 class MLParser implements PsiParser {
     @NotNull
-    public ASTNode parse(final IElementType root, final PsiBuilder builder) {
+    public ASTNode parse(@NotNull final IElementType root, @NotNull final PsiBuilder builder) {
         final PsiBuilder builderWrapper = new CommentsParserPsiBuilder(builder);
 
         final PsiBuilder.Marker rootMarker = builderWrapper.mark();
+        final PsiBuilder.Marker moduleDefinitionMarker = builderWrapper.mark();
+        final PsiBuilder.Marker moduleExpressionMarker = builderWrapper.mark();
+
         StatementParsing.parseDefinitionsAndExpressions(builderWrapper, new StatementParsing.Condition() {
             public boolean test() {
                 return builderWrapper.eof();
             }
         });
-        rootMarker.done(OCamlElementTypes.FILE_MODULE_EXPRESSION);
-        rootMarker.precede().done(root);
+
+        moduleExpressionMarker.done(OCamlElementTypes.FILE_MODULE_EXPRESSION);
+        moduleDefinitionMarker.done(OCamlElementTypes.FILE_MODULE_DEFINITION_BINDING);
+        rootMarker.done(root);
+        
         return builderWrapper.getTreeBuilt();
     }
 }

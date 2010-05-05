@@ -32,16 +32,15 @@ public class OCamlStringUtil {
     }
 
     @NotNull
-    public static String dropFromLastDot(@NotNull final String string) {
-        final int dotPos = string.lastIndexOf(".");
-        if (dotPos < 0) return string;
-        return string.substring(0, dotPos);
+    public static String firstLetterToUpperCase(@NotNull final String string) {
+        if (string.length() == 0) return string;
+        return Character.toUpperCase(string.charAt(0)) + string.substring(1);
     }
 
     @NotNull
-    public static String capitalize(@NotNull final String string) {
+    public static String firstLetterToLowerCase(@NotNull final String string) {
         if (string.length() == 0) return string;
-        return Character.toUpperCase(string.charAt(0)) + string.substring(1);
+        return Character.toLowerCase(string.charAt(0)) + string.substring(1);
     }
 
     @NotNull
@@ -50,8 +49,16 @@ public class OCamlStringUtil {
         return changeLetterCase(string.charAt(0)) + string.substring(1);
     }
 
+    @NotNull
+    public static String makeFirstLetterCaseTheSame(@NotNull final String string, @NotNull final String pattern) {
+        return isUpperCase(pattern.charAt(0)) ? firstLetterToUpperCase(string) : firstLetterToLowerCase(string);
+    }
+
     private static char changeLetterCase(final char letter) {
-        final char upperCaseLetter = Character.toUpperCase(letter);
-        return letter == upperCaseLetter ? Character.toLowerCase(letter) : upperCaseLetter;
+        return isUpperCase(letter) ? Character.toLowerCase(letter) : Character.toUpperCase(letter);
+    }
+
+    private static boolean isUpperCase(final char letter) {
+        return letter == Character.toUpperCase(letter);
     }
 }

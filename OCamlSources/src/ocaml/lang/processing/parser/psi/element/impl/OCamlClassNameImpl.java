@@ -27,7 +27,6 @@ import ocaml.lang.processing.parser.psi.OCamlElementVisitor;
 import ocaml.lang.processing.parser.psi.OCamlPsiUtil;
 import ocaml.lang.processing.parser.psi.element.*;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
@@ -70,9 +69,9 @@ public class OCamlClassNameImpl extends BaseOCamlReference implements OCamlClass
         return OCamlPsiUtil.getModulePath(this, OCamlClassPath.class, OCamlModuleName.class);
     }
 
-    @Nullable
-    public OCamlStructuredElement findActualDefinition() {
-        return OCamlResolvingUtil.findActualDefinitionOfStructuredElement(this);
+    @NotNull
+    public List<OCamlStructuredElement> findActualDefinitions() {
+        return OCamlResolvingUtil.findActualDefinitionsOfStructuredElementReference(this);
     }
 
     @NotNull

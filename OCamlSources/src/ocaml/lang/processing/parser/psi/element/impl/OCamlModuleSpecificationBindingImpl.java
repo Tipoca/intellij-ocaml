@@ -62,11 +62,16 @@ public class OCamlModuleSpecificationBindingImpl extends BaseOCamlResolvedRefere
 
     @Override
     public boolean processDeclarations(@NotNull final ResolvingBuilder builder) {
-        return OCamlDeclarationsUtil.processDeclarationsInModuleBinding(builder, this);
+        return OCamlDeclarationsUtil.processDeclarationsInStructuredBinding(builder, this);
     }
 
     @Nullable
     public OCamlModuleType getExpression() {
         return OCamlPsiUtil.getLastChildOfType(this, OCamlModuleType.class);
+    }
+
+    @Nullable
+    public OCamlModuleType getTypeExpression() {
+        return null;
     }
 }

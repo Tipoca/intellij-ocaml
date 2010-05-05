@@ -44,7 +44,8 @@ public abstract class ParsingTestCase extends Assert {
     protected void recreateTree() {
         myTree = new TreeStringBuilder(false);
         myTree.addNode(0, getParserDefinition().getFileNodeType());
-        myTree.addNode(1, getModuleNodeType());
+        myTree.addNode(1, getModuleBindingNodeType());
+        myTree.addNode(2, getModuleExpressionNodeType());
     }
 
     protected void doTest(@NotNull final String text, @NotNull final String expectedTree) throws Exception {
@@ -84,5 +85,8 @@ public abstract class ParsingTestCase extends Assert {
     protected abstract ParserDefinition getParserDefinition();
 
     @NotNull
-    protected abstract IElementType getModuleNodeType();
+    protected abstract IElementType getModuleExpressionNodeType();
+
+    @NotNull
+    protected abstract IElementType getModuleBindingNodeType();
 }

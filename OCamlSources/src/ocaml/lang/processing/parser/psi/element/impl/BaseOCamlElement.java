@@ -23,7 +23,8 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElementVisitor;
 import ocaml.lang.feature.resolving.ResolvingBuilder;
 import ocaml.lang.processing.parser.psi.OCamlElement;
-import ocaml.lang.processing.parser.psi.OCamlPsiUtil;
+import ocaml.lang.processing.parser.psi.OCamlElementProcessor;
+import ocaml.lang.processing.parser.psi.OCamlElementVisitor;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -41,7 +42,13 @@ public abstract class BaseOCamlElement extends ASTWrapperPsiElement implements O
 
     @Override
     public void accept(@NotNull final PsiElementVisitor psiElementVisitor) {
-        if (!OCamlPsiUtil.acceptOCamlElement(this, psiElementVisitor)) {
+        if (psiElementVisitor instanceof OCamlElementVisitor) {
+            visit((OCamlElementVisitor)psiElementVisitor);
+        }
+        else if (psiElementVisitor instanceof OCamlElementProcessor) {
+            ((OCamlElementProcessor) psiElementVisitor).process(this);
+        }
+        else {
             super.accept(psiElementVisitor);
         }
     }

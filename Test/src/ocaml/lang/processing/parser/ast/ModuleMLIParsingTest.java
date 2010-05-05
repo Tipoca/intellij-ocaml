@@ -35,54 +35,54 @@ import static ocaml.lang.processing.parser.ast.element.OCamlElementTypes.*;
 @Test
 public class ModuleMLIParsingTest extends BaseModuleParsingTest {
     public void testModuleType() throws Exception {
-        myTree.addNode(2, MODULE_TYPE_SPECIFICATION);
-        myTree.addNode(3, MODULE_KEYWORD);
-        myTree.addNode(3, TYPE_KEYWORD);
-        myTree.addNode(3, MODULE_TYPE_SPECIFICATION_BINDING);
-        myTree.addNode(4, MODULE_TYPE_NAME);
-        myTree.addNode(5, LCFC_IDENTIFIER, "m");
+        myTree.addNode(3, MODULE_TYPE_SPECIFICATION);
+        myTree.addNode(4, MODULE_KEYWORD);
+        myTree.addNode(4, TYPE_KEYWORD);
+        myTree.addNode(4, MODULE_TYPE_SPECIFICATION_BINDING);
+        myTree.addNode(5, MODULE_TYPE_NAME);
+        myTree.addNode(6, LCFC_IDENTIFIER, "m");
 
         doTest("module type m", myTree.getStringRepresentation());
     }
 
     public void testModuleSpecification() throws Exception {
-        myTree.addNode(2, MODULE_SPECIFICATION);
-        myTree.addNode(3, MODULE_KEYWORD);
-        myTree.addNode(3, MODULE_SPECIFICATION_BINDING);
-        myTree.addNode(4, MODULE_NAME);
-        myTree.addNode(5, UCFC_IDENTIFIER, "MyModule");
-        myTree.addNode(4, COLON);
-        myTree.addNode(4, MODULE_TYPE_NAME);
-        myTree.addNode(5, UCFC_IDENTIFIER, "ModuleTypeName");
+        myTree.addNode(3, MODULE_SPECIFICATION);
+        myTree.addNode(4, MODULE_KEYWORD);
+        myTree.addNode(4, MODULE_SPECIFICATION_BINDING);
+        myTree.addNode(5, MODULE_NAME);
+        myTree.addNode(6, UCFC_IDENTIFIER, "MyModule");
+        myTree.addNode(5, COLON);
+        myTree.addNode(5, MODULE_TYPE_NAME);
+        myTree.addNode(6, UCFC_IDENTIFIER, "ModuleTypeName");
 
         doTest("module MyModule : ModuleTypeName", myTree.getStringRepresentation());
 
         recreateTree();
 
-        myTree.addNode(2, MODULE_SPECIFICATION);
-        myTree.addNode(3, MODULE_KEYWORD);
-        myTree.addNode(3, MODULE_SPECIFICATION_BINDING);
-        myTree.addNode(4, MODULE_NAME);
-        myTree.addNode(5, UCFC_IDENTIFIER, "MyModule");
-        myTree.addNode(4, MODULE_PARAMETER);
-        myTree.addNode(5, LPAR);
+        myTree.addNode(3, MODULE_SPECIFICATION);
+        myTree.addNode(4, MODULE_KEYWORD);
+        myTree.addNode(4, MODULE_SPECIFICATION_BINDING);
         myTree.addNode(5, MODULE_NAME);
-        myTree.addNode(6, UCFC_IDENTIFIER, "Module1");
+        myTree.addNode(6, UCFC_IDENTIFIER, "MyModule");
+        myTree.addNode(5, MODULE_PARAMETER);
+        myTree.addNode(6, LPAR);
+        myTree.addNode(6, MODULE_NAME);
+        myTree.addNode(7, UCFC_IDENTIFIER, "Module1");
+        myTree.addNode(6, COLON);
+        myTree.addNode(6, MODULE_TYPE_NAME);
+        myTree.addNode(7, UCFC_IDENTIFIER, "ModuleTypeName1");
+        myTree.addNode(6, RPAR);
+        myTree.addNode(5, MODULE_PARAMETER);
+        myTree.addNode(6, LPAR);
+        myTree.addNode(6, MODULE_NAME);
+        myTree.addNode(7, UCFC_IDENTIFIER, "Module2");
+        myTree.addNode(6, COLON);
+        myTree.addNode(6, MODULE_TYPE_NAME);
+        myTree.addNode(7, UCFC_IDENTIFIER, "ModuleTypeName2");
+        myTree.addNode(6, RPAR);
         myTree.addNode(5, COLON);
         myTree.addNode(5, MODULE_TYPE_NAME);
-        myTree.addNode(6, UCFC_IDENTIFIER, "ModuleTypeName1");
-        myTree.addNode(5, RPAR);
-        myTree.addNode(4, MODULE_PARAMETER);
-        myTree.addNode(5, LPAR);
-        myTree.addNode(5, MODULE_NAME);
-        myTree.addNode(6, UCFC_IDENTIFIER, "Module2");
-        myTree.addNode(5, COLON);
-        myTree.addNode(5, MODULE_TYPE_NAME);
-        myTree.addNode(6, UCFC_IDENTIFIER, "ModuleTypeName2");
-        myTree.addNode(5, RPAR);
-        myTree.addNode(4, COLON);
-        myTree.addNode(4, MODULE_TYPE_NAME);
-        myTree.addNode(5, UCFC_IDENTIFIER, "ModuleTypeName");
+        myTree.addNode(6, UCFC_IDENTIFIER, "ModuleTypeName");
 
         doTest("module MyModule (Module1 : ModuleTypeName1) (Module2 : ModuleTypeName2) : ModuleTypeName", myTree.getStringRepresentation());
     }
@@ -104,7 +104,12 @@ public class ModuleMLIParsingTest extends BaseModuleParsingTest {
     }
 
     @NotNull
-    protected IElementType getModuleNodeType() {
+    protected IElementType getModuleExpressionNodeType() {
         return OCamlElementTypes.FILE_MODULE_TYPE;
+    }
+
+    @NotNull
+    protected IElementType getModuleBindingNodeType() {
+        return OCamlElementTypes.FILE_MODULE_SPECIFICATION_BINDING;
     }
 }

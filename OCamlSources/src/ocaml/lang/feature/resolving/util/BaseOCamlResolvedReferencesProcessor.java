@@ -57,7 +57,7 @@ abstract class BaseOCamlResolvedReferencesProcessor implements OCamlResolvedRefe
 
     @Nullable
     protected String getSourceElementName() {
-        return myBuilder == null ? null : myBuilder.getContext().getSourceElement().getCanonicalName();
+        return myBuilder == null ? null : myBuilder.getContext().getSourceElement().getName();
     }
 
     protected abstract boolean doProcess(@NotNull final OCamlResolvedReference psiElement);

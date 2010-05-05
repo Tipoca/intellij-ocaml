@@ -19,13 +19,15 @@
 package ocaml.lang.processing.parser.psi.element.impl;
 
 import com.intellij.lang.ASTNode;
+import ocaml.lang.feature.resolving.util.OCamlResolvingUtil;
 import ocaml.lang.processing.parser.psi.OCamlElementVisitor;
 import ocaml.lang.processing.parser.psi.OCamlPsiUtil;
 import ocaml.lang.processing.parser.psi.element.OCamlClassExpression;
 import ocaml.lang.processing.parser.psi.element.OCamlFunctionClassExpression;
 import ocaml.lang.processing.parser.psi.element.OCamlStructuredElement;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 /**
  * @author Maxim.Manuylov
@@ -40,9 +42,8 @@ public class OCamlFunctionClassExpressionImpl extends BaseOCamlElement implement
         visitor.visitFunctionClassExpression(this);
     }
 
-    @Nullable
-    public OCamlStructuredElement findActualDefinition() {
-        final OCamlClassExpression expression = OCamlPsiUtil.getLastChildOfType(this, OCamlClassExpression.class);
-        return expression == null ? null : expression.findActualDefinition();
+    @NotNull
+    public List<OCamlStructuredElement> findActualDefinitions() {
+        return OCamlResolvingUtil.collectActualDefinitionsOfStructuredElements(OCamlPsiUtil.getFirstChildOfType(this, OCamlClassExpression.class));
     }
 }

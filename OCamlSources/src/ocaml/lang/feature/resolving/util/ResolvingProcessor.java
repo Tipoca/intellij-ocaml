@@ -37,7 +37,7 @@ class ResolvingProcessor extends BaseOCamlResolvedReferencesProcessor {
     }
 
     public boolean doProcess(@NotNull final OCamlResolvedReference psiElement) {
-        if (Comparing.equal(psiElement.getCanonicalName(), getSourceElementName())) {
+        if (Comparing.equal(psiElement.getName(), getSourceElementName())) {
             myResolvedReference = psiElement;
             return true;
         }

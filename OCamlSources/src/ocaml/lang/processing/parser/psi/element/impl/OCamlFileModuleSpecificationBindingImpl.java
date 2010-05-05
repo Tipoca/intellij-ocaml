@@ -20,34 +20,21 @@ package ocaml.lang.processing.parser.psi.element.impl;
 
 import com.intellij.lang.ASTNode;
 import ocaml.lang.feature.resolving.NameType;
-import ocaml.lang.feature.resolving.ResolvingBuilder;
-import ocaml.lang.feature.resolving.impl.BaseOCamlResolvedReference;
-import ocaml.lang.feature.resolving.util.OCamlDeclarationsUtil;
-import ocaml.lang.processing.parser.ast.element.OCamlElementTypes;
-import ocaml.lang.processing.parser.ast.util.OCamlASTTreeUtil;
 import ocaml.lang.processing.parser.psi.OCamlElementVisitor;
 import ocaml.lang.processing.parser.psi.OCamlPsiUtil;
+import ocaml.lang.processing.parser.psi.element.OCamlFileModuleSpecificationBinding;
+import ocaml.lang.processing.parser.psi.element.OCamlFileModuleType;
 import ocaml.lang.processing.parser.psi.element.OCamlModuleType;
-import ocaml.lang.processing.parser.psi.element.OCamlModuleTypeSpecificationBinding;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Maxim.Manuylov
- *         Date: 23.05.2009
+ *         Date: 01.05.2010
  */
-public class OCamlModuleTypeSpecificationBindingImpl extends BaseOCamlResolvedReference implements OCamlModuleTypeSpecificationBinding {
-    public OCamlModuleTypeSpecificationBindingImpl(@NotNull final ASTNode node) {
+public class OCamlFileModuleSpecificationBindingImpl extends BaseOCamlFileModuleBinding<OCamlModuleType> implements OCamlFileModuleSpecificationBinding {
+    public OCamlFileModuleSpecificationBindingImpl(@NotNull final ASTNode node) {
         super(node);
-    }
-
-    public void visit(@NotNull final OCamlElementVisitor visitor) {
-        visitor.visitModuleTypeSpecificationBinding(this);
-    }
-
-    @Nullable
-    public ASTNode getNameElement() {
-        return OCamlASTTreeUtil.checkNodeType(getNode().getFirstChildNode(), OCamlElementTypes.MODULE_TYPE_NAME);
     }
 
     @NotNull
@@ -60,18 +47,17 @@ public class OCamlModuleTypeSpecificationBindingImpl extends BaseOCamlResolvedRe
         return "module type";
     }
 
-    @Override
-    public boolean processDeclarations(@NotNull final ResolvingBuilder builder) {
-        return OCamlDeclarationsUtil.processDeclarationsInStructuredBinding(builder, this);
-    }
-
     @Nullable
     public OCamlModuleType getExpression() {
-        return OCamlPsiUtil.getLastChildOfType(this, OCamlModuleType.class);
+        return OCamlPsiUtil.getLastChildOfType(this, OCamlFileModuleType.class);
     }
 
     @Nullable
     public OCamlModuleType getTypeExpression() {
         return null;
+    }
+
+    public void visit(@NotNull final OCamlElementVisitor visitor) {
+        visitor.visitFileModuleSpecificationBinding(this);
     }
 }

@@ -91,7 +91,7 @@ class ClassParsing extends Parsing {
 
             checkMatches(builder, OCamlTokenTypes.RPAR, Strings.RPAR_EXPECTED);
 
-            marker.done(OCamlElementTypes.OBJECT_SELF_DEFINIFTION);
+            marker.done(OCamlElementTypes.OBJECT_SELF_DEFINITION);
         }
         else {
             marker.drop();

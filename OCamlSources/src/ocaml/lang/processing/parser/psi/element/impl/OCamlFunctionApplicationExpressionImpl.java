@@ -23,7 +23,9 @@ import ocaml.lang.processing.parser.psi.OCamlElementVisitor;
 import ocaml.lang.processing.parser.psi.element.OCamlFunctionApplicationExpression;
 import ocaml.lang.processing.parser.psi.element.OCamlStructuredElement;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author Maxim.Manuylov
@@ -38,8 +40,8 @@ public class OCamlFunctionApplicationExpressionImpl extends BaseOCamlElement imp
         visitor.visitFunctionApplicationExpression(this);
     }
 
-    @Nullable
-    public OCamlStructuredElement findActualDefinition() {
-        return null;  //todo
+    @NotNull
+    public List<OCamlStructuredElement> findActualDefinitions() {
+        return Collections.emptyList(); //todo
     }
 }

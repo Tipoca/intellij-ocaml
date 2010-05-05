@@ -18,30 +18,24 @@
 
 package ocaml.lang.processing.parser.stub;
 
-import com.intellij.lang.Language;
-import com.intellij.psi.stubs.*;
-import ocaml.lang.fileType.ml.MLFileTypeLanguage;
 import ocaml.lang.processing.parser.psi.OCamlElement;
-import ocaml.lang.processing.parser.psi.OCamlElementFactory;
-import org.jetbrains.annotations.NotNull;
-
-import java.io.IOException;
 
 /**
  * @author Maxim.Manuylov
  *         Date: 30.04.2010
  */
-public class OCamlStubElementType<Stub extends OCamlStubElement<Psi>, Psi extends OCamlElement> extends IStubElementType<Stub, Psi> {
+public class OCamlStubElementType<Stub extends OCamlStubElement<Psi>, Psi extends OCamlElement> {//extends IStubElementType<Stub, Psi> {
+/*
     public OCamlStubElementType(@NotNull final String elementName) {
-        super(elementName, MLFileTypeLanguage.INSTANCE); //todo base language or two different element types, see OCamlElementType
+        //super(elementName, MLFileTypeLanguage.INSTANCE); //todo base language or two different element types, see OCamlElementType
     }
 
-    @Override
+ //   @Override
     public Psi createPsi(final Stub stub) {
-        return OCamlElementFactory.INSTANCE.createElement();
+        return null;//OCamlElementFactory.INSTANCE.createElement();
     }
 
-    @Override
+ //   @Override
     public Stub createStub(final Psi psi, final StubElement parentStub) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
@@ -61,4 +55,5 @@ public class OCamlStubElementType<Stub extends OCamlStubElement<Psi>, Psi extend
     public void indexStub(final Stub stub, final IndexSink sink) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
+*/
 }

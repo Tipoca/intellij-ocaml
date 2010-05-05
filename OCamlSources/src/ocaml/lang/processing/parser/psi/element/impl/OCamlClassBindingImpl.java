@@ -27,6 +27,7 @@ import ocaml.lang.processing.parser.psi.OCamlElementVisitor;
 import ocaml.lang.processing.parser.psi.OCamlPsiUtil;
 import ocaml.lang.processing.parser.psi.element.OCamlClassBinding;
 import ocaml.lang.processing.parser.psi.element.OCamlClassExpression;
+import ocaml.lang.processing.parser.psi.element.OCamlClassType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -61,5 +62,10 @@ public class OCamlClassBindingImpl extends BaseOCamlResolvedReference implements
     @Nullable
     public OCamlClassExpression getExpression() {
         return OCamlPsiUtil.getLastChildOfType(this, OCamlClassExpression.class);
+    }
+
+    @Nullable
+    public OCamlClassType getTypeExpression() {
+        return OCamlPsiUtil.getLastChildOfType(this, OCamlClassType.class);
     }
 }

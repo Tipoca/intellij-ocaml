@@ -32,9 +32,11 @@ import com.intellij.util.containers.MultiMap;
 import ocaml.lang.feature.resolving.OCamlResolvedReference;
 import ocaml.lang.fileType.ml.MLFileType;
 import ocaml.lang.fileType.mli.MLIFileType;
+import ocaml.lang.processing.parser.psi.OCamlElement;
 import ocaml.lang.processing.parser.psi.OCamlPsiUtil;
 import ocaml.lang.processing.parser.psi.element.OCamlFile;
 import ocaml.lang.processing.parser.psi.element.OCamlModuleName;
+import ocaml.lang.processing.parser.psi.element.OCamlStructuredBinding;
 import ocaml.util.OCamlFileUtil;
 import ocaml.util.OCamlStringUtil;
 import ocaml.util.TreeNode;
@@ -116,7 +118,9 @@ public class OCamlModule {
             }
         });
         if (psiFile == null || !(psiFile instanceof OCamlFile)) return;
-        final List<OCamlModuleName> moduleReferences = OCamlPsiUtil.collectModuleReferences((OCamlFile) psiFile);
+        final OCamlElement binding = ((OCamlFile) psiFile).getModuleBinding(OCamlStructuredBinding.class);
+        if (binding == null) return;
+        final List<OCamlModuleName> moduleReferences = OCamlPsiUtil.collectModuleReferences(binding);
         for (final OCamlModuleName moduleReference : moduleReferences) {
             final OCamlResolvedReference resolvedReference = moduleReference.resolve();
             if (resolvedReference == null) continue;
@@ -185,7 +189,7 @@ public class OCamlModule {
 
     @NotNull
     public String getName() {
-        return myName.length() > 0 ? OCamlStringUtil.capitalize(myName) : "";
+        return myName.length() > 0 ? OCamlStringUtil.firstLetterToUpperCase(myName) : "";
     }
 
     @NotNull

@@ -18,13 +18,9 @@
 
 package ocaml.lang.processing.parser.psi.element;
 
-import org.jetbrains.annotations.Nullable;
-
 /**
  * @author Maxim.Manuylov
  *         Date: 23.05.2009
  */
-public interface OCamlModuleDefinitionBinding extends OCamlStructuredBinding<OCamlModuleExpression>, OCamlResolvedModuleName {
-    @Nullable
-    OCamlModuleType getModuleType();
+public interface OCamlModuleDefinitionBinding extends OCamlResolvedModuleName<OCamlModuleExpression> {
 }

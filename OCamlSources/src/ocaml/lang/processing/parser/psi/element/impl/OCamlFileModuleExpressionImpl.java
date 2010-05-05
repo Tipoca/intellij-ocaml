@@ -29,6 +29,9 @@ import ocaml.lang.processing.parser.psi.element.OCamlFileModuleExpression;
 import ocaml.lang.processing.parser.psi.element.OCamlStructuredElement;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collections;
+import java.util.List;
+
 /**
  * @author Maxim.Manuylov
  *         Date: 24.05.2009
@@ -49,7 +52,7 @@ public class OCamlFileModuleExpressionImpl extends BaseOCamlElement implements O
     }
 
     @NotNull
-    public OCamlStructuredElement findActualDefinition() {
-        return this;
+    public List<OCamlStructuredElement> findActualDefinitions() {
+        return Collections.<OCamlStructuredElement>singletonList(this);
     }
 }

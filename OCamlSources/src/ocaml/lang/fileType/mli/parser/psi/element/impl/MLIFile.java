@@ -18,27 +18,18 @@
 
 package ocaml.lang.fileType.mli.parser.psi.element.impl;
 
-import com.intellij.lang.ASTNode;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.psi.FileViewProvider;
-import ocaml.lang.feature.resolving.NameType;
-import ocaml.lang.feature.resolving.ResolvingBuilder;
-import ocaml.lang.feature.resolving.util.OCamlDeclarationsUtil;
 import ocaml.lang.fileType.mli.MLIFileType;
 import ocaml.lang.fileType.mli.MLIFileTypeLanguage;
-import ocaml.lang.processing.parser.psi.OCamlPsiUtil;
-import ocaml.lang.processing.parser.psi.element.OCamlFileModuleType;
-import ocaml.lang.processing.parser.psi.element.OCamlModuleSpecificationBinding;
-import ocaml.lang.processing.parser.psi.element.OCamlModuleType;
 import ocaml.lang.processing.parser.psi.element.impl.BaseOCamlFile;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Maxim.Manuylov
  *         Date: 22.02.2009
  */
-public class MLIFile extends BaseOCamlFile implements OCamlModuleSpecificationBinding {
+public class MLIFile extends BaseOCamlFile {
     public MLIFile(@NotNull final FileViewProvider fileViewProvider) {
         super(fileViewProvider, MLIFileTypeLanguage.INSTANCE);
     }
@@ -46,34 +37,5 @@ public class MLIFile extends BaseOCamlFile implements OCamlModuleSpecificationBi
     @NotNull
     public FileType getFileType() {
         return MLIFileType.INSTANCE;
-    }
-
-    @NotNull
-    public String getCanonicalPath() {
-        return getCanonicalName();
-    }
-
-    @Nullable
-    public ASTNode getNameElement() {
-        return null;
-    }
-
-    @NotNull
-    public NameType getNameType() {
-        return NameType.AnyCase;
-    }
-
-    @NotNull
-    public String getDescription() {
-        return "module type";
-    }
-
-    public boolean processDeclarations(@NotNull final ResolvingBuilder builder) {
-        return OCamlDeclarationsUtil.processDeclarationsInModuleBinding(builder, this);
-    }
-
-    @Nullable
-    public OCamlModuleType getExpression() {
-        return OCamlPsiUtil.getLastChildOfType(this, OCamlFileModuleType.class);
     }
 }

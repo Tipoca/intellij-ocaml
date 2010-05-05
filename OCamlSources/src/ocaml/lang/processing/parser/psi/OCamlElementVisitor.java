@@ -21,6 +21,7 @@ package ocaml.lang.processing.parser.psi;
 import com.intellij.psi.PsiElementVisitor;
 import ocaml.lang.processing.parser.psi.element.*;
 import ocaml.lang.processing.parser.psi.element.impl.OCamlCharRangePatternImpl;
+import ocaml.lang.processing.parser.psi.element.impl.OCamlFileModuleDefinitionBindingImpl;
 import ocaml.lang.processing.parser.psi.element.impl.OCamlTypeParameterizedBindingImpl;
 import org.jetbrains.annotations.NotNull;
 
@@ -350,4 +351,8 @@ public abstract class OCamlElementVisitor extends PsiElementVisitor {
     public abstract void visitTypeParameterizedBinding(@NotNull final OCamlTypeParameterizedBinding psiElement);
 
     public abstract void visitCharRangePattern(@NotNull final OCamlCharRangePattern psiElement);
+
+    public abstract void visitFileModuleDefinitionBinding(@NotNull final OCamlFileModuleDefinitionBinding psiElement);
+
+    public abstract void visitFileModuleSpecificationBinding(@NotNull final OCamlFileModuleSpecificationBinding psiElement);
 }

@@ -35,140 +35,198 @@ import static ocaml.lang.processing.parser.ast.element.OCamlElementTypes.*;
 @Test
 public class ModuleMLParsingTest extends BaseModuleParsingTest {
     public void testModuleDefinition() throws Exception {
-        myTree.addNode(2, MODULE_DEFINITION);
-        myTree.addNode(3, MODULE_KEYWORD);
-        myTree.addNode(3, MODULE_DEFINITION_BINDING);
-        myTree.addNode(4, MODULE_NAME);
-        myTree.addNode(5, UCFC_IDENTIFIER, "MyModule");
-        myTree.addNode(4, EQ);
-        myTree.addNode(4, MODULE_NAME);
-        myTree.addNode(5, UCFC_IDENTIFIER, "Module");
+        myTree.addNode(3, MODULE_DEFINITION);
+        myTree.addNode(4, MODULE_KEYWORD);
+        myTree.addNode(4, MODULE_DEFINITION_BINDING);
+        myTree.addNode(5, MODULE_NAME);
+        myTree.addNode(6, UCFC_IDENTIFIER, "MyModule");
+        myTree.addNode(5, EQ);
+        myTree.addNode(5, MODULE_NAME);
+        myTree.addNode(6, UCFC_IDENTIFIER, "Module");
 
         doTest("module MyModule = Module", myTree.getStringRepresentation());
 
         recreateTree();
 
-        myTree.addNode(2, MODULE_DEFINITION);
-        myTree.addNode(3, MODULE_KEYWORD);
-        myTree.addNode(3, MODULE_DEFINITION_BINDING);
-        myTree.addNode(4, MODULE_NAME);
-        myTree.addNode(5, UCFC_IDENTIFIER, "MyModule");
-        myTree.addNode(4, COLON);
-        myTree.addNode(4, MODULE_TYPE_NAME);
-        myTree.addNode(5, UCFC_IDENTIFIER, "ModuleTypeName");
-        myTree.addNode(4, EQ);
-        myTree.addNode(4, MODULE_NAME);
-        myTree.addNode(5, UCFC_IDENTIFIER, "Module");
+        myTree.addNode(3, MODULE_DEFINITION);
+        myTree.addNode(4, MODULE_KEYWORD);
+        myTree.addNode(4, MODULE_DEFINITION_BINDING);
+        myTree.addNode(5, MODULE_NAME);
+        myTree.addNode(6, UCFC_IDENTIFIER, "MyModule");
+        myTree.addNode(5, COLON);
+        myTree.addNode(5, MODULE_TYPE_NAME);
+        myTree.addNode(6, UCFC_IDENTIFIER, "ModuleTypeName");
+        myTree.addNode(5, EQ);
+        myTree.addNode(5, MODULE_NAME);
+        myTree.addNode(6, UCFC_IDENTIFIER, "Module");
 
         doTest("module MyModule : ModuleTypeName = Module", myTree.getStringRepresentation());
 
         recreateTree();
 
-        myTree.addNode(2, MODULE_DEFINITION);
-        myTree.addNode(3, MODULE_KEYWORD);
-        myTree.addNode(3, MODULE_DEFINITION_BINDING);
-        myTree.addNode(4, MODULE_NAME);
-        myTree.addNode(5, UCFC_IDENTIFIER, "MyModule");
-        myTree.addNode(4, MODULE_PARAMETER);
-        myTree.addNode(5, LPAR);
+        myTree.addNode(3, MODULE_DEFINITION);
+        myTree.addNode(4, MODULE_KEYWORD);
+        myTree.addNode(4, MODULE_DEFINITION_BINDING);
         myTree.addNode(5, MODULE_NAME);
-        myTree.addNode(6, UCFC_IDENTIFIER, "Module1");
-        myTree.addNode(5, COLON);
-        myTree.addNode(5, MODULE_TYPE_NAME);
-        myTree.addNode(6, UCFC_IDENTIFIER, "ModuleTypeName1");
-        myTree.addNode(5, RPAR);
-        myTree.addNode(4, MODULE_PARAMETER);
-        myTree.addNode(5, LPAR);
+        myTree.addNode(6, UCFC_IDENTIFIER, "MyModule");
+        myTree.addNode(5, MODULE_PARAMETER);
+        myTree.addNode(6, LPAR);
+        myTree.addNode(6, MODULE_NAME);
+        myTree.addNode(7, UCFC_IDENTIFIER, "Module1");
+        myTree.addNode(6, COLON);
+        myTree.addNode(6, MODULE_TYPE_NAME);
+        myTree.addNode(7, UCFC_IDENTIFIER, "ModuleTypeName1");
+        myTree.addNode(6, RPAR);
+        myTree.addNode(5, MODULE_PARAMETER);
+        myTree.addNode(6, LPAR);
+        myTree.addNode(6, MODULE_NAME);
+        myTree.addNode(7, UCFC_IDENTIFIER, "Module2");
+        myTree.addNode(6, COLON);
+        myTree.addNode(6, MODULE_TYPE_NAME);
+        myTree.addNode(7, UCFC_IDENTIFIER, "ModuleTypeName2");
+        myTree.addNode(6, RPAR);
+        myTree.addNode(5, EQ);
         myTree.addNode(5, MODULE_NAME);
-        myTree.addNode(6, UCFC_IDENTIFIER, "Module2");
-        myTree.addNode(5, COLON);
-        myTree.addNode(5, MODULE_TYPE_NAME);
-        myTree.addNode(6, UCFC_IDENTIFIER, "ModuleTypeName2");
-        myTree.addNode(5, RPAR);
-        myTree.addNode(4, EQ);
-        myTree.addNode(4, MODULE_NAME);
-        myTree.addNode(5, UCFC_IDENTIFIER, "Module");
+        myTree.addNode(6, UCFC_IDENTIFIER, "Module");
 
         doTest("module MyModule (Module1 : ModuleTypeName1) (Module2 : ModuleTypeName2) = Module", myTree.getStringRepresentation());
 
         recreateTree();
 
-        myTree.addNode(2, MODULE_DEFINITION);
-        myTree.addNode(3, MODULE_KEYWORD);
-        myTree.addNode(3, MODULE_DEFINITION_BINDING);
-        myTree.addNode(4, MODULE_NAME);
-        myTree.addNode(5, UCFC_IDENTIFIER, "MyModule");
-        myTree.addNode(4, MODULE_PARAMETER);
-        myTree.addNode(5, LPAR);
+        myTree.addNode(3, MODULE_DEFINITION);
+        myTree.addNode(4, MODULE_KEYWORD);
+        myTree.addNode(4, MODULE_DEFINITION_BINDING);
         myTree.addNode(5, MODULE_NAME);
-        myTree.addNode(6, UCFC_IDENTIFIER, "Module1");
+        myTree.addNode(6, UCFC_IDENTIFIER, "MyModule");
+        myTree.addNode(5, MODULE_PARAMETER);
+        myTree.addNode(6, LPAR);
+        myTree.addNode(6, MODULE_NAME);
+        myTree.addNode(7, UCFC_IDENTIFIER, "Module1");
+        myTree.addNode(6, COLON);
+        myTree.addNode(6, MODULE_TYPE_NAME);
+        myTree.addNode(7, UCFC_IDENTIFIER, "ModuleTypeName1");
+        myTree.addNode(6, RPAR);
+        myTree.addNode(5, MODULE_PARAMETER);
+        myTree.addNode(6, LPAR);
+        myTree.addNode(6, MODULE_NAME);
+        myTree.addNode(7, UCFC_IDENTIFIER, "Module2");
+        myTree.addNode(6, COLON);
+        myTree.addNode(6, MODULE_TYPE_NAME);
+        myTree.addNode(7, UCFC_IDENTIFIER, "ModuleTypeName2");
+        myTree.addNode(6, RPAR);
         myTree.addNode(5, COLON);
         myTree.addNode(5, MODULE_TYPE_NAME);
-        myTree.addNode(6, UCFC_IDENTIFIER, "ModuleTypeName1");
-        myTree.addNode(5, RPAR);
-        myTree.addNode(4, MODULE_PARAMETER);
-        myTree.addNode(5, LPAR);
+        myTree.addNode(6, UCFC_IDENTIFIER, "ModuleTypeName");
+        myTree.addNode(5, EQ);
         myTree.addNode(5, MODULE_NAME);
-        myTree.addNode(6, UCFC_IDENTIFIER, "Module2");
-        myTree.addNode(5, COLON);
-        myTree.addNode(5, MODULE_TYPE_NAME);
-        myTree.addNode(6, UCFC_IDENTIFIER, "ModuleTypeName2");
-        myTree.addNode(5, RPAR);
-        myTree.addNode(4, COLON);
-        myTree.addNode(4, MODULE_TYPE_NAME);
-        myTree.addNode(5, UCFC_IDENTIFIER, "ModuleTypeName");
-        myTree.addNode(4, EQ);
-        myTree.addNode(4, MODULE_NAME);
-        myTree.addNode(5, UCFC_IDENTIFIER, "Module");
+        myTree.addNode(6, UCFC_IDENTIFIER, "Module");
 
         doTest("module MyModule (Module1 : ModuleTypeName1) (Module2 : ModuleTypeName2) : ModuleTypeName = Module", myTree.getStringRepresentation());
     }
 
     public void testModulePathExpression() throws Exception {
-        myTree.addNode(2, MODULE_DEFINITION);
-        myTree.addNode(3, MODULE_KEYWORD);
-        myTree.addNode(3, MODULE_DEFINITION_BINDING);
-        myTree.addNode(4, MODULE_NAME);
-        myTree.addNode(5, UCFC_IDENTIFIER, "MyModule");
-        myTree.addNode(4, EQ);
-        myTree.addNode(4, MODULE_PATH);
+        myTree.addNode(3, MODULE_DEFINITION);
+        myTree.addNode(4, MODULE_KEYWORD);
+        myTree.addNode(4, MODULE_DEFINITION_BINDING);
         myTree.addNode(5, MODULE_NAME);
-        myTree.addNode(6, UCFC_IDENTIFIER, "Module1");
-        myTree.addNode(5, DOT);
-        myTree.addNode(5, MODULE_NAME);
-        myTree.addNode(6, UCFC_IDENTIFIER, "Module");
+        myTree.addNode(6, UCFC_IDENTIFIER, "MyModule");
+        myTree.addNode(5, EQ);
+        myTree.addNode(5, MODULE_PATH);
+        myTree.addNode(6, MODULE_NAME);
+        myTree.addNode(7, UCFC_IDENTIFIER, "Module1");
+        myTree.addNode(6, DOT);
+        myTree.addNode(6, MODULE_NAME);
+        myTree.addNode(7, UCFC_IDENTIFIER, "Module");
 
         doTest("module MyModule = Module1.Module", myTree.getStringRepresentation());
     }
 
     public void testStructEndExpression() throws Exception {
-        myTree.addNode(2, MODULE_DEFINITION);
-        myTree.addNode(3, MODULE_KEYWORD);
-        myTree.addNode(3, MODULE_DEFINITION_BINDING);
-        myTree.addNode(4, MODULE_NAME);
-        myTree.addNode(5, UCFC_IDENTIFIER, "MyModule");
-        myTree.addNode(4, EQ);
-        myTree.addNode(4, STRUCT_END_MODULE_EXPRESSION);
-        myTree.addNode(5, STRUCT_KEYWORD);
-        myTree.addNode(5, EXCEPTION_DEFINITION);
-        myTree.addNode(6, EXCEPTION_KEYWORD);
-        myTree.addNode(6, CONSTRUCTOR_NAME_DEFINITION);
-        myTree.addNode(7, UCFC_IDENTIFIER, "Error");
-        myTree.addNode(5, END_KEYWORD);
+        myTree.addNode(3, MODULE_DEFINITION);
+        myTree.addNode(4, MODULE_KEYWORD);
+        myTree.addNode(4, MODULE_DEFINITION_BINDING);
+        myTree.addNode(5, MODULE_NAME);
+        myTree.addNode(6, UCFC_IDENTIFIER, "MyModule");
+        myTree.addNode(5, EQ);
+        myTree.addNode(5, STRUCT_END_MODULE_EXPRESSION);
+        myTree.addNode(6, STRUCT_KEYWORD);
+        myTree.addNode(6, EXCEPTION_DEFINITION);
+        myTree.addNode(7, EXCEPTION_KEYWORD);
+        myTree.addNode(7, CONSTRUCTOR_NAME_DEFINITION);
+        myTree.addNode(8, UCFC_IDENTIFIER, "Error");
+        myTree.addNode(6, END_KEYWORD);
 
         doTest("module MyModule = struct exception Error end", myTree.getStringRepresentation());
     }
 
     public void testFunctorExpression() throws Exception {
-        myTree.addNode(2, MODULE_DEFINITION);
-        myTree.addNode(3, MODULE_KEYWORD);
-        myTree.addNode(3, MODULE_DEFINITION_BINDING);
-        myTree.addNode(4, MODULE_NAME);
-        myTree.addNode(5, UCFC_IDENTIFIER, "MyModule");
-        myTree.addNode(4, EQ);
-        myTree.addNode(4, FUNCTOR_MODULE_EXPRESSION);
-        myTree.addNode(5, FUNCTOR_KEYWORD);
-        myTree.addNode(5, MODULE_PARAMETER);
+        myTree.addNode(3, MODULE_DEFINITION);
+        myTree.addNode(4, MODULE_KEYWORD);
+        myTree.addNode(4, MODULE_DEFINITION_BINDING);
+        myTree.addNode(5, MODULE_NAME);
+        myTree.addNode(6, UCFC_IDENTIFIER, "MyModule");
+        myTree.addNode(5, EQ);
+        myTree.addNode(5, FUNCTOR_MODULE_EXPRESSION);
+        myTree.addNode(6, FUNCTOR_KEYWORD);
+        myTree.addNode(6, MODULE_PARAMETER);
+        myTree.addNode(7, LPAR);
+        myTree.addNode(7, MODULE_NAME);
+        myTree.addNode(8, UCFC_IDENTIFIER, "ModuleName");
+        myTree.addNode(7, COLON);
+        myTree.addNode(7, MODULE_TYPE_NAME);
+        myTree.addNode(8, UCFC_IDENTIFIER, "ModuleTypeName");
+        myTree.addNode(7, RPAR);
+        myTree.addNode(6, MINUS_GT);
+        myTree.addNode(6, STRUCT_END_MODULE_EXPRESSION);
+        myTree.addNode(7, STRUCT_KEYWORD);
+        myTree.addNode(7, END_KEYWORD);
+
+        doTest("module MyModule = functor (ModuleName : ModuleTypeName) -> struct end", myTree.getStringRepresentation());
+    }
+
+    public void testFunctorApplicationExpression() throws Exception {
+        myTree.addNode(3, MODULE_DEFINITION);
+        myTree.addNode(4, MODULE_KEYWORD);
+        myTree.addNode(4, MODULE_DEFINITION_BINDING);
+        myTree.addNode(5, MODULE_NAME);
+        myTree.addNode(6, UCFC_IDENTIFIER, "MyModule");
+        myTree.addNode(5, EQ);
+        myTree.addNode(5, FUNCTOR_APPLICATION_MODULE_EXPRESSION);
+        myTree.addNode(6, MODULE_NAME);
+        myTree.addNode(7, UCFC_IDENTIFIER, "ModuleName");
+        myTree.addNode(6, PARENTHESES);
+        myTree.addNode(7, LPAR);
+        myTree.addNode(7, MODULE_NAME);
+        myTree.addNode(8, UCFC_IDENTIFIER, "ModuleName2");
+        myTree.addNode(7, RPAR);
+
+        doTest("module MyModule = ModuleName(ModuleName2)", myTree.getStringRepresentation());
+    }
+
+    public void testParenthessedExpression() throws Exception {
+        myTree.addNode(3, MODULE_DEFINITION);
+        myTree.addNode(4, MODULE_KEYWORD);
+        myTree.addNode(4, MODULE_DEFINITION_BINDING);
+        myTree.addNode(5, MODULE_NAME);
+        myTree.addNode(6, UCFC_IDENTIFIER, "MyModule");
+        myTree.addNode(5, EQ);
+        myTree.addNode(5, PARENTHESES);
+        myTree.addNode(6, LPAR);
+        myTree.addNode(6, MODULE_NAME);
+        myTree.addNode(7, UCFC_IDENTIFIER, "ModuleName");
+        myTree.addNode(6, RPAR);
+
+        doTest("module MyModule = (ModuleName)", myTree.getStringRepresentation());
+    }
+
+    public void testModuleTypeConstraintExpression() throws Exception {
+        myTree.addNode(3, MODULE_DEFINITION);
+        myTree.addNode(4, MODULE_KEYWORD);
+        myTree.addNode(4, MODULE_DEFINITION_BINDING);
+        myTree.addNode(5, MODULE_NAME);
+        myTree.addNode(6, UCFC_IDENTIFIER, "MyModule");
+        myTree.addNode(5, EQ);
+        myTree.addNode(5, MODULE_TYPE_CONSTRAINT_MODULE_EXPRESSION);
         myTree.addNode(6, LPAR);
         myTree.addNode(6, MODULE_NAME);
         myTree.addNode(7, UCFC_IDENTIFIER, "ModuleName");
@@ -176,64 +234,6 @@ public class ModuleMLParsingTest extends BaseModuleParsingTest {
         myTree.addNode(6, MODULE_TYPE_NAME);
         myTree.addNode(7, UCFC_IDENTIFIER, "ModuleTypeName");
         myTree.addNode(6, RPAR);
-        myTree.addNode(5, MINUS_GT);
-        myTree.addNode(5, STRUCT_END_MODULE_EXPRESSION);
-        myTree.addNode(6, STRUCT_KEYWORD);
-        myTree.addNode(6, END_KEYWORD);
-
-        doTest("module MyModule = functor (ModuleName : ModuleTypeName) -> struct end", myTree.getStringRepresentation());
-    }
-
-    public void testFunctorApplicationExpression() throws Exception {
-        myTree.addNode(2, MODULE_DEFINITION);
-        myTree.addNode(3, MODULE_KEYWORD);
-        myTree.addNode(3, MODULE_DEFINITION_BINDING);
-        myTree.addNode(4, MODULE_NAME);
-        myTree.addNode(5, UCFC_IDENTIFIER, "MyModule");
-        myTree.addNode(4, EQ);
-        myTree.addNode(4, FUNCTOR_APPLICATION_MODULE_EXPRESSION);
-        myTree.addNode(5, MODULE_NAME);
-        myTree.addNode(6, UCFC_IDENTIFIER, "ModuleName");
-        myTree.addNode(5, PARENTHESES);
-        myTree.addNode(6, LPAR);
-        myTree.addNode(6, MODULE_NAME);
-        myTree.addNode(7, UCFC_IDENTIFIER, "ModuleName2");
-        myTree.addNode(6, RPAR);
-
-        doTest("module MyModule = ModuleName(ModuleName2)", myTree.getStringRepresentation());
-    }
-
-    public void testParenthessedExpression() throws Exception {
-        myTree.addNode(2, MODULE_DEFINITION);
-        myTree.addNode(3, MODULE_KEYWORD);
-        myTree.addNode(3, MODULE_DEFINITION_BINDING);
-        myTree.addNode(4, MODULE_NAME);
-        myTree.addNode(5, UCFC_IDENTIFIER, "MyModule");
-        myTree.addNode(4, EQ);
-        myTree.addNode(4, PARENTHESES);
-        myTree.addNode(5, LPAR);
-        myTree.addNode(5, MODULE_NAME);
-        myTree.addNode(6, UCFC_IDENTIFIER, "ModuleName");
-        myTree.addNode(5, RPAR);
-
-        doTest("module MyModule = (ModuleName)", myTree.getStringRepresentation());
-    }
-
-    public void testModuleTypeConstraintExpression() throws Exception {
-        myTree.addNode(2, MODULE_DEFINITION);
-        myTree.addNode(3, MODULE_KEYWORD);
-        myTree.addNode(3, MODULE_DEFINITION_BINDING);
-        myTree.addNode(4, MODULE_NAME);
-        myTree.addNode(5, UCFC_IDENTIFIER, "MyModule");
-        myTree.addNode(4, EQ);
-        myTree.addNode(4, MODULE_TYPE_CONSTRAINT_MODULE_EXPRESSION);
-        myTree.addNode(5, LPAR);
-        myTree.addNode(5, MODULE_NAME);
-        myTree.addNode(6, UCFC_IDENTIFIER, "ModuleName");
-        myTree.addNode(5, COLON);
-        myTree.addNode(5, MODULE_TYPE_NAME);
-        myTree.addNode(6, UCFC_IDENTIFIER, "ModuleTypeName");
-        myTree.addNode(5, RPAR);
 
         doTest("module MyModule = (ModuleName : ModuleTypeName)", myTree.getStringRepresentation());
     }
@@ -255,7 +255,12 @@ public class ModuleMLParsingTest extends BaseModuleParsingTest {
     }
 
     @NotNull
-    protected IElementType getModuleNodeType() {
+    protected IElementType getModuleExpressionNodeType() {
         return OCamlElementTypes.FILE_MODULE_EXPRESSION;
+    }
+
+    @NotNull
+    protected IElementType getModuleBindingNodeType() {
+        return OCamlElementTypes.FILE_MODULE_DEFINITION_BINDING;
     }
 }

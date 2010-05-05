@@ -29,6 +29,9 @@ import ocaml.lang.processing.parser.psi.element.OCamlStructuredElement;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collections;
+import java.util.List;
+
 /**
  * @author Maxim.Manuylov
  *         Date: 21.03.2009
@@ -59,7 +62,7 @@ public class OCamlAsTypeExpressionImpl extends BaseOCamlResolvedReference implem
     }
 
     @NotNull
-    public OCamlStructuredElement findActualDefinition() {
-        return this;
+    public List<OCamlStructuredElement> findActualDefinitions() {
+        return Collections.<OCamlStructuredElement>singletonList(this);
     }
 }

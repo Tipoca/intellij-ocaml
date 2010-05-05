@@ -62,7 +62,7 @@ public class OCamlModuleTypeNameImpl extends BaseOCamlReference implements OCaml
 
     @NotNull
     public List<Class<? extends OCamlResolvedReference>> getPossibleResolvedTypes() {
-        return Arrays.<Class<? extends OCamlResolvedReference>>asList(OCamlModuleTypeDefinitionBinding.class, OCamlModuleTypeSpecificationBinding.class);
+        return Arrays.<Class<? extends OCamlResolvedReference>>asList(OCamlResolvedModuleTypeName.class);
     }
 
     @NotNull
@@ -75,8 +75,8 @@ public class OCamlModuleTypeNameImpl extends BaseOCamlReference implements OCaml
         return this;
     }
 
-    @Nullable
-    public OCamlStructuredElement findActualDefinition() {
-        return OCamlResolvingUtil.findActualDefinitionOfStructuredElement(this);
+    @NotNull
+    public List<OCamlStructuredElement> findActualDefinitions() {
+        return OCamlResolvingUtil.findActualDefinitionsOfStructuredElementReference(this);
     }
 }

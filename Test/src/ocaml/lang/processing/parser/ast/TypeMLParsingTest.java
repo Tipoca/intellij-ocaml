@@ -37,7 +37,12 @@ public class TypeMLParsingTest extends BaseTypeParsingTest {
     }
 
     @NotNull
-    protected IElementType getModuleNodeType() {
+    protected IElementType getModuleExpressionNodeType() {
         return OCamlElementTypes.FILE_MODULE_EXPRESSION;
+    }
+
+    @NotNull
+    protected IElementType getModuleBindingNodeType() {
+        return OCamlElementTypes.FILE_MODULE_DEFINITION_BINDING;
     }
 }

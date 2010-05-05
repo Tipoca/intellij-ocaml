@@ -96,8 +96,8 @@ public class OCamlTypeConstructorNameImpl extends BaseOCamlReference implements 
         return OCamlPsiUtil.getModulePath(this, OCamlTypeConstructorPath.class, OCamlExtendedModuleName.class);
     }
 
-    @Nullable
-    public OCamlStructuredElement findActualDefinition() {
-        return OCamlResolvingUtil.findActualDefinitionOfStructuredElement(this);
+    @NotNull
+    public List<OCamlStructuredElement> findActualDefinitions() {
+        return OCamlResolvingUtil.findActualDefinitionsOfStructuredElementReference(this);
     }
 }

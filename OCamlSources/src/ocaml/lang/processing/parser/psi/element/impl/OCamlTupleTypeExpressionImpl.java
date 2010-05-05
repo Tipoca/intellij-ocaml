@@ -24,6 +24,9 @@ import ocaml.lang.processing.parser.psi.element.OCamlStructuredElement;
 import ocaml.lang.processing.parser.psi.element.OCamlTupleTypeExpression;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collections;
+import java.util.List;
+
 /**
  * @author Maxim.Manuylov
  *         Date: 21.03.2009
@@ -38,7 +41,7 @@ public class OCamlTupleTypeExpressionImpl extends BaseOCamlElement implements OC
     }
 
     @NotNull
-    public OCamlStructuredElement findActualDefinition() {
-        return this;
+    public List<OCamlStructuredElement> findActualDefinitions() {
+        return Collections.<OCamlStructuredElement>singletonList(this);
     }
 }

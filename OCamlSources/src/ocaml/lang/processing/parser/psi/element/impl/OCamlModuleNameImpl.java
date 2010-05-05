@@ -75,8 +75,8 @@ public class OCamlModuleNameImpl extends BaseOCamlReference implements OCamlModu
         return this;
     }
 
-    @Nullable
-    public OCamlStructuredElement findActualDefinition() {
-        return OCamlResolvingUtil.findActualDefinitionOfStructuredElement(this);
+    @NotNull
+    public List<OCamlStructuredElement> findActualDefinitions() {
+        return OCamlResolvingUtil.findActualDefinitionsOfStructuredElementReference(this);
     }
 }

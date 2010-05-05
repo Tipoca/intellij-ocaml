@@ -23,7 +23,6 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.util.Computable;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiElementVisitor;
 import ocaml.lang.feature.resolving.OCamlNamedElement;
 import ocaml.lang.processing.parser.psi.element.OCamlModuleName;
 import org.jetbrains.annotations.NotNull;
@@ -86,22 +85,6 @@ public class OCamlPsiUtil {
         return getParent(firstNode) == getParent(secondNode);
     }
 
-    public static boolean acceptOCamlElement(@NotNull final OCamlElement psiElement, @NotNull final PsiElementVisitor psiElementVisitor) {
-        boolean accepted = false;
-
-        if (psiElementVisitor instanceof OCamlElementVisitor) {
-            psiElement.visit((OCamlElementVisitor)psiElementVisitor);
-            accepted = true;
-        }
-        
-        if (psiElementVisitor instanceof OCamlElementProcessor) {
-            ((OCamlElementProcessor) psiElementVisitor).process(psiElement);
-            accepted = true;
-        }
-
-        return accepted;
-    }
-
     @NotNull
     public static <T extends OCamlElement, Q extends OCamlElement> List<T> getModulePath(@NotNull final OCamlElement psiElement, 
                                                                                          @NotNull final Class<Q> parentType,
@@ -126,7 +109,7 @@ public class OCamlPsiUtil {
     }
 
     @NotNull
-    public static <T extends OCamlElement> List<T> getChildrenOfType(@NotNull final OCamlElement parent, @NotNull final Class<T> type) {
+    public static <T extends OCamlElement> List<T> getChildrenOfType(@NotNull final PsiElement parent, @NotNull final Class<T> type) {
         final List<T> result = new ArrayList<T>();
 
         final PsiElement[] children = ApplicationManager.getApplication().runReadAction(new Computable<PsiElement[]>() {
@@ -145,12 +128,12 @@ public class OCamlPsiUtil {
     }
 
     @NotNull
-    public static List<OCamlElement> getChildren(@NotNull final OCamlElement parent) {
+    public static List<OCamlElement> getChildren(@NotNull final PsiElement parent) {
         return getChildrenOfType(parent, OCamlElement.class);
     }
 
     @Nullable
-    public static <T extends OCamlElement> T getFirstChildOfType(@NotNull final OCamlElement parent, @NotNull final Class<T> type) {
+    public static <T extends OCamlElement> T getFirstChildOfType(@NotNull final PsiElement parent, @NotNull final Class<T> type) {
         final List<OCamlElement> children = getChildren(parent);
         for (final OCamlElement child : children) {
             if (type.isInstance(child)) {
@@ -182,7 +165,7 @@ public class OCamlPsiUtil {
         for (final OCamlElement child : children) {
             for (final Class<? extends OCamlElement> type : types) {
                 if (type.isInstance(child)) {
-                    result.add((OCamlElement) child);
+                    result.add(child);
                 }
             }
         }
@@ -215,7 +198,7 @@ public class OCamlPsiUtil {
         return new ItemPresentation() {
             @NotNull
             public String getPresentableText() {
-                return element.getDescription() + ' ' + element.getCanonicalName();
+                return element.getDescription() + ' ' + element.getName();
             }
 
             @NotNull

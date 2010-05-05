@@ -248,6 +248,7 @@ public class ValueNameResolvingTest extends ResolvingTestCase {
             "let a = M.}{f;;");
 
         doTest(48, "" +
+            "module type ModType = sig end;; " +
             "module M1 = " +
             "struct " +
             "  module M2 = " +
@@ -259,6 +260,7 @@ public class ValueNameResolvingTest extends ResolvingTestCase {
             "let a = M.}{f;;");
 
         doTest(49, "" +
+            "module type ModType = sig end;; " +
             "module M1 = " +
             "struct " +
             "  module M2 = " +
@@ -385,5 +387,12 @@ public class ValueNameResolvingTest extends ResolvingTestCase {
 
         doTest(64, "" +
             "let f ?label:({{x}}) = }{x;; ");
+
+        doTest(65, "" +
+            "module M : sig " +
+            "             val {{f}} : int;; " +
+            "           end = struct end;; " +
+            "module M1 = M;; " +
+            "let a = M1.}{f;;");
    }
 }

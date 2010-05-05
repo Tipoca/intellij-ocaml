@@ -34,11 +34,14 @@ import ocaml.lang.fileType.mli.MLIFileType;
 import ocaml.lang.processing.parser.psi.OCamlElement;
 import ocaml.lang.processing.parser.psi.OCamlPsiUtil;
 import ocaml.lang.processing.parser.psi.element.*;
+import ocaml.util.OCamlCollectionsUtil;
 import ocaml.util.OCamlFileUtil;
 import ocaml.util.OCamlStringUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static com.intellij.psi.search.GlobalSearchScope.getScopeRestrictedByFileTypes;
@@ -51,12 +54,23 @@ import static com.intellij.psi.search.GlobalSearchScope.moduleWithDependenciesAn
 public class OCamlResolvingUtil {
     @NotNull public static final String PERVASIVES = "Pervasives";
 
-    @Nullable
-    public static OCamlStructuredElement findActualDefinitionOfStructuredElement(@NotNull final OCamlReference reference) {
+    @NotNull
+    public static List<OCamlStructuredElement> findActualDefinitionsOfStructuredElementReference(@NotNull final OCamlReference reference) {
         final OCamlResolvedReference resolvedReference = reference.resolve();
-        if (resolvedReference == null || !(resolvedReference instanceof OCamlStructuredBinding)) return null;
-        final OCamlStructuredElement expression = ((OCamlStructuredBinding) resolvedReference).getExpression();
-        return expression == null ? null : expression.findActualDefinition();
+        if (resolvedReference == null || !(resolvedReference instanceof OCamlStructuredBinding)) return Collections.emptyList();
+        final OCamlStructuredBinding binding = (OCamlStructuredBinding) resolvedReference;
+        return OCamlCollectionsUtil.createNotNullValuesList(binding.getExpression(), binding.getTypeExpression());
+    }
+
+    @NotNull
+    public static List<OCamlStructuredElement> collectActualDefinitionsOfStructuredElements(final OCamlStructuredElement... elements) {
+        final List<OCamlStructuredElement> result = new ArrayList<OCamlStructuredElement>();
+        for (final OCamlStructuredElement element : elements) {
+            if (element != null) {
+                result.addAll(element.findActualDefinitions());
+            }
+        }
+        return result;
     }
 
     @NotNull
@@ -102,9 +116,9 @@ public class OCamlResolvingUtil {
                 moduleName = builder.getContext().getSourceElement().getName();
             }
             if (moduleName != null) {
-                final OCamlElement targetFile = findFileModule(sourceFile, moduleName);
-                if (targetFile != null) {
-                    processSibling(targetFile, builder);
+                final OCamlElement targetModule = findFileModule(sourceFile, moduleName);
+                if (targetModule != null) {
+                    processSibling(targetModule, builder);
                 }
             }
         }
@@ -121,16 +135,16 @@ public class OCamlResolvingUtil {
     }
 
     private static boolean tryProcessPervasives(@NotNull final ResolvingBuilder builder, @NotNull final PsiFile sourceFile) {
-        final OCamlElement pervasivesFile = findFileModule(sourceFile, PERVASIVES);
-        return pervasivesFile != null && processSibling(pervasivesFile, builder);
+        final OCamlElement pervasivesModule = findFileModule(sourceFile, PERVASIVES);
+        return pervasivesModule != null && processSibling(pervasivesModule, builder);
     }
 
     @Nullable
     private static OCamlElement findFileModule(@NotNull final PsiFile sourceFile, @NotNull final String moduleName) {
         if (OCamlFileUtil.isImplementationFile(sourceFile)) {
-            final OCamlElement targetFile = findFileModuleDefinition(sourceFile, moduleName);
-            if (targetFile != null) {
-                return targetFile;
+            final OCamlElement targetModule = findFileModuleDefinition(sourceFile, moduleName);
+            if (targetModule != null) {
+                return targetModule;
             }
         }
 
@@ -140,21 +154,21 @@ public class OCamlResolvingUtil {
     @Nullable
     public static OCamlModuleDefinitionBinding findFileModuleDefinition(@NotNull final PsiFile sourceFile,
                                                                         @NotNull final String moduleName) {
-        return doFindFile(sourceFile, moduleName, MLFileType.INSTANCE, OCamlModuleDefinitionBinding.class);
+        return doFindFileModule(sourceFile, moduleName, MLFileType.INSTANCE, OCamlModuleDefinitionBinding.class);
     }
 
     @Nullable
     public static OCamlModuleSpecificationBinding findFileModuleSpecification(@NotNull final PsiFile sourceFile,
                                                                               @NotNull final String moduleName) {
-        return doFindFile(sourceFile, moduleName, MLIFileType.INSTANCE, OCamlModuleSpecificationBinding.class);
+        return doFindFileModule(sourceFile, moduleName, MLIFileType.INSTANCE, OCamlModuleSpecificationBinding.class);
     }
 
     @SuppressWarnings({"unchecked"})
     @Nullable
-    private static <T extends OCamlElement> T doFindFile(@NotNull final PsiFile sourceFile,
-                                                         @NotNull final String moduleName,
-                                                         @NotNull final FileType fileType,
-                                                         @NotNull final Class<T> type) {
+    private static <T extends OCamlStructuredBinding> T doFindFileModule(@NotNull final PsiFile sourceFile,
+                                                                         @NotNull final String moduleName,
+                                                                         @NotNull final FileType fileType,
+                                                                         @NotNull final Class<T> type) {
         final Project project = sourceFile.getProject();
 
         final Module module = ModuleUtil.findModuleForPsiElement(sourceFile);
@@ -162,15 +176,15 @@ public class OCamlResolvingUtil {
 
         final String fileName = OCamlFileUtil.getFileName(moduleName, fileType);
         final GlobalSearchScope scope = getScopeRestrictedByFileTypes(moduleWithDependenciesAndLibrariesScope(module), fileType);
-        final T file = findFileByName(project, scope, type, fileName);
-        return file == null ? findFileByName(project, scope, type, OCamlStringUtil.changeFirstLetterCase(fileName)) : file;
+        final T file = findFileModuleByFileName(project, scope, type, fileName);
+        return file == null ? findFileModuleByFileName(project, scope, type, OCamlStringUtil.changeFirstLetterCase(fileName)) : file;
     }
 
     @Nullable
-    private static <T extends OCamlElement> T findFileByName(@NotNull final Project project,
-                                                             @NotNull final GlobalSearchScope scope,
-                                                             @NotNull final Class<T> type,
-                                                             @NotNull final String fileName) {
+    private static <T extends OCamlStructuredBinding> T findFileModuleByFileName(@NotNull final Project project,
+                                                                                 @NotNull final GlobalSearchScope scope,
+                                                                                 @NotNull final Class<T> type,
+                                                                                 @NotNull final String fileName) {
         final PsiFile[] files = ApplicationManager.getApplication().runReadAction(new Computable<PsiFile[]>() {
             public PsiFile[] compute() {
                 return FilenameIndex.getFilesByName(project, fileName, scope);
@@ -178,12 +192,20 @@ public class OCamlResolvingUtil {
         });
 
         for (final PsiFile file : files) {
-            if (type.isInstance(file)) {
-                //noinspection unchecked
-                return (T) file;
+            if (file instanceof OCamlFile) {
+                final T moduleBinding = ((OCamlFile) file).getModuleBinding(type);
+                if (moduleBinding != null) {
+                    return moduleBinding;
+                }
             }
         }
 
         return null;
+    }
+
+    private static void addIfNotNull(@NotNull final List<OCamlStructuredElement> list, @Nullable final OCamlStructuredElement item) {
+        if (item != null) {
+            list.add(item);
+        }
     }
 }

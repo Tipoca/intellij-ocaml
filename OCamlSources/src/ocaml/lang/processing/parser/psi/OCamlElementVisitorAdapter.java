@@ -508,4 +508,10 @@ public class OCamlElementVisitorAdapter extends OCamlElementVisitor {
 
     public void visitCharRangePattern(@NotNull final OCamlCharRangePattern psiElement) {
     }
+
+    public void visitFileModuleDefinitionBinding(@NotNull final OCamlFileModuleDefinitionBinding psiElement) {
+    }
+
+    public void visitFileModuleSpecificationBinding(@NotNull final OCamlFileModuleSpecificationBinding psiElement) {
+    }
 }

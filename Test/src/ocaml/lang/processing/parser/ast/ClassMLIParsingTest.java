@@ -35,74 +35,74 @@ import static ocaml.lang.processing.parser.ast.element.OCamlElementTypes.*;
 @Test
 public class ClassMLIParsingTest extends BaseClassParsingTest {
     public void testSeveralSpecificationBindings() throws Exception {
-        myTree.addNode(2, CLASS_SPECIFICATION);
-        myTree.addNode(3, CLASS_KEYWORD);
-        myTree.addNode(3, CLASS_SPECIFICATION_BINDING);
-        myTree.addNode(4, CLASS_NAME);
-        myTree.addNode(5, LCFC_IDENTIFIER, "class1");
-        myTree.addNode(4, COLON);
-        myTree.addNode(4, CLASS_NAME);
-        myTree.addNode(5, LCFC_IDENTIFIER, "class0");
-        myTree.addNode(3, AND_KEYWORD);
-        myTree.addNode(3, CLASS_SPECIFICATION_BINDING);
-        myTree.addNode(4, VIRTUAL_KEYWORD);
-        myTree.addNode(4, CLASS_NAME);
-        myTree.addNode(5, LCFC_IDENTIFIER, "class1");
-        myTree.addNode(4, COLON);
-        myTree.addNode(4, OBJECT_END_CLASS_BODY_TYPE);
-        myTree.addNode(5, OBJECT_KEYWORD);
-        myTree.addNode(5, END_KEYWORD);
-        myTree.addNode(3, AND_KEYWORD);
-        myTree.addNode(3, CLASS_SPECIFICATION_BINDING);
-        myTree.addNode(4, BRACKETS);
-        myTree.addNode(5, LBRACKET);
-        myTree.addNode(5, TYPE_PARAMETER_DEFINITION);
-        myTree.addNode(6, QUOTE);
-        myTree.addNode(6, TYPE_PARAMETER_NAME);
-        myTree.addNode(7, LCFC_IDENTIFIER, "a");
-        myTree.addNode(5, COMMA);
-        myTree.addNode(5, TYPE_PARAMETER_DEFINITION);
-        myTree.addNode(6, QUOTE);
-        myTree.addNode(6, TYPE_PARAMETER_NAME);
-        myTree.addNode(7, LCFC_IDENTIFIER, "b");
-        myTree.addNode(5, COMMA);
-        myTree.addNode(5, TYPE_PARAMETER_DEFINITION);
-        myTree.addNode(6, QUOTE);
-        myTree.addNode(6, TYPE_PARAMETER_NAME);
-        myTree.addNode(7, LCFC_IDENTIFIER, "c");
-        myTree.addNode(5, RBRACKET);
-        myTree.addNode(4, CLASS_NAME);
-        myTree.addNode(5, LCFC_IDENTIFIER, "class1");
-        myTree.addNode(4, COLON);
-        myTree.addNode(4, OBJECT_END_CLASS_BODY_TYPE);
-        myTree.addNode(5, OBJECT_KEYWORD);
-        myTree.addNode(5, END_KEYWORD);
-        myTree.addNode(3, AND_KEYWORD);
-        myTree.addNode(3, CLASS_SPECIFICATION_BINDING);
-        myTree.addNode(4, VIRTUAL_KEYWORD);
-        myTree.addNode(4, BRACKETS);
-        myTree.addNode(5, LBRACKET);
-        myTree.addNode(5, TYPE_PARAMETER_DEFINITION);
-        myTree.addNode(6, QUOTE);
-        myTree.addNode(6, TYPE_PARAMETER_NAME);
-        myTree.addNode(7, LCFC_IDENTIFIER, "a");
-        myTree.addNode(5, COMMA);
-        myTree.addNode(5, TYPE_PARAMETER_DEFINITION);
-        myTree.addNode(6, QUOTE);
-        myTree.addNode(6, TYPE_PARAMETER_NAME);
-        myTree.addNode(7, LCFC_IDENTIFIER, "b");
-        myTree.addNode(5, COMMA);
-        myTree.addNode(5, TYPE_PARAMETER_DEFINITION);
-        myTree.addNode(6, QUOTE);
-        myTree.addNode(6, TYPE_PARAMETER_NAME);
-        myTree.addNode(7, LCFC_IDENTIFIER, "c");
-        myTree.addNode(5, RBRACKET);
-        myTree.addNode(4, CLASS_NAME);
-        myTree.addNode(5, LCFC_IDENTIFIER, "class1");
-        myTree.addNode(4, COLON);
-        myTree.addNode(4, OBJECT_END_CLASS_BODY_TYPE);
-        myTree.addNode(5, OBJECT_KEYWORD);
-        myTree.addNode(5, END_KEYWORD);
+        myTree.addNode(3, CLASS_SPECIFICATION);
+        myTree.addNode(4, CLASS_KEYWORD);
+        myTree.addNode(4, CLASS_SPECIFICATION_BINDING);
+        myTree.addNode(5, CLASS_NAME);
+        myTree.addNode(6, LCFC_IDENTIFIER, "class1");
+        myTree.addNode(5, COLON);
+        myTree.addNode(5, CLASS_NAME);
+        myTree.addNode(6, LCFC_IDENTIFIER, "class0");
+        myTree.addNode(4, AND_KEYWORD);
+        myTree.addNode(4, CLASS_SPECIFICATION_BINDING);
+        myTree.addNode(5, VIRTUAL_KEYWORD);
+        myTree.addNode(5, CLASS_NAME);
+        myTree.addNode(6, LCFC_IDENTIFIER, "class1");
+        myTree.addNode(5, COLON);
+        myTree.addNode(5, OBJECT_END_CLASS_BODY_TYPE);
+        myTree.addNode(6, OBJECT_KEYWORD);
+        myTree.addNode(6, END_KEYWORD);
+        myTree.addNode(4, AND_KEYWORD);
+        myTree.addNode(4, CLASS_SPECIFICATION_BINDING);
+        myTree.addNode(5, BRACKETS);
+        myTree.addNode(6, LBRACKET);
+        myTree.addNode(6, TYPE_PARAMETER_DEFINITION);
+        myTree.addNode(7, QUOTE);
+        myTree.addNode(7, TYPE_PARAMETER_NAME);
+        myTree.addNode(8, LCFC_IDENTIFIER, "a");
+        myTree.addNode(6, COMMA);
+        myTree.addNode(6, TYPE_PARAMETER_DEFINITION);
+        myTree.addNode(7, QUOTE);
+        myTree.addNode(7, TYPE_PARAMETER_NAME);
+        myTree.addNode(8, LCFC_IDENTIFIER, "b");
+        myTree.addNode(6, COMMA);
+        myTree.addNode(6, TYPE_PARAMETER_DEFINITION);
+        myTree.addNode(7, QUOTE);
+        myTree.addNode(7, TYPE_PARAMETER_NAME);
+        myTree.addNode(8, LCFC_IDENTIFIER, "c");
+        myTree.addNode(6, RBRACKET);
+        myTree.addNode(5, CLASS_NAME);
+        myTree.addNode(6, LCFC_IDENTIFIER, "class1");
+        myTree.addNode(5, COLON);
+        myTree.addNode(5, OBJECT_END_CLASS_BODY_TYPE);
+        myTree.addNode(6, OBJECT_KEYWORD);
+        myTree.addNode(6, END_KEYWORD);
+        myTree.addNode(4, AND_KEYWORD);
+        myTree.addNode(4, CLASS_SPECIFICATION_BINDING);
+        myTree.addNode(5, VIRTUAL_KEYWORD);
+        myTree.addNode(5, BRACKETS);
+        myTree.addNode(6, LBRACKET);
+        myTree.addNode(6, TYPE_PARAMETER_DEFINITION);
+        myTree.addNode(7, QUOTE);
+        myTree.addNode(7, TYPE_PARAMETER_NAME);
+        myTree.addNode(8, LCFC_IDENTIFIER, "a");
+        myTree.addNode(6, COMMA);
+        myTree.addNode(6, TYPE_PARAMETER_DEFINITION);
+        myTree.addNode(7, QUOTE);
+        myTree.addNode(7, TYPE_PARAMETER_NAME);
+        myTree.addNode(8, LCFC_IDENTIFIER, "b");
+        myTree.addNode(6, COMMA);
+        myTree.addNode(6, TYPE_PARAMETER_DEFINITION);
+        myTree.addNode(7, QUOTE);
+        myTree.addNode(7, TYPE_PARAMETER_NAME);
+        myTree.addNode(8, LCFC_IDENTIFIER, "c");
+        myTree.addNode(6, RBRACKET);
+        myTree.addNode(5, CLASS_NAME);
+        myTree.addNode(6, LCFC_IDENTIFIER, "class1");
+        myTree.addNode(5, COLON);
+        myTree.addNode(5, OBJECT_END_CLASS_BODY_TYPE);
+        myTree.addNode(6, OBJECT_KEYWORD);
+        myTree.addNode(6, END_KEYWORD);
 
         doTest("class class1 : class0 and virtual class1 : object end and ['a, 'b, 'c] class1 : object end and virtual ['a, 'b, 'c] class1 : object end", myTree.getStringRepresentation());
     }
@@ -113,7 +113,12 @@ public class ClassMLIParsingTest extends BaseClassParsingTest {
     }
 
     @NotNull
-    protected IElementType getModuleNodeType() {
+    protected IElementType getModuleExpressionNodeType() {
         return OCamlElementTypes.FILE_MODULE_TYPE;
+    }
+
+    @NotNull
+    protected IElementType getModuleBindingNodeType() {
+        return OCamlElementTypes.FILE_MODULE_SPECIFICATION_BINDING;
     }
 }
