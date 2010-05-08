@@ -32,7 +32,7 @@ public interface OCamlParentheses extends OCamlExpression,
                                           OCamlClassExpression,
                                           OCamlModuleExpression,
                                           OCamlTypeParameters,
-                                          OCamlModuleType {
+                                          OCamlModuleType { //todo split to different classes (otherwise it can be bugs (e.g. in "surround with" when parentheses are selected))
     @Nullable
     <T extends OCamlElement> T getInternalElement(@NotNull final Class<T> type);
 }

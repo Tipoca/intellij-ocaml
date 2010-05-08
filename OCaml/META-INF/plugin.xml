@@ -64,6 +64,21 @@
         <completion.contributor language="OCAML_ML" implementationClass="manuylov.maxim.ocaml.lang.feature.completion.OCamlCompletionContributor"/>
         <completion.contributor language="OCAML_MLI" implementationClass="manuylov.maxim.ocaml.lang.feature.completion.OCamlCompletionContributor"/>
 
+        <!-- Surrounders { -->
+        <lang.surroundDescriptor language="OCAML_ML" implementationClass="manuylov.maxim.ocaml.lang.feature.refactoring.surround.OCamlClassExpressionSurroundDescriptor"/>
+        <lang.surroundDescriptor language="OCAML_MLI" implementationClass="manuylov.maxim.ocaml.lang.feature.refactoring.surround.OCamlClassExpressionSurroundDescriptor"/>
+        <lang.surroundDescriptor language="OCAML_ML" implementationClass="manuylov.maxim.ocaml.lang.feature.refactoring.surround.OCamlExpressionSurroundDescriptor"/>
+        <lang.surroundDescriptor language="OCAML_MLI" implementationClass="manuylov.maxim.ocaml.lang.feature.refactoring.surround.OCamlExpressionSurroundDescriptor"/>
+        <lang.surroundDescriptor language="OCAML_ML" implementationClass="manuylov.maxim.ocaml.lang.feature.refactoring.surround.OCamlModuleExpressionSurroundDescriptor"/>
+        <lang.surroundDescriptor language="OCAML_MLI" implementationClass="manuylov.maxim.ocaml.lang.feature.refactoring.surround.OCamlModuleExpressionSurroundDescriptor"/>
+        <lang.surroundDescriptor language="OCAML_ML" implementationClass="manuylov.maxim.ocaml.lang.feature.refactoring.surround.OCamlModuleTypeSurroundDescriptor"/>
+        <lang.surroundDescriptor language="OCAML_MLI" implementationClass="manuylov.maxim.ocaml.lang.feature.refactoring.surround.OCamlModuleTypeSurroundDescriptor"/>
+        <lang.surroundDescriptor language="OCAML_ML" implementationClass="manuylov.maxim.ocaml.lang.feature.refactoring.surround.OCamlPatternSurroundDescriptor"/>
+        <lang.surroundDescriptor language="OCAML_MLI" implementationClass="manuylov.maxim.ocaml.lang.feature.refactoring.surround.OCamlPatternSurroundDescriptor"/>
+        <lang.surroundDescriptor language="OCAML_ML" implementationClass="manuylov.maxim.ocaml.lang.feature.refactoring.surround.OCamlTypeExpressionSurroundDescriptor"/>
+        <lang.surroundDescriptor language="OCAML_MLI" implementationClass="manuylov.maxim.ocaml.lang.feature.refactoring.surround.OCamlTypeExpressionSurroundDescriptor"/>
+        <!-- } -->
+
         <quoteHandler fileType="OCAML_ML_FILE" className="manuylov.maxim.ocaml.editor.OCamlQuoteHandler"/>
         <quoteHandler fileType="OCAML_MLI_FILE" className="manuylov.maxim.ocaml.editor.OCamlQuoteHandler"/>
         <backspaceHandlerDelegate implementation="manuylov.maxim.ocaml.editor.OCamlBackspaceHandler"/>

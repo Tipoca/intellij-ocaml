@@ -18,56 +18,12 @@
 
 package manuylov.maxim.ocaml.lang.feature.refactoring;
 
-import com.intellij.lang.refactoring.RefactoringSupportProvider;
-import com.intellij.psi.PsiElement;
-import com.intellij.refactoring.RefactoringActionHandler;
+import com.intellij.lang.refactoring.DefaultRefactoringSupportProvider;
 
 /**
  * @author Maxim.Manuylov
  *         Date: 26.04.2010
  */
-public class OCamlRefactoringSupportProvider implements RefactoringSupportProvider { // todo
-    public boolean isSafeDeleteAvailable(final PsiElement element) {
-        return true;
-    }
-
-    public RefactoringActionHandler getIntroduceVariableHandler() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    public RefactoringActionHandler getExtractMethodHandler() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    public RefactoringActionHandler getIntroduceConstantHandler() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    public RefactoringActionHandler getIntroduceFieldHandler() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    public RefactoringActionHandler getIntroduceParameterHandler() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    public RefactoringActionHandler getPullUpHandler() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    public RefactoringActionHandler getPushDownHandler() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    public RefactoringActionHandler getExtractModuleHandler() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    public RefactoringActionHandler getExtractSuperClassHandler() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    public boolean doInplaceRenameFor(final PsiElement element, final PsiElement context) {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+public class OCamlRefactoringSupportProvider extends DefaultRefactoringSupportProvider {
+    
 }

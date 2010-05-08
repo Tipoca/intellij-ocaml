@@ -16,23 +16,17 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/gpl-2.0.html>.
  */
 
-package manuylov.maxim.ocaml.lang.feature.completion;
+package manuylov.maxim.ocaml.lang.feature.refactoring.surround;
 
-import com.intellij.codeInsight.completion.CompletionContributor;
-import com.intellij.codeInsight.completion.CompletionInitializationContext;
-import org.jetbrains.annotations.NotNull;
+import manuylov.maxim.ocaml.lang.feature.refactoring.surround.surrounder.OCamlWithParenthesesExpressionSurrounder;
+import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlPattern;
 
 /**
  * @author Maxim.Manuylov
- *         Date: 25.04.2010
+ *         Date: 08.05.2010
  */
-public class OCamlCompletionContributor extends CompletionContributor { //todo
-    public OCamlCompletionContributor() {
-        //extend();
-    }
-
-    @Override
-    public void beforeCompletion(@NotNull final CompletionInitializationContext context) {
-//        context.setFileCopyPatcher(new DummyIdentifierPatcher()); 
+public class OCamlPatternSurroundDescriptor extends BaseOCamlSurroundDescriptor {
+    public OCamlPatternSurroundDescriptor() {
+        super(OCamlPattern.class, new OCamlWithParenthesesExpressionSurrounder());
     }
 }

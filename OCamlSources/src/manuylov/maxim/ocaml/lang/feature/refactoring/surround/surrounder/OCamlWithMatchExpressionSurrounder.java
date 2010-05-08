@@ -16,23 +16,27 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/gpl-2.0.html>.
  */
 
-package manuylov.maxim.ocaml.lang.feature.completion;
+package manuylov.maxim.ocaml.lang.feature.refactoring.surround.surrounder;
 
-import com.intellij.codeInsight.completion.CompletionContributor;
-import com.intellij.codeInsight.completion.CompletionInitializationContext;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Maxim.Manuylov
- *         Date: 25.04.2010
+ *         Date: 08.05.2010
  */
-public class OCamlCompletionContributor extends CompletionContributor { //todo
-    public OCamlCompletionContributor() {
-        //extend();
+public class OCamlWithMatchExpressionSurrounder extends BaseOCamlSurrounderWithNavigation {
+    public OCamlWithMatchExpressionSurrounder() {
+        super("match");
+    }
+
+    @NotNull
+    @Override
+    protected String doSurround(@NotNull final CharSequence text) {
+        return "match " + text + " with ";
     }
 
     @Override
-    public void beforeCompletion(@NotNull final CompletionInitializationContext context) {
-//        context.setFileCopyPatcher(new DummyIdentifierPatcher()); 
+    protected int getOffset(@NotNull final String surroundedText) {
+        return surroundedText.length();
     }
 }

@@ -8,6 +8,7 @@
       <w>constr</w>
       <w>dest</w>
       <w>downto</w>
+      <w>expr</w>
       <w>functor</w>
       <w>intf</w>
       <w>lcfc</w>
@@ -20,7 +21,9 @@
       <w>ocamlopt</w>
       <w>ocamlrun</w>
       <w>parameterized</w>
+      <w>patcher</w>
       <w>pervasives</w>
+      <w>popup</w>
       <w>postfix</w>
       <w>sdks</w>
       <w>simplifiable</w>
@@ -29,6 +32,7 @@
       <w>stdin</w>
       <w>stdout</w>
       <w>struct</w>
+      <w>surrounders</w>
       <w>timestamp</w>
       <w>tuple</w>
       <w>ucfc</w>

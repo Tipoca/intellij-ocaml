@@ -16,23 +16,26 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/gpl-2.0.html>.
  */
 
-package manuylov.maxim.ocaml.lang.feature.completion;
+package manuylov.maxim.ocaml.lang.feature.refactoring.surround.surrounder;
 
-import com.intellij.codeInsight.completion.CompletionContributor;
-import com.intellij.codeInsight.completion.CompletionInitializationContext;
+import com.intellij.openapi.util.TextRange;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Maxim.Manuylov
- *         Date: 25.04.2010
+ *         Date: 08.05.2010
  */
-public class OCamlCompletionContributor extends CompletionContributor { //todo
-    public OCamlCompletionContributor() {
-        //extend();
+abstract class BaseOCamlSurrounderWithNavigation extends BaseOCamlSurrounder {
+    public BaseOCamlSurrounderWithNavigation(@NotNull final String description) {
+        super(description);
     }
 
+    @NotNull
     @Override
-    public void beforeCompletion(@NotNull final CompletionInitializationContext context) {
-//        context.setFileCopyPatcher(new DummyIdentifierPatcher()); 
+    protected TextRange getTextRange(final int startPos, @NotNull final String surroundedText) {
+        final int pos = startPos + getOffset(surroundedText);
+        return new TextRange(pos, pos);
     }
+
+    protected abstract int getOffset(@NotNull final String surroundedText);
 }
