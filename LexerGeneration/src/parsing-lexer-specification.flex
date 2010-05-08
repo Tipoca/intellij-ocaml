@@ -80,6 +80,7 @@ EscapeSequence         = ("\\" [\\\"'ntbr ]) | ("\\" {Digit}{3}) | ("\\x" {HexDi
 
 RegularChar            = [^\\']
 CharLiteral            = ['] ({RegularChar} | {EscapeSequence}) [']
+EmptyCharLiteral       = ['] [']
 
 RegularStrChar         = [^\\\"]
 StringLineFeed         = [\\] {LineTerminator} {Blank}*
@@ -224,6 +225,7 @@ Any                    = .|\n
   {IntegerLiteral}        { return OCamlTokenTypes.INTEGER_LITERAL; }
   {FloatLiteral}          { return OCamlTokenTypes.FLOAT_LITERAL; }
   {CharLiteral}           { return OCamlTokenTypes.CHAR_LITERAL; }
+  {EmptyCharLiteral}      { return OCamlTokenTypes.EMPTY_CHAR_LITERAL; }
   {StringLiteral}         { return OCamlTokenTypes.STRING_LITERAL; }
 
   {InfixSymbol}           { return OCamlTokenTypes.INFIX_OPERATOR; }

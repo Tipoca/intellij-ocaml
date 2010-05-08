@@ -247,10 +247,11 @@ class PatternParsing extends Parsing {
                 builder.error(Strings.RPAR_OR_COLON_EXPECTED);
             }
         }
-        else if (builder.getTokenType() == OCamlTokenTypes.CHAR_LITERAL && getNextTokenType(builder) == OCamlTokenTypes.DOT_DOT) {
+        else if (OCamlTokenTypes.CHAR_LITERALS.contains(builder.getTokenType()) && getNextTokenType(builder) == OCamlTokenTypes.DOT_DOT) {
+            NameParsing.parseCharLiteral(builder);
             builder.advanceLexer();
-            builder.advanceLexer();
-            checkMatches(builder, OCamlTokenTypes.CHAR_LITERAL, Strings.CHAR_LITERAL_EXPECTED);
+            NameParsing.parseCharLiteral(builder);
+
             marker.done(OCamlElementTypes.CHAR_RANGE_PATTERN);
         }
         else {

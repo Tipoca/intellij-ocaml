@@ -153,6 +153,7 @@ public interface OCamlTokenTypes {
     IElementType INTEGER_LITERAL = new OCamlElementType("INTEGER_LITERAL");
     IElementType FLOAT_LITERAL = new OCamlElementType("FLOAT_LITERAL");
     IElementType CHAR_LITERAL = new OCamlElementType("CHAR_LITERAL");
+    IElementType EMPTY_CHAR_LITERAL = new OCamlElementType("EMPTY_CHAR_LITERAL");
     IElementType STRING_LITERAL = new OCamlElementType("STRING_LITERAL");
 
     IElementType INFIX_OPERATOR = new OCamlElementType("INFIX_OPERATOR");
@@ -162,7 +163,11 @@ public interface OCamlTokenTypes {
 
     IElementType REGULAR_CHARS = new OCamlElementType("REGULAR_CHARS");
     IElementType ESCAPE_SEQUENCES = new OCamlElementType("ESCAPE_SEQUENCES");
-    IElementType DOUBLE_QUOTE = new OCamlElementType("DOUBLE_QUOTE");
+    IElementType EMPTY_CHARACTER = new OCamlElementType("EMPTY_CHARACTER");
+    IElementType OPENING_QUOTE = new OCamlElementType("OPENING_QUOTE"); // '
+    IElementType CLOSING_QUOTE = new OCamlElementType("CLOSING_QUOTE"); // '
+    IElementType OPENING_DOUBLE_QUOTE = new OCamlElementType("OPENING_DOUBLE_QUOTE"); // "
+    IElementType CLOSING_DOUBLE_QUOTE = new OCamlElementType("CLOSING_DOUBLE_QUOTE"); // "
 
     /* } */
 
@@ -183,6 +188,7 @@ public interface OCamlTokenTypes {
     TokenSet WHITE_SPACES = TokenSet.create( WHITE_SPACE );
 
     TokenSet STRING_LITERALS = TokenSet.create( STRING_LITERAL );
+    TokenSet CHAR_LITERALS = TokenSet.create( CHAR_LITERAL, EMPTY_CHAR_LITERAL );
     TokenSet COMMENTS = TokenSet.create( COMMENT, COMMENT_BEGIN, COMMENT_END );
 
     /* TokenSets for DefaultWordsScanner { */
@@ -190,6 +196,14 @@ public interface OCamlTokenTypes {
     TokenSet DWS_IDENTIFIERS = IDENTIFIERS;
     TokenSet DWS_COMMENTS = TokenSet.create( COMMENT );
     TokenSet DWS_LITERALS = TokenSet.create( INTEGER_LITERAL, FLOAT_LITERAL, REGULAR_CHARS, ESCAPE_SEQUENCES );
+
+    /* } */
+
+    /* TokenSets for QuoteHandler { */
+
+    TokenSet QH_OPENING_QUOTES = TokenSet.create( OPENING_QUOTE, OPENING_DOUBLE_QUOTE );
+    TokenSet QH_CLOSING_QUOTES = TokenSet.create( CLOSING_QUOTE, CLOSING_DOUBLE_QUOTE );
+    TokenSet QH_STRING_LITERALS = TokenSet.create( REGULAR_CHARS, ESCAPE_SEQUENCES );
 
     /* } */
 }

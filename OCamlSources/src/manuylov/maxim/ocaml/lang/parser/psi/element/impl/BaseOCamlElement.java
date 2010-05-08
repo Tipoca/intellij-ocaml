@@ -42,13 +42,19 @@ public abstract class BaseOCamlElement extends ASTWrapperPsiElement implements O
 
     @Override
     public void accept(@NotNull final PsiElementVisitor psiElementVisitor) {
+        boolean processed = false;
+
         if (psiElementVisitor instanceof OCamlElementVisitor) {
             visit((OCamlElementVisitor)psiElementVisitor);
+            processed = true;
         }
-        else if (psiElementVisitor instanceof OCamlElementProcessor) {
+
+        if (psiElementVisitor instanceof OCamlElementProcessor) {
             ((OCamlElementProcessor) psiElementVisitor).process(this);
+            processed = true;
         }
-        else {
+
+        if (!processed) {
             super.accept(psiElementVisitor);
         }
     }

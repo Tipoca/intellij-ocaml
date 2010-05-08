@@ -64,6 +64,10 @@
         <completion.contributor language="OCAML_ML" implementationClass="manuylov.maxim.ocaml.lang.feature.completion.OCamlCompletionContributor"/>
         <completion.contributor language="OCAML_MLI" implementationClass="manuylov.maxim.ocaml.lang.feature.completion.OCamlCompletionContributor"/>
 
+        <quoteHandler fileType="OCAML_ML_FILE" className="manuylov.maxim.ocaml.editor.OCamlQuoteHandler"/>
+        <quoteHandler fileType="OCAML_MLI_FILE" className="manuylov.maxim.ocaml.editor.OCamlQuoteHandler"/>
+        <backspaceHandlerDelegate implementation="manuylov.maxim.ocaml.editor.OCamlBackspaceHandler"/>
+
         <sdkType implementation="manuylov.maxim.ocaml.sdk.OCamlSdkType"/>
 
         <moduleType id="OCAML_MODULE" implementationClass="manuylov.maxim.ocaml.module.OCamlModuleType"/>

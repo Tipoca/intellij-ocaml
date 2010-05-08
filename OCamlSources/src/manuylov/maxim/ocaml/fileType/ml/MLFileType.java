@@ -38,7 +38,7 @@ public class MLFileType extends OCamlFileType {
 
     @NotNull
     public String getName() {
-        return "OCaml Module Implementation File";
+        return "OCAML_ML_FILE";
     }
 
     @NotNull

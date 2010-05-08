@@ -305,7 +305,7 @@ public abstract class BaseLexerTest extends LexerTestCase {
         doTest("#", token(OCamlTokenTypes.HASH, Keywords.HASH));
         doTest("&", token(OCamlTokenTypes.AMP, Keywords.AMP));
         doTest("&&", token(OCamlTokenTypes.AMP_AMP, Keywords.AMP_AMP));
-        doTest("'", token(OCamlTokenTypes.QUOTE, Keywords.QUOTE));
+//      "'" is tested in testQuote methods
         doTest("(", token(OCamlTokenTypes.LPAR, Keywords.LPAR));
         doTest(")", token(OCamlTokenTypes.RPAR, Keywords.RPAR));
         doTest("*", token(OCamlTokenTypes.MULT, Keywords.MULT));

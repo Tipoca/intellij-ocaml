@@ -18,17 +18,9 @@
 
 package manuylov.maxim.ocaml.fileType;
 
-import com.intellij.lang.Commenter;
 import com.intellij.lang.Language;
-import com.intellij.lang.PairedBraceMatcher;
 import com.intellij.lang.ParserDefinition;
-import com.intellij.lang.annotation.Annotator;
-import com.intellij.lang.folding.FoldingBuilder;
 import manuylov.maxim.ocaml.lang.OCamlLanguage;
-import manuylov.maxim.ocaml.lang.feature.braceMatching.OCamlBraceMatcher;
-import manuylov.maxim.ocaml.lang.feature.commenting.OCamlCommenter;
-import manuylov.maxim.ocaml.lang.feature.folding.OCamlFoldingBuilder;
-import manuylov.maxim.ocaml.lang.feature.highlighting.OCamlAnnotatingVisitor;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -42,26 +34,6 @@ public abstract class OCamlFileTypeLanguage extends Language {
 
     @NotNull
     public abstract ParserDefinition getParserDefinition();
-
-    @NotNull
-    public Annotator getAnnotator() {
-        return new OCamlAnnotatingVisitor();
-    }
-
-    @NotNull
-    public PairedBraceMatcher getBraceMatcher() {
-        return new OCamlBraceMatcher();
-    }
-
-    @NotNull
-    public FoldingBuilder getFoldingBuilder() {
-        return new OCamlFoldingBuilder();
-    }
-
-    @NotNull
-    public Commenter getCommenter() {
-        return new OCamlCommenter();
-    }
 
     @Override
     public boolean isCaseSensitive() {

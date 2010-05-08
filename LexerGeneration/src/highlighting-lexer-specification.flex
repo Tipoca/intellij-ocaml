@@ -225,12 +225,12 @@ Any                    = .|\n
 
   [\"]                      {
                               yybegin(STRING);
-                              return OCamlTokenTypes.DOUBLE_QUOTE;
+                              return OCamlTokenTypes.OPENING_DOUBLE_QUOTE;
                             }
 
   [\']                      {
                               yybegin(CHARACTER_TO_BE_READ);
-                              return OCamlTokenTypes.QUOTE;
+                              return OCamlTokenTypes.OPENING_QUOTE;
                             }
 
   {InfixSymbol}             { return OCamlTokenTypes.INFIX_OPERATOR; }
@@ -306,7 +306,7 @@ Any                    = .|\n
 
   [\"]                      {
                               yybegin(YYINITIAL);
-                              return OCamlTokenTypes.DOUBLE_QUOTE;
+                              return OCamlTokenTypes.CLOSING_DOUBLE_QUOTE;
                             }
 }
 
@@ -323,6 +323,11 @@ Any                    = .|\n
                               return OCamlTokenTypes.ESCAPE_SEQUENCES;
                             }
 
+  [']                       {
+                              yybegin(YYINITIAL);
+                              return OCamlTokenTypes.CLOSING_QUOTE;
+                            }
+
   {Any}                     {
                               yypushback(1);
                               yybegin(YYINITIAL);
@@ -332,7 +337,7 @@ Any                    = .|\n
 <CHARACTER_HAS_BEEN_READ> {
   [']                       {
                               yybegin(YYINITIAL);
-                              return OCamlTokenTypes.QUOTE;
+                              return OCamlTokenTypes.CLOSING_QUOTE;
                             }
 }
 

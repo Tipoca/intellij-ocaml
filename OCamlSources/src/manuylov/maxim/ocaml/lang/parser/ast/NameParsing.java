@@ -475,9 +475,9 @@ class NameParsing extends Parsing {
 
         final PsiBuilder.Marker constantMarker = builder.mark();
 
-        if (!ignore(builder, TokenSet.create(OCamlTokenTypes.INTEGER_LITERAL, OCamlTokenTypes.FLOAT_LITERAL,
-                                             OCamlTokenTypes.CHAR_LITERAL, OCamlTokenTypes.STRING_LITERAL,
-                                             OCamlTokenTypes.FALSE_KEYWORD, OCamlTokenTypes.TRUE_KEYWORD))) {
+        if (!tryParseCharLiteral(builder) &&
+            !ignore(builder, TokenSet.create(OCamlTokenTypes.INTEGER_LITERAL, OCamlTokenTypes.FLOAT_LITERAL,
+                OCamlTokenTypes.STRING_LITERAL, OCamlTokenTypes.FALSE_KEYWORD, OCamlTokenTypes.TRUE_KEYWORD))) {
             constantMarker.drop();
             return false;
         }
@@ -485,6 +485,26 @@ class NameParsing extends Parsing {
         constantMarker.done(OCamlElementTypes.CONSTANT);
 
         return true;
+    }
+
+    public static void parseCharLiteral(@NotNull final PsiBuilder builder) {
+        if (!tryParseCharLiteral(builder)) {
+            builder.error(Strings.CHAR_LITERAL_EXPECTED);
+        }
+    }
+
+    public static boolean tryParseCharLiteral(@NotNull final PsiBuilder builder) {
+        if (ignore(builder, OCamlTokenTypes.CHAR_LITERAL)) return true;
+
+        final PsiBuilder.Marker errorMarker = builder.mark();
+        if (ignore(builder, OCamlTokenTypes.EMPTY_CHAR_LITERAL)) {
+            errorMarker.error(Strings.ILLEGAL_CHAR_LITERAL);
+            return true;
+        }
+        else {
+            errorMarker.drop();
+            return false;
+        }
     }
 
     private static void doParseLabelNameWithMandatoryColon(@NotNull final PsiBuilder builder, final boolean isDefinition) {

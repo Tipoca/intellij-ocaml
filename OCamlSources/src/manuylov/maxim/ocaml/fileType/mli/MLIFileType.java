@@ -38,7 +38,7 @@ public class MLIFileType extends OCamlFileType {
 
     @NotNull
     public String getName() {
-        return "OCaml Module Interface File";
+        return "OCAML_MLI_FILE";
     }
 
     @NotNull

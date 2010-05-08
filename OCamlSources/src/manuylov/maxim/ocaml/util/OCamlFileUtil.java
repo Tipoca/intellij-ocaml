@@ -39,16 +39,17 @@ import java.util.ArrayList;
  *         Date: 07.04.2010
  */
 public class OCamlFileUtil {
-    public static boolean isOCamlSourceFile(@NotNull final VirtualFile file) {
-        final FileType fileType = file.getFileType();
+    public static boolean isOCamlSourceFile(@NotNull final FileType fileType) {
         return fileType == MLFileType.INSTANCE || fileType == MLIFileType.INSTANCE;
     }
 
+    public static boolean isOCamlSourceFile(@NotNull final VirtualFile file) {
+        return isOCamlSourceFile(file.getFileType());
+    }
+
     public static boolean isOCamlFile(@NotNull final VirtualFile file) {
-        final FileType fileType = file.getFileType();
         final String extension = file.getExtension();
-        return fileType == MLFileType.INSTANCE
-            || fileType == MLIFileType.INSTANCE
+        return isOCamlSourceFile(file)
             || "cmi".equals(extension)
             || "cmo".equals(extension); //todo create CMI and CMO fileTypes
     }

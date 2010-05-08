@@ -21,7 +21,6 @@ package manuylov.maxim.ocaml.lang.lexer;
 import com.intellij.lexer.Lexer;
 import com.intellij.psi.TokenType;
 import manuylov.maxim.ocaml.lang.Keywords;
-import manuylov.maxim.ocaml.lang.lexer.OCamlParsingLexer;
 import manuylov.maxim.ocaml.lang.lexer.token.OCamlTokenTypes;
 import org.testng.annotations.Test;
 
@@ -52,6 +51,14 @@ public class OCamlParsingLexerTest extends BaseLexerTest {
         doTest("\"abcdefskdn3\"", token(OCamlTokenTypes.STRING_LITERAL, "\"abcdefskdn3\""));
         doTest("\"abc\\n\\t\\rdef\"", token(OCamlTokenTypes.STRING_LITERAL, "\"abc\\n\\t\\rdef\""));
         doTest("\"abc\\\n   \t \rdef\"", token(OCamlTokenTypes.STRING_LITERAL, "\"abc\\\n   \t \rdef\""));
+    }
+
+    public void testQuote() {
+        doTest("'", token(OCamlTokenTypes.QUOTE, Keywords.QUOTE));
+    }
+
+    public void testEmptyChar() {
+        doTest("''", token(OCamlTokenTypes.EMPTY_CHAR_LITERAL, "''"));
     }
 
     protected Lexer createLexer() {
