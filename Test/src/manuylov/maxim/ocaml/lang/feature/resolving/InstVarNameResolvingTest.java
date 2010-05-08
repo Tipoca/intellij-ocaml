@@ -16,9 +16,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/gpl-2.0.html>.
  */
 
-package manuylov.maxim.ocaml.lang.parser.psi.resolving;
+package manuylov.maxim.ocaml.lang.feature.resolving;
 
-import manuylov.maxim.ocaml.lang.parser.psi.resolving.testCase.ResolvingTestCase;
+import manuylov.maxim.ocaml.lang.feature.resolving.testCase.ResolvingTestCase;
 import org.testng.annotations.Test;
 
 /**

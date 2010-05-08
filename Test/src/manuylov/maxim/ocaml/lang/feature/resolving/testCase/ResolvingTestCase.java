@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/gpl-2.0.html>.
  */
 
-package manuylov.maxim.ocaml.lang.parser.psi.resolving.testCase;
+package manuylov.maxim.ocaml.lang.feature.resolving.testCase;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.LanguageParserDefinitions;

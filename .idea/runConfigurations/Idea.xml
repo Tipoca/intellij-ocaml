@@ -13,7 +13,7 @@
     <ConfigurationWrapper RunnerId="Debug" />
     <ConfigurationWrapper RunnerId="Run" />
     <method>
-      <option name="AntTarget" enabled="true" antfile="file://$PROJECT_DIR$/LexerGeneration/src/build.xml" target="Generate.All.Lexers" />
+      <option name="AntTarget" enabled="false" antfile="file://$PROJECT_DIR$/LexerGeneration/src/build.xml" target="Generate.All.Lexers" />
     </method>
   </configuration>
 </component>
