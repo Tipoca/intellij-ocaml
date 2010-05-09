@@ -93,7 +93,7 @@ public class OCamlTypeConstructorNameImpl extends BaseOCamlReference implements 
 
     @NotNull
     public List<OCamlExtendedModuleName> getModulePath() {
-        return OCamlPsiUtil.getModulePath(this, OCamlTypeConstructorPath.class, OCamlExtendedModuleName.class);
+        return OCamlPsiUtil.getModulePath(this, OCamlExtendedModuleName.class);
     }
 
     @NotNull

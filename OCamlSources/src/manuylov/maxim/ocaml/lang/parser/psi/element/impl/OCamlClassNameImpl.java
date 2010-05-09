@@ -66,7 +66,7 @@ public class OCamlClassNameImpl extends BaseOCamlReference implements OCamlClass
 
     @NotNull
     public List<OCamlModuleName> getModulePath() {
-        return OCamlPsiUtil.getModulePath(this, OCamlClassPath.class, OCamlModuleName.class);
+        return OCamlPsiUtil.getModulePath(this, OCamlModuleName.class);
     }
 
     @NotNull

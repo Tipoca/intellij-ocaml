@@ -24,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
  * @author Maxim.Manuylov
  *         Date: 21.03.2009
  */
-public interface OCamlModuleTypePath extends OCamlModuleType {
+public interface OCamlModuleTypePath extends OCamlModuleType, OCamlPathElement {
     @Nullable
     OCamlModuleTypeName getModuleTypeName();
 }

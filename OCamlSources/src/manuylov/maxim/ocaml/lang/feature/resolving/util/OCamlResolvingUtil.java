@@ -136,7 +136,16 @@ public class OCamlResolvingUtil {
 
     private static boolean tryProcessPervasives(@NotNull final ResolvingBuilder builder, @NotNull final PsiFile sourceFile) {
         final OCamlElement pervasivesModule = findFileModule(sourceFile, PERVASIVES);
-        return pervasivesModule != null && processSibling(pervasivesModule, builder);
+        if (pervasivesModule != null) {
+            try {
+                builder.pervasivesProcessingStarted();
+                return processSibling(pervasivesModule, builder);
+            }
+            finally {
+                builder.pervasivesProcessingFinished();
+            }
+        }
+        return false;
     }
 
     @Nullable

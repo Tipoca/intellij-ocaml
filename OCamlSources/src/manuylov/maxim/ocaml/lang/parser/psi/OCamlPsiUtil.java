@@ -25,6 +25,7 @@ import com.intellij.openapi.util.Computable;
 import com.intellij.psi.PsiElement;
 import manuylov.maxim.ocaml.lang.feature.resolving.OCamlNamedElement;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlModuleName;
+import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlPathElement;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -86,12 +87,11 @@ public class OCamlPsiUtil {
     }
 
     @NotNull
-    public static <T extends OCamlElement, Q extends OCamlElement> List<T> getModulePath(@NotNull final OCamlElement psiElement, 
-                                                                                         @NotNull final Class<Q> parentType,
+    public static <T extends OCamlElement, Q extends OCamlElement> List<T> getModulePath(@NotNull final OCamlElement psiElement,
                                                                                          @NotNull final Class<T> siblingsType) {
         final List<T> result = new ArrayList<T>();
 
-        if (!parentType.isInstance(psiElement.getParent())) {
+        if (!(psiElement.getParent() instanceof OCamlPathElement)) {
             return result;
         }
 

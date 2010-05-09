@@ -27,7 +27,6 @@ import manuylov.maxim.ocaml.lang.parser.ast.util.OCamlASTTreeUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlExtendedModuleName;
-import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlExtendedModulePath;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlModuleDefinitionBinding;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlModuleSpecificationBinding;
 import org.jetbrains.annotations.NotNull;
@@ -71,7 +70,7 @@ public class OCamlExtendedModuleNameImpl extends BaseOCamlReference implements O
 
     @NotNull
     public List<OCamlExtendedModuleName> getModulePath() {
-        return OCamlPsiUtil.getModulePath(this, OCamlExtendedModulePath.class, OCamlExtendedModuleName.class);
+        return OCamlPsiUtil.getModulePath(this, OCamlExtendedModuleName.class);
     }
 
     @NotNull

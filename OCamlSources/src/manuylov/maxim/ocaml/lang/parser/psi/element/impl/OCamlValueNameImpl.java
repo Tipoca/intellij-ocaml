@@ -67,6 +67,6 @@ public class OCamlValueNameImpl extends BaseOCamlReference implements OCamlValue
 
     @NotNull
     public List<OCamlExtendedModuleName> getModulePath() {
-        return OCamlPsiUtil.getModulePath(this, OCamlValuePath.class, OCamlExtendedModuleName.class);
+        return OCamlPsiUtil.getModulePath(this, OCamlExtendedModuleName.class);
     }
 }

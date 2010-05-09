@@ -80,7 +80,7 @@ public class OCamlConstructorNameImpl extends BaseOCamlReference implements OCam
 
     @NotNull
     public List<OCamlModuleName> getModulePath() {
-        return OCamlPsiUtil.getModulePath(this, OCamlConstructorPath.class, OCamlModuleName.class);
+        return OCamlPsiUtil.getModulePath(this, OCamlModuleName.class);
     }
 
     @NotNull

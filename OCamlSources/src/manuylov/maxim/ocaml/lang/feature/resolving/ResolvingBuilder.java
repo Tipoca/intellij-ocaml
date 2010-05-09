@@ -37,6 +37,8 @@ public class ResolvingBuilder {
     private boolean myResolvingFinished = false;
     private OCamlElement myLastParent = null;
     private ElementPosition myLastParentPosition = null;
+    private boolean myIsPervasivesProcessing = false;
+    private boolean myIsInPervasives = false;
     private int myModulePathOffset = 0;
 
     public ResolvingBuilder(@NotNull final OCamlResolvedReferencesProcessor processor, @NotNull final ResolvingContext context) {
@@ -71,6 +73,15 @@ public class ResolvingBuilder {
 
     public void setLastParentPosition(@NotNull final ElementPosition lastParentPosition) {
         myLastParentPosition = lastParentPosition;
+    }
+
+    public void pervasivesProcessingStarted() {
+        myIsPervasivesProcessing = true;
+        myIsInPervasives = false;
+    }
+
+    public void pervasivesProcessingFinished() {
+        myIsPervasivesProcessing = false;
     }
 
     public boolean canProcessElement() {
@@ -109,7 +120,8 @@ public class ResolvingBuilder {
     }
 
     private boolean processModuleStart(@NotNull final String moduleName) {
-        if (myModulePathOffset == 0 && moduleName.equals(OCamlResolvingUtil.PERVASIVES)) {
+        if (myIsPervasivesProcessing && !myIsInPervasives && myModulePathOffset == 0 && moduleName.equals(OCamlResolvingUtil.PERVASIVES)) {
+            myIsInPervasives = true;
             return true;
         }
 
@@ -123,7 +135,7 @@ public class ResolvingBuilder {
     }
 
     private void processModuleEnd(final String moduleName) {
-        if (moduleName.equals(OCamlResolvingUtil.PERVASIVES)) {
+        if (myIsPervasivesProcessing && myIsInPervasives && moduleName.equals(OCamlResolvingUtil.PERVASIVES)) {
             myModulePathOffset = 0;
             return;
         }

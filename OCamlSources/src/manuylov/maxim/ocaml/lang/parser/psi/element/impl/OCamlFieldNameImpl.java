@@ -25,7 +25,6 @@ import manuylov.maxim.ocaml.lang.feature.resolving.impl.BaseOCamlReference;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlFieldName;
-import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlFieldPath;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlModuleName;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlRecordFieldDefinition;
 import org.jetbrains.annotations.NotNull;
@@ -68,7 +67,7 @@ public class OCamlFieldNameImpl extends BaseOCamlReference implements OCamlField
 
     @NotNull
     public List<OCamlModuleName> getModulePath() {
-        return OCamlPsiUtil.getModulePath(this, OCamlFieldPath.class, OCamlModuleName.class);
+        return OCamlPsiUtil.getModulePath(this, OCamlModuleName.class);
     }
 
     @NotNull

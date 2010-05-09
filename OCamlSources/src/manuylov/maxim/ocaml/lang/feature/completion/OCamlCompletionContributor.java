@@ -20,19 +20,40 @@ package manuylov.maxim.ocaml.lang.feature.completion;
 
 import com.intellij.codeInsight.completion.CompletionContributor;
 import com.intellij.codeInsight.completion.CompletionInitializationContext;
+import com.intellij.codeInsight.completion.DummyIdentifierPatcher;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Maxim.Manuylov
- *         Date: 25.04.2010
+ *         Date: 09.05.2010
  */
-public class OCamlCompletionContributor extends CompletionContributor { //todo
+public class OCamlCompletionContributor extends CompletionContributor {
     public OCamlCompletionContributor() {
-        //extend();
+/*
+        extend(CompletionType.BASIC, psiElement(), new CompletionProvider<CompletionParameters>() {
+            @Override
+            protected void addCompletions(@NotNull final CompletionParameters parameters, @NotNull final ProcessingContext context, @NotNull final CompletionResultSet result) {
+                collectVariantsFor(result);
+            }
+        });
+*/
+        //todo
     }
+
+/*
+    private void collectVariantsFor(@NotNull final OCamlElementType type, @NotNull final CompletionResultSet result) {
+        final ASTNode astNode = OCamlASTNodeUtil.createLeaf(type, "");
+        final OCamlElement element = OCamlElementFactory.INSTANCE.createElement(astNode);
+        
+        final LookupElement[] variants = OCamlResolvingUtil.getVariants(new ResolvingContext(), );
+        for (final LookupElement variant : variants) {
+            result.addElement(variant);
+        }
+    }
+*/
 
     @Override
     public void beforeCompletion(@NotNull final CompletionInitializationContext context) {
-//        context.setFileCopyPatcher(new DummyIdentifierPatcher()); 
+        context.setFileCopyPatcher(new DummyIdentifierPatcher("lowerCase"));
     }
 }
