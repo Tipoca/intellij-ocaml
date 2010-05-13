@@ -43,7 +43,7 @@ public class OCamlTypeParameterDefinitionImpl extends BaseOCamlResolvedReference
 
     @Nullable
     public ASTNode getNameElement() {
-        return OCamlASTTreeUtil.findChildOfType(getNode(), OCamlElementTypes.TYPE_PARAMETER_NAME, false);
+        return OCamlASTTreeUtil.findChildOfType(getNode(), OCamlElementTypes.TYPE_PARAMETER_NAME);
     }
 
     @NotNull

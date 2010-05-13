@@ -16,27 +16,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/gpl-2.0.html>.
  */
 
-package manuylov.maxim.ocaml.lang.feature.refactoring.surround.surrounder;
-
-import org.jetbrains.annotations.NotNull;
+package manuylov.maxim.ocaml.lang.parser.psi.element;
 
 /**
  * @author Maxim.Manuylov
- *         Date: 08.05.2010
+ *         Date: 13.05.2010
  */
-public class OCamlWithTryExpressionSurrounder extends BaseOCamlSurrounderWithNavigation {
-    public OCamlWithTryExpressionSurrounder() {
-        super("try / with");
-    }
-
-    @NotNull
-    @Override
-    protected String doSurround(@NotNull final CharSequence text) {
-        return "try " + text + " with ";
-    }
-
-    @Override
-    protected int getOffset(@NotNull final String surroundedText) {
-        return surroundedText.length();
-    }
+public interface OCamlParenthesesModuleType extends OCamlModuleType {
 }

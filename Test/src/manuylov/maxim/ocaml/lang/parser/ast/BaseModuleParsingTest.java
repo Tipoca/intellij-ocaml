@@ -53,7 +53,7 @@ public abstract class BaseModuleParsingTest extends ParsingTestCase {
         doTest("module type m = M1.M2.m", myTree.getStringRepresentation());
     }
 
-    public void testModuleTypeInParenthess() throws Exception {
+    public void testModuleTypeInParentheses() throws Exception {
         myTree.addNode(3, getMainElement());
         myTree.addNode(4, MODULE_KEYWORD);
         myTree.addNode(4, TYPE_KEYWORD);
@@ -61,7 +61,7 @@ public abstract class BaseModuleParsingTest extends ParsingTestCase {
         myTree.addNode(5, MODULE_TYPE_NAME);
         myTree.addNode(6, LCFC_IDENTIFIER, "m");
         myTree.addNode(5, EQ);
-        myTree.addNode(5, PARENTHESES);
+        myTree.addNode(5, PARENTHESES_MODULE_TYPE);
         myTree.addNode(6, LPAR);
         myTree.addNode(6, MODULE_TYPE_NAME);
         myTree.addNode(7, UCFC_IDENTIFIER, "M");

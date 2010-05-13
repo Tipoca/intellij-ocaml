@@ -43,7 +43,7 @@ public class OCamlConstraintClassFieldDefinitionImpl extends BaseOCamlResolvedRe
 
     @Nullable
     public ASTNode getNameElement() {
-        return OCamlASTTreeUtil.findChildOfType(getNode(), OCamlElementTypes.INST_VAR_NAME, false);
+        return OCamlASTTreeUtil.findChildOfType(getNode(), OCamlElementTypes.INST_VAR_NAME);
     }
 
     @NotNull

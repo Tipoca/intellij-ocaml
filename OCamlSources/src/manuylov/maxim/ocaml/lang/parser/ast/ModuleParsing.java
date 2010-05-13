@@ -46,13 +46,13 @@ class ModuleParsing extends Parsing {
         } else if (builder.getTokenType() == OCamlTokenTypes.FUNCTOR_KEYWORD) {
             parseFunctorModuleExpression(builder);
         } else if (builder.getTokenType() == OCamlTokenTypes.LPAR) {
-            parseModuleExpressionInParenthess(builder, true);
+            parseModuleExpressionInParentheses(builder, true);
         } else {
             NameParsing.parseModulePath(builder);
         }
 
         while (builder.getTokenType() == OCamlTokenTypes.LPAR) {
-            parseModuleExpressionInParenthess(builder, false);
+            parseModuleExpressionInParentheses(builder, false);
 
             moduleExpressionMarker.done(OCamlElementTypes.FUNCTOR_APPLICATION_MODULE_EXPRESSION);
             moduleExpressionMarker = moduleExpressionMarker.precede();
@@ -65,7 +65,7 @@ class ModuleParsing extends Parsing {
         final PsiBuilder.Marker moduleTypeMarker = builder.mark();
 
         if (builder.getTokenType() == OCamlTokenTypes.LPAR) {
-            parseModuleTypeInParentess(builder);
+            parseModuleTypeInParentheses(builder);
         } else if (builder.getTokenType() == OCamlTokenTypes.FUNCTOR_KEYWORD) {
             parseFunctorModuleType(builder);
         } else if (builder.getTokenType() == OCamlTokenTypes.SIG_KEYWORD) {
@@ -88,10 +88,10 @@ class ModuleParsing extends Parsing {
 
     public static void parseModuleOrModuleTypeSpecification(@NotNull final PsiBuilder builder) {
         if (getNextTokenType(builder) == OCamlTokenTypes.TYPE_KEYWORD) {
-            parseModuleTypeSpecifiation(builder);
+            parseModuleTypeSpecification(builder);
         }
         else {
-            parseModuleSpecifiation(builder);
+            parseModuleSpecification(builder);
         }
     }
 
@@ -137,7 +137,7 @@ class ModuleParsing extends Parsing {
         moduleDefinitionMarker.done(OCamlElementTypes.MODULE_DEFINITION);
     }
 
-    private static void parseModuleExpressionInParenthess(@NotNull final PsiBuilder builder, final boolean parseModuleType) {
+    private static void parseModuleExpressionInParentheses(@NotNull final PsiBuilder builder, final boolean isParenthesesModuleExpression) {
         final PsiBuilder.Marker moduleExpressionMarker = builder.mark();
 
         checkMatches(builder, OCamlTokenTypes.LPAR, Strings.LPAR_EXPECTED);
@@ -146,7 +146,7 @@ class ModuleParsing extends Parsing {
 
         boolean colonParsed = false;
 
-        if (parseModuleType && ignore(builder, OCamlTokenTypes.COLON)) {
+        if (isParenthesesModuleExpression && ignore(builder, OCamlTokenTypes.COLON)) {
             colonParsed = true;
 
             parseModuleType(builder);
@@ -156,6 +156,9 @@ class ModuleParsing extends Parsing {
 
         if (colonParsed) {
             moduleExpressionMarker.done(OCamlElementTypes.MODULE_TYPE_CONSTRAINT_MODULE_EXPRESSION);
+        }
+        else if (isParenthesesModuleExpression) {
+            moduleExpressionMarker.done(OCamlElementTypes.PARENTHESES_MODULE_EXPRESSION);
         }
         else {
             moduleExpressionMarker.done(OCamlElementTypes.PARENTHESES);
@@ -302,7 +305,7 @@ class ModuleParsing extends Parsing {
         functorModuleTypeMarker.done(OCamlElementTypes.FUNCTOR_MODULE_TYPE);
     }
 
-    private static void parseModuleTypeInParentess(@NotNull final PsiBuilder builder) {
+    private static void parseModuleTypeInParentheses(@NotNull final PsiBuilder builder) {
         final PsiBuilder.Marker marker = builder.mark();
 
         checkMatches(builder, OCamlTokenTypes.LPAR, Strings.LPAR_EXPECTED);
@@ -311,10 +314,10 @@ class ModuleParsing extends Parsing {
 
         checkMatches(builder, OCamlTokenTypes.RPAR, Strings.RPAR_EXPECTED);
 
-        marker.done(OCamlElementTypes.PARENTHESES);
+        marker.done(OCamlElementTypes.PARENTHESES_MODULE_TYPE);
     }
 
-    private static void parseModuleSpecifiation(@NotNull final PsiBuilder builder) {
+    private static void parseModuleSpecification(@NotNull final PsiBuilder builder) {
         final PsiBuilder.Marker moduleSpecificationMarker = builder.mark();
 
         checkMatches(builder, OCamlTokenTypes.MODULE_KEYWORD, Strings.MODULE_KEYWORD_EXPECTED);
@@ -332,7 +335,7 @@ class ModuleParsing extends Parsing {
         moduleSpecificationMarker.done(OCamlElementTypes.MODULE_SPECIFICATION);
     }
 
-    private static void parseModuleTypeSpecifiation(@NotNull final PsiBuilder builder) {
+    private static void parseModuleTypeSpecification(@NotNull final PsiBuilder builder) {
         final PsiBuilder.Marker moduleTypeSpecificationMarker = builder.mark();
 
         checkMatches(builder, OCamlTokenTypes.MODULE_KEYWORD, Strings.MODULE_KEYWORD_EXPECTED);

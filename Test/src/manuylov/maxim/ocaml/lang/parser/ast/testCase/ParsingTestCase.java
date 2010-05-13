@@ -53,12 +53,12 @@ public abstract class ParsingTestCase extends Assert {
     }
 
     @NotNull
-    private String getTreeAsString(@NotNull final String text, final boolean ignoreParenthess, final boolean throwExceptionIfErrorElementOccured) throws Exception {
-        return treeToString(ParserTestUtil.buildTree(text, getParserDefinition()), ignoreParenthess, throwExceptionIfErrorElementOccured);
+    private String getTreeAsString(@NotNull final String text, final boolean ignoreParentheses, final boolean throwExceptionIfErrorElementOccurred) throws Exception {
+        return treeToString(ParserTestUtil.buildTree(text, getParserDefinition()), ignoreParentheses, throwExceptionIfErrorElementOccurred);
     }
 
     @NotNull
-    protected String getTreeIgnoringParenthess(@NotNull final String text) throws Exception {
+    protected String getTreeIgnoringParentheses(@NotNull final String text) throws Exception {
         return getTreeAsString(text, true, true);
     }
 
@@ -77,8 +77,8 @@ public abstract class ParsingTestCase extends Assert {
     }
 
     @NotNull
-    private String treeToString(@NotNull final ASTNode root, final boolean ignoreParenthess, final boolean throwExceptionIfErrorElementOccured) {
-        return TreeStringBuilder.buildTreeString(root, true, ignoreParenthess, throwExceptionIfErrorElementOccured).getStringRepresentation();
+    private String treeToString(@NotNull final ASTNode root, final boolean ignoreParentheses, final boolean throwExceptionIfErrorElementOccurred) {
+        return TreeStringBuilder.buildTreeString(root, true, ignoreParentheses, throwExceptionIfErrorElementOccurred).getStringRepresentation();
     }
 
     @NotNull

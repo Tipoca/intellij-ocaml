@@ -26,13 +26,7 @@ import org.jetbrains.annotations.Nullable;
  * @author Maxim.Manuylov
  *         Date: 21.03.2009
  */
-public interface OCamlParentheses extends OCamlExpression,
-                                          OCamlPattern,
-                                          OCamlTypeExpression,
-                                          OCamlClassExpression,
-                                          OCamlModuleExpression,
-                                          OCamlTypeParameters,
-                                          OCamlModuleType { //todo split to different classes (otherwise it can be bugs (e.g. in "surround with" when parentheses are selected))
+public interface OCamlParentheses extends OCamlElement {
     @Nullable
     <T extends OCamlElement> T getInternalElement(@NotNull final Class<T> type);
 }

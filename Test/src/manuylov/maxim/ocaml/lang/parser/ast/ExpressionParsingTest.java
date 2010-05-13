@@ -73,8 +73,8 @@ public class ExpressionParsingTest extends MLParsingTestCase {
         doTest("`_tag", myTree.getStringRepresentation());
     }
 
-    public void testExpressionInParenthess() throws Exception {
-        myTree.addNode(3, PARENTHESES);
+    public void testExpressionInParentheses() throws Exception {
+        myTree.addNode(3, PARENTHESES_EXPRESSION);
         myTree.addNode(4, LPAR);
         myTree.addNode(4, CONSTANT);
         myTree.addNode(5, INTEGER_LITERAL, "5");
@@ -84,7 +84,7 @@ public class ExpressionParsingTest extends MLParsingTestCase {
 
         recreateTree();
 
-        myTree.addNode(3, PARENTHESES);
+        myTree.addNode(3, PARENTHESES_EXPRESSION);
         myTree.addNode(4, BEGIN_KEYWORD);
         myTree.addNode(4, CONSTANT);
         myTree.addNode(5, INTEGER_LITERAL, "5");
@@ -740,23 +740,21 @@ public class ExpressionParsingTest extends MLParsingTestCase {
         myTree.addNode(8, LCFC_IDENTIFIER, "c");
         myTree.addNode(5, PARAMETER);
         myTree.addNode(6, TILDE);
-        myTree.addNode(6, PARENTHESES);
-        myTree.addNode(7, LPAR);
-        myTree.addNode(7, LABEL_DEFINITION);
-        myTree.addNode(8, LABEL_NAME);
-        myTree.addNode(9, LCFC_IDENTIFIER, "d");
-        myTree.addNode(7, RPAR);
+        myTree.addNode(6, LPAR);
+        myTree.addNode(6, LABEL_DEFINITION);
+        myTree.addNode(7, LABEL_NAME);
+        myTree.addNode(8, LCFC_IDENTIFIER, "d");
+        myTree.addNode(6, RPAR);
         myTree.addNode(5, PARAMETER);
         myTree.addNode(6, TILDE);
-        myTree.addNode(6, PARENTHESES);
-        myTree.addNode(7, LPAR);
-        myTree.addNode(7, LABEL_DEFINITION);
-        myTree.addNode(8, LABEL_NAME);
-        myTree.addNode(9, LCFC_IDENTIFIER, "e");
-        myTree.addNode(7, COLON);
-        myTree.addNode(7, TYPE_CONSTRUCTOR_NAME);
-        myTree.addNode(8, LCFC_IDENTIFIER, "int");
-        myTree.addNode(7, RPAR);
+        myTree.addNode(6, LPAR);
+        myTree.addNode(6, LABEL_DEFINITION);
+        myTree.addNode(7, LABEL_NAME);
+        myTree.addNode(8, LCFC_IDENTIFIER, "e");
+        myTree.addNode(6, COLON);
+        myTree.addNode(6, TYPE_CONSTRUCTOR_NAME);
+        myTree.addNode(7, LCFC_IDENTIFIER, "int");
+        myTree.addNode(6, RPAR);
         myTree.addNode(5, PARAMETER);
         myTree.addNode(6, TILDE);
         myTree.addNode(6, LABEL_DEFINITION);
@@ -772,48 +770,44 @@ public class ExpressionParsingTest extends MLParsingTestCase {
         myTree.addNode(8, LCFC_IDENTIFIER, "g");
         myTree.addNode(5, PARAMETER);
         myTree.addNode(6, QUEST);
-        myTree.addNode(6, PARENTHESES);
-        myTree.addNode(7, LPAR);
-        myTree.addNode(7, LABEL_DEFINITION);
-        myTree.addNode(8, LABEL_NAME);
-        myTree.addNode(9, LCFC_IDENTIFIER, "h");
-        myTree.addNode(7, RPAR);
+        myTree.addNode(6, LPAR);
+        myTree.addNode(6, LABEL_DEFINITION);
+        myTree.addNode(7, LABEL_NAME);
+        myTree.addNode(8, LCFC_IDENTIFIER, "h");
+        myTree.addNode(6, RPAR);
         myTree.addNode(5, PARAMETER);
         myTree.addNode(6, QUEST);
-        myTree.addNode(6, PARENTHESES);
-        myTree.addNode(7, LPAR);
-        myTree.addNode(7, LABEL_DEFINITION);
-        myTree.addNode(8, LABEL_NAME);
-        myTree.addNode(9, LCFC_IDENTIFIER, "i");
-        myTree.addNode(7, COLON);
-        myTree.addNode(7, TYPE_CONSTRUCTOR_NAME);
-        myTree.addNode(8, LCFC_IDENTIFIER, "int");
-        myTree.addNode(7, RPAR);
+        myTree.addNode(6, LPAR);
+        myTree.addNode(6, LABEL_DEFINITION);
+        myTree.addNode(7, LABEL_NAME);
+        myTree.addNode(8, LCFC_IDENTIFIER, "i");
+        myTree.addNode(6, COLON);
+        myTree.addNode(6, TYPE_CONSTRUCTOR_NAME);
+        myTree.addNode(7, LCFC_IDENTIFIER, "int");
+        myTree.addNode(6, RPAR);
         myTree.addNode(5, PARAMETER);
         myTree.addNode(6, QUEST);
-        myTree.addNode(6, PARENTHESES);
-        myTree.addNode(7, LPAR);
-        myTree.addNode(7, LABEL_DEFINITION);
-        myTree.addNode(8, LABEL_NAME);
-        myTree.addNode(9, LCFC_IDENTIFIER, "j");
-        myTree.addNode(7, EQ);
-        myTree.addNode(7, CONSTANT);
-        myTree.addNode(8, INTEGER_LITERAL, "0");
-        myTree.addNode(7, RPAR);
+        myTree.addNode(6, LPAR);
+        myTree.addNode(6, LABEL_DEFINITION);
+        myTree.addNode(7, LABEL_NAME);
+        myTree.addNode(8, LCFC_IDENTIFIER, "j");
+        myTree.addNode(6, EQ);
+        myTree.addNode(6, CONSTANT);
+        myTree.addNode(7, INTEGER_LITERAL, "0");
+        myTree.addNode(6, RPAR);
         myTree.addNode(5, PARAMETER);
         myTree.addNode(6, QUEST);
-        myTree.addNode(6, PARENTHESES);
-        myTree.addNode(7, LPAR);
-        myTree.addNode(7, LABEL_DEFINITION);
-        myTree.addNode(8, LABEL_NAME);
-        myTree.addNode(9, LCFC_IDENTIFIER, "k");
-        myTree.addNode(7, COLON);
-        myTree.addNode(7, TYPE_CONSTRUCTOR_NAME);
-        myTree.addNode(8, LCFC_IDENTIFIER, "int");
-        myTree.addNode(7, EQ);
-        myTree.addNode(7, CONSTANT);
-        myTree.addNode(8, INTEGER_LITERAL, "0");
-        myTree.addNode(7, RPAR);
+        myTree.addNode(6, LPAR);
+        myTree.addNode(6, LABEL_DEFINITION);
+        myTree.addNode(7, LABEL_NAME);
+        myTree.addNode(8, LCFC_IDENTIFIER, "k");
+        myTree.addNode(6, COLON);
+        myTree.addNode(6, TYPE_CONSTRUCTOR_NAME);
+        myTree.addNode(7, LCFC_IDENTIFIER, "int");
+        myTree.addNode(6, EQ);
+        myTree.addNode(6, CONSTANT);
+        myTree.addNode(7, INTEGER_LITERAL, "0");
+        myTree.addNode(6, RPAR);
         myTree.addNode(5, PARAMETER);
         myTree.addNode(6, QUEST);
         myTree.addNode(6, LABEL_DEFINITION);
@@ -828,56 +822,52 @@ public class ExpressionParsingTest extends MLParsingTestCase {
         myTree.addNode(7, LABEL_NAME);
         myTree.addNode(8, LCFC_IDENTIFIER, "m");
         myTree.addNode(6, COLON);
-        myTree.addNode(6, PARENTHESES);
-        myTree.addNode(7, LPAR);
-        myTree.addNode(7, VALUE_NAME_PATTERN);
-        myTree.addNode(8, LCFC_IDENTIFIER, "q");
-        myTree.addNode(7, RPAR);
+        myTree.addNode(6, LPAR);
+        myTree.addNode(6, VALUE_NAME_PATTERN);
+        myTree.addNode(7, LCFC_IDENTIFIER, "q");
+        myTree.addNode(6, RPAR);
         myTree.addNode(5, PARAMETER);
         myTree.addNode(6, QUEST);
         myTree.addNode(6, LABEL_DEFINITION);
         myTree.addNode(7, LABEL_NAME);
         myTree.addNode(8, LCFC_IDENTIFIER, "n");
         myTree.addNode(6, COLON);
-        myTree.addNode(6, PARENTHESES);
-        myTree.addNode(7, LPAR);
-        myTree.addNode(7, VALUE_NAME_PATTERN);
-        myTree.addNode(8, LCFC_IDENTIFIER, "q");
-        myTree.addNode(7, COLON);
-        myTree.addNode(7, TYPE_CONSTRUCTOR_NAME);
-        myTree.addNode(8, LCFC_IDENTIFIER, "int");
-        myTree.addNode(7, RPAR);
+        myTree.addNode(6, LPAR);
+        myTree.addNode(6, VALUE_NAME_PATTERN);
+        myTree.addNode(7, LCFC_IDENTIFIER, "q");
+        myTree.addNode(6, COLON);
+        myTree.addNode(6, TYPE_CONSTRUCTOR_NAME);
+        myTree.addNode(7, LCFC_IDENTIFIER, "int");
+        myTree.addNode(6, RPAR);
         myTree.addNode(5, PARAMETER);
         myTree.addNode(6, QUEST);
         myTree.addNode(6, LABEL_DEFINITION);
         myTree.addNode(7, LABEL_NAME);
         myTree.addNode(8, LCFC_IDENTIFIER, "o");
         myTree.addNode(6, COLON);
-        myTree.addNode(6, PARENTHESES);
-        myTree.addNode(7, LPAR);
-        myTree.addNode(7, VALUE_NAME_PATTERN);
-        myTree.addNode(8, LCFC_IDENTIFIER, "q");
-        myTree.addNode(7, EQ);
-        myTree.addNode(7, CONSTANT);
-        myTree.addNode(8, INTEGER_LITERAL, "0");
-        myTree.addNode(7, RPAR);
+        myTree.addNode(6, LPAR);
+        myTree.addNode(6, VALUE_NAME_PATTERN);
+        myTree.addNode(7, LCFC_IDENTIFIER, "q");
+        myTree.addNode(6, EQ);
+        myTree.addNode(6, CONSTANT);
+        myTree.addNode(7, INTEGER_LITERAL, "0");
+        myTree.addNode(6, RPAR);
         myTree.addNode(5, PARAMETER);
         myTree.addNode(6, QUEST);
         myTree.addNode(6, LABEL_DEFINITION);
         myTree.addNode(7, LABEL_NAME);
         myTree.addNode(8, LCFC_IDENTIFIER, "p");
         myTree.addNode(6, COLON);
-        myTree.addNode(6, PARENTHESES);
-        myTree.addNode(7, LPAR);
-        myTree.addNode(7, VALUE_NAME_PATTERN);
-        myTree.addNode(8, LCFC_IDENTIFIER, "q");
-        myTree.addNode(7, COLON);
-        myTree.addNode(7, TYPE_CONSTRUCTOR_NAME);
-        myTree.addNode(8, LCFC_IDENTIFIER, "int");
-        myTree.addNode(7, EQ);
-        myTree.addNode(7, CONSTANT);
-        myTree.addNode(8, INTEGER_LITERAL, "0");
-        myTree.addNode(7, RPAR);
+        myTree.addNode(6, LPAR);
+        myTree.addNode(6, VALUE_NAME_PATTERN);
+        myTree.addNode(7, LCFC_IDENTIFIER, "q");
+        myTree.addNode(6, COLON);
+        myTree.addNode(6, TYPE_CONSTRUCTOR_NAME);
+        myTree.addNode(7, LCFC_IDENTIFIER, "int");
+        myTree.addNode(6, EQ);
+        myTree.addNode(6, CONSTANT);
+        myTree.addNode(7, INTEGER_LITERAL, "0");
+        myTree.addNode(6, RPAR);
         myTree.addNode(5, EQ);
         myTree.addNode(5, CONSTANT);
         myTree.addNode(6, INTEGER_LITERAL, "0");
@@ -912,7 +902,7 @@ public class ExpressionParsingTest extends MLParsingTestCase {
         myTree.addNode(4, VALUE_NAME);
         myTree.addNode(5, LCFC_IDENTIFIER, "a");
         myTree.addNode(4, ARGUMENT);
-        myTree.addNode(5, PARENTHESES);
+        myTree.addNode(5, PARENTHESES_EXPRESSION);
         myTree.addNode(6, LPAR);
         myTree.addNode(6, UNARY_EXPRESSION);
         myTree.addNode(7, MINUS);
@@ -924,188 +914,188 @@ public class ExpressionParsingTest extends MLParsingTestCase {
     }
 
     public void testPriorities() throws Exception {
-        String expr1 = getTreeIgnoringParenthess("let a = let x = 0 in (); let y = 0 in y in (); let p = 0 in p");
-        String expr2 = getTreeIgnoringParenthess("let a = (let x = 0 in ((); (let y = 0 in y))) in ((); (let p = 0 in p))");
+        String expr1 = getTreeIgnoringParentheses("let a = let x = 0 in (); let y = 0 in y in (); let p = 0 in p");
+        String expr2 = getTreeIgnoringParentheses("let a = (let x = 0 in ((); (let y = 0 in y))) in ((); (let p = 0 in p))");
 
         assertEquals(expr1, expr2);
 
-        expr1 = getTreeIgnoringParenthess("match (); match 1 with _ -> 1 with _ -> (); match 1 with _ -> (); match 1 with _ -> 1");
-        expr2 = getTreeIgnoringParenthess("match ((); (match 1 with _ -> 1)) with _ -> ((); (match 1 with _ -> ((); (match 1 with _ -> 1))))");
+        expr1 = getTreeIgnoringParentheses("match (); match 1 with _ -> 1 with _ -> (); match 1 with _ -> (); match 1 with _ -> 1");
+        expr2 = getTreeIgnoringParentheses("match ((); (match 1 with _ -> 1)) with _ -> ((); (match 1 with _ -> ((); (match 1 with _ -> 1))))");
 
         assertEquals(expr1, expr2);
 
-        expr1 = getTreeIgnoringParenthess("try (); try () with _ -> () with _ -> (); try () with _ -> ()");
-        expr2 = getTreeIgnoringParenthess("try ((); (try () with _ -> ())) with _ -> ((); (try () with _ -> ()))");
+        expr1 = getTreeIgnoringParentheses("try (); try () with _ -> () with _ -> (); try () with _ -> ()");
+        expr2 = getTreeIgnoringParentheses("try ((); (try () with _ -> ())) with _ -> ((); (try () with _ -> ()))");
 
         assertEquals(expr1, expr2);
 
-        expr1 = getTreeIgnoringParenthess("fun a -> (); fun b -> 1");
-        expr2 = getTreeIgnoringParenthess("fun a -> ((); (fun b -> 1))");
+        expr1 = getTreeIgnoringParentheses("fun a -> (); fun b -> 1");
+        expr2 = getTreeIgnoringParentheses("fun a -> ((); (fun b -> 1))");
 
         assertEquals(expr1, expr2);
 
-        expr1 = getTreeIgnoringParenthess("function a -> (); function b -> 1");
-        expr2 = getTreeIgnoringParenthess("function a -> ((); (function b -> 1))");
+        expr1 = getTreeIgnoringParentheses("function a -> (); function b -> 1");
+        expr2 = getTreeIgnoringParentheses("function a -> ((); (function b -> 1))");
 
         assertEquals(expr1, expr2);
 
-        expr1 = getTreeIgnoringParenthess("if true then (); if true then () else (); if true then ()");
-        expr2 = getTreeIgnoringParenthess("(if true then ()); (if true then () else ()); (if true then ())");
+        expr1 = getTreeIgnoringParentheses("if true then (); if true then () else (); if true then ()");
+        expr2 = getTreeIgnoringParentheses("(if true then ()); (if true then () else ()); (if true then ())");
 
         assertEquals(expr1, expr2);
 
-        expr1 = getTreeIgnoringParenthess("for i = 0 to 1 do (); for i = 0 to 1 do () done done; for i = 0 to 1 do () done");
-        expr2 = getTreeIgnoringParenthess("(for i = 0 to 1 do ((); (for i = 0 to 1 do () done)) done); (for i = 0 to 1 do () done)");
+        expr1 = getTreeIgnoringParentheses("for i = 0 to 1 do (); for i = 0 to 1 do () done done; for i = 0 to 1 do () done");
+        expr2 = getTreeIgnoringParentheses("(for i = 0 to 1 do ((); (for i = 0 to 1 do () done)) done); (for i = 0 to 1 do () done)");
 
         assertEquals(expr1, expr2);
 
-        expr1 = getTreeIgnoringParenthess("while true do (); while true do () done done; while true do () done");
-        expr2 = getTreeIgnoringParenthess("(while true do ((); (while true do () done)) done); (while true do () done)");
+        expr1 = getTreeIgnoringParentheses("while true do (); while true do () done done; while true do () done");
+        expr2 = getTreeIgnoringParentheses("(while true do ((); (while true do () done)) done); (while true do () done)");
 
         assertEquals(expr1, expr2);
 
-        expr1 = getTreeIgnoringParenthess("if true then a <- 1;; if true then () else a <- 1;; if true then a := 1;; if true then () else a := 1");
-        expr2 = getTreeIgnoringParenthess("(if true then (a <- 1));; (if true then () else (a <- 1));; (if true then (a := 1));; (if true then () else (a := 1))");
+        expr1 = getTreeIgnoringParentheses("if true then a <- 1;; if true then () else a <- 1;; if true then a := 1;; if true then () else a := 1");
+        expr2 = getTreeIgnoringParentheses("(if true then (a <- 1));; (if true then () else (a <- 1));; (if true then (a := 1));; (if true then () else (a := 1))");
 
         assertEquals(expr1, expr2);
 
-        expr1 = getTreeIgnoringParenthess("for i = 0 to 1 do a <- 1 done;; for i = 0 to 1 do a := 1 done");
-        expr2 = getTreeIgnoringParenthess("(for i = 0 to 1 do (a <- 1) done);; (for i = 0 to 1 do (a := 1) done)");
+        expr1 = getTreeIgnoringParentheses("for i = 0 to 1 do a <- 1 done;; for i = 0 to 1 do a := 1 done");
+        expr2 = getTreeIgnoringParentheses("(for i = 0 to 1 do (a <- 1) done);; (for i = 0 to 1 do (a := 1) done)");
 
         assertEquals(expr1, expr2);
 
-        expr1 = getTreeIgnoringParenthess("while true do a <- 1 done;; while true do a := 1 done");
-        expr2 = getTreeIgnoringParenthess("(while true do (a <- 1) done);; (while true do (a := 1) done)");
+        expr1 = getTreeIgnoringParentheses("while true do a <- 1 done;; while true do a := 1 done");
+        expr2 = getTreeIgnoringParentheses("(while true do (a <- 1) done);; (while true do (a := 1) done)");
 
         assertEquals(expr1, expr2);
 
-        expr1 = getTreeIgnoringParenthess("a <- b, c;; a := b, c");
-        expr2 = getTreeIgnoringParenthess("(a <- (b, c));; (a := (b, c))");
+        expr1 = getTreeIgnoringParentheses("a <- b, c;; a := b, c");
+        expr2 = getTreeIgnoringParentheses("(a <- (b, c));; (a := (b, c))");
 
         assertEquals(expr1, expr2);
 
-        expr1 = getTreeIgnoringParenthess("a, b or c;; a, b || c");
-        expr2 = getTreeIgnoringParenthess("(a, (b or c));; (a, (b || c))");
+        expr1 = getTreeIgnoringParentheses("a, b or c;; a, b || c");
+        expr2 = getTreeIgnoringParentheses("(a, (b or c));; (a, (b || c))");
 
         assertEquals(expr1, expr2);
 
-        expr1 = getTreeIgnoringParenthess("a or b & c;; a or b && c;; a || b & c;; a || b && c");
-        expr2 = getTreeIgnoringParenthess("(a or (b & c));; (a or (b && c));; (a || (b & c));; (a || (b && c))");
+        expr1 = getTreeIgnoringParentheses("a or b & c;; a or b && c;; a || b & c;; a || b && c");
+        expr2 = getTreeIgnoringParentheses("(a or (b & c));; (a or (b && c));; (a || (b & c));; (a || (b && c))");
 
         assertEquals(expr1, expr2);
 
-        expr1 = getTreeIgnoringParenthess("a & b = c;; a & b =@ c;; a & b < c;; a & b <@ c;; a & b > c;; a & b >@ c;; a & b |@ c;; a & b &@ c;; a & b $ c;; a & b $@ c");
-        expr2 = getTreeIgnoringParenthess("(a & (b = c));; (a & (b =@ c));; (a & (b < c));; (a & (b <@ c));; (a & (b > c));; (a & (b >@ c));; (a & (b |@ c));; (a & (b &@ c));; (a & (b $ c));; (a & (b $@ c))");
+        expr1 = getTreeIgnoringParentheses("a & b = c;; a & b =@ c;; a & b < c;; a & b <@ c;; a & b > c;; a & b >@ c;; a & b |@ c;; a & b &@ c;; a & b $ c;; a & b $@ c");
+        expr2 = getTreeIgnoringParentheses("(a & (b = c));; (a & (b =@ c));; (a & (b < c));; (a & (b <@ c));; (a & (b > c));; (a & (b >@ c));; (a & (b |@ c));; (a & (b &@ c));; (a & (b $ c));; (a & (b $@ c))");
 
         assertEquals(expr1, expr2);
 
-        expr1 = getTreeIgnoringParenthess("a && b = c;; a && b =@ c;; a && b < c;; a && b <@ c;; a && b > c;; a && b >@ c;; a && b |@ c;; a && b &@ c;; a && b $ c;; a && b $@ c");
-        expr2 = getTreeIgnoringParenthess("(a && (b = c));; (a && (b =@ c));; (a && (b < c));; (a && (b <@ c));; (a && (b > c));; (a && (b >@ c));; (a && (b |@ c));; (a && (b &@ c));; (a && (b $ c));; (a && (b $@ c))");
+        expr1 = getTreeIgnoringParentheses("a && b = c;; a && b =@ c;; a && b < c;; a && b <@ c;; a && b > c;; a && b >@ c;; a && b |@ c;; a && b &@ c;; a && b $ c;; a && b $@ c");
+        expr2 = getTreeIgnoringParentheses("(a && (b = c));; (a && (b =@ c));; (a && (b < c));; (a && (b <@ c));; (a && (b > c));; (a && (b >@ c));; (a && (b |@ c));; (a && (b &@ c));; (a && (b $ c));; (a && (b $@ c))");
 
         assertEquals(expr1, expr2);
 
-        expr1 = getTreeIgnoringParenthess("a = b @ c;; a =@ b @ c;; a < b @ c;; a <@ b @ c;; a > b @ c;; a >@ b @ c;; a |@ b @ c;; a &@ b @ c;; a $ b @ c;; a $@ b @ c");
-        expr2 = getTreeIgnoringParenthess("(a = (b @ c));; (a =@ (b @ c));; (a < (b @ c));; (a <@ (b @ c));; (a > (b @ c));; (a >@ (b @ c));; (a |@ (b @ c));; (a &@ (b @ c));; (a $ (b @ c));; (a $@ (b @ c))");
+        expr1 = getTreeIgnoringParentheses("a = b @ c;; a =@ b @ c;; a < b @ c;; a <@ b @ c;; a > b @ c;; a >@ b @ c;; a |@ b @ c;; a &@ b @ c;; a $ b @ c;; a $@ b @ c");
+        expr2 = getTreeIgnoringParentheses("(a = (b @ c));; (a =@ (b @ c));; (a < (b @ c));; (a <@ (b @ c));; (a > (b @ c));; (a >@ (b @ c));; (a |@ (b @ c));; (a &@ (b @ c));; (a $ (b @ c));; (a $@ (b @ c))");
 
         assertEquals(expr1, expr2);
 
-        expr1 = getTreeIgnoringParenthess("a = b @@ c;; a =@ b @@ c;; a < b @@ c;; a <@ b @@ c;; a > b @@ c;; a >@ b @@ c;; a |@ b @@ c;; a &@ b @@ c;; a $ b @@ c;; a $@ b @@ c");
-        expr2 = getTreeIgnoringParenthess("(a = (b @@ c));; (a =@ (b @@ c));; (a < (b @@ c));; (a <@ (b @@ c));; (a > (b @@ c));; (a >@ (b @@ c));; (a |@ (b @@ c));; (a &@ (b @@ c));; (a $ (b @@ c));; (a $@ (b @@ c))");
+        expr1 = getTreeIgnoringParentheses("a = b @@ c;; a =@ b @@ c;; a < b @@ c;; a <@ b @@ c;; a > b @@ c;; a >@ b @@ c;; a |@ b @@ c;; a &@ b @@ c;; a $ b @@ c;; a $@ b @@ c");
+        expr2 = getTreeIgnoringParentheses("(a = (b @@ c));; (a =@ (b @@ c));; (a < (b @@ c));; (a <@ (b @@ c));; (a > (b @@ c));; (a >@ (b @@ c));; (a |@ (b @@ c));; (a &@ (b @@ c));; (a $ (b @@ c));; (a $@ (b @@ c))");
 
         assertEquals(expr1, expr2);
 
-        expr1 = getTreeIgnoringParenthess("a = b ^ c;; a =@ b ^ c;; a < b ^ c;; a <@ b ^ c;; a > b ^ c;; a >@ b ^ c;; a |@ b ^ c;; a &@ b ^ c;; a $ b ^ c;; a $@ b ^ c");
-        expr2 = getTreeIgnoringParenthess("(a = (b ^ c));; (a =@ (b ^ c));; (a < (b ^ c));; (a <@ (b ^ c));; (a > (b ^ c));; (a >@ (b ^ c));; (a |@ (b ^ c));; (a &@ (b ^ c));; (a $ (b ^ c));; (a $@ (b ^ c))");
+        expr1 = getTreeIgnoringParentheses("a = b ^ c;; a =@ b ^ c;; a < b ^ c;; a <@ b ^ c;; a > b ^ c;; a >@ b ^ c;; a |@ b ^ c;; a &@ b ^ c;; a $ b ^ c;; a $@ b ^ c");
+        expr2 = getTreeIgnoringParentheses("(a = (b ^ c));; (a =@ (b ^ c));; (a < (b ^ c));; (a <@ (b ^ c));; (a > (b ^ c));; (a >@ (b ^ c));; (a |@ (b ^ c));; (a &@ (b ^ c));; (a $ (b ^ c));; (a $@ (b ^ c))");
 
         assertEquals(expr1, expr2);
 
-        expr1 = getTreeIgnoringParenthess("a = b ^@ c;; a =@ b ^@ c;; a < b ^@ c;; a <@ b ^@ c;; a > b ^@ c;; a >@ b ^@ c;; a |@ b ^@ c;; a &@ b ^@ c;; a $ b ^@ c;; a $@ b ^@ c");
-        expr2 = getTreeIgnoringParenthess("(a = (b ^@ c));; (a =@ (b ^@ c));; (a < (b ^@ c));; (a <@ (b ^@ c));; (a > (b ^@ c));; (a >@ (b ^@ c));; (a |@ (b ^@ c));; (a &@ (b ^@ c));; (a $ (b ^@ c));; (a $@ (b ^@ c))");
+        expr1 = getTreeIgnoringParentheses("a = b ^@ c;; a =@ b ^@ c;; a < b ^@ c;; a <@ b ^@ c;; a > b ^@ c;; a >@ b ^@ c;; a |@ b ^@ c;; a &@ b ^@ c;; a $ b ^@ c;; a $@ b ^@ c");
+        expr2 = getTreeIgnoringParentheses("(a = (b ^@ c));; (a =@ (b ^@ c));; (a < (b ^@ c));; (a <@ (b ^@ c));; (a > (b ^@ c));; (a >@ (b ^@ c));; (a |@ (b ^@ c));; (a &@ (b ^@ c));; (a $ (b ^@ c));; (a $@ (b ^@ c))");
 
         assertEquals(expr1, expr2);
 
-        expr1 = getTreeIgnoringParenthess("a @ b :: c;; a @@ b :: c;; a ^ b :: c;; a ^@ b :: c");
-        expr2 = getTreeIgnoringParenthess("(a @ (b :: c));; (a @@ (b :: c));; (a ^ (b :: c));; (a ^@ (b :: c))");
+        expr1 = getTreeIgnoringParentheses("a @ b :: c;; a @@ b :: c;; a ^ b :: c;; a ^@ b :: c");
+        expr2 = getTreeIgnoringParentheses("(a @ (b :: c));; (a @@ (b :: c));; (a ^ (b :: c));; (a ^@ (b :: c))");
 
         assertEquals(expr1, expr2);
 
-        expr1 = getTreeIgnoringParenthess("a :: b + c;; a :: b +@ c;; a :: b - c;; a :: b -@ c");
-        expr2 = getTreeIgnoringParenthess("(a :: (b + c));; (a :: (b +@ c));; (a :: (b - c));; (a :: (b -@ c))");
+        expr1 = getTreeIgnoringParentheses("a :: b + c;; a :: b +@ c;; a :: b - c;; a :: b -@ c");
+        expr2 = getTreeIgnoringParentheses("(a :: (b + c));; (a :: (b +@ c));; (a :: (b - c));; (a :: (b -@ c))");
 
         assertEquals(expr1, expr2);
 
-        expr1 = getTreeIgnoringParenthess("a + b * c;; a + b *@ c;; a + b / c;; a + b /@ c;; a + b % c;; a + b %@ c;; a + b mod c;; a + b land c;; a + b lor c;; a + b lxor c");
-        expr2 = getTreeIgnoringParenthess("(a + (b * c));; (a + (b *@ c));; (a + (b / c));; (a + (b /@ c));; (a + (b % c));; (a + (b %@ c));; (a + (b mod c));; (a + (b land c));; (a + (b lor c));; (a + (b lxor c))");
+        expr1 = getTreeIgnoringParentheses("a + b * c;; a + b *@ c;; a + b / c;; a + b /@ c;; a + b % c;; a + b %@ c;; a + b mod c;; a + b land c;; a + b lor c;; a + b lxor c");
+        expr2 = getTreeIgnoringParentheses("(a + (b * c));; (a + (b *@ c));; (a + (b / c));; (a + (b /@ c));; (a + (b % c));; (a + (b %@ c));; (a + (b mod c));; (a + (b land c));; (a + (b lor c));; (a + (b lxor c))");
 
         assertEquals(expr1, expr2);
 
-        expr1 = getTreeIgnoringParenthess("a +@ b * c;; a +@ b *@ c;; a +@ b / c;; a +@ b /@ c;; a +@ b % c;; a +@ b %@ c;; a +@ b mod c;; a +@ b land c;; a +@ b lor c;; a +@ b lxor c");
-        expr2 = getTreeIgnoringParenthess("(a +@ (b * c));; (a +@ (b *@ c));; (a +@ (b / c));; (a +@ (b /@ c));; (a +@ (b % c));; (a +@ (b %@ c));; (a +@ (b mod c));; (a +@ (b land c));; (a +@ (b lor c));; (a +@ (b lxor c))");
+        expr1 = getTreeIgnoringParentheses("a +@ b * c;; a +@ b *@ c;; a +@ b / c;; a +@ b /@ c;; a +@ b % c;; a +@ b %@ c;; a +@ b mod c;; a +@ b land c;; a +@ b lor c;; a +@ b lxor c");
+        expr2 = getTreeIgnoringParentheses("(a +@ (b * c));; (a +@ (b *@ c));; (a +@ (b / c));; (a +@ (b /@ c));; (a +@ (b % c));; (a +@ (b %@ c));; (a +@ (b mod c));; (a +@ (b land c));; (a +@ (b lor c));; (a +@ (b lxor c))");
 
         assertEquals(expr1, expr2);
 
-        expr1 = getTreeIgnoringParenthess("a - b * c;; a - b *@ c;; a - b / c;; a - b /@ c;; a - b % c;; a - b %@ c;; a - b mod c;; a - b land c;; a - b lor c;; a - b lxor c");
-        expr2 = getTreeIgnoringParenthess("(a - (b * c));; (a - (b *@ c));; (a - (b / c));; (a - (b /@ c));; (a - (b % c));; (a - (b %@ c));; (a - (b mod c));; (a - (b land c));; (a - (b lor c));; (a - (b lxor c))");
+        expr1 = getTreeIgnoringParentheses("a - b * c;; a - b *@ c;; a - b / c;; a - b /@ c;; a - b % c;; a - b %@ c;; a - b mod c;; a - b land c;; a - b lor c;; a - b lxor c");
+        expr2 = getTreeIgnoringParentheses("(a - (b * c));; (a - (b *@ c));; (a - (b / c));; (a - (b /@ c));; (a - (b % c));; (a - (b %@ c));; (a - (b mod c));; (a - (b land c));; (a - (b lor c));; (a - (b lxor c))");
 
         assertEquals(expr1, expr2);
 
-        expr1 = getTreeIgnoringParenthess("a -@ b * c;; a -@ b *@ c;; a -@ b / c;; a -@ b /@ c;; a -@ b % c;; a -@ b %@ c;; a -@ b mod c;; a -@ b land c;; a -@ b lor c;; a -@ b lxor c");
-        expr2 = getTreeIgnoringParenthess("(a -@ (b * c));; (a -@ (b *@ c));; (a -@ (b / c));; (a -@ (b /@ c));; (a -@ (b % c));; (a -@ (b %@ c));; (a -@ (b mod c));; (a -@ (b land c));; (a -@ (b lor c));; (a -@ (b lxor c))");
+        expr1 = getTreeIgnoringParentheses("a -@ b * c;; a -@ b *@ c;; a -@ b / c;; a -@ b /@ c;; a -@ b % c;; a -@ b %@ c;; a -@ b mod c;; a -@ b land c;; a -@ b lor c;; a -@ b lxor c");
+        expr2 = getTreeIgnoringParentheses("(a -@ (b * c));; (a -@ (b *@ c));; (a -@ (b / c));; (a -@ (b /@ c));; (a -@ (b % c));; (a -@ (b %@ c));; (a -@ (b mod c));; (a -@ (b land c));; (a -@ (b lor c));; (a -@ (b lxor c))");
 
         assertEquals(expr1, expr2);
 
-        expr1 = getTreeIgnoringParenthess("a * b ** c;; a * b **@ c;; a * b lsl c;; a * b lsr c;; a * b asr c;; a *@ b ** c;; a *@ b **@ c;; a *@ b lsl c;; a *@ b lsr c;; a *@ b asr c");
-        expr2 = getTreeIgnoringParenthess("(a * (b ** c));; (a * (b **@ c));; (a * (b lsl c));; (a * (b lsr c));; (a * (b asr c));; (a *@ (b ** c));; (a *@ (b **@ c));; (a *@ (b lsl c));; (a *@ (b lsr c));; (a *@ (b asr c))");
+        expr1 = getTreeIgnoringParentheses("a * b ** c;; a * b **@ c;; a * b lsl c;; a * b lsr c;; a * b asr c;; a *@ b ** c;; a *@ b **@ c;; a *@ b lsl c;; a *@ b lsr c;; a *@ b asr c");
+        expr2 = getTreeIgnoringParentheses("(a * (b ** c));; (a * (b **@ c));; (a * (b lsl c));; (a * (b lsr c));; (a * (b asr c));; (a *@ (b ** c));; (a *@ (b **@ c));; (a *@ (b lsl c));; (a *@ (b lsr c));; (a *@ (b asr c))");
 
         assertEquals(expr1, expr2);
 
-        expr1 = getTreeIgnoringParenthess("a / b ** c;; a / b **@ c;; a / b lsl c;; a / b lsr c;; a / b asr c;; a /@ b ** c;; a /@ b **@ c;; a /@ b lsl c;; a /@ b lsr c;; a /@ b asr c");
-        expr2 = getTreeIgnoringParenthess("(a / (b ** c));; (a / (b **@ c));; (a / (b lsl c));; (a / (b lsr c));; (a / (b asr c));; (a /@ (b ** c));; (a /@ (b **@ c));; (a /@ (b lsl c));; (a /@ (b lsr c));; (a /@ (b asr c))");
+        expr1 = getTreeIgnoringParentheses("a / b ** c;; a / b **@ c;; a / b lsl c;; a / b lsr c;; a / b asr c;; a /@ b ** c;; a /@ b **@ c;; a /@ b lsl c;; a /@ b lsr c;; a /@ b asr c");
+        expr2 = getTreeIgnoringParentheses("(a / (b ** c));; (a / (b **@ c));; (a / (b lsl c));; (a / (b lsr c));; (a / (b asr c));; (a /@ (b ** c));; (a /@ (b **@ c));; (a /@ (b lsl c));; (a /@ (b lsr c));; (a /@ (b asr c))");
 
         assertEquals(expr1, expr2);
 
-        expr1 = getTreeIgnoringParenthess("a % b ** c;; a % b **@ c;; a % b lsl c;; a % b lsr c;; a % b asr c;; a %@ b ** c;; a %@ b **@ c;; a %@ b lsl c;; a %@ b lsr c;; a %@ b asr c");
-        expr2 = getTreeIgnoringParenthess("(a % (b ** c));; (a % (b **@ c));; (a % (b lsl c));; (a % (b lsr c));; (a % (b asr c));; (a %@ (b ** c));; (a %@ (b **@ c));; (a %@ (b lsl c));; (a %@ (b lsr c));; (a %@ (b asr c))");
+        expr1 = getTreeIgnoringParentheses("a % b ** c;; a % b **@ c;; a % b lsl c;; a % b lsr c;; a % b asr c;; a %@ b ** c;; a %@ b **@ c;; a %@ b lsl c;; a %@ b lsr c;; a %@ b asr c");
+        expr2 = getTreeIgnoringParentheses("(a % (b ** c));; (a % (b **@ c));; (a % (b lsl c));; (a % (b lsr c));; (a % (b asr c));; (a %@ (b ** c));; (a %@ (b **@ c));; (a %@ (b lsl c));; (a %@ (b lsr c));; (a %@ (b asr c))");
 
         assertEquals(expr1, expr2);
 
-        expr1 = getTreeIgnoringParenthess("a mod b ** c;; a mod b **@ c;; a mod b lsl c;; a mod b lsr c;; a mod b asr c");
-        expr2 = getTreeIgnoringParenthess("(a mod (b ** c));; (a mod (b **@ c));; (a mod (b lsl c));; (a mod (b lsr c));; (a mod (b asr c))");
+        expr1 = getTreeIgnoringParentheses("a mod b ** c;; a mod b **@ c;; a mod b lsl c;; a mod b lsr c;; a mod b asr c");
+        expr2 = getTreeIgnoringParentheses("(a mod (b ** c));; (a mod (b **@ c));; (a mod (b lsl c));; (a mod (b lsr c));; (a mod (b asr c))");
 
         assertEquals(expr1, expr2);
 
-        expr1 = getTreeIgnoringParenthess("a land b ** c;; a land b **@ c;; a land b lsl c;; a land b lsr c;; a land b asr c");
-        expr2 = getTreeIgnoringParenthess("(a land (b ** c));; (a land (b **@ c));; (a land (b lsl c));; (a land (b lsr c));; (a land (b asr c))");
+        expr1 = getTreeIgnoringParentheses("a land b ** c;; a land b **@ c;; a land b lsl c;; a land b lsr c;; a land b asr c");
+        expr2 = getTreeIgnoringParentheses("(a land (b ** c));; (a land (b **@ c));; (a land (b lsl c));; (a land (b lsr c));; (a land (b asr c))");
 
         assertEquals(expr1, expr2);
 
-        expr1 = getTreeIgnoringParenthess("a lor b ** c;; a lor b **@ c;; a lor b lsl c;; a lor b lsr c;; a lor b asr c");
-        expr2 = getTreeIgnoringParenthess("(a lor (b ** c));; (a lor (b **@ c));; (a lor (b lsl c));; (a lor (b lsr c));; (a lor (b asr c))");
+        expr1 = getTreeIgnoringParentheses("a lor b ** c;; a lor b **@ c;; a lor b lsl c;; a lor b lsr c;; a lor b asr c");
+        expr2 = getTreeIgnoringParentheses("(a lor (b ** c));; (a lor (b **@ c));; (a lor (b lsl c));; (a lor (b lsr c));; (a lor (b asr c))");
 
         assertEquals(expr1, expr2);
 
-        expr1 = getTreeIgnoringParenthess("a lxor b ** c;; a lxor b **@ c;; a lxor b lsl c;; a lxor b lsr c;; a lxor b asr c");
-        expr2 = getTreeIgnoringParenthess("(a lxor (b ** c));; (a lxor (b **@ c));; (a lxor (b lsl c));; (a lxor (b lsr c));; (a lxor (b asr c))");
+        expr1 = getTreeIgnoringParentheses("a lxor b ** c;; a lxor b **@ c;; a lxor b lsl c;; a lxor b lsr c;; a lxor b asr c");
+        expr2 = getTreeIgnoringParentheses("(a lxor (b ** c));; (a lxor (b **@ c));; (a lxor (b lsl c));; (a lxor (b lsr c));; (a lxor (b asr c))");
 
         assertEquals(expr1, expr2);
 
-        expr1 = getTreeIgnoringParenthess("-a ** b;; -.a ** b;; -a lsl b;; -.a lsl b;; -a lsr b;; -.a lsr b;; -a asr b;; -.a asr b");
-        expr2 = getTreeIgnoringParenthess("((-a) ** b);; ((-.a) ** b);; ((-a) lsl b);; ((-.a) lsl b);; ((-a) lsr b);; ((-.a) lsr b);; ((-a) asr b);; ((-.a) asr b)");
+        expr1 = getTreeIgnoringParentheses("-a ** b;; -.a ** b;; -a lsl b;; -.a lsl b;; -a lsr b;; -.a lsr b;; -a asr b;; -.a asr b");
+        expr2 = getTreeIgnoringParentheses("((-a) ** b);; ((-.a) ** b);; ((-a) lsl b);; ((-.a) lsl b);; ((-a) lsr b);; ((-.a) lsr b);; ((-a) asr b);; ((-.a) asr b)");
 
         assertEquals(expr1, expr2);
 
-        expr1 = getTreeIgnoringParenthess("-a b;; -Constr d;; -assert a;; -lazy a");
-        expr2 = getTreeIgnoringParenthess("(-(a b));; (-(Constr d));; (-(assert a));; (-(lazy a))");
+        expr1 = getTreeIgnoringParentheses("-a b;; -Constr d;; -assert a;; -lazy a");
+        expr2 = getTreeIgnoringParentheses("(-(a b));; (-(Constr d));; (-(assert a));; (-(lazy a))");
 
         assertEquals(expr1, expr2);
 
-        expr1 = getTreeIgnoringParenthess("a b.c;; a b.(c);; a b.[c];; A b.c;; A b.(c);; A b.[c];; assert b.c;; assert b.(c);; assert b.[c];; lazy b.c;; lazy b.(c);; lazy b.[c]");
-        expr2 = getTreeIgnoringParenthess("(a (b.c));; (a (b.(c)));; (a (b.[c]));; (A (b.c));; (A (b.(c)));; (A (b.[c]));; (assert (b.c));; (assert (b.(c)));; (assert (b.[c]));; (lazy (b.c));; (lazy (b.(c)));; (lazy (b.[c]))");
+        expr1 = getTreeIgnoringParentheses("a b.c;; a b.(c);; a b.[c];; A b.c;; A b.(c);; A b.[c];; assert b.c;; assert b.(c);; assert b.[c];; lazy b.c;; lazy b.(c);; lazy b.[c]");
+        expr2 = getTreeIgnoringParentheses("(a (b.c));; (a (b.(c)));; (a (b.[c]));; (A (b.c));; (A (b.(c)));; (A (b.[c]));; (assert (b.c));; (assert (b.(c)));; (assert (b.[c]));; (lazy (b.c));; (lazy (b.(c)));; (lazy (b.[c]))");
 
         assertEquals(expr1, expr2);
 
-        expr1 = getTreeIgnoringParenthess("!a.b;; !@a.b;; ?@a.b;; ~@a.b;; !a.(b);; !@a.(b);; ?@a.(b);; ~@a.(b);; !a.[b];; !@a.[b];; ?@a.[b];; ~@a.[b]");
-        expr2 = getTreeIgnoringParenthess("((!a).b);; ((!@a).b);; ((?@a).b);; ((~@a).b);; ((!a).(b));; ((!@a).(b));; ((?@a).(b));; ((~@a).(b));; ((!a).[b]);; ((!@a).[b]);; ((?@a).[b]);; ((~@a).[b])");
+        expr1 = getTreeIgnoringParentheses("!a.b;; !@a.b;; ?@a.b;; ~@a.b;; !a.(b);; !@a.(b);; ?@a.(b);; ~@a.(b);; !a.[b];; !@a.[b];; ?@a.[b];; ~@a.[b]");
+        expr2 = getTreeIgnoringParentheses("((!a).b);; ((!@a).b);; ((?@a).b);; ((~@a).b);; ((!a).(b));; ((!@a).(b));; ((?@a).(b));; ((~@a).(b));; ((!a).[b]);; ((!@a).[b]);; ((?@a).[b]);; ((~@a).[b])");
 
         assertEquals(expr1, expr2);
     }
@@ -1223,15 +1213,15 @@ public class ExpressionParsingTest extends MLParsingTestCase {
     }
 
     private void doTestLeftAssociativity(@NotNull final String operator) throws Exception {
-        final String expr1 = getTreeIgnoringParenthess("a " + operator + " b " + operator + " c");
-        final String expr2 = getTreeIgnoringParenthess("((a " + operator + " b) " + operator + " c)");
+        final String expr1 = getTreeIgnoringParentheses("a " + operator + " b " + operator + " c");
+        final String expr2 = getTreeIgnoringParentheses("((a " + operator + " b) " + operator + " c)");
 
         assertEquals(expr1, expr2);
     }
 
     private void doTestRightAssociativity(@NotNull final String operator) throws Exception {
-        final String expr1 = getTreeIgnoringParenthess("a " + operator + " b " + operator + " c");
-        final String expr2 = getTreeIgnoringParenthess("(a " + operator + " (b " + operator + " c))");
+        final String expr1 = getTreeIgnoringParentheses("a " + operator + " b " + operator + " c");
+        final String expr2 = getTreeIgnoringParentheses("(a " + operator + " (b " + operator + " c))");
 
         assertEquals(expr1, expr2);
     }

@@ -19,40 +19,20 @@
 package manuylov.maxim.ocaml.lang.parser.psi.element.impl;
 
 import com.intellij.lang.ASTNode;
-import manuylov.maxim.ocaml.lang.feature.resolving.NameType;
-import manuylov.maxim.ocaml.lang.feature.resolving.impl.BaseOCamlResolvedReference;
-import manuylov.maxim.ocaml.lang.parser.ast.element.OCamlElementTypes;
-import manuylov.maxim.ocaml.lang.parser.ast.util.OCamlASTTreeUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
-import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlConstraintClassFieldSpecification;
+import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlParenthesesTypeExpression;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Maxim.Manuylov
- *         Date: 21.03.2009
+ *         Date: 13.05.2010
  */
-public class OCamlConstraintClassFieldSpecificationImpl extends BaseOCamlResolvedReference implements OCamlConstraintClassFieldSpecification {
-    public OCamlConstraintClassFieldSpecificationImpl(@NotNull final ASTNode node) {
+public class OCamlParenthesesTypeExpressionImpl extends OCamlParenthesesImpl implements OCamlParenthesesTypeExpression {
+    public OCamlParenthesesTypeExpressionImpl(@NotNull final ASTNode node) {
         super(node);
     }
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {
-        visitor.visitConstraintClassFieldSpecification(this);
-    }
-
-    @Nullable
-    public ASTNode getNameElement() {
-        return OCamlASTTreeUtil.findChildOfType(getNode(), OCamlElementTypes.INST_VAR_NAME);
-    }
-
-    @NotNull
-    public NameType getNameType() {
-        return NameType.LowerCase;
-    }
-
-    @NotNull
-    public String getDescription() {
-        return "field";
+        visitor.visitParenthesesTypeExpression(this);
     }
 }

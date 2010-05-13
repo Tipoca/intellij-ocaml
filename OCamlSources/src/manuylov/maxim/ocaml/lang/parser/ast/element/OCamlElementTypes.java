@@ -79,6 +79,8 @@ public interface OCamlElementTypes {
     IElementType TAG_SPEC = new OCamlElementType("TAG_SPEC");
     IElementType TAG_SPEC_FULL = new OCamlElementType("TAG_SPEC_FULL");
     IElementType POLY_TYPE_EXPRESSION = new OCamlElementType("POLY_TYPE_EXPRESSION");
+    IElementType PARENTHESES_TYPE_EXPRESSION = new OCamlElementType("PARENTHESES_TYPE_EXPRESSION");
+    IElementType PARENTHESES_TYPE_PARAMETERS = new OCamlElementType("PARENTHESES_TYPE_PARAMETERS");
 
     /* } */
 
@@ -107,6 +109,7 @@ public interface OCamlElementTypes {
     IElementType CLASS_SPECIFICATION = new OCamlElementType("CLASS_SPECIFICATION");
     IElementType CLASS_SPECIFICATION_BINDING = new OCamlElementType("CLASS_SPECIFICATION_BINDING");
     IElementType CLASS_TYPE_CONSTRAINT = new OCamlElementType("CLASS_TYPE_CONSTRAINT");
+    IElementType PARENTHESES_CLASS_EXPRESSION = new OCamlElementType("PARENTHESES_CLASS_EXPRESSION");
 
     /* } */
 
@@ -134,6 +137,8 @@ public interface OCamlElementTypes {
     IElementType FILE_MODULE_EXPRESSION = new OCamlElementType("FILE_MODULE_EXPRESSION");
     IElementType FILE_MODULE_SPECIFICATION_BINDING = new OCamlElementType("FILE_MODULE_SPECIFICATION_BINDING");
     IElementType FILE_MODULE_TYPE = new OCamlElementType("FILE_MODULE_TYPE");
+    IElementType PARENTHESES_MODULE_EXPRESSION = new OCamlElementType("PARENTHESES_MODULE_EXPRESSION");
+    IElementType PARENTHESES_MODULE_TYPE = new OCamlElementType("PARENTHESES_MODULE_TYPE");
 
     /* } */
 
@@ -208,6 +213,7 @@ public interface OCamlElementTypes {
     IElementType ARGUMENT = new OCamlElementType("ARGUMENT");
     IElementType PARAMETER = new OCamlElementType("PARAMETER");
     IElementType LABEL_DEFINITION = new OCamlElementType("LABEL_DEFINITION");
+    IElementType PARENTHESES_EXPRESSION = new OCamlElementType("PARENTHESES_EXPRESSION");
 
     /* } */
 
@@ -227,6 +233,7 @@ public interface OCamlElementTypes {
     IElementType RECORD_PATTERN = new OCamlElementType("RECORD_PATTERN");
     IElementType TYPE_CONSTRAINT_PATTERN = new OCamlElementType("TYPE_CONSTRAINT_PATTERN");
     IElementType CHAR_RANGE_PATTERN = new OCamlElementType("CHAR_RANGE_PATTERN");
+    IElementType PARENTHESES_PATTERN = new OCamlElementType("PARENTHESES_PATTERN");
 
     /* } */
 

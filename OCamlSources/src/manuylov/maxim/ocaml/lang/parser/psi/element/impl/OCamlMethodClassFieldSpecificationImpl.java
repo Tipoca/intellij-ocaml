@@ -43,7 +43,7 @@ public class OCamlMethodClassFieldSpecificationImpl extends BaseOCamlResolvedRef
 
     @Nullable
     public ASTNode getNameElement() {
-        return OCamlASTTreeUtil.findChildOfType(getNode(), OCamlElementTypes.METHOD_NAME, false);
+        return OCamlASTTreeUtil.findChildOfType(getNode(), OCamlElementTypes.METHOD_NAME);
     }
 
     @NotNull

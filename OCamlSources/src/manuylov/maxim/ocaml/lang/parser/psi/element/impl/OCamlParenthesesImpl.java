@@ -54,6 +54,7 @@ public class OCamlParenthesesImpl extends BaseOCamlElement implements OCamlParen
     }
 
 */
+
     @Override
     public boolean processDeclarations(@NotNull final ResolvingBuilder builder) {
         return OCamlDeclarationsUtil.processDeclarationsInChildren(builder, this, OCamlElement.class);

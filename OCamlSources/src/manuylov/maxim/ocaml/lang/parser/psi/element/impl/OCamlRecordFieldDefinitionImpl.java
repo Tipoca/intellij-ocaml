@@ -43,7 +43,7 @@ public class OCamlRecordFieldDefinitionImpl extends BaseOCamlResolvedReference i
 
     @Nullable
     public ASTNode getNameElement() {
-        return OCamlASTTreeUtil.findChildOfType(getNode(), OCamlElementTypes.FIELD_NAME, false);
+        return OCamlASTTreeUtil.findChildOfType(getNode(), OCamlElementTypes.FIELD_NAME);
     }
 
     @NotNull

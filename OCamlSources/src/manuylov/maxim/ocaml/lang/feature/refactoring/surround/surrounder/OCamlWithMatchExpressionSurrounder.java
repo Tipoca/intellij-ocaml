@@ -26,7 +26,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class OCamlWithMatchExpressionSurrounder extends BaseOCamlSurrounderWithNavigation {
     public OCamlWithMatchExpressionSurrounder() {
-        super("match");
+        super("match / with");
     }
 
     @NotNull

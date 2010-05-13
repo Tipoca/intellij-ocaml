@@ -45,7 +45,7 @@ public class OCamlFoldingBuilder implements FoldingBuilder {
     private void appendDescriptors(@NotNull final ASTNode node, @NotNull final Document document, @NotNull final List<FoldingDescriptor> descriptors) {
         final ASTNode firstChildNode = node.getFirstChildNode();
 
-        if (node.getElementType() == OCamlElementTypes.PARENTHESES && firstChildNode != null && firstChildNode.getElementType() == OCamlTokenTypes.BEGIN_KEYWORD) {
+        if (node.getElementType() == OCamlElementTypes.PARENTHESES_EXPRESSION && firstChildNode != null && firstChildNode.getElementType() == OCamlTokenTypes.BEGIN_KEYWORD) {
             descriptors.add(new FoldingDescriptor(node, node.getTextRange()));
         }
         else if (node.getElementType() == OCamlElementTypes.STRUCT_END_MODULE_EXPRESSION) {
@@ -79,7 +79,7 @@ public class OCamlFoldingBuilder implements FoldingBuilder {
 
     @Nullable
     public String getPlaceholderText(@NotNull final ASTNode node) {
-        if (node.getElementType() == OCamlElementTypes.PARENTHESES) {
+        if (node.getElementType() == OCamlElementTypes.PARENTHESES_EXPRESSION) {
             final ASTNode firstChildNode = node.getFirstChildNode();
             return firstChildNode != null && firstChildNode.getElementType() == OCamlTokenTypes.BEGIN_KEYWORD ? "begin ... end" : null;
         }

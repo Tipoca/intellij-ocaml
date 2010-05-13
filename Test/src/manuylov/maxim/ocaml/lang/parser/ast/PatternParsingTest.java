@@ -153,9 +153,9 @@ public class PatternParsingTest extends MLParsingTestCase {
         doTest("match a with 1 as a -> 0", myTree.getStringRepresentation());
     }
 
-    public void testPatternInParenthess() throws Exception {
+    public void testPatternInParentheses() throws Exception {
         addStartNodes();
-        myTree.addNode(5, PARENTHESES);
+        myTree.addNode(5, PARENTHESES_PATTERN);
         myTree.addNode(6, LPAR);
         myTree.addNode(6, CONSTANT);
         myTree.addNode(7, INTEGER_LITERAL, "1");
@@ -323,50 +323,50 @@ public class PatternParsingTest extends MLParsingTestCase {
     }
 
     public void testPriorities() throws Exception {
-        String text1 = getTreeIgnoringParenthess("match a with a | b as c -> 0");
-        String text2 = getTreeIgnoringParenthess("match a with ((a | b) as c) -> 0");
+        String text1 = getTreeIgnoringParentheses("match a with a | b as c -> 0");
+        String text2 = getTreeIgnoringParentheses("match a with ((a | b) as c) -> 0");
 
         assertEquals(text1, text2);
 
-        text1 = getTreeIgnoringParenthess("match a with a | b, c -> 0");
-        text2 = getTreeIgnoringParenthess("match a with (a | (b, c)) -> 0");
+        text1 = getTreeIgnoringParentheses("match a with a | b, c -> 0");
+        text2 = getTreeIgnoringParentheses("match a with (a | (b, c)) -> 0");
 
         assertEquals(text1, text2);
 
-        text1 = getTreeIgnoringParenthess("match a with a, b | c -> 0");
-        text2 = getTreeIgnoringParenthess("match a with ((a, b) | c) -> 0");
+        text1 = getTreeIgnoringParentheses("match a with a, b | c -> 0");
+        text2 = getTreeIgnoringParentheses("match a with ((a, b) | c) -> 0");
 
         assertEquals(text1, text2);
 
-        text1 = getTreeIgnoringParenthess("match a with a, b :: c -> 0");
-        text2 = getTreeIgnoringParenthess("match a with (a, (b :: c)) -> 0");
+        text1 = getTreeIgnoringParentheses("match a with a, b :: c -> 0");
+        text2 = getTreeIgnoringParentheses("match a with (a, (b :: c)) -> 0");
 
         assertEquals(text1, text2);
 
-        text1 = getTreeIgnoringParenthess("match a with a :: b, c -> 0");
-        text2 = getTreeIgnoringParenthess("match a with ((a :: b), c) -> 0");
+        text1 = getTreeIgnoringParentheses("match a with a :: b, c -> 0");
+        text2 = getTreeIgnoringParentheses("match a with ((a :: b), c) -> 0");
 
         assertEquals(text1, text2);
 
-        text1 = getTreeIgnoringParenthess("match a with a :: Constr b -> 0");
-        text2 = getTreeIgnoringParenthess("match a with (a :: (Constr b)) -> 0");
+        text1 = getTreeIgnoringParentheses("match a with a :: Constr b -> 0");
+        text2 = getTreeIgnoringParentheses("match a with (a :: (Constr b)) -> 0");
 
         assertEquals(text1, text2);
 
-        text1 = getTreeIgnoringParenthess("match a with Constr a :: b -> 0");
-        text2 = getTreeIgnoringParenthess("match a with ((Constr a) :: b) -> 0");
+        text1 = getTreeIgnoringParentheses("match a with Constr a :: b -> 0");
+        text2 = getTreeIgnoringParentheses("match a with ((Constr a) :: b) -> 0");
 
         assertEquals(text1, text2);
     }
 
     public void testAssociativity() throws Exception {
-        String text1 = getTreeIgnoringParenthess("match a with a | b | c -> 0");
-        String text2 = getTreeIgnoringParenthess("match a with ((a | b) | c) -> 0");
+        String text1 = getTreeIgnoringParentheses("match a with a | b | c -> 0");
+        String text2 = getTreeIgnoringParentheses("match a with ((a | b) | c) -> 0");
 
         assertEquals(text1, text2);
 
-        text1 = getTreeIgnoringParenthess("match a with a :: b :: c -> 0");
-        text2 = getTreeIgnoringParenthess("match a with (a :: (b :: c)) -> 0");
+        text1 = getTreeIgnoringParentheses("match a with a :: b :: c -> 0");
+        text2 = getTreeIgnoringParentheses("match a with (a :: (b :: c)) -> 0");
 
         assertEquals(text1, text2);
     }

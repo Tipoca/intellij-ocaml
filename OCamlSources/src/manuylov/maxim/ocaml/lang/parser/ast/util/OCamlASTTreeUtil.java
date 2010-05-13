@@ -21,7 +21,6 @@ package manuylov.maxim.ocaml.lang.parser.ast.util;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.tree.IElementType;
 import com.sun.istack.internal.NotNull;
-import manuylov.maxim.ocaml.lang.parser.ast.element.OCamlElementTypes;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -35,27 +34,20 @@ public class OCamlASTTreeUtil {
     }
 
     @Nullable
-    public static ASTNode findChildOfType(@NotNull final ASTNode parent, @NotNull final IElementType type, final boolean findWithinTheParentheses) {
-        return findChildOfType(parent, type, findWithinTheParentheses, null);
-    }
-
-    @Nullable
-    public static ASTNode findChildOfType(@NotNull final ASTNode parent, @NotNull final IElementType type, final boolean findWithinTheParentheses, @Nullable final IElementType terminator) {
+    public static ASTNode findChildOfType(@NotNull final ASTNode parent, @NotNull final IElementType type) {
         final ASTNode[] children = parent.getChildren(null);
 
         for (final ASTNode child : children) {
-            if (child.getElementType() == terminator) {
+            final IElementType elementType = child.getElementType();
+            if (elementType == null) {
                 break;
             }
-            else if (child.getElementType() == type) {
+            else if (elementType == type) {
                 return child;
-            }
-            else if (findWithinTheParentheses && child.getElementType() == OCamlElementTypes.PARENTHESES) {
-                final ASTNode childOfChild = findChildOfType(child, type, findWithinTheParentheses, terminator);
-                if (childOfChild != null) return childOfChild;
             }
         }
 
         return null;
     }
+
 }

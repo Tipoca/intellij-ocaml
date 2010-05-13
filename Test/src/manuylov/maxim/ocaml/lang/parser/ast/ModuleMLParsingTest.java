@@ -203,14 +203,14 @@ public class ModuleMLParsingTest extends BaseModuleParsingTest {
         doTest("module MyModule = ModuleName(ModuleName2)", myTree.getStringRepresentation());
     }
 
-    public void testParenthessedExpression() throws Exception {
+    public void testParenthesesedExpression() throws Exception {
         myTree.addNode(3, MODULE_DEFINITION);
         myTree.addNode(4, MODULE_KEYWORD);
         myTree.addNode(4, MODULE_DEFINITION_BINDING);
         myTree.addNode(5, MODULE_NAME);
         myTree.addNode(6, UCFC_IDENTIFIER, "MyModule");
         myTree.addNode(5, EQ);
-        myTree.addNode(5, PARENTHESES);
+        myTree.addNode(5, PARENTHESES_MODULE_EXPRESSION);
         myTree.addNode(6, LPAR);
         myTree.addNode(6, MODULE_NAME);
         myTree.addNode(7, UCFC_IDENTIFIER, "ModuleName");

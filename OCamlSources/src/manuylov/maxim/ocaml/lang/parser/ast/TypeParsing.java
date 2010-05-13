@@ -194,7 +194,7 @@ class TypeParsing extends Parsing {
 
             checkMatches(builder, OCamlTokenTypes.RPAR, Strings.RPAR_EXPECTED);
 
-            marker.done(OCamlElementTypes.PARENTHESES);
+            marker.done(OCamlElementTypes.PARENTHESES_TYPE_PARAMETERS);
         }
         else {
             marker.drop();
@@ -342,7 +342,16 @@ class TypeParsing extends Parsing {
 
             checkMatches(builder, OCamlTokenTypes.RPAR, Strings.RPAR_EXPECTED);
 
-            typeExpressionMarker.done(OCamlElementTypes.PARENTHESES);
+            boolean isTypeExpression = false;
+            if (expressionCount == 1) {
+                final PsiBuilder.Marker marker = builder.mark();
+                if (!ignore(builder, OCamlTokenTypes.HASH) && !NameParsing.tryParseTypeConstructorPath(builder)) {
+                    isTypeExpression = true;
+                }
+                marker.rollbackTo();
+            }
+
+            typeExpressionMarker.done(isTypeExpression ? OCamlElementTypes.PARENTHESES_TYPE_EXPRESSION : OCamlElementTypes.PARENTHESES);
             typeExpressionMarker = typeExpressionMarker.precede();
 
             if (ignore(builder, OCamlTokenTypes.HASH)) {

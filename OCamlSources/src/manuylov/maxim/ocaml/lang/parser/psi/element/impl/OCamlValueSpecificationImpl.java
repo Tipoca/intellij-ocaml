@@ -45,7 +45,7 @@ public class OCamlValueSpecificationImpl extends BaseOCamlElement implements OCa
 
     @Nullable
     public ASTNode getNameElement() {
-        return OCamlASTTreeUtil.findChildOfType(getNode(), OCamlElementTypes.VALUE_NAME_PATTERN, false);
+        return OCamlASTTreeUtil.findChildOfType(getNode(), OCamlElementTypes.VALUE_NAME_PATTERN);
     }
 
     @NotNull

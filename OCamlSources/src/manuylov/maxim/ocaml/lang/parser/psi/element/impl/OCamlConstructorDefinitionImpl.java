@@ -43,7 +43,7 @@ public class OCamlConstructorDefinitionImpl extends BaseOCamlResolvedReference i
 
     @Nullable
     public ASTNode getNameElement() {
-        return OCamlASTTreeUtil.findChildOfType(getNode(), OCamlElementTypes.CONSTRUCTOR_NAME, false);
+        return OCamlASTTreeUtil.findChildOfType(getNode(), OCamlElementTypes.CONSTRUCTOR_NAME);
     }
 
     @NotNull

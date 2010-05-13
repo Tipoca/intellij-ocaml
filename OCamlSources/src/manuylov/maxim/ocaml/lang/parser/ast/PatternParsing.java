@@ -235,7 +235,7 @@ class PatternParsing extends Parsing {
             }
             else if (ignore(builder, OCamlTokenTypes.RPAR)) {
                 if (patternParsed) {
-                    marker.done(OCamlElementTypes.PARENTHESES);
+                    marker.done(OCamlElementTypes.PARENTHESES_PATTERN);
                 }
                 else {
                     marker.done(OCamlElementTypes.CONSTANT);
