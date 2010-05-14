@@ -178,7 +178,7 @@ class ModuleParsing extends Parsing {
 
         checkMatches(builder, OCamlTokenTypes.RPAR, Strings.RPAR_EXPECTED);
 
-        marker.done(OCamlElementTypes.MODULE_PARAMETER);
+        marker.done(OCamlElementTypes.PARENTHESES);
 
         checkMatches(builder, OCamlTokenTypes.MINUS_GT, Strings.MINUS_GT_EXPECTED);
 
@@ -188,11 +188,15 @@ class ModuleParsing extends Parsing {
     }
 
     private static void parseModuleParameterInner(@NotNull final PsiBuilder builder) {
+        final PsiBuilder.Marker marker = builder.mark();
+
         NameParsing.parseModuleName(builder);
 
         checkMatches(builder, OCamlTokenTypes.COLON, Strings.COLON_EXPECTED);
 
         parseModuleType(builder);
+
+        marker.done(OCamlElementTypes.MODULE_PARAMETER);
     }
 
     private static void parseStructModuleExpression(@NotNull final PsiBuilder builder) {
@@ -296,7 +300,7 @@ class ModuleParsing extends Parsing {
 
         checkMatches(builder, OCamlTokenTypes.RPAR, Strings.RPAR_EXPECTED);
 
-        marker.done(OCamlElementTypes.MODULE_PARAMETER);
+        marker.done(OCamlElementTypes.PARENTHESES);
 
         checkMatches(builder, OCamlTokenTypes.MINUS_GT, Strings.MINUS_GT_EXPECTED);
 
@@ -365,7 +369,7 @@ class ModuleParsing extends Parsing {
 
             checkMatches(builder, OCamlTokenTypes.RPAR, Strings.RPAR_EXPECTED);
 
-            marker.done(OCamlElementTypes.MODULE_PARAMETER);
+            marker.done(OCamlElementTypes.PARENTHESES);
             marker = builder.mark();
         }
 

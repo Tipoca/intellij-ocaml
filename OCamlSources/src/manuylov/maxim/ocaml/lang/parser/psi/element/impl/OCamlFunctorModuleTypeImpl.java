@@ -19,11 +19,14 @@
 package manuylov.maxim.ocaml.lang.parser.psi.element.impl;
 
 import com.intellij.lang.ASTNode;
+import manuylov.maxim.ocaml.lang.feature.resolving.ResolvingBuilder;
+import manuylov.maxim.ocaml.lang.feature.resolving.util.OCamlDeclarationsUtil;
 import manuylov.maxim.ocaml.lang.feature.resolving.util.OCamlResolvingUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlFunctorModuleType;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlModuleType;
+import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlParentheses;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlStructuredElement;
 import org.jetbrains.annotations.NotNull;
 
@@ -40,6 +43,11 @@ public class OCamlFunctorModuleTypeImpl extends BaseOCamlElement implements OCam
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {
         visitor.visitFunctorModuleType(this);
+    }
+
+    @Override
+    public boolean processDeclarations(@NotNull final ResolvingBuilder builder) {
+        return OCamlDeclarationsUtil.processDeclarationsInChildren(builder, this, OCamlParentheses.class);
     }
 
     @NotNull

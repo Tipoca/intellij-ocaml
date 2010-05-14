@@ -29,6 +29,7 @@ import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlModuleSpecificationBinding;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlModuleType;
+import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlParentheses;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -62,7 +63,8 @@ public class OCamlModuleSpecificationBindingImpl extends BaseOCamlResolvedRefere
 
     @Override
     public boolean processDeclarations(@NotNull final ResolvingBuilder builder) {
-        return OCamlDeclarationsUtil.processDeclarationsInStructuredBinding(builder, this);
+        return OCamlDeclarationsUtil.processDeclarationsInStructuredBinding(builder, this)
+            || OCamlDeclarationsUtil.processDeclarationsInChildren(builder, this, OCamlParentheses.class);
     }
 
     @Nullable

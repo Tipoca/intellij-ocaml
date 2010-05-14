@@ -63,7 +63,7 @@ abstract class BaseOCamlFileModuleBinding<T extends OCamlStructuredElement> exte
         }
 
         final String newName = OCamlStringUtil.makeFirstLetterCaseTheSame(name, file.getName());
-        file.setName(OCamlFileUtil.getFileName(newName, file.getFileType()));
+        file.setName(OCamlFileUtil.getFileName(newName, file.getFileType())); //todo files should be renamed automatically        
     }
 
     @Nullable
