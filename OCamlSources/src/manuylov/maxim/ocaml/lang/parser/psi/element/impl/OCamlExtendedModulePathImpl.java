@@ -35,6 +35,11 @@ public class OCamlExtendedModulePathImpl extends BaseOCamlElement implements OCa
         super(node);
     }
 
+    @Override
+    public boolean endsCorrectly() {
+        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlExtendedModuleName.class);
+    }
+
     public void visit(@NotNull final OCamlElementVisitor visitor) {
         visitor.visitExtendedModulePath(this);
     }

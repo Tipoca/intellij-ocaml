@@ -366,4 +366,8 @@ public abstract class OCamlElementVisitor extends PsiElementVisitor {
     public abstract void visitParenthesesModuleType(@NotNull final OCamlParenthesesModuleType psiElement);
 
     public abstract void visitParentheses(@NotNull final OCamlParentheses psiElement);
+
+    public abstract void visitUnderscoreTypeExpression(@NotNull final OCamlUnderscoreTypeExpression psiElement);
+
+    public abstract void visitUnderscorePattern(@NotNull final OCamlUnderscorePattern psiElement);
 }

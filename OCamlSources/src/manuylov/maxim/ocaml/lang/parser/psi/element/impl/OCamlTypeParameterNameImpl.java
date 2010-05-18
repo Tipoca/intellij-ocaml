@@ -79,7 +79,7 @@ public class OCamlTypeParameterNameImpl extends BaseOCamlReference implements OC
 
     @Override
     public boolean isSoft() {
-        return true;
+        return true; // todo
     }
 
     @NotNull

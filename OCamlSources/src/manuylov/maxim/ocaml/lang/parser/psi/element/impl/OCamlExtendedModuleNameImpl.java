@@ -19,58 +19,21 @@
 package manuylov.maxim.ocaml.lang.parser.psi.element.impl;
 
 import com.intellij.lang.ASTNode;
-import manuylov.maxim.ocaml.lang.feature.resolving.NameType;
-import manuylov.maxim.ocaml.lang.feature.resolving.OCamlResolvedReference;
-import manuylov.maxim.ocaml.lang.feature.resolving.impl.BaseOCamlReference;
-import manuylov.maxim.ocaml.lang.parser.ast.element.OCamlElementTypes;
-import manuylov.maxim.ocaml.lang.parser.ast.util.OCamlASTTreeUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
-import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlExtendedModuleName;
-import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlModuleDefinitionBinding;
-import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlModuleSpecificationBinding;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author Maxim.Manuylov
  *         Date: 21.03.2009
  */
-public class OCamlExtendedModuleNameImpl extends BaseOCamlReference implements OCamlExtendedModuleName {
+public class OCamlExtendedModuleNameImpl extends BaseOCamlElement implements OCamlExtendedModuleName {
     public OCamlExtendedModuleNameImpl(@NotNull final ASTNode node) {
         super(node);
     }
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {
         visitor.visitExtendedModuleName(this);
-    }
-
-    @Nullable
-    public ASTNode getNameElement() {
-        return OCamlASTTreeUtil.checkNodeType(getNode().getFirstChildNode(), OCamlElementTypes.MODULE_NAME);
-    }
-
-    @NotNull
-    public NameType getNameType() {
-        return NameType.UpperCase;
-    }
-
-    @NotNull
-    public String getDescription() {
-        return "module";
-    }
-
-    @NotNull
-    public List<Class<? extends OCamlResolvedReference>> getPossibleResolvedTypes() {
-        return Arrays.<Class<? extends OCamlResolvedReference>>asList(OCamlModuleDefinitionBinding.class, OCamlModuleSpecificationBinding.class);
-    }
-
-    @NotNull
-    public List<OCamlExtendedModuleName> getModulePath() {
-        return OCamlPsiUtil.getModulePath(this, OCamlExtendedModuleName.class);
     }
 
     @NotNull

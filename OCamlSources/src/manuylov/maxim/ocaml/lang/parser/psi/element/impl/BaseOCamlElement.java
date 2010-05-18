@@ -58,4 +58,8 @@ public abstract class BaseOCamlElement extends ASTWrapperPsiElement implements O
             super.accept(psiElementVisitor);
         }
     }
+
+    public boolean endsCorrectly() {
+        return true;
+    }
 }

@@ -20,6 +20,8 @@ package manuylov.maxim.ocaml.lang.parser.psi.element.impl;
 
 import com.intellij.lang.ASTNode;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
+import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
+import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlExpression;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlHeadTailExpression;
 import org.jetbrains.annotations.NotNull;
 
@@ -30,6 +32,11 @@ import org.jetbrains.annotations.NotNull;
 public class OCamlHeadTailExpressionImpl extends BaseOCamlElement implements OCamlHeadTailExpression {
     public OCamlHeadTailExpressionImpl(@NotNull final ASTNode node) {
         super(node);
+    }
+
+    @Override
+    public boolean endsCorrectly() {
+        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlExpression.class);
     }
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {

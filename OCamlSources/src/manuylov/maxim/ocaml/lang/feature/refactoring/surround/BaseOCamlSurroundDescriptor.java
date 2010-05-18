@@ -22,8 +22,8 @@ import com.intellij.lang.surroundWith.SurroundDescriptor;
 import com.intellij.lang.surroundWith.Surrounder;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
-import manuylov.maxim.ocaml.lang.feature.refactoring.util.OCamlRefactoringUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElement;
+import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -42,7 +42,8 @@ abstract class BaseOCamlSurroundDescriptor implements SurroundDescriptor {
 
     @NotNull
     public PsiElement[] getElementsToSurround(@NotNull final PsiFile file, final int startOffset, final int endOffset) {
-        return OCamlRefactoringUtil.findElementsOfTypeInRange(file, myElementClass, startOffset, endOffset);
+        final PsiElement element = OCamlPsiUtil.findElementOfTypeInRange(file, myElementClass, startOffset, endOffset);
+        return element == null ? PsiElement.EMPTY_ARRAY : new PsiElement[] { element };
     }
 
     @NotNull

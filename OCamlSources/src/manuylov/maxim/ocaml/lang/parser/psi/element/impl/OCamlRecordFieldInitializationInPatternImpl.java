@@ -41,6 +41,11 @@ public class OCamlRecordFieldInitializationInPatternImpl extends BaseOCamlResolv
         super(node);
     }
 
+    @Override
+    public boolean endsCorrectly() {
+        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlPattern.class);
+    }
+
     @Nullable
     public ASTNode getNameElement() {
         final OCamlFieldPath fieldPath = OCamlPsiUtil.getFirstChildOfType(this, OCamlFieldPath.class);

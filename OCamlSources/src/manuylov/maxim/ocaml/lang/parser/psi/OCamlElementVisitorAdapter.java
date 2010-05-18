@@ -535,4 +535,10 @@ public class OCamlElementVisitorAdapter extends OCamlElementVisitor {
 
     public void visitParentheses(@NotNull final OCamlParentheses psiElement) {
     }
+
+    public void visitUnderscoreTypeExpression(@NotNull final OCamlUnderscoreTypeExpression psiElement) {
+    }
+
+    public void visitUnderscorePattern(@NotNull final OCamlUnderscorePattern psiElement) {
+    }
 }

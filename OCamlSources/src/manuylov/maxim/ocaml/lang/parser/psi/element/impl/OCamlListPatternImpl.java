@@ -19,7 +19,9 @@
 package manuylov.maxim.ocaml.lang.parser.psi.element.impl;
 
 import com.intellij.lang.ASTNode;
+import manuylov.maxim.ocaml.lang.lexer.token.OCamlTokenTypes;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
+import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlListPattern;
 import org.jetbrains.annotations.NotNull;
 
@@ -30,6 +32,11 @@ import org.jetbrains.annotations.NotNull;
 public class OCamlListPatternImpl extends BaseOCamlPattern implements OCamlListPattern {
     public OCamlListPatternImpl(@NotNull final ASTNode node) {
         super(node);
+    }
+
+    @Override
+    public boolean endsCorrectly() {
+        return OCamlPsiUtil.endsWith(this, OCamlTokenTypes.RBRACKET);
     }
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {

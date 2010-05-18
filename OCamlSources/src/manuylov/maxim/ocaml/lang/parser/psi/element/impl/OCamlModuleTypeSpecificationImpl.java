@@ -22,6 +22,7 @@ import com.intellij.lang.ASTNode;
 import manuylov.maxim.ocaml.lang.feature.resolving.ResolvingBuilder;
 import manuylov.maxim.ocaml.lang.feature.resolving.util.OCamlDeclarationsUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
+import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlModuleTypeSpecification;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlModuleTypeSpecificationBinding;
 import org.jetbrains.annotations.NotNull;
@@ -33,6 +34,11 @@ import org.jetbrains.annotations.NotNull;
 public class OCamlModuleTypeSpecificationImpl extends BaseOCamlElement implements OCamlModuleTypeSpecification {
     public OCamlModuleTypeSpecificationImpl(@NotNull final ASTNode node) {
         super(node);
+    }
+
+    @Override
+    public boolean endsCorrectly() {
+        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlModuleTypeSpecificationBinding.class);
     }
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {

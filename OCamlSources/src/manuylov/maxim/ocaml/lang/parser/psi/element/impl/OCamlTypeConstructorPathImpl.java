@@ -42,6 +42,11 @@ public class OCamlTypeConstructorPathImpl extends BaseOCamlElement implements OC
         visitor.visitTypeConstructorPath(this);
     }
 
+    @Override
+    public boolean endsCorrectly() {
+        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlTypeConstructorName.class);
+    }
+
     @NotNull
     public List<OCamlStructuredElement> findActualDefinitions() {
         return OCamlResolvingUtil.collectActualDefinitionsOfStructuredElements(OCamlPsiUtil.getLastChildOfType(this, OCamlTypeConstructorName.class));

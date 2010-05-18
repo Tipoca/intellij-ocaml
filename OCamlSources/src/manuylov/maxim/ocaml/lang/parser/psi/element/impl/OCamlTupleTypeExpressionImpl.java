@@ -20,8 +20,10 @@ package manuylov.maxim.ocaml.lang.parser.psi.element.impl;
 
 import com.intellij.lang.ASTNode;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
+import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlStructuredElement;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlTupleTypeExpression;
+import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlTypeExpression;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -38,6 +40,11 @@ public class OCamlTupleTypeExpressionImpl extends BaseOCamlElement implements OC
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {
         visitor.visitTupleTypeExpression(this);
+    }
+
+    @Override
+    public boolean endsCorrectly() {
+        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlTypeExpression.class);
     }
 
     @NotNull

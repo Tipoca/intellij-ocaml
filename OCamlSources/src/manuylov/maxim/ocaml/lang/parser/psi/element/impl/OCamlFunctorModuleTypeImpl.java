@@ -24,10 +24,7 @@ import manuylov.maxim.ocaml.lang.feature.resolving.util.OCamlDeclarationsUtil;
 import manuylov.maxim.ocaml.lang.feature.resolving.util.OCamlResolvingUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
-import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlFunctorModuleType;
-import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlModuleType;
-import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlParentheses;
-import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlStructuredElement;
+import manuylov.maxim.ocaml.lang.parser.psi.element.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -39,6 +36,11 @@ import java.util.List;
 public class OCamlFunctorModuleTypeImpl extends BaseOCamlElement implements OCamlFunctorModuleType {
     public OCamlFunctorModuleTypeImpl(@NotNull final ASTNode node) {
         super(node);
+    }
+
+    @Override
+    public boolean endsCorrectly() {
+        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlModuleType.class);
     }
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {

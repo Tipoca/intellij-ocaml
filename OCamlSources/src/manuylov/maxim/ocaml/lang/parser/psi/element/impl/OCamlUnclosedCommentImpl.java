@@ -34,6 +34,11 @@ public class OCamlUnclosedCommentImpl extends BaseOCamlElement implements OCamlU
         super(node);
     }
 
+    @Override
+    public boolean endsCorrectly() {
+        return false;
+    }
+
     public void visit(@NotNull final OCamlElementVisitor visitor) {
         visitor.visitUnclosedComment(this);
     }

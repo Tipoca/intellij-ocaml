@@ -392,7 +392,7 @@ class TypeParsing extends Parsing {
     private static boolean tryParseSimpleTypeExpression(@NotNull final PsiBuilder builder) {
         if (builder.getTokenType() == OCamlTokenTypes.QUOTE) {
             parseTypeParameter(builder, false, false);
-        } else if (!ignore(builder, OCamlTokenTypes.UNDERSCORE) &&
+        } else if (!tryParseUnderscore(builder) &&
                    !tryParseObjectInterfaceTypeExpression(builder) &&
                    !tryParseVariantTypeExpression(builder)) {
             final PsiBuilder.Marker typeExpressionMarker = builder.mark();
@@ -411,6 +411,18 @@ class TypeParsing extends Parsing {
         }
 
         return true;
+    }
+
+    private static boolean tryParseUnderscore(@NotNull final PsiBuilder builder) {
+        final PsiBuilder.Marker marker = builder.mark();
+
+        if (ignore(builder, OCamlTokenTypes.UNDERSCORE)) {
+            marker.done(OCamlElementTypes.UNDERSCORE_TYPE_EXPRESSION);
+            return true;
+        }
+
+        marker.drop();
+        return false;
     }
 
     private static boolean tryParseVariantTypeExpression(@NotNull final PsiBuilder builder) {

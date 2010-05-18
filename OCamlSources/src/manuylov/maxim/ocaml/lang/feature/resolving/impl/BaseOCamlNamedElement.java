@@ -20,6 +20,7 @@ package manuylov.maxim.ocaml.lang.feature.resolving.impl;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.navigation.ItemPresentation;
+import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.IncorrectOperationException;
 import manuylov.maxim.ocaml.lang.feature.refactoring.rename.OCamlNamesValidator;
@@ -34,6 +35,8 @@ import manuylov.maxim.ocaml.lang.parser.psi.element.impl.BaseOCamlElement;
 import manuylov.maxim.ocaml.util.OCamlStringUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import javax.swing.*;
 
 /**
  * @author Maxim.Manuylov
@@ -112,6 +115,26 @@ public abstract class BaseOCamlNamedElement extends BaseOCamlElement implements 
 
     @Override
     public ItemPresentation getPresentation() {
-        return OCamlPsiUtil.getPresentation(this);
+        return new ItemPresentation() {
+            @NotNull
+            public String getPresentableText() {
+                return getDescription() + ' ' + getName();
+            }
+
+            @NotNull
+            public String getLocationString() {
+                return '(' + getContainingFile().getName() + ')';
+            }
+
+            @Nullable
+            public Icon getIcon(final boolean open) {
+                return null;
+            }
+
+            @Nullable
+            public TextAttributesKey getTextAttributesKey() {
+                return null;
+            }
+        };
     }
 }

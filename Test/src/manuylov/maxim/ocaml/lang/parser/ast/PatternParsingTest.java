@@ -53,7 +53,8 @@ public class PatternParsingTest extends MLParsingTestCase {
 
     public void testUnderscore() throws Exception {
         addStartNodes();
-        myTree.addNode(5, UNDERSCORE);
+        myTree.addNode(5, UNDERSCORE_PATTERN);
+        myTree.addNode(6, UNDERSCORE); 
         addEndNodes();
 
         doTest("match a with _ -> 0", myTree.getStringRepresentation());

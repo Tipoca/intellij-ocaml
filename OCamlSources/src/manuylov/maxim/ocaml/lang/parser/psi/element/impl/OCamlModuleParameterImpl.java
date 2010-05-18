@@ -46,6 +46,11 @@ public class OCamlModuleParameterImpl extends BaseOCamlResolvedReference impleme
         visitor.visitModuleParameter(this);
     }
 
+    @Override
+    public boolean endsCorrectly() {
+        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlModuleType.class);
+    }
+
     @Nullable
     public ASTNode getNameElement() {
         return OCamlASTTreeUtil.checkNodeType(getNode().getFirstChildNode(), OCamlElementTypes.MODULE_NAME);

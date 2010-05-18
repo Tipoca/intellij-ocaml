@@ -25,7 +25,9 @@ import manuylov.maxim.ocaml.lang.feature.resolving.util.OCamlDeclarationsUtil;
 import manuylov.maxim.ocaml.lang.parser.ast.element.OCamlElementTypes;
 import manuylov.maxim.ocaml.lang.parser.ast.util.OCamlASTTreeUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
+import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlPattern;
+import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlTypeExpression;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlValueSpecification;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -37,6 +39,11 @@ import org.jetbrains.annotations.Nullable;
 public class OCamlValueSpecificationImpl extends BaseOCamlElement implements OCamlValueSpecification {
     public OCamlValueSpecificationImpl(@NotNull final ASTNode node) {
         super(node);
+    }
+
+    @Override
+    public boolean endsCorrectly() {
+        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlTypeExpression.class);
     }
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {

@@ -18,10 +18,12 @@
 
 package manuylov.maxim.ocaml.lang.parser.psi.element;
 
+import manuylov.maxim.ocaml.lang.parser.psi.OCamlElement;
+
 /**
  * @author Maxim.Manuylov
  *         Date: 24.05.2009
  */
-public interface OCamlLetElement {
+public interface OCamlLetElement extends OCamlElement {
     boolean isRecursive();
 }

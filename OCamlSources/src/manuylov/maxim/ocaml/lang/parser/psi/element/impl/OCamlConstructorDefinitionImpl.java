@@ -21,10 +21,14 @@ package manuylov.maxim.ocaml.lang.parser.psi.element.impl;
 import com.intellij.lang.ASTNode;
 import manuylov.maxim.ocaml.lang.feature.resolving.NameType;
 import manuylov.maxim.ocaml.lang.feature.resolving.impl.BaseOCamlResolvedReference;
+import manuylov.maxim.ocaml.lang.lexer.token.OCamlTokenTypes;
 import manuylov.maxim.ocaml.lang.parser.ast.element.OCamlElementTypes;
 import manuylov.maxim.ocaml.lang.parser.ast.util.OCamlASTTreeUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
+import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlConstructorDefinition;
+import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlConstructorName;
+import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlTypeExpression;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -35,6 +39,16 @@ import org.jetbrains.annotations.Nullable;
 public class OCamlConstructorDefinitionImpl extends BaseOCamlResolvedReference implements OCamlConstructorDefinition {
     public OCamlConstructorDefinitionImpl(@NotNull final ASTNode node) {
         super(node);
+    }
+
+    @Override
+    public boolean endsCorrectly() {
+        if (getNode().findChildByType(OCamlTokenTypes.OF_KEYWORD) != null) {
+            return OCamlPsiUtil.endsCorrectlyWith(this, OCamlTypeExpression.class);
+        }
+        else {
+            return OCamlPsiUtil.endsCorrectlyWith(this, OCamlConstructorName.class);
+        }
     }
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {

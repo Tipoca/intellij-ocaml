@@ -16,13 +16,23 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/gpl-2.0.html>.
  */
 
-package manuylov.maxim.ocaml.lang.parser.psi.element;
+package manuylov.maxim.ocaml.lang.parser.psi.element.impl;
 
-import manuylov.maxim.ocaml.lang.feature.resolving.OCamlResolvedReference;
+import com.intellij.lang.ASTNode;
+import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
+import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlUnderscorePattern;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Maxim.Manuylov
- *         Date: 03.05.2009
+ *         Date: 19.05.2010
  */
-public interface OCamlLabeledParameter extends OCamlResolvedReference {
+public class OCamlUnderscorePatternImpl extends BaseOCamlPattern implements OCamlUnderscorePattern {
+    public OCamlUnderscorePatternImpl(final ASTNode node) {
+        super(node);
+    }
+
+    public void visit(@NotNull final OCamlElementVisitor visitor) {
+        visitor.visitUnderscorePattern(this);
+    }
 }

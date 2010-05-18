@@ -22,6 +22,7 @@ import com.intellij.lang.ASTNode;
 import manuylov.maxim.ocaml.lang.feature.resolving.ResolvingBuilder;
 import manuylov.maxim.ocaml.lang.feature.resolving.util.OCamlDeclarationsUtil;
 import manuylov.maxim.ocaml.lang.feature.resolving.util.OCamlResolvingUtil;
+import manuylov.maxim.ocaml.lang.lexer.token.OCamlTokenTypes;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElement;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
@@ -44,6 +45,11 @@ public class OCamlParenthesesImpl extends BaseOCamlElement implements OCamlParen
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {
         visitor.visitParentheses(this);
+    }
+
+    @Override
+    public boolean endsCorrectly() {
+        return OCamlPsiUtil.endsWith(this, OCamlTokenTypes.RPAR);
     }
 
 /*

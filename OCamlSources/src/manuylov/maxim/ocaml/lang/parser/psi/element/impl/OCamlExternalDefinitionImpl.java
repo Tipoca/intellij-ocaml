@@ -22,6 +22,8 @@ import com.intellij.lang.ASTNode;
 import manuylov.maxim.ocaml.lang.feature.resolving.ResolvingBuilder;
 import manuylov.maxim.ocaml.lang.feature.resolving.util.OCamlDeclarationsUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
+import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
+import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlExternalDeclaration;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlExternalDefinition;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlValueNamePattern;
 import org.jetbrains.annotations.NotNull;
@@ -34,6 +36,11 @@ public class OCamlExternalDefinitionImpl extends BaseOCamlElement implements OCa
     public OCamlExternalDefinitionImpl(@NotNull final ASTNode node) {
         super(node);
     }                    
+
+    @Override
+    public boolean endsCorrectly() {
+        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlExternalDeclaration.class);
+    }
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {
         visitor.visitExternalDefinition(this);

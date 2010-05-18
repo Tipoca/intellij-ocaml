@@ -20,8 +20,9 @@ package manuylov.maxim.ocaml.lang.lexer.testCase;
 
 import com.intellij.lexer.Lexer;
 import com.intellij.psi.tree.IElementType;
+import manuylov.maxim.ocaml.lang.BaseOCamlTestCase;
 import org.jetbrains.annotations.NotNull;
-import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,7 +32,8 @@ import java.util.List;
  * @author Maxim.Manuylov
  *         Date: 23.02.2009
  */
-public abstract class LexerTestCase extends Assert {
+@Test
+public abstract class LexerTestCase extends BaseOCamlTestCase {
     protected void doTest(@NotNull final String text, @NotNull final String... expectedTokens) {
         final List<String> expectedTokensStr = new ArrayList<String>(expectedTokens.length);
         expectedTokensStr.addAll(Arrays.asList(expectedTokens));

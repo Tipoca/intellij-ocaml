@@ -19,34 +19,29 @@
 package manuylov.maxim.ocaml.lang.parser.psi.element.impl;
 
 import com.intellij.lang.ASTNode;
-import manuylov.maxim.ocaml.lang.feature.resolving.ResolvingBuilder;
-import manuylov.maxim.ocaml.lang.feature.resolving.util.OCamlDeclarationsUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
-import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
-import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlModuleDefinition;
-import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlModuleDefinitionBinding;
+import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlStructuredElement;
+import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlUnderscoreTypeExpression;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author Maxim.Manuylov
- *         Date: 21.03.2009
+ *         Date: 19.05.2010
  */
-public class OCamlModuleDefinitionImpl extends BaseOCamlElement implements OCamlModuleDefinition {
-    public OCamlModuleDefinitionImpl(@NotNull final ASTNode node) {
+public class OCamlUnderscoreTypeExpressionImpl extends BaseOCamlElement implements OCamlUnderscoreTypeExpression {
+    public OCamlUnderscoreTypeExpressionImpl(@NotNull final ASTNode node) {
         super(node);
     }
 
-    @Override
-    public boolean endsCorrectly() {
-        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlModuleDefinitionBinding.class);
+    @NotNull
+    public List<OCamlStructuredElement> findActualDefinitions() {
+        return Collections.<OCamlStructuredElement>singletonList(this);
     }
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {
-        visitor.visitModuleDefinition(this);
-    }
-
-    @Override
-    public boolean processDeclarations(@NotNull final ResolvingBuilder builder) {
-        return OCamlDeclarationsUtil.processDeclarationsInChildren(builder, this, OCamlModuleDefinitionBinding.class);
+        visitor.visitUnderscoreTypeExpression(this);
     }
 }

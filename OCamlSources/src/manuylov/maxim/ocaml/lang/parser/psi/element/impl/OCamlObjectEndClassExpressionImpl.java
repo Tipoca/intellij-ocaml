@@ -21,7 +21,9 @@ package manuylov.maxim.ocaml.lang.parser.psi.element.impl;
 import com.intellij.lang.ASTNode;
 import manuylov.maxim.ocaml.lang.feature.resolving.ResolvingBuilder;
 import manuylov.maxim.ocaml.lang.feature.resolving.util.OCamlDeclarationsUtil;
+import manuylov.maxim.ocaml.lang.lexer.token.OCamlTokenTypes;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
+import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlClassFieldDefinition;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlObjectEndClassExpression;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlObjectSelfDefinition;
@@ -42,6 +44,11 @@ public class OCamlObjectEndClassExpressionImpl extends BaseOCamlElement implemen
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {
         visitor.visitObjectEndClassExpression(this);
+    }
+
+    @Override
+    public boolean endsCorrectly() {
+        return OCamlPsiUtil.endsWith(this, OCamlTokenTypes.END_KEYWORD);
     }
 
     @Override

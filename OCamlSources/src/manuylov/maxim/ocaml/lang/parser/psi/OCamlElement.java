@@ -29,5 +29,7 @@ import org.jetbrains.annotations.NotNull;
 public interface OCamlElement extends PsiElement {
     boolean processDeclarations(@NotNull final ResolvingBuilder builder);
 
+    boolean endsCorrectly();
+
     void visit(@NotNull final OCamlElementVisitor visitor);
 }

@@ -25,6 +25,7 @@ import manuylov.maxim.ocaml.lang.parser.ast.element.OCamlElementTypes;
 import manuylov.maxim.ocaml.lang.parser.ast.util.OCamlASTTreeUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
+import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlClassBodyType;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlClassType;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlClassTypeBinding;
 import org.jetbrains.annotations.NotNull;
@@ -37,6 +38,11 @@ import org.jetbrains.annotations.Nullable;
 public class OCamlClassTypeBindingImpl extends BaseOCamlResolvedReference implements OCamlClassTypeBinding {
     public OCamlClassTypeBindingImpl(@NotNull final ASTNode node) {
         super(node);
+    }
+
+    @Override
+    public boolean endsCorrectly() {
+        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlClassBodyType.class);
     }
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {

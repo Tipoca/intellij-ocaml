@@ -26,8 +26,10 @@ import manuylov.maxim.ocaml.lang.feature.resolving.util.OCamlDeclarationsUtil;
 import manuylov.maxim.ocaml.lang.parser.ast.element.OCamlElementTypes;
 import manuylov.maxim.ocaml.lang.parser.ast.util.OCamlASTTreeUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
+import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlAsPattern;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlPattern;
+import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlValueNamePattern;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -42,6 +44,11 @@ public class OCamlAsPatternImpl extends BaseOCamlResolvedReference implements OC
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {
         visitor.visitAsPattern(this);
+    }
+
+    @Override
+    public boolean endsCorrectly() {
+        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlValueNamePattern.class);
     }
 
     @Nullable

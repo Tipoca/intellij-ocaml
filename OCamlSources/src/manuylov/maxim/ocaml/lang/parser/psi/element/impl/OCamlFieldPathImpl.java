@@ -39,6 +39,11 @@ public class OCamlFieldPathImpl extends BaseOCamlElement implements OCamlFieldPa
         visitor.visitFieldPath(this);
     }
 
+    @Override
+    public boolean endsCorrectly() {
+        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlFieldName.class);
+    }
+
     @Nullable
     public OCamlFieldName getFieldName() {
         return OCamlPsiUtil.getLastChildOfType(this, OCamlFieldName.class);

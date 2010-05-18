@@ -38,6 +38,11 @@ public class OCamlClassPathApplicationImpl extends BaseOCamlElement implements O
         super(node);
     }
 
+    @Override
+    public boolean endsCorrectly() {
+        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlClassPath.class);
+    }
+
     public void visit(@NotNull final OCamlElementVisitor visitor) {
         visitor.visitClassPathApplication(this);
     }

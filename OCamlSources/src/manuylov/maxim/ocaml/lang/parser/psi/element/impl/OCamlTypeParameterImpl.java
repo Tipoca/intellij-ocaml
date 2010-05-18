@@ -20,8 +20,10 @@ package manuylov.maxim.ocaml.lang.parser.psi.element.impl;
 
 import com.intellij.lang.ASTNode;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
+import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlStructuredElement;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlTypeParameter;
+import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlTypeParameterName;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -38,6 +40,11 @@ public class OCamlTypeParameterImpl extends BaseOCamlElement implements OCamlTyp
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {
         visitor.visitTypeParameter(this);
+    }
+
+    @Override
+    public boolean endsCorrectly() {
+        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlTypeParameterName.class);
     }
 
     @NotNull

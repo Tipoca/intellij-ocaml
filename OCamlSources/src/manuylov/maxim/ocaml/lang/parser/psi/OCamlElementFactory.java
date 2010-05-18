@@ -544,6 +544,12 @@ public class OCamlElementFactory {
         else if (elementType == BRACKETS) {
             return new OCamlBracketsImpl(node);
         }
+        else if (elementType == UNDERSCORE_TYPE_EXPRESSION) {
+            return new OCamlUnderscoreTypeExpressionImpl(node);
+        }
+        else if (elementType == UNDERSCORE_PATTERN) {
+            return new OCamlUnderscorePatternImpl(node);
+        }
         else {
             return new OCamlUnknownElementImpl(node);
         }

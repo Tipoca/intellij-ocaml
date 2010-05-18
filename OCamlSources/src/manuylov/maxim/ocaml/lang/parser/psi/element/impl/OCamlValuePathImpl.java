@@ -20,6 +20,8 @@ package manuylov.maxim.ocaml.lang.parser.psi.element.impl;
 
 import com.intellij.lang.ASTNode;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
+import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
+import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlValueName;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlValuePath;
 import org.jetbrains.annotations.NotNull;
 
@@ -30,6 +32,11 @@ import org.jetbrains.annotations.NotNull;
 public class OCamlValuePathImpl extends BaseOCamlElement implements OCamlValuePath {
     public OCamlValuePathImpl(@NotNull final ASTNode node) {
         super(node);
+    }
+
+    @Override
+    public boolean endsCorrectly() {
+        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlValueName.class);
     }
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {

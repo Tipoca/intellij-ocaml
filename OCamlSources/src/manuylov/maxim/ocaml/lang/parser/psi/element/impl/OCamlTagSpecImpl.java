@@ -19,8 +19,12 @@
 package manuylov.maxim.ocaml.lang.parser.psi.element.impl;
 
 import com.intellij.lang.ASTNode;
+import manuylov.maxim.ocaml.lang.lexer.token.OCamlTokenTypes;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
+import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
+import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlTagName;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlTagSpec;
+import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlTypeExpression;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -30,6 +34,23 @@ import org.jetbrains.annotations.NotNull;
 public class OCamlTagSpecImpl extends BaseOCamlElement implements OCamlTagSpec {
     public OCamlTagSpecImpl(@NotNull final ASTNode node) {
         super(node);
+    }
+
+    @Override
+    public boolean endsCorrectly() {
+        final ASTNode node = getNode();
+        if (node.findChildByType(OCamlTokenTypes.OF_KEYWORD) != null) {
+            return OCamlPsiUtil.endsCorrectlyWith(this, OCamlTypeExpression.class);
+        }
+        else {
+            final ASTNode firstChildNode = node.getFirstChildNode();
+            if (firstChildNode != null && firstChildNode.getElementType() == OCamlTokenTypes.ACCENT) {
+                return OCamlPsiUtil.endsCorrectlyWith(this, OCamlTagName.class);
+            }
+            else {
+                return OCamlPsiUtil.endsCorrectlyWith(this, OCamlTypeExpression.class);
+            }
+        }
     }
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {

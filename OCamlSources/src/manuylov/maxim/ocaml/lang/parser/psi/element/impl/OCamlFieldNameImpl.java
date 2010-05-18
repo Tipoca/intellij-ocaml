@@ -55,6 +55,11 @@ public class OCamlFieldNameImpl extends BaseOCamlReference implements OCamlField
         return NameType.LowerCase;
     }
 
+    @Override
+    public boolean isSoft() {
+        return true; // todo
+    }
+
     @NotNull
     public String getDescription() {
         return "field";

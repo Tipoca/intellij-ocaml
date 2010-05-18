@@ -43,6 +43,11 @@ public class OCamlModuleDefinitionBindingImpl extends BaseOCamlResolvedReference
         super(node);
     }
 
+    @Override
+    public boolean endsCorrectly() {
+        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlModuleExpression.class);
+    }
+
     public void visit(@NotNull final OCamlElementVisitor visitor) {
         visitor.visitModuleDefinitionBinding(this);
     }

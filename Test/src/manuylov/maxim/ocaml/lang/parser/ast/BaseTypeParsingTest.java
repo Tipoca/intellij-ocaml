@@ -330,7 +330,8 @@ public abstract class BaseTypeParsingTest extends ParsingTestCase {
 
     public void testUnderscoreExpression() throws Exception {
         addCommonNodes();
-        myTree.addNode(5, UNDERSCORE);
+        myTree.addNode(5, UNDERSCORE_TYPE_EXPRESSION);
+        myTree.addNode(6, UNDERSCORE);
 
         doTest("type t = _", myTree.getStringRepresentation());
     }

@@ -18,12 +18,9 @@
 
 package manuylov.maxim.ocaml.lang.parser.psi.element;
 
-import manuylov.maxim.ocaml.lang.parser.psi.OCamlElement;
-import org.jetbrains.annotations.Nullable;
-
 /**
  * @author Maxim.Manuylov
- *         Date: 23.05.2009
+ *         Date: 19.05.2010
  */
-public interface OCamlModuleElement extends OCamlElement {
+public interface OCamlUnderscoreTypeExpression extends OCamlTypeExpression {
 }

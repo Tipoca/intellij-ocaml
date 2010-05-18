@@ -28,8 +28,8 @@ import org.jetbrains.annotations.NotNull;
  *         Date: 21.03.2009
  */
 public class OCamlUnknownElementImpl extends BaseOCamlElement implements OCamlUnknownElement {
-    public OCamlUnknownElementImpl(@NotNull final ASTNode astNode) {
-        super(astNode);
+    public OCamlUnknownElementImpl(@NotNull final ASTNode node) {
+        super(node);
     }
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {

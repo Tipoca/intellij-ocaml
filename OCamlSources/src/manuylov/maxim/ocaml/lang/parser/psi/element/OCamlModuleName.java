@@ -18,9 +18,11 @@
 
 package manuylov.maxim.ocaml.lang.parser.psi.element;
 
+import manuylov.maxim.ocaml.lang.feature.resolving.OCamlReference;
+
 /**
  * @author Maxim.Manuylov
  *         Date: 21.03.2009
  */
-public interface OCamlModuleName extends OCamlModulePath, OCamlExtendedModuleName {
+public interface OCamlModuleName extends OCamlModulePath, OCamlExtendedModuleName, OCamlReference {
 }

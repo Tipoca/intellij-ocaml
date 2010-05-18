@@ -99,6 +99,8 @@ public class OCamlMethodNameImpl extends BaseOCamlReference implements OCamlMeth
         return null; //todo
     }
 
+
+
     @NotNull
     @Override
     public LookupElement[] getVariants() {
@@ -119,6 +121,6 @@ public class OCamlMethodNameImpl extends BaseOCamlReference implements OCamlMeth
 
     @Override
     public boolean isSoft() {
-        return true;
+        return true; // todo
     }
 }

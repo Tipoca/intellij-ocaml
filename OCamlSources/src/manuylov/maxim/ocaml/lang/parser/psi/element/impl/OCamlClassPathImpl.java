@@ -43,6 +43,11 @@ public class OCamlClassPathImpl extends BaseOCamlElement implements OCamlClassPa
         visitor.visitClassPath(this);
     }
 
+    @Override
+    public boolean endsCorrectly() {
+        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlClassName.class);
+    }
+
     @Nullable
     public OCamlClassName getClassName() {
         return OCamlPsiUtil.getLastChildOfType(this, OCamlClassName.class);

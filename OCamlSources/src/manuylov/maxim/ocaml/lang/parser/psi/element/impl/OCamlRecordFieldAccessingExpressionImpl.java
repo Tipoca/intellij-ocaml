@@ -20,6 +20,8 @@ package manuylov.maxim.ocaml.lang.parser.psi.element.impl;
 
 import com.intellij.lang.ASTNode;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
+import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
+import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlFieldPath;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlRecordFieldAccessingExpression;
 import org.jetbrains.annotations.NotNull;
 
@@ -30,6 +32,11 @@ import org.jetbrains.annotations.NotNull;
 public class OCamlRecordFieldAccessingExpressionImpl extends BaseOCamlElement implements OCamlRecordFieldAccessingExpression {
     public OCamlRecordFieldAccessingExpressionImpl(@NotNull final ASTNode node) {
         super(node);
+    }
+
+    @Override
+    public boolean endsCorrectly() {
+        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlFieldPath.class);
     }
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {

@@ -23,6 +23,7 @@ import manuylov.maxim.ocaml.lang.feature.resolving.NameType;
 import manuylov.maxim.ocaml.lang.feature.resolving.impl.BaseOCamlResolvedReference;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
+import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlExpression;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlFieldName;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlFieldPath;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlRecordFieldInitializationInExpression;
@@ -36,6 +37,11 @@ import org.jetbrains.annotations.Nullable;
 public class OCamlRecordFieldInitializationInExpressionImpl extends BaseOCamlResolvedReference implements OCamlRecordFieldInitializationInExpression {
     public OCamlRecordFieldInitializationInExpressionImpl(@NotNull final ASTNode node) {
         super(node);
+    }
+
+    @Override
+    public boolean endsCorrectly() {
+        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlExpression.class);
     }
 
     @Nullable
