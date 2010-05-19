@@ -22,9 +22,7 @@ import com.intellij.lang.ASTNode;
 import manuylov.maxim.ocaml.lang.feature.resolving.ElementPosition;
 import manuylov.maxim.ocaml.lang.feature.resolving.ResolvingBuilder;
 import manuylov.maxim.ocaml.lang.feature.resolving.util.OCamlDeclarationsUtil;
-import manuylov.maxim.ocaml.lang.lexer.token.OCamlTokenTypes;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
-import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlSigEndModuleType;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlSpecification;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlStructuredElement;
@@ -44,11 +42,6 @@ public class OCamlSigEndModuleTypeImpl extends BaseOCamlElement implements OCaml
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {
         visitor.visitSigEndModuleType(this);
-    }
-
-    @Override
-    public boolean endsCorrectly() {
-        return OCamlPsiUtil.endsWith(this, OCamlTokenTypes.END_KEYWORD);
     }
 
     @Override

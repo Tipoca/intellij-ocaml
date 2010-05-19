@@ -36,11 +36,6 @@ public class OCamlOpenDirectiveImpl extends BaseOCamlElement implements OCamlOpe
         super(node);
     }
 
-    @Override
-    public boolean endsCorrectly() {
-        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlModulePath.class);
-    }
-
     public void visit(@NotNull final OCamlElementVisitor visitor) {
         visitor.visitOpenDirective(this);
     }

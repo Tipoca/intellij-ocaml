@@ -301,6 +301,8 @@ public abstract class OCamlElementVisitor extends PsiElementVisitor {
 
     public abstract void visitTypeConstraintPattern(@NotNull final OCamlTypeConstraintPattern psiElement);
 
+    public abstract void visitParentheses(@NotNull final OCamlParentheses psiElement);
+
     public abstract void visitBrackets(@NotNull final OCamlBrackets psiElement);
 
     public abstract void visitUnknownElement(@NotNull final OCamlUnknownElement psiElement);
@@ -350,24 +352,4 @@ public abstract class OCamlElementVisitor extends PsiElementVisitor {
     public abstract void visitFileModuleDefinitionBinding(@NotNull final OCamlFileModuleDefinitionBinding psiElement);
 
     public abstract void visitFileModuleSpecificationBinding(@NotNull final OCamlFileModuleSpecificationBinding psiElement);
-
-    public abstract void visitParenthesesExpression(@NotNull final OCamlParenthesesExpression psiElement);
-
-    public abstract void visitParenthesesPattern(@NotNull final OCamlParenthesesPattern psiElement);
-
-    public abstract void visitParenthesesTypeExpression(@NotNull final OCamlParenthesesTypeExpression psiElement);
-
-    public abstract void visitParenthesesClassExpression(@NotNull final OCamlParenthesesClassExpression psiElement);
-
-    public abstract void visitParenthesesModuleExpression(@NotNull final OCamlParenthesesModuleExpression psiElement);
-
-    public abstract void visitParenthesesTypeParameters(@NotNull final OCamlParenthesesTypeParameters psiElement);
-
-    public abstract void visitParenthesesModuleType(@NotNull final OCamlParenthesesModuleType psiElement);
-
-    public abstract void visitParentheses(@NotNull final OCamlParentheses psiElement);
-
-    public abstract void visitUnderscoreTypeExpression(@NotNull final OCamlUnderscoreTypeExpression psiElement);
-
-    public abstract void visitUnderscorePattern(@NotNull final OCamlUnderscorePattern psiElement);
 }

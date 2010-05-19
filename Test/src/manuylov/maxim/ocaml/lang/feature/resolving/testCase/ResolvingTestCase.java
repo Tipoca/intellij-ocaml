@@ -19,18 +19,20 @@
 package manuylov.maxim.ocaml.lang.feature.resolving.testCase;
 
 import com.intellij.lang.ASTNode;
+import com.intellij.lang.LanguageParserDefinitions;
+import com.intellij.openapi.application.ex.ApplicationManagerEx;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiInvalidElementAccessException;
 import com.intellij.psi.PsiReference;
+import manuylov.maxim.ocaml.lang.feature.resolving.OCamlResolvedReference;
 import manuylov.maxim.ocaml.fileType.OCamlFileTypeLanguage;
 import manuylov.maxim.ocaml.fileType.ml.MLFileTypeLanguage;
-import manuylov.maxim.ocaml.lang.BaseOCamlTestCase;
-import manuylov.maxim.ocaml.lang.feature.resolving.OCamlResolvedReference;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlUnknownElement;
 import manuylov.maxim.ocaml.lang.parser.util.ParserTestUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -45,11 +47,11 @@ import org.testng.annotations.Test;
  * todo test TypeParameterName
  *
  * todo see getPossibleResTypes() methods in all reference types and check if there are the tests for each case
- * todo resolving for prefix and infix operators (e.g. " a + b ") (+ renaming of operators)
+ * todo resolving for prefix and infix operators (e.g. " a + b ")
  * 
  */
 @Test
-public abstract class ResolvingTestCase extends BaseOCamlTestCase {
+public abstract class ResolvingTestCase extends Assert {
     @NotNull private static final String RESOLVED_REFERENCE_START = "{{";
     @NotNull private static final String RESOLVED_REFERENCE_END = "}}";
     @NotNull private static final String REFERENCE_POSITION = "}{";
@@ -59,9 +61,12 @@ public abstract class ResolvingTestCase extends BaseOCamlTestCase {
     private static int testNumber;
 
     @BeforeMethod
-    public void setUp() {
-        super.setUp();
+    public void setUp() throws NoSuchMethodException {
         testNumber = 0;
+        if (ApplicationManagerEx.getApplication() == null) {
+            ApplicationManagerEx.createApplication(true, false, false, false, "Test Application");
+            LanguageParserDefinitions.INSTANCE.addExplicitExtension(ourLanguage, ourLanguage.getParserDefinition());
+        }
     }
 
     protected void doTest(final int n, @NotNull final String text) throws Exception {

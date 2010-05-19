@@ -72,6 +72,6 @@ public class OCamlLabelNameImpl extends BaseOCamlReference implements OCamlLabel
     //todo resolve
     @Override
     public boolean isSoft() {
-        return true; // todo
+        return true;
     }
 }

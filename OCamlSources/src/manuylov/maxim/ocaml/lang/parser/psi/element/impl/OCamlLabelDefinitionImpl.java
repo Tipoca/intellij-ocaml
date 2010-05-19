@@ -24,9 +24,7 @@ import manuylov.maxim.ocaml.lang.feature.resolving.impl.BaseOCamlResolvedReferen
 import manuylov.maxim.ocaml.lang.parser.ast.element.OCamlElementTypes;
 import manuylov.maxim.ocaml.lang.parser.ast.util.OCamlASTTreeUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
-import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlLabelDefinition;
-import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlLabelName;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -43,14 +41,9 @@ public class OCamlLabelDefinitionImpl extends BaseOCamlResolvedReference impleme
         visitor.visitLabelDefinition(this);
     }
 
-    @Override
-    public boolean endsCorrectly() {
-        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlLabelName.class);
-    }
-
     @Nullable
     public ASTNode getNameElement() {
-        return OCamlASTTreeUtil.findChildOfType(getNode().getFirstChildNode(), OCamlElementTypes.LABEL_NAME);
+        return OCamlASTTreeUtil.findChildOfType(getNode().getFirstChildNode(), OCamlElementTypes.LABEL_NAME, true);
     }
 
     @NotNull

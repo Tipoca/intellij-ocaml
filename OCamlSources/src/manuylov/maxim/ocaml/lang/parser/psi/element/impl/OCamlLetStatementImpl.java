@@ -24,7 +24,6 @@ import manuylov.maxim.ocaml.lang.feature.resolving.ResolvingBuilder;
 import manuylov.maxim.ocaml.lang.feature.resolving.util.OCamlDeclarationsUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElement;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
-import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlLetBinding;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlLetStatement;
 import org.jetbrains.annotations.NotNull;
@@ -36,11 +35,6 @@ import org.jetbrains.annotations.NotNull;
 public class OCamlLetStatementImpl extends BaseOCamlLetElement implements OCamlLetStatement {
     public OCamlLetStatementImpl(@NotNull final ASTNode node) {
         super(node);
-    }
-
-    @Override
-    public boolean endsCorrectly() {
-        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlLetBinding.class);
     }
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {

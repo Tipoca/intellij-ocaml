@@ -20,10 +20,7 @@ package manuylov.maxim.ocaml.lang.parser.psi.element.impl;
 
 import com.intellij.lang.ASTNode;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
-import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlArgument;
-import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlExpression;
-import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlLabelName;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -33,12 +30,6 @@ import org.jetbrains.annotations.NotNull;
 public class OCamlArgumentImpl extends BaseOCamlElement implements OCamlArgument {
     public OCamlArgumentImpl(@NotNull final ASTNode node) {
         super(node);
-    }
-
-    @Override
-    public boolean endsCorrectly() {
-        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlLabelName.class)
-            || OCamlPsiUtil.endsCorrectlyWith(this, OCamlExpression.class);
     }
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {

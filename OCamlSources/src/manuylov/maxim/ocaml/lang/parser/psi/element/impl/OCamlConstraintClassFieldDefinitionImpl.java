@@ -24,9 +24,7 @@ import manuylov.maxim.ocaml.lang.feature.resolving.impl.BaseOCamlResolvedReferen
 import manuylov.maxim.ocaml.lang.parser.ast.element.OCamlElementTypes;
 import manuylov.maxim.ocaml.lang.parser.ast.util.OCamlASTTreeUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
-import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlConstraintClassFieldDefinition;
-import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlTypeExpression;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -39,18 +37,13 @@ public class OCamlConstraintClassFieldDefinitionImpl extends BaseOCamlResolvedRe
         super(node);
     }
 
-    @Override
-    public boolean endsCorrectly() {
-        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlTypeExpression.class);
-    }
-
     public void visit(@NotNull final OCamlElementVisitor visitor) {
         visitor.visitConstraintClassFieldDefinition(this);
     }
 
     @Nullable
     public ASTNode getNameElement() {
-        return OCamlASTTreeUtil.findChildOfType(getNode(), OCamlElementTypes.INST_VAR_NAME);
+        return OCamlASTTreeUtil.findChildOfType(getNode(), OCamlElementTypes.INST_VAR_NAME, false);
     }
 
     @NotNull

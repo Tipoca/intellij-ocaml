@@ -24,9 +24,7 @@ import manuylov.maxim.ocaml.lang.feature.resolving.impl.BaseOCamlResolvedReferen
 import manuylov.maxim.ocaml.lang.parser.ast.element.OCamlElementTypes;
 import manuylov.maxim.ocaml.lang.parser.ast.util.OCamlASTTreeUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
-import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlPlusMinusTypeParameter;
-import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlTypeParameterName;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -39,18 +37,13 @@ public class OCamlPlusMinusTypeParameterImpl extends BaseOCamlResolvedReference 
         super(node);
     }
 
-    @Override
-    public boolean endsCorrectly() {
-        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlTypeParameterName.class);
-    }
-
     public void visit(@NotNull final OCamlElementVisitor visitor) {
         visitor.visitPlusMinusTypeParameter(this);
     }
 
     @Nullable
     public ASTNode getNameElement() {
-        return OCamlASTTreeUtil.findChildOfType(getNode(), OCamlElementTypes.TYPE_PARAMETER_NAME);
+        return OCamlASTTreeUtil.findChildOfType(getNode(), OCamlElementTypes.TYPE_PARAMETER_NAME, false);
     }
 
     @NotNull

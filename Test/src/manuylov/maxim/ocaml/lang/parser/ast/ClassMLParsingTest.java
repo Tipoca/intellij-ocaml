@@ -223,14 +223,14 @@ public class ClassMLParsingTest extends BaseClassParsingTest {
         doTest("class class0 = [int, int, int] Module1.Module2.class1", myTree.getStringRepresentation());
     }
 
-    public void testParenthesesedExpression() throws Exception {
+    public void testParenthessedExpression() throws Exception {
         myTree.addNode(3, CLASS_DEFINITION);
         myTree.addNode(4, CLASS_KEYWORD);
         myTree.addNode(4, CLASS_BINDING);
         myTree.addNode(5, CLASS_NAME);
         myTree.addNode(6, LCFC_IDENTIFIER, "class0");
         myTree.addNode(5, EQ);
-        myTree.addNode(5, PARENTHESES_CLASS_EXPRESSION);
+        myTree.addNode(5, PARENTHESES);
         myTree.addNode(6, LPAR);
         myTree.addNode(6, CLASS_NAME);
         myTree.addNode(7, LCFC_IDENTIFIER, "class1");

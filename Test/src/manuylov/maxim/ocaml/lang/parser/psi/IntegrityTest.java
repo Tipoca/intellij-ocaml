@@ -20,11 +20,13 @@ package manuylov.maxim.ocaml.lang.parser.psi;
 
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
-import manuylov.maxim.ocaml.lang.BaseOCamlTestCase;
 import manuylov.maxim.ocaml.lang.parser.ast.element.OCamlElementTypes;
+import manuylov.maxim.ocaml.lang.parser.psi.OCamlElement;
+import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementFactory;
+import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlUnknownElement;
-import manuylov.maxim.ocaml.lang.parser.psi.element.impl.BaseOCamlElement;
 import org.jetbrains.annotations.NotNull;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Field;
@@ -39,7 +41,7 @@ import java.util.Set;
  *         Date: 23.03.2009
  */
 @Test
-public class IntegrityTest extends BaseOCamlTestCase {
+public class IntegrityTest extends Assert {
     public void testFactoryCreatesAllElementsProperly() throws IllegalAccessException {
         processElementTypes(new ElementTypeProcessor() {
             public void process(@NotNull final IElementType type, @NotNull final OCamlElement element) {
@@ -116,36 +118,6 @@ public class IntegrityTest extends BaseOCamlTestCase {
             if (!Modifier.isAbstract(clazz.getModifiers())) {
                 Arrays.asList(clazz.getInterfaces()).contains(Class.forName(elementPackage + name));
             }
-        }
-    }
-
-    public void testClassesOverrideEndsCorrectlyMethod() throws IllegalAccessException, NoSuchMethodException {
-        assertNull(BaseOCamlElement.class.getMethod("endsCorrectly").getAnnotation(Override.class), "\"Override\" annotation was not supposed here.");
-        processElementTypes(new ElementTypeProcessor() {
-            public void process(@NotNull final IElementType type, @NotNull final OCamlElement element) {
-                Class<?> clazz = element.getClass();
-                final String name = clazz.getSimpleName();
-                assertTrue(name.endsWith("Impl"));
-                if (name.endsWith("NameImpl")) return;
-                if (name.endsWith("NameDefinitionImpl")) return;
-                if (name.endsWith("NamePatternImpl")) return;
-                if (name.startsWith("OCamlFile")) return;
-                if (name.startsWith("OCamlUnderscore")) return;
-                while (clazz != null && !clazz.equals(BaseOCamlElement.class)) {
-                    if (hasDeclaredMethod(clazz, "endsCorrectly")) return;
-                    clazz = clazz.getSuperclass();
-                }
-                fail("Class \"" + name + "\" does not override \"endsCorrectly\" method.");
-            }
-        });
-    }
-
-    private static boolean hasDeclaredMethod(@NotNull final Class<?> clazz, @NotNull final String methodName, @NotNull final Class<?>... parameterTypes) {
-        try {
-            clazz.getDeclaredMethod(methodName, parameterTypes);
-            return true;
-        } catch (final NoSuchMethodException e) {
-            return false;
         }
     }
 

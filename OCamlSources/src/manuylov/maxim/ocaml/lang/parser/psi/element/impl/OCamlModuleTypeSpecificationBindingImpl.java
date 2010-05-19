@@ -23,13 +23,11 @@ import manuylov.maxim.ocaml.lang.feature.resolving.NameType;
 import manuylov.maxim.ocaml.lang.feature.resolving.ResolvingBuilder;
 import manuylov.maxim.ocaml.lang.feature.resolving.impl.BaseOCamlResolvedReference;
 import manuylov.maxim.ocaml.lang.feature.resolving.util.OCamlDeclarationsUtil;
-import manuylov.maxim.ocaml.lang.lexer.token.OCamlTokenTypes;
 import manuylov.maxim.ocaml.lang.parser.ast.element.OCamlElementTypes;
 import manuylov.maxim.ocaml.lang.parser.ast.util.OCamlASTTreeUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlModuleType;
-import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlModuleTypeName;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlModuleTypeSpecificationBinding;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -41,16 +39,6 @@ import org.jetbrains.annotations.Nullable;
 public class OCamlModuleTypeSpecificationBindingImpl extends BaseOCamlResolvedReference implements OCamlModuleTypeSpecificationBinding {
     public OCamlModuleTypeSpecificationBindingImpl(@NotNull final ASTNode node) {
         super(node);
-    }
-
-    @Override
-    public boolean endsCorrectly() {
-        if (getNode().findChildByType(OCamlTokenTypes.EQ) != null) {
-            return OCamlPsiUtil.endsCorrectlyWith(this, OCamlModuleType.class);
-        }
-        else {
-            return OCamlPsiUtil.endsCorrectlyWith(this, OCamlModuleTypeName.class);
-        }
     }
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {

@@ -18,9 +18,11 @@
 
 package manuylov.maxim.ocaml.lang.parser.psi.element;
 
+import manuylov.maxim.ocaml.lang.feature.resolving.OCamlResolvedReference;
+
 /**
  * @author Maxim.Manuylov
- *         Date: 13.05.2010
+ *         Date: 03.05.2009
  */
-public interface OCamlParenthesesPattern extends OCamlPattern {
+public interface OCamlLabeledParameter extends OCamlResolvedReference {
 }

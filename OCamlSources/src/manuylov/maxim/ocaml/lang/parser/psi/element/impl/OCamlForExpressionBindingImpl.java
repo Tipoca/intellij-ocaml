@@ -19,13 +19,9 @@
 package manuylov.maxim.ocaml.lang.parser.psi.element.impl;
 
 import com.intellij.lang.ASTNode;
-import com.intellij.psi.tree.TokenSet;
 import manuylov.maxim.ocaml.lang.feature.resolving.ResolvingBuilder;
 import manuylov.maxim.ocaml.lang.feature.resolving.util.OCamlDeclarationsUtil;
-import manuylov.maxim.ocaml.lang.lexer.token.OCamlTokenTypes;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
-import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
-import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlExpression;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlForExpressionBinding;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlForExpressionIndexVariableName;
 import org.jetbrains.annotations.NotNull;
@@ -39,12 +35,6 @@ public class OCamlForExpressionBindingImpl extends BaseOCamlElement implements O
         super(node);
     }
 
-    @Override
-    public boolean endsCorrectly() {
-        return getNode().findChildByType(TokenSet.create(OCamlTokenTypes.TO_KEYWORD, OCamlTokenTypes.DOWNTO_KEYWORD)) != null
-            && OCamlPsiUtil.endsCorrectlyWith(this, OCamlExpression.class);
-    }
-    
     public void visit(@NotNull final OCamlElementVisitor visitor) {
         visitor.visitForExpressionBinding(this);
     }

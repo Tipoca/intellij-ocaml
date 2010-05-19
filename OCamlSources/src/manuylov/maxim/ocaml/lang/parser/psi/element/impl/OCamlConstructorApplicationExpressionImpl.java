@@ -20,9 +20,7 @@ package manuylov.maxim.ocaml.lang.parser.psi.element.impl;
 
 import com.intellij.lang.ASTNode;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
-import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlConstructorApplicationExpression;
-import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlExpression;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -32,11 +30,6 @@ import org.jetbrains.annotations.NotNull;
 public class OCamlConstructorApplicationExpressionImpl extends BaseOCamlElement implements OCamlConstructorApplicationExpression {
     public OCamlConstructorApplicationExpressionImpl(@NotNull final ASTNode node) {
         super(node);
-    }
-
-    @Override
-    public boolean endsCorrectly() {
-        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlExpression.class);
     }
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {

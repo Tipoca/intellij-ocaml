@@ -207,7 +207,7 @@ public class OCamlCompiler extends BaseOCamlCompiler implements SourceInstrument
 
         final Set<String> addedPaths = new HashSet<String>();
         addPath(cmd, addedPaths, OCamlFileUtil.getPathToDisplay(destDir));
-        for (final OCamlModule dependency : ocamlModule.collectExactDependencies()) { // todo research: A: {open B;; let s = w;;} B: {open C;;} C: {let w = 0;;} - maybe replace collectExactDependencies with collectAllDependencies 
+        for (final OCamlModule dependency : ocamlModule.collectExactDependencies()) {
             final String path = OCamlFileUtil.getCompiledDir(fileIndex, dependency.getSourcesDir()).getPath();
             addPath(cmd, addedPaths, path);
         }

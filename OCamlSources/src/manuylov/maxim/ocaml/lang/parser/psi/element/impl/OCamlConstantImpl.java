@@ -19,12 +19,8 @@
 package manuylov.maxim.ocaml.lang.parser.psi.element.impl;
 
 import com.intellij.lang.ASTNode;
-import com.intellij.psi.tree.IElementType;
-import manuylov.maxim.ocaml.lang.lexer.token.OCamlTokenTypes;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
-import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlConstant;
-import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlTagName;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -34,17 +30,6 @@ import org.jetbrains.annotations.NotNull;
 public class OCamlConstantImpl extends BaseOCamlElement implements OCamlConstant {
     public OCamlConstantImpl(@NotNull final ASTNode node) {
         super(node);
-    }
-
-    @Override
-    public boolean endsCorrectly() {
-        final ASTNode firstChildNode = getNode().getFirstChildNode();
-        //noinspection SimplifiableIfStatement
-        if (firstChildNode == null) return false;
-        final IElementType type = firstChildNode.getElementType();
-        return type == OCamlTokenTypes.ACCENT && OCamlPsiUtil.endsCorrectlyWith(this, OCamlTagName.class)
-            || type == OCamlTokenTypes.LPAR && OCamlPsiUtil.endsWith(this, OCamlTokenTypes.RPAR)
-            || type != OCamlTokenTypes.ACCENT && type != OCamlTokenTypes.LPAR;
     }
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {

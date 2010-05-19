@@ -71,6 +71,6 @@ public class OCamlTagNameImpl extends BaseOCamlReference implements OCamlTagName
 
     @Override
     public boolean isSoft() {
-        return true; // todo
+        return true;
     }
 }

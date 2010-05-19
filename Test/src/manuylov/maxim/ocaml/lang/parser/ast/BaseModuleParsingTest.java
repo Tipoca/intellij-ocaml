@@ -53,7 +53,7 @@ public abstract class BaseModuleParsingTest extends ParsingTestCase {
         doTest("module type m = M1.M2.m", myTree.getStringRepresentation());
     }
 
-    public void testModuleTypeInParentheses() throws Exception {
+    public void testModuleTypeInParenthess() throws Exception {
         myTree.addNode(3, getMainElement());
         myTree.addNode(4, MODULE_KEYWORD);
         myTree.addNode(4, TYPE_KEYWORD);
@@ -61,7 +61,7 @@ public abstract class BaseModuleParsingTest extends ParsingTestCase {
         myTree.addNode(5, MODULE_TYPE_NAME);
         myTree.addNode(6, LCFC_IDENTIFIER, "m");
         myTree.addNode(5, EQ);
-        myTree.addNode(5, PARENTHESES_MODULE_TYPE);
+        myTree.addNode(5, PARENTHESES);
         myTree.addNode(6, LPAR);
         myTree.addNode(6, MODULE_TYPE_NAME);
         myTree.addNode(7, UCFC_IDENTIFIER, "M");
@@ -146,14 +146,13 @@ public abstract class BaseModuleParsingTest extends ParsingTestCase {
         myTree.addNode(5, EQ);
         myTree.addNode(5, FUNCTOR_MODULE_TYPE);
         myTree.addNode(6, FUNCTOR_KEYWORD);
-        myTree.addNode(6, PARENTHESES);
+        myTree.addNode(6, MODULE_PARAMETER);
         myTree.addNode(7, LPAR);
-        myTree.addNode(7, MODULE_PARAMETER);
-        myTree.addNode(8, MODULE_NAME);
-        myTree.addNode(9, UCFC_IDENTIFIER, "ModuleName");
-        myTree.addNode(8, COLON);
-        myTree.addNode(8, MODULE_TYPE_NAME);
-        myTree.addNode(9, UCFC_IDENTIFIER, "ModuleTypeName");
+        myTree.addNode(7, MODULE_NAME);
+        myTree.addNode(8, UCFC_IDENTIFIER, "ModuleName");
+        myTree.addNode(7, COLON);
+        myTree.addNode(7, MODULE_TYPE_NAME);
+        myTree.addNode(8, UCFC_IDENTIFIER, "ModuleTypeName");
         myTree.addNode(7, RPAR);
         myTree.addNode(6, MINUS_GT);
         myTree.addNode(6, MODULE_TYPE_NAME);

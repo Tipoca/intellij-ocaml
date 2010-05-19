@@ -20,8 +20,6 @@ package manuylov.maxim.ocaml.lang.parser.psi.element.impl;
 
 import com.intellij.lang.ASTNode;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
-import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
-import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlArgument;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlFunctionApplicationExpression;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlStructuredElement;
 import org.jetbrains.annotations.NotNull;
@@ -40,11 +38,6 @@ public class OCamlFunctionApplicationExpressionImpl extends BaseOCamlElement imp
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {
         visitor.visitFunctionApplicationExpression(this);
-    }
-
-    @Override
-    public boolean endsCorrectly() {
-        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlArgument.class);
     }
 
     @NotNull

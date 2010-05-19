@@ -21,7 +21,6 @@ package manuylov.maxim.ocaml.lang.parser.psi.element.impl;
 import com.intellij.lang.ASTNode;
 import manuylov.maxim.ocaml.lang.feature.resolving.ResolvingBuilder;
 import manuylov.maxim.ocaml.lang.feature.resolving.util.OCamlDeclarationsUtil;
-import manuylov.maxim.ocaml.lang.lexer.token.OCamlTokenTypes;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlClassExpression;
@@ -36,16 +35,6 @@ import org.jetbrains.annotations.NotNull;
 public class OCamlInheritClassFieldDefinitionImpl extends BaseOCamlElement implements OCamlInheritClassFieldDefinition {
     public OCamlInheritClassFieldDefinitionImpl(@NotNull final ASTNode node) {
         super(node);
-    }
-
-    @Override
-    public boolean endsCorrectly() {
-        if (getNode().findChildByType(OCamlTokenTypes.AS_KEYWORD) != null) {
-            return OCamlPsiUtil.endsCorrectlyWith(this, OCamlInstVarNameDefinition.class);
-        }
-        else {
-            return OCamlPsiUtil.endsCorrectlyWith(this, OCamlClassExpression.class);
-        }
     }
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {

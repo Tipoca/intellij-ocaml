@@ -11,10 +11,8 @@
       <w>expr</w>
       <w>functor</w>
       <w>intf</w>
-      <w>lbracket</w>
       <w>lcfc</w>
       <w>modificator</w>
-      <w>mult</w>
       <w>multi</w>
       <w>nativeint</w>
       <w>ocaml</w>
@@ -22,9 +20,7 @@
       <w>ocamldebug</w>
       <w>ocamlopt</w>
       <w>ocamlrun</w>
-      <w>param</w>
       <w>parameterized</w>
-      <w>parenthesesed</w>
       <w>patcher</w>
       <w>pervasives</w>
       <w>popup</w>
@@ -42,7 +38,6 @@
       <w>ucfc</w>
       <w>unary</w>
       <w>unregister</w>
-      <w>vbar</w>
     </words>
   </dictionary>
 </component>

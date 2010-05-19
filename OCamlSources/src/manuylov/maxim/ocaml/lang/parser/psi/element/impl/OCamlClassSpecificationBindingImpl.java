@@ -39,11 +39,6 @@ public class OCamlClassSpecificationBindingImpl extends BaseOCamlResolvedReferen
         super(node);
     }
 
-    @Override
-    public boolean endsCorrectly() {
-        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlClassType.class);
-    }
-
     public void visit(@NotNull final OCamlElementVisitor visitor) {
         visitor.visitClassSpecificationBinding(this);
     }

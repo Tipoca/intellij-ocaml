@@ -45,6 +45,8 @@ class ExpressionParsing extends Parsing {
         final PsiBuilder.Marker parameterMarker = builder.mark();
 
         if (ignore(builder, OCamlTokenTypes.TILDE)) {
+            final PsiBuilder.Marker marker = builder.mark();
+
             if (ignore(builder, OCamlTokenTypes.LPAR)) {
                 NameParsing.parseLabelNameProbablyWithColon(builder, new Runnable() {
                     public void run() {
@@ -53,8 +55,12 @@ class ExpressionParsing extends Parsing {
                 }, true);
 
                 checkMatches(builder, OCamlTokenTypes.RPAR, Strings.RPAR_EXPECTED);
+
+                marker.done(OCamlElementTypes.PARENTHESES);
             }
             else {
+                marker.drop();
+
                 NameParsing.parseLabelNameProbablyWithColon(builder, new Runnable() {
                     public void run() {
                         PatternParsing.parsePattern(builder);
@@ -63,6 +69,8 @@ class ExpressionParsing extends Parsing {
             }
         }
         else if (ignore(builder, OCamlTokenTypes.QUEST)) {
+            final PsiBuilder.Marker marker = builder.mark();
+
             if (ignore(builder, OCamlTokenTypes.LPAR)) {
                 NameParsing.parseLabelNameProbablyWithColon(builder, new Runnable() {
                     public void run() {
@@ -75,10 +83,16 @@ class ExpressionParsing extends Parsing {
                 }
 
                 checkMatches(builder, OCamlTokenTypes.RPAR, Strings.RPAR_EXPECTED);
+
+                marker.done(OCamlElementTypes.PARENTHESES);
             }
             else {
+                marker.drop();
+
                 NameParsing.parseLabelNameProbablyWithColon(builder, new Runnable() {
                     public void run() {
+                        final PsiBuilder.Marker marker = builder.mark();
+
                         if (ignore(builder, OCamlTokenTypes.LPAR)) {
                             PatternParsing.parsePattern(builder);
 
@@ -91,8 +105,12 @@ class ExpressionParsing extends Parsing {
                             }
 
                             checkMatches(builder, OCamlTokenTypes.RPAR, Strings.RPAR_EXPECTED);
+
+                            marker.done(OCamlElementTypes.PARENTHESES);
                         }
                         else {
+                            marker.drop();
+
                             PatternParsing.parsePattern(builder);
                         }
                     }
@@ -233,7 +251,7 @@ class ExpressionParsing extends Parsing {
         listExpressionMarker.done(OCamlElementTypes.LIST_EXPRESSION);
     }
 
-    private static void parseParenthesesExpression(@NotNull final PsiBuilder builder) {
+    private static void parseParenthessExpression(@NotNull final PsiBuilder builder) {
         final PsiBuilder.Marker castingOrTypeConstraintExpressionMarker = builder.mark();
 
         if (ignore(builder, OCamlTokenTypes.BEGIN_KEYWORD)) {
@@ -241,7 +259,7 @@ class ExpressionParsing extends Parsing {
 
             checkMatches(builder, OCamlTokenTypes.END_KEYWORD, Strings.END_KEYWORD_EXPECTED);
 
-            castingOrTypeConstraintExpressionMarker.done(OCamlElementTypes.PARENTHESES_EXPRESSION);
+            castingOrTypeConstraintExpressionMarker.done(OCamlElementTypes.PARENTHESES);
         }
         else if (builder.getTokenType() == OCamlTokenTypes.LPAR) {
             if (NameParsing.tryParseValueName(builder, false)) {
@@ -255,7 +273,7 @@ class ExpressionParsing extends Parsing {
 
             if (ignore(builder, OCamlTokenTypes.RPAR)) {
                 if (expressionParsed) {
-                    castingOrTypeConstraintExpressionMarker.done(OCamlElementTypes.PARENTHESES_EXPRESSION);
+                    castingOrTypeConstraintExpressionMarker.done(OCamlElementTypes.PARENTHESES);
                 }
                 else {
                     castingOrTypeConstraintExpressionMarker.done(OCamlElementTypes.CONSTANT);
@@ -968,7 +986,7 @@ class ExpressionParsing extends Parsing {
 
     private static boolean tryParseWrappedOrSimpleExpression(@NotNull final PsiBuilder builder) {
         if (TokenSet.create(OCamlTokenTypes.BEGIN_KEYWORD, OCamlTokenTypes.LPAR).contains(builder.getTokenType())) {
-            parseParenthesesExpression(builder);
+            parseParenthessExpression(builder);
         }
         else if (builder.getTokenType() == OCamlTokenTypes.LBRACKET) {
             parseListExpression(builder);

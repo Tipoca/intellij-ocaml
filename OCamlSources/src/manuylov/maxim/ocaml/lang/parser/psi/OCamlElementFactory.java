@@ -517,38 +517,11 @@ public class OCamlElementFactory {
         else if (elementType == FOR_EXPRESSION_INDEX_VARIABLE_NAME) {
             return new OCamlForExpressionIndexVariableNameImpl(node);
         }
-        else if (elementType == PARENTHESES_MODULE_TYPE) {
-            return new OCamlParenthesesModuleTypeImpl(node);
-        }
-        else if (elementType == PARENTHESES_TYPE_EXPRESSION) {
-            return new OCamlParenthesesTypeExpressionImpl(node);
-        }
-        else if (elementType == PARENTHESES_TYPE_PARAMETERS) {
-            return new OCamlParenthesesTypeParametersImpl(node);
-        }
-        else if (elementType == PARENTHESES_CLASS_EXPRESSION) {
-            return new OCamlParenthesesClassExpressionImpl(node);
-        }
-        else if (elementType == PARENTHESES_EXPRESSION) {
-            return new OCamlParenthesesExpressionImpl(node);
-        }
-        else if (elementType == PARENTHESES_MODULE_EXPRESSION) {
-            return new OCamlParenthesesModuleExpressionImpl(node);
-        }
-        else if (elementType == PARENTHESES_PATTERN) {
-            return new OCamlParenthesesPatternImpl(node);
-        }
         else if (elementType == PARENTHESES) {
             return new OCamlParenthesesImpl(node);
         }
         else if (elementType == BRACKETS) {
             return new OCamlBracketsImpl(node);
-        }
-        else if (elementType == UNDERSCORE_TYPE_EXPRESSION) {
-            return new OCamlUnderscoreTypeExpressionImpl(node);
-        }
-        else if (elementType == UNDERSCORE_PATTERN) {
-            return new OCamlUnderscorePatternImpl(node);
         }
         else {
             return new OCamlUnknownElementImpl(node);

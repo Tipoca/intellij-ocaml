@@ -44,6 +44,31 @@ import java.util.List;
  *         Date: 08.05.2010
  */
 public class OCamlRefactoringUtil {
+    @NotNull
+    public static PsiElement[] findElementsOfTypeInRange(@NotNull final PsiFile file,
+                                                         @NotNull final Class<? extends OCamlElement> elementClass,
+                                                         final int startOffset,
+                                                         final int endOffset) {
+        PsiElement element1 = file.findElementAt(startOffset);
+        PsiElement element2 = file.findElementAt(endOffset - 1);
+        while (element1 instanceof PsiWhiteSpace) {
+          element1 = file.findElementAt(element1.getTextRange().getEndOffset());
+        }
+        while (element2 instanceof PsiWhiteSpace) {
+          element2 = file.findElementAt(element2.getTextRange().getStartOffset() - 1);
+        }
+        if (element1 == null || element2 == null) {
+          return PsiElement.EMPTY_ARRAY;
+        }
+
+        final PsiElement parent = PsiTreeUtil.getParentOfType(PsiTreeUtil.findCommonParent(element1, element2), elementClass, false);
+        if (parent != null && new TextRange(startOffset, endOffset).contains(parent.getTextRange())) {
+            return new PsiElement[] { parent };
+        }
+
+        return PsiElement.EMPTY_ARRAY;
+    }
+
     public static void showChooser(@NotNull final String title,
                                    @NotNull final Editor editor,
                                    @NotNull final List<PsiElement> elements,

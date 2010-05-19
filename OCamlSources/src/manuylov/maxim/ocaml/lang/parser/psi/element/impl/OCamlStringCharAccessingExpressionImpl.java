@@ -20,8 +20,6 @@ package manuylov.maxim.ocaml.lang.parser.psi.element.impl;
 
 import com.intellij.lang.ASTNode;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
-import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
-import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlBrackets;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlStringCharAccessingExpression;
 import org.jetbrains.annotations.NotNull;
 
@@ -32,11 +30,6 @@ import org.jetbrains.annotations.NotNull;
 public class OCamlStringCharAccessingExpressionImpl extends BaseOCamlElement implements OCamlStringCharAccessingExpression {
     public OCamlStringCharAccessingExpressionImpl(@NotNull final ASTNode node) {
         super(node);
-    }
-
-    @Override
-    public boolean endsCorrectly() {
-        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlBrackets.class);
     }
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {

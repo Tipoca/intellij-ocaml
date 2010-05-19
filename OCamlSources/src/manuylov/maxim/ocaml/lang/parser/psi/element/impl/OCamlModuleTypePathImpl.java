@@ -41,11 +41,6 @@ public class OCamlModuleTypePathImpl extends BaseOCamlElement implements OCamlMo
         visitor.visitModuleTypePath(this);
     }
 
-    @Override
-    public boolean endsCorrectly() {
-        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlModuleTypeName.class);
-    }
-
     @Nullable
     public OCamlModuleTypeName getModuleTypeName() {
         return OCamlPsiUtil.getLastChildOfType(this, OCamlModuleTypeName.class);

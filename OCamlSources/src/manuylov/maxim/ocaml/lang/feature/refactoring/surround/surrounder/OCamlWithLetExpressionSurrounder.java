@@ -28,7 +28,7 @@ public class OCamlWithLetExpressionSurrounder extends BaseOCamlSurrounderWithNav
     private static final String START = "let ";
 
     public OCamlWithLetExpressionSurrounder() {
-        super("let / in");
+        super("let");
     }
 
     @NotNull

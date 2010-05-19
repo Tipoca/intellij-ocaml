@@ -30,6 +30,6 @@ abstract class BaseOCamlLetElement extends BaseOCamlElement implements OCamlLetE
     }
 
     public boolean isRecursive() {
-        return OCamlASTTreeUtil.findChildOfType(getNode(), OCamlTokenTypes.REC_KEYWORD) != null;
+        return OCamlASTTreeUtil.findChildOfType(getNode(), OCamlTokenTypes.REC_KEYWORD, false) != null;
     }
 }

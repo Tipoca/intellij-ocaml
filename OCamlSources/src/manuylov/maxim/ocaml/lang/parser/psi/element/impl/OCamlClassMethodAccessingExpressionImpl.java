@@ -23,7 +23,6 @@ import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlClassMethodAccessingExpression;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlExpression;
-import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlMethodName;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -36,11 +35,6 @@ import java.util.List;
 public class OCamlClassMethodAccessingExpressionImpl extends BaseOCamlElement implements OCamlClassMethodAccessingExpression {
     public OCamlClassMethodAccessingExpressionImpl(@NotNull final ASTNode node) {
         super(node);
-    }
-
-    @Override
-    public boolean endsCorrectly() {
-        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlMethodName.class);
     }
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {

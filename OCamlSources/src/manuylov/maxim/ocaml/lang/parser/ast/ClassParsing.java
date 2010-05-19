@@ -602,7 +602,7 @@ class ClassParsing extends Parsing {
 
         checkMatches(builder, OCamlTokenTypes.RPAR, Strings.RPAR_EXPECTED);
 
-        marker.done(colonParsed ? OCamlElementTypes.CLASS_TYPE_CONSTRAINT : OCamlElementTypes.PARENTHESES_CLASS_EXPRESSION);
+        marker.done(colonParsed ? OCamlElementTypes.CLASS_TYPE_CONSTRAINT : OCamlElementTypes.PARENTHESES);
     }
 
     private static boolean tryParseClassFunctionType(@NotNull final PsiBuilder builder) {

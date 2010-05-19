@@ -26,4 +26,6 @@ import org.jetbrains.annotations.Nullable;
  *         Date: 23.05.2009
  */
 public interface OCamlModuleElement extends OCamlElement {
+    @Nullable
+    OCamlModuleElement findActualDefinition();
 }

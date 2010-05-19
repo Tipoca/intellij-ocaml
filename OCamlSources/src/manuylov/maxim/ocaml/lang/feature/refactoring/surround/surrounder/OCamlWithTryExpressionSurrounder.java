@@ -26,7 +26,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class OCamlWithTryExpressionSurrounder extends BaseOCamlSurrounderWithNavigation {
     public OCamlWithTryExpressionSurrounder() {
-        super("try / with");
+        super("try");
     }
 
     @NotNull

@@ -20,8 +20,6 @@ package manuylov.maxim.ocaml.lang.parser.psi.element.impl;
 
 import com.intellij.lang.ASTNode;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
-import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
-import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlTypeConstructorName;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlTypeConstructorPattern;
 import org.jetbrains.annotations.NotNull;
 
@@ -32,11 +30,6 @@ import org.jetbrains.annotations.NotNull;
 public class OCamlTypeConstructorPatternImpl extends BaseOCamlElement implements OCamlTypeConstructorPattern {
     public OCamlTypeConstructorPatternImpl(@NotNull final ASTNode node) {
         super(node);
-    }
-
-    @Override
-    public boolean endsCorrectly() {
-        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlTypeConstructorName.class);
     }
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {

@@ -38,11 +38,6 @@ public class OCamlFunctionClassExpressionImpl extends BaseOCamlElement implement
         super(node);
     }
 
-    @Override
-    public boolean endsCorrectly() {
-        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlClassExpression.class);
-    }
-
     public void visit(@NotNull final OCamlElementVisitor visitor) {
         visitor.visitFunctionClassExpression(this);
     }

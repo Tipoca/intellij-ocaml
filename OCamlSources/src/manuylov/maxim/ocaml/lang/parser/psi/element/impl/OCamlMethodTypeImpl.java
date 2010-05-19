@@ -24,9 +24,7 @@ import manuylov.maxim.ocaml.lang.feature.resolving.impl.BaseOCamlResolvedReferen
 import manuylov.maxim.ocaml.lang.parser.ast.element.OCamlElementTypes;
 import manuylov.maxim.ocaml.lang.parser.ast.util.OCamlASTTreeUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
-import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlMethodType;
-import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlPolyTypeExpression;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -41,11 +39,6 @@ public class OCamlMethodTypeImpl extends BaseOCamlResolvedReference implements O
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {
         visitor.visitMethodType(this);
-    }
-
-    @Override
-    public boolean endsCorrectly() {
-        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlPolyTypeExpression.class);
     }
 
     @Nullable

@@ -23,7 +23,6 @@ import manuylov.maxim.ocaml.lang.feature.resolving.util.OCamlResolvingUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlClassType;
-import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlExpression;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlFunctionClassType;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlStructuredElement;
 import org.jetbrains.annotations.NotNull;
@@ -37,11 +36,6 @@ import java.util.List;
 public class OCamlFunctionClassTypeImpl extends BaseOCamlElement implements OCamlFunctionClassType {
     public OCamlFunctionClassTypeImpl(@NotNull final ASTNode node) {
         super(node);
-    }
-
-    @Override
-    public boolean endsCorrectly() {
-        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlClassType.class);
     }
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {

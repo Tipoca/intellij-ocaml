@@ -125,7 +125,7 @@ public abstract class BaseTypeParsingTest extends ParsingTestCase {
         myTree.addNode(3, TYPE_DEFINITION);
         myTree.addNode(4, TYPE_KEYWORD);
         myTree.addNode(4, TYPE_PARAMETERIZED_BINDING);
-        myTree.addNode(5, PARENTHESES_TYPE_PARAMETERS);
+        myTree.addNode(5, PARENTHESES);
         myTree.addNode(6, LPAR);
         myTree.addNode(6, PLUS_MINUS_TYPE_PARAMETER);
         myTree.addNode(7, QUOTE);
@@ -143,7 +143,7 @@ public abstract class BaseTypeParsingTest extends ParsingTestCase {
         myTree.addNode(3, TYPE_DEFINITION);
         myTree.addNode(4, TYPE_KEYWORD);
         myTree.addNode(4, TYPE_PARAMETERIZED_BINDING);
-        myTree.addNode(5, PARENTHESES_TYPE_PARAMETERS);
+        myTree.addNode(5, PARENTHESES);
         myTree.addNode(6, LPAR);
         myTree.addNode(6, PLUS_MINUS_TYPE_PARAMETER);
         myTree.addNode(7, PLUS);
@@ -162,7 +162,7 @@ public abstract class BaseTypeParsingTest extends ParsingTestCase {
         myTree.addNode(3, TYPE_DEFINITION);
         myTree.addNode(4, TYPE_KEYWORD);
         myTree.addNode(4, TYPE_PARAMETERIZED_BINDING);
-        myTree.addNode(5, PARENTHESES_TYPE_PARAMETERS);
+        myTree.addNode(5, PARENTHESES);
         myTree.addNode(6, LPAR);
         myTree.addNode(6, PLUS_MINUS_TYPE_PARAMETER);
         myTree.addNode(7, MINUS);
@@ -181,7 +181,7 @@ public abstract class BaseTypeParsingTest extends ParsingTestCase {
         myTree.addNode(3, TYPE_DEFINITION);
         myTree.addNode(4, TYPE_KEYWORD);
         myTree.addNode(4, TYPE_PARAMETERIZED_BINDING);
-        myTree.addNode(5, PARENTHESES_TYPE_PARAMETERS);
+        myTree.addNode(5, PARENTHESES);
         myTree.addNode(6, LPAR);
         myTree.addNode(6, PLUS_MINUS_TYPE_PARAMETER);
         myTree.addNode(7, QUOTE);
@@ -204,7 +204,7 @@ public abstract class BaseTypeParsingTest extends ParsingTestCase {
         myTree.addNode(3, TYPE_DEFINITION);
         myTree.addNode(4, TYPE_KEYWORD);
         myTree.addNode(4, TYPE_PARAMETERIZED_BINDING);
-        myTree.addNode(5, PARENTHESES_TYPE_PARAMETERS);
+        myTree.addNode(5, PARENTHESES);
         myTree.addNode(6, LPAR);
         myTree.addNode(6, PLUS_MINUS_TYPE_PARAMETER);
         myTree.addNode(7, PLUS);
@@ -330,15 +330,14 @@ public abstract class BaseTypeParsingTest extends ParsingTestCase {
 
     public void testUnderscoreExpression() throws Exception {
         addCommonNodes();
-        myTree.addNode(5, UNDERSCORE_TYPE_EXPRESSION);
-        myTree.addNode(6, UNDERSCORE);
+        myTree.addNode(5, UNDERSCORE);
 
         doTest("type t = _", myTree.getStringRepresentation());
     }
 
-    public void testTypeExpressionInParentheses() throws Exception {
+    public void testTypeExpressionInParenthess() throws Exception {
         addCommonNodes();
-        myTree.addNode(5, PARENTHESES_TYPE_EXPRESSION);
+        myTree.addNode(5, PARENTHESES);
         myTree.addNode(6, LPAR);
         myTree.addNode(6, TYPE_CONSTRUCTOR_NAME);
         myTree.addNode(7, LCFC_IDENTIFIER, "int");
@@ -862,45 +861,45 @@ public abstract class BaseTypeParsingTest extends ParsingTestCase {
     }
 
     public void testAssociativity() throws Exception {
-        final String text1 = getTreeIgnoringParentheses("type t = ?label: int -> ?label: int -> int");
-        final String text2 = getTreeIgnoringParentheses("type t = (?label: int -> (?label: int -> int))");
+        final String text1 = getTreeIgnoringParenthess("type t = ?label: int -> ?label: int -> int");
+        final String text2 = getTreeIgnoringParenthess("type t = (?label: int -> (?label: int -> int))");
 
         assertEquals(text1, text2);
     }
 
     public void testPriorities() throws Exception {
-        String text1 = getTreeIgnoringParentheses("type t = int -> int as 'a");
-        String text2 = getTreeIgnoringParentheses("type t = ((int -> int) as 'a)");
+        String text1 = getTreeIgnoringParenthess("type t = int -> int as 'a");
+        String text2 = getTreeIgnoringParenthess("type t = ((int -> int) as 'a)");
 
         assertEquals(text1, text2);
 
-        text1 = getTreeIgnoringParentheses("type t = int -> int * int");
-        text2 = getTreeIgnoringParentheses("type t = (int -> (int * int))");
+        text1 = getTreeIgnoringParenthess("type t = int -> int * int");
+        text2 = getTreeIgnoringParenthess("type t = (int -> (int * int))");
 
         assertEquals(text1, text2);
 
-        text1 = getTreeIgnoringParentheses("type t = int * int -> int");
-        text2 = getTreeIgnoringParentheses("type t = ((int * int) -> int)");
+        text1 = getTreeIgnoringParenthess("type t = int * int -> int");
+        text2 = getTreeIgnoringParenthess("type t = ((int * int) -> int)");
 
         assertEquals(text1, text2);
 
-        text1 = getTreeIgnoringParentheses("type t = int * int list");
-        text2 = getTreeIgnoringParentheses("type t = (int * (int list))");
+        text1 = getTreeIgnoringParenthess("type t = int * int list");
+        text2 = getTreeIgnoringParenthess("type t = (int * (int list))");
 
         assertEquals(text1, text2);
 
-        text1 = getTreeIgnoringParentheses("type t = int list * int");
-        text2 = getTreeIgnoringParentheses("type t = ((int list) * int)");
+        text1 = getTreeIgnoringParenthess("type t = int list * int");
+        text2 = getTreeIgnoringParenthess("type t = ((int list) * int)");
 
         assertEquals(text1, text2);
 
-        text1 = getTreeIgnoringParentheses("type t = int * int #myClass");
-        text2 = getTreeIgnoringParentheses("type t = (int * (int #myClass))");
+        text1 = getTreeIgnoringParenthess("type t = int * int #myClass");
+        text2 = getTreeIgnoringParenthess("type t = (int * (int #myClass))");
 
         assertEquals(text1, text2);
 
-        text1 = getTreeIgnoringParentheses("type t = int #myClass * int");
-        text2 = getTreeIgnoringParentheses("type t = ((int #myClass) * int)");
+        text1 = getTreeIgnoringParenthess("type t = int #myClass * int");
+        text2 = getTreeIgnoringParenthess("type t = ((int #myClass) * int)");
 
         assertEquals(text1, text2);
     }

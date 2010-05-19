@@ -21,12 +21,8 @@ package manuylov.maxim.ocaml.lang.parser.psi.element.impl;
 import com.intellij.lang.ASTNode;
 import manuylov.maxim.ocaml.lang.feature.resolving.ResolvingBuilder;
 import manuylov.maxim.ocaml.lang.feature.resolving.util.OCamlDeclarationsUtil;
-import manuylov.maxim.ocaml.lang.lexer.token.OCamlTokenTypes;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
-import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
-import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlExpression;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlInstVarNameDefinition;
-import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlTypeExpression;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlValueClassFieldDefinition;
 import org.jetbrains.annotations.NotNull;
 
@@ -37,16 +33,6 @@ import org.jetbrains.annotations.NotNull;
 public class OCamlValueClassFieldDefinitionImpl extends BaseOCamlElement implements OCamlValueClassFieldDefinition {
     public OCamlValueClassFieldDefinitionImpl(@NotNull final ASTNode node) {
         super(node);
-    }
-
-    @Override
-    public boolean endsCorrectly() {
-        if (getNode().findChildByType(OCamlTokenTypes.EQ) != null) {
-            return OCamlPsiUtil.endsCorrectlyWith(this, OCamlExpression.class);
-        }
-        else {
-            return OCamlPsiUtil.endsCorrectlyWith(this, OCamlTypeExpression.class);
-        }
     }
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {

@@ -194,7 +194,7 @@ class TypeParsing extends Parsing {
 
             checkMatches(builder, OCamlTokenTypes.RPAR, Strings.RPAR_EXPECTED);
 
-            marker.done(OCamlElementTypes.PARENTHESES_TYPE_PARAMETERS);
+            marker.done(OCamlElementTypes.PARENTHESES);
         }
         else {
             marker.drop();
@@ -342,16 +342,7 @@ class TypeParsing extends Parsing {
 
             checkMatches(builder, OCamlTokenTypes.RPAR, Strings.RPAR_EXPECTED);
 
-            boolean isTypeExpression = false;
-            if (expressionCount == 1) {
-                final PsiBuilder.Marker marker = builder.mark();
-                if (!ignore(builder, OCamlTokenTypes.HASH) && !NameParsing.tryParseTypeConstructorPath(builder)) {
-                    isTypeExpression = true;
-                }
-                marker.rollbackTo();
-            }
-
-            typeExpressionMarker.done(isTypeExpression ? OCamlElementTypes.PARENTHESES_TYPE_EXPRESSION : OCamlElementTypes.PARENTHESES);
+            typeExpressionMarker.done(OCamlElementTypes.PARENTHESES);
             typeExpressionMarker = typeExpressionMarker.precede();
 
             if (ignore(builder, OCamlTokenTypes.HASH)) {
@@ -392,7 +383,7 @@ class TypeParsing extends Parsing {
     private static boolean tryParseSimpleTypeExpression(@NotNull final PsiBuilder builder) {
         if (builder.getTokenType() == OCamlTokenTypes.QUOTE) {
             parseTypeParameter(builder, false, false);
-        } else if (!tryParseUnderscore(builder) &&
+        } else if (!ignore(builder, OCamlTokenTypes.UNDERSCORE) &&
                    !tryParseObjectInterfaceTypeExpression(builder) &&
                    !tryParseVariantTypeExpression(builder)) {
             final PsiBuilder.Marker typeExpressionMarker = builder.mark();
@@ -411,18 +402,6 @@ class TypeParsing extends Parsing {
         }
 
         return true;
-    }
-
-    private static boolean tryParseUnderscore(@NotNull final PsiBuilder builder) {
-        final PsiBuilder.Marker marker = builder.mark();
-
-        if (ignore(builder, OCamlTokenTypes.UNDERSCORE)) {
-            marker.done(OCamlElementTypes.UNDERSCORE_TYPE_EXPRESSION);
-            return true;
-        }
-
-        marker.drop();
-        return false;
     }
 
     private static boolean tryParseVariantTypeExpression(@NotNull final PsiBuilder builder) {

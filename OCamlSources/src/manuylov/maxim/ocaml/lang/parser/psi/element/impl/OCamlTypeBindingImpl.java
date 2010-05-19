@@ -27,7 +27,9 @@ import manuylov.maxim.ocaml.lang.parser.ast.element.OCamlElementTypes;
 import manuylov.maxim.ocaml.lang.parser.ast.util.OCamlASTTreeUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
-import manuylov.maxim.ocaml.lang.parser.psi.element.*;
+import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlTypeBinding;
+import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlTypeExpression;
+import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlTypeRepresentation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -40,21 +42,13 @@ public class OCamlTypeBindingImpl extends BaseOCamlResolvedReference implements 
         super(node);
     }
 
-    @Override
-    public boolean endsCorrectly() {
-        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlRecordTypeDefinition.class)
-            || OCamlPsiUtil.endsCorrectlyWith(this, OCamlVariantTypeDefinition.class)
-            || OCamlPsiUtil.endsCorrectlyWith(this, OCamlTypeExpression.class)
-            || OCamlPsiUtil.endsCorrectlyWith(this, OCamlTypeDefinitionConstraint.class);
-    }
-
     public void visit(@NotNull final OCamlElementVisitor visitor) {
         visitor.visitTypeBinding(this);
     }
 
     @Nullable
     public ASTNode getNameElement() {
-        return OCamlASTTreeUtil.findChildOfType(getNode(), OCamlElementTypes.TYPE_CONSTRUCTOR_NAME);
+        return OCamlASTTreeUtil.findChildOfType(getNode(), OCamlElementTypes.TYPE_CONSTRUCTOR_NAME, false);
     }
 
     @NotNull

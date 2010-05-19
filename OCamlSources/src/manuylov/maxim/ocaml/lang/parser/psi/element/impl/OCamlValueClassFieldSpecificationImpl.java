@@ -22,9 +22,7 @@ import com.intellij.lang.ASTNode;
 import manuylov.maxim.ocaml.lang.feature.resolving.ResolvingBuilder;
 import manuylov.maxim.ocaml.lang.feature.resolving.util.OCamlDeclarationsUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
-import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlInstVarNameDefinition;
-import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlTypeExpression;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlValueClassFieldSpecification;
 import org.jetbrains.annotations.NotNull;
 
@@ -35,11 +33,6 @@ import org.jetbrains.annotations.NotNull;
 public class OCamlValueClassFieldSpecificationImpl extends BaseOCamlElement implements OCamlValueClassFieldSpecification {
     public OCamlValueClassFieldSpecificationImpl(@NotNull final ASTNode node) {
         super(node);
-    }
-
-    @Override
-    public boolean endsCorrectly() {
-        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlTypeExpression.class);
     }
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {

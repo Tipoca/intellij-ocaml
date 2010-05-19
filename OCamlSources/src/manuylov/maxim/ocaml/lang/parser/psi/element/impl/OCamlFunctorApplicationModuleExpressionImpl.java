@@ -37,11 +37,6 @@ public class OCamlFunctorApplicationModuleExpressionImpl extends BaseOCamlElemen
         super(node);
     }
 
-    @Override
-    public boolean endsCorrectly() {
-        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlParentheses.class);
-    }
-
     public void visit(@NotNull final OCamlElementVisitor visitor) {
         visitor.visitFunctorApplicationModuleExpression(this);
     }

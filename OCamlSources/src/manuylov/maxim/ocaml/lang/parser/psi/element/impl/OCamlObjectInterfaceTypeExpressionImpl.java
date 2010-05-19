@@ -19,9 +19,7 @@
 package manuylov.maxim.ocaml.lang.parser.psi.element.impl;
 
 import com.intellij.lang.ASTNode;
-import manuylov.maxim.ocaml.lang.lexer.token.OCamlTokenTypes;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
-import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlObjectInterfaceTypeExpression;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlStructuredElement;
 import org.jetbrains.annotations.NotNull;
@@ -36,11 +34,6 @@ import java.util.List;
 public class OCamlObjectInterfaceTypeExpressionImpl extends BaseOCamlElement implements OCamlObjectInterfaceTypeExpression {
     public OCamlObjectInterfaceTypeExpressionImpl(@NotNull final ASTNode node) {
         super(node);
-    }
-
-    @Override
-    public boolean endsCorrectly() {
-        return OCamlPsiUtil.endsWith(this, OCamlTokenTypes.GT);
     }
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {

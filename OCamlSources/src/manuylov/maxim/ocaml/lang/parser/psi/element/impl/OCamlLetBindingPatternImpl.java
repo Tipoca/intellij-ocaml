@@ -37,11 +37,6 @@ public class OCamlLetBindingPatternImpl extends BaseOCamlElement implements OCam
         super(node);
     }
 
-    @Override
-    public boolean endsCorrectly() {
-        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlPattern.class);
-    }
-
     public void visit(@NotNull final OCamlElementVisitor visitor) {
         visitor.visitLetBindingPattern(this);
     }

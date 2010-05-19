@@ -22,7 +22,6 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiErrorElement;
 import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.tree.TokenSet;
 import manuylov.maxim.ocaml.lang.Keywords;
 import manuylov.maxim.ocaml.lang.Strings;
 import manuylov.maxim.ocaml.lang.lexer.token.OCamlTokenTypes;
@@ -37,53 +36,43 @@ import java.lang.reflect.Field;
  *         Date: 25.02.2009
  */
 public class TreeStringBuilder {
-    @NotNull private static final TokenSet ourParenthesesTypes = TokenSet.create(
-        OCamlElementTypes.PARENTHESES_CLASS_EXPRESSION,
-        OCamlElementTypes.PARENTHESES_EXPRESSION,
-        OCamlElementTypes.PARENTHESES_MODULE_EXPRESSION,
-        OCamlElementTypes.PARENTHESES_MODULE_TYPE,
-        OCamlElementTypes.PARENTHESES_PATTERN,
-        OCamlElementTypes.PARENTHESES_TYPE_EXPRESSION,
-        OCamlElementTypes.PARENTHESES_TYPE_PARAMETERS
-    );
-
     private final StringBuilder myStringBuilder = new StringBuilder("");
-    private final boolean myThrowExceptionIfErrorElementOccurred;
+    private final boolean myThrowExceptionIfErrorElementOccured;
     private int ignoredLeftParCount = 0;
     private int ignoredRightParCount = 0;
 
-    public TreeStringBuilder(final boolean throwExceptionIfErrorElementOccurred) {
-        myThrowExceptionIfErrorElementOccurred = throwExceptionIfErrorElementOccurred;
+    public TreeStringBuilder(final boolean throwExceptionIfErrorElementOccured) {
+        myThrowExceptionIfErrorElementOccured = throwExceptionIfErrorElementOccured;
     }
 
-    public static TreeStringBuilder buildTreeString(@NotNull final ASTNode root, final boolean ignoreWhiteSpaces, final boolean ignoreParentheses,
-                                              final boolean throwExceptionIfErrorElementOccurred) {
-        final TreeStringBuilder builder = new TreeStringBuilder(throwExceptionIfErrorElementOccurred);
-        processNode(builder, 0, root, ignoreWhiteSpaces, ignoreParentheses);
+    public static TreeStringBuilder buildTreeString(@NotNull final ASTNode root, final boolean ignoreWhiteSpaces, final boolean ignoreParenthess,
+                                              final boolean throwExceptionIfErrorElementOccured) {
+        final TreeStringBuilder builder = new TreeStringBuilder(throwExceptionIfErrorElementOccured);
+        processNode(builder, 0, root, ignoreWhiteSpaces, ignoreParenthess);
         if (builder.ignoredLeftParCount != builder.ignoredRightParCount) {
-            throw new RuntimeException("Unbalanced parentheses.");
+            throw new RuntimeException("Unbalanced parenthess.");
         }
         return builder;
     }
 
-    private static void processNode(@NotNull final TreeStringBuilder builder, final int level, @NotNull final ASTNode node,
-                                    final boolean ignoreWhiteSpaces, final boolean ignoreParentheses) {
-        doProcessNode(builder, level, node, ignoreWhiteSpaces, ignoreParentheses);
+    private static void processNode(final TreeStringBuilder builder, final int level, final ASTNode node, final boolean ignoreWhiteSpaces,
+                                    final boolean ignoreParenthess) {
+        doProcessNode(builder, level, node, ignoreWhiteSpaces, ignoreParenthess);
 
         final ASTNode[] children = node.getChildren(null);
         for (final ASTNode child : children) {
-            processNode(builder, ignoreParentheses && ourParenthesesTypes.contains(node.getElementType()) ? level : level + 1, child, ignoreWhiteSpaces, ignoreParentheses);
+            processNode(builder, ignoreParenthess && node.getElementType() == OCamlElementTypes.PARENTHESES ? level : level + 1, child, ignoreWhiteSpaces, ignoreParenthess);
         }
     }
 
-    private static void doProcessNode(@NotNull final TreeStringBuilder builder, final int level, @NotNull final ASTNode node,
-                                      final boolean ignoreWhiteSpaces, final boolean ignoreParentheses) {
+    private static void doProcessNode(final TreeStringBuilder builder, final int level, final ASTNode node, final boolean ignoreWhiteSpaces,
+                                      final boolean ignoreParenthess) {
         final IElementType elementType = node.getElementType();
 
         if (ignoreWhiteSpaces && elementType == TokenType.WHITE_SPACE) return;
 
-        if (ignoreParentheses) {
-            if (ourParenthesesTypes.contains(elementType)) return;
+        if (ignoreParenthess) {
+            if (elementType == OCamlElementTypes.PARENTHESES) return;
 
             if (elementType == OCamlTokenTypes.LPAR) {
                 final ASTNode next = node.getTreeNext();
@@ -107,8 +96,8 @@ public class TreeStringBuilder {
             if (elementType == TokenType.ERROR_ELEMENT) {
                 assert node instanceof PsiErrorElement;
                 text = ((PsiErrorElement)node).getErrorDescription();
-                if (builder.myThrowExceptionIfErrorElementOccurred) {
-                    throw new RuntimeException("Error element: " + text + ".\n\nTree:\n\n" + buildTreeString(getRoot(node), ignoreWhiteSpaces, ignoreParentheses, false).getStringRepresentation());
+                if (builder.myThrowExceptionIfErrorElementOccured) {
+                    throw new RuntimeException("Error element: " + text + ".\n\nTree:\n\n" + buildTreeString(getRoot(node), ignoreWhiteSpaces, ignoreParenthess, false).getStringRepresentation());
                 }
             }
             else {

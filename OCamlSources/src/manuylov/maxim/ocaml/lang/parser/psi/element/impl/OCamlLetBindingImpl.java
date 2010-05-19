@@ -44,11 +44,6 @@ public class OCamlLetBindingImpl extends BaseOCamlElement implements OCamlLetBin
     }
 
     @Override
-    public boolean endsCorrectly() {
-        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlExpression.class);
-    }
-
-    @Override
     public boolean processDeclarations(@NotNull final ResolvingBuilder builder) {
         final OCamlExpression expression = getExpression();
         //noinspection SimplifiableIfStatement

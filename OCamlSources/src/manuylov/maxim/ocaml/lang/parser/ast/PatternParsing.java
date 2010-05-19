@@ -235,7 +235,7 @@ class PatternParsing extends Parsing {
             }
             else if (ignore(builder, OCamlTokenTypes.RPAR)) {
                 if (patternParsed) {
-                    marker.done(OCamlElementTypes.PARENTHESES_PATTERN);
+                    marker.done(OCamlElementTypes.PARENTHESES);
                 }
                 else {
                     marker.done(OCamlElementTypes.CONSTANT);
@@ -257,25 +257,13 @@ class PatternParsing extends Parsing {
         else {
             marker.drop();
 
-            if (!tryParseUnderscore(builder) && !NameParsing.tryParseValueName(builder, true) &&
+            if (!ignore(builder, OCamlTokenTypes.UNDERSCORE) && !NameParsing.tryParseValueName(builder, true) &&
                 !NameParsing.tryParseConstant(builder)) {
                 return false;
             }
         }
 
         return true;
-    }
-
-    private static boolean tryParseUnderscore(@NotNull final PsiBuilder builder) {
-        final PsiBuilder.Marker marker = builder.mark();
-
-        if (ignore(builder, OCamlTokenTypes.UNDERSCORE)) {
-            marker.done(OCamlElementTypes.UNDERSCORE_PATTERN);
-            return true;
-        }
-
-        marker.drop();
-        return false;
     }
 
     private static void parseRecordFieldInitialization(@NotNull final PsiBuilder builder) {

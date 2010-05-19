@@ -24,8 +24,6 @@ import manuylov.maxim.ocaml.lang.feature.resolving.impl.BaseOCamlResolvedReferen
 import manuylov.maxim.ocaml.lang.parser.ast.element.OCamlElementTypes;
 import manuylov.maxim.ocaml.lang.parser.ast.util.OCamlASTTreeUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
-import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
-import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlPolyTypeExpression;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlRecordFieldDefinition;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -39,18 +37,13 @@ public class OCamlRecordFieldDefinitionImpl extends BaseOCamlResolvedReference i
         super(node);
     }
 
-    @Override
-    public boolean endsCorrectly() {
-        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlPolyTypeExpression.class);
-    }
-
     public void visit(@NotNull final OCamlElementVisitor visitor) {
         visitor.visitRecordFieldDefinition(this);
     }
 
     @Nullable
     public ASTNode getNameElement() {
-        return OCamlASTTreeUtil.findChildOfType(getNode(), OCamlElementTypes.FIELD_NAME);
+        return OCamlASTTreeUtil.findChildOfType(getNode(), OCamlElementTypes.FIELD_NAME, false);
     }
 
     @NotNull

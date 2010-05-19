@@ -28,7 +28,6 @@ import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlExpression;
 public class OCamlExpressionSurroundDescriptor extends BaseOCamlSurroundDescriptor {
     public OCamlExpressionSurroundDescriptor() {
         super(OCamlExpression.class,
-            new OCamlWithParenthesesExpressionSurrounder(),
             new OCamlWithAssertExpressionSurrounder(),
             new OCamlWithBeginEndExpressionSurrounder(),
             new OCamlWithForExpressionSurrounder(),
@@ -37,6 +36,7 @@ public class OCamlExpressionSurroundDescriptor extends BaseOCamlSurroundDescript
             new OCamlWithLazyExpressionSurrounder(),
             new OCamlWithLetExpressionSurrounder(),
             new OCamlWithMatchExpressionSurrounder(),
+            new OCamlWithParenthesesExpressionSurrounder(),
             new OCamlWithTryExpressionSurrounder(),
             new OCamlWithWhileExpressionSurrounder()
         );

@@ -42,11 +42,6 @@ public class OCamlTypeConstructorApplicationTypeExpressionImpl extends BaseOCaml
         visitor.visitTypeConstructorApplicationTypeExpression(this);
     }
 
-    @Override
-    public boolean endsCorrectly() {
-        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlTypeConstructorPath.class);
-    }
-
     @NotNull
     public List<OCamlStructuredElement> findActualDefinitions() {
         return OCamlResolvingUtil.collectActualDefinitionsOfStructuredElements(OCamlPsiUtil.getLastChildOfType(this, OCamlTypeConstructorPath.class));

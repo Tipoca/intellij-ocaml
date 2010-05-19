@@ -21,10 +21,10 @@ package manuylov.maxim.ocaml.lang.parser.psi.element.impl;
 import com.intellij.lang.ASTNode;
 import manuylov.maxim.ocaml.lang.feature.resolving.ResolvingBuilder;
 import manuylov.maxim.ocaml.lang.feature.resolving.util.OCamlDeclarationsUtil;
-import manuylov.maxim.ocaml.lang.lexer.token.OCamlTokenTypes;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
-import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
-import manuylov.maxim.ocaml.lang.parser.psi.element.*;
+import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlParameter;
+import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlParentheses;
+import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlPattern;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -34,13 +34,6 @@ import org.jetbrains.annotations.NotNull;
 public class OCamlParameterImpl extends BaseOCamlElement implements OCamlParameter {
     public OCamlParameterImpl(@NotNull final ASTNode node) {
         super(node);
-    }
-
-    @Override
-    public boolean endsCorrectly() {
-        return OCamlPsiUtil.endsWith(this, OCamlTokenTypes.RPAR)
-            || OCamlPsiUtil.endsCorrectlyWith(this, OCamlLabelDefinition.class)
-            || OCamlPsiUtil.endsCorrectlyWith(this, OCamlPattern.class);
     }
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {

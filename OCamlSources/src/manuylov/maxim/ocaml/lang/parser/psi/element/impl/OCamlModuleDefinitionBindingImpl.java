@@ -30,7 +30,6 @@ import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlModuleDefinitionBinding;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlModuleExpression;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlModuleType;
-import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlParentheses;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -41,11 +40,6 @@ import org.jetbrains.annotations.Nullable;
 public class OCamlModuleDefinitionBindingImpl extends BaseOCamlResolvedReference implements OCamlModuleDefinitionBinding {
     public OCamlModuleDefinitionBindingImpl(@NotNull final ASTNode node) {
         super(node);
-    }
-
-    @Override
-    public boolean endsCorrectly() {
-        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlModuleExpression.class);
     }
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {
@@ -69,8 +63,7 @@ public class OCamlModuleDefinitionBindingImpl extends BaseOCamlResolvedReference
 
     @Override
     public boolean processDeclarations(@NotNull final ResolvingBuilder builder) {
-        return OCamlDeclarationsUtil.processDeclarationsInStructuredBinding(builder, this) 
-            || OCamlDeclarationsUtil.processDeclarationsInChildren(builder, this, OCamlParentheses.class);
+        return OCamlDeclarationsUtil.processDeclarationsInStructuredBinding(builder, this);
     }
 
     @Nullable

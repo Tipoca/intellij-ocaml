@@ -22,7 +22,6 @@ import com.intellij.lang.ASTNode;
 import manuylov.maxim.ocaml.lang.feature.resolving.ResolvingBuilder;
 import manuylov.maxim.ocaml.lang.feature.resolving.util.OCamlDeclarationsUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
-import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlClassTypeBinding;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlClassTypeDefinition;
 import org.jetbrains.annotations.NotNull;
@@ -34,11 +33,6 @@ import org.jetbrains.annotations.NotNull;
 public class OCamlClassTypeDefinitionImpl extends BaseOCamlElement implements OCamlClassTypeDefinition {
     public OCamlClassTypeDefinitionImpl(@NotNull final ASTNode node) {
         super(node);
-    }
-
-    @Override
-    public boolean endsCorrectly() {
-        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlClassTypeBinding.class);
     }
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {

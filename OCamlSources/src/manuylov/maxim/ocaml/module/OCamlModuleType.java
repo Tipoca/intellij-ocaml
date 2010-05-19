@@ -18,40 +18,45 @@
 
 package manuylov.maxim.ocaml.module;
 
+import com.intellij.ide.util.frameworkSupport.FrameworkSupportProvider;
+import com.intellij.ide.util.frameworkSupport.FrameworkSupportUtil;
+import com.intellij.ide.util.newProjectWizard.SupportForFrameworksStep;
 import com.intellij.ide.util.projectWizard.ModuleWizardStep;
-import com.intellij.ide.util.projectWizard.ProjectWizardStepFactory;
 import com.intellij.ide.util.projectWizard.WizardContext;
 import com.intellij.openapi.module.ModuleType;
 import com.intellij.openapi.module.ModuleTypeManager;
 import com.intellij.openapi.roots.ui.configuration.ModulesProvider;
+import com.intellij.openapi.roots.ui.configuration.projectRoot.LibrariesContainerFactory;
 import manuylov.maxim.ocaml.util.OCamlIconUtil;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Maxim.Manuylov
  *         Date: 23.03.2009
  */
 public class OCamlModuleType extends ModuleType<OCamlModuleBuilder> {
-    @NotNull
-    public static final String ID = "OCAML_MODULE";
+    @NotNull public static final String ID = "OCAML_MODULE";
 
     @NotNull
     public static OCamlModuleType getInstance() {
-        return (OCamlModuleType) ModuleTypeManager.getInstance().findByID(ID);
+      return (OCamlModuleType) ModuleTypeManager.getInstance().findByID(ID);
     }
 
     @Override
     public ModuleWizardStep[] createWizardSteps(final WizardContext wizardContext,
                                                 final OCamlModuleBuilder moduleBuilder,
                                                 final ModulesProvider modulesProvider) {
-        final ArrayList<ModuleWizardStep> steps = new ArrayList<ModuleWizardStep>();
-        steps.add(new OCamlSourcesPathStep(moduleBuilder, null, null));
-        steps.add(new OCamlSdkSelectStep(moduleBuilder, null, null, wizardContext.getProject()));
-        steps.add(ProjectWizardStepFactory.getInstance().createSupportForFrameworksStep(wizardContext, moduleBuilder));
-        return steps.toArray(new ModuleWizardStep[steps.size()]);
+      final ArrayList<ModuleWizardStep> steps = new ArrayList<ModuleWizardStep>();
+      steps.add(new OCamlSdkSelectStep(moduleBuilder, null, null, wizardContext.getProject()));
+      final List<FrameworkSupportProvider> frameworkSupportProviders = FrameworkSupportUtil.getProviders(getInstance());
+      if (!frameworkSupportProviders.isEmpty()) {
+        steps.add(new SupportForFrameworksStep(moduleBuilder, LibrariesContainerFactory.createContainer(wizardContext.getProject())));
+      }
+      return steps.toArray(new ModuleWizardStep[steps.size()]);
     }
 
     public OCamlModuleType() {
@@ -75,11 +80,11 @@ public class OCamlModuleType extends ModuleType<OCamlModuleBuilder> {
 
     @NotNull
     public Icon getBigIcon() {
-        return OCamlIconUtil.getBigOCamlIcon();
+      return OCamlIconUtil.getBigOCamlIcon();
     }
 
     @NotNull
     public Icon getNodeIcon(final boolean isOpened) {
-        return OCamlIconUtil.getSmallOCamlIcon();
+      return OCamlIconUtil.getSmallOCamlIcon();
     }
 }

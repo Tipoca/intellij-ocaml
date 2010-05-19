@@ -36,11 +36,6 @@ public class OCamlModuleTypeWithConstraintsImpl extends BaseOCamlElement impleme
         super(node);
     }
 
-    @Override
-    public boolean endsCorrectly() {
-        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlModuleTypeConstraint.class);
-    }
-
     public void visit(@NotNull final OCamlElementVisitor visitor) {
         visitor.visitModuleTypeWithConstraints(this);
     }

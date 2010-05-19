@@ -84,7 +84,7 @@ public class OCamlToolWindowComponent implements ProjectComponent {
     }
 
     private void registerToolWindowIfNeeded() {
-        if (myToolWindowWasRegistered || !toolWindowShouldBeRegistered()) return;
+        if (myToolWindowWasRegistered || !shouldRegisterToolWindow()) return;
 
         final ToolWindow toolWindow = myToolWindowManager.registerToolWindow(TOOL_WINDOW_ID, true, ToolWindowAnchor.BOTTOM, false);
         toolWindow.setIcon(OCamlIconUtil.getSmallOCamlIcon());
@@ -106,13 +106,13 @@ public class OCamlToolWindowComponent implements ProjectComponent {
     }
 
     private void unregisterToolWindowIfNeeded() {
-        if (myToolWindowWasRegistered && !toolWindowShouldBeRegistered()) {
+        if (myToolWindowWasRegistered) {
             myToolWindowManager.unregisterToolWindow(TOOL_WINDOW_ID);
             myToolWindowWasRegistered = false;
         }
     }
 
-    private boolean toolWindowShouldBeRegistered() {
+    private boolean shouldRegisterToolWindow() {
         final Module[] modules = ModuleManager.getInstance(myProject).getModules();
         for (final Module module : modules) {
             if (OCamlModuleUtil.isOCamlModule(module)) {
