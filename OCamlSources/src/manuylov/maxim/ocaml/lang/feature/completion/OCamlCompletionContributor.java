@@ -41,6 +41,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import static com.intellij.patterns.PlatformPatterns.psiElement;
+import static manuylov.maxim.ocaml.lang.Keywords.*;
 
 /**
  * @author Maxim.Manuylov
@@ -76,22 +77,21 @@ public class OCamlCompletionContributor extends CompletionContributor {
     public OCamlCompletionContributor() {
         registerAndKeywordCompletionProvider();
         registerAsKeywordCompletionProvider();
+        registerExpressionStartKeywordsCompletionProvider();
+        registerStatementStartKeywordsCompletionProvider();
 
 
         /*
- as
-    assert      asr         begin       class
+
       constraint  do          done        downto      else        end
-      exception   external    false       for         fun         function
-      functor     if          in          include     inherit     initializer
-      land        lazy        let         lor         lsl         lsr
-      lxor        match       method      mod         module      mutable
-      new         object      of          open        or          private
-      rec         sig         struct      then        to          true
-      try         type        val         virtual     when        while
+
+      functor               in               inherit     initializer
+                      let                           
+                     method                     mutable
+               object      of                  or          private
+      rec         sig         struct      then        to
+               type        val         virtual     when
       with
-
-
 
 ->
 ;;
@@ -134,27 +134,89 @@ public class OCamlCompletionContributor extends CompletionContributor {
                 after(OCamlModuleTypeConstraint.class),
                 after(OCamlTypeBinding.class)
             ),
-            createCompletionProvider(Keywords.AND_KEYWORD, TailType.SPACE)
+            createCompletionProvider(TailType.SPACE, AND_KEYWORD)
         );
     }
 
     private void registerAsKeywordCompletionProvider() {
         extend(CompletionType.BASIC,
             OCAML_ELEMENT.and(after(OCamlTypeExpression.class)),
-            createCompletionProvider(Keywords.AS_KEYWORD, new TailType() {
+            createCompletionProvider(new TailType() {
                 @Override
                 public int processTail(@NotNull final Editor editor, final int tailOffset) {
                     return insertChar(editor, TailType.SPACE.processTail(editor, tailOffset), toCharacter(Keywords.QUOTE));
                 }
-            })
+            }, AS_KEYWORD)
         );
         extend(CompletionType.BASIC,
             OCAML_ELEMENT.andOr(
                 after(OCamlPattern.class),
                 OCAML_ELEMENT.and(after(OCamlInheritClassFieldDefinition.class)).and(after(OCamlClassExpression.class))
             ),
-            createCompletionProvider(Keywords.AS_KEYWORD, TailType.SPACE)
+            createCompletionProvider(TailType.SPACE, AS_KEYWORD)
         );
+    }
+
+    private void registerExpressionStartKeywordsCompletionProvider() {
+        extend(CompletionType.BASIC,
+            OCAML_ELEMENT.and(firstChildOf(OCamlExpression.class)),
+            createCompletionProvider(TailType.SPACE,
+                BEGIN_KEYWORD, IF_KEYWORD, WHILE_KEYWORD, FOR_KEYWORD, MATCH_KEYWORD, FUNCTION_KEYWORD,
+                FUN_KEYWORD, TRY_KEYWORD, NEW_KEYWORD, ASSERT_KEYWORD, LAZY_KEYWORD, FALSE_KEYWORD, TRUE_KEYWORD
+            )
+        );
+    }
+
+    private void registerStatementStartKeywordsCompletionProvider() {
+        extend(CompletionType.BASIC,
+            OCAML_ELEMENT.andOr(
+                atFileStart(),
+                OCAML_ELEMENT.afterLeaf(Keywords.STRUCT_KEYWORD),
+                OCAML_ELEMENT.afterLeaf(Keywords.SIG_KEYWORD),
+                OCAML_ELEMENT.afterLeaf(Keywords.SEMICOLON_SEMICOLON),
+                after(OCamlStatement.class)
+            ),
+            createCompletionProvider(TailType.SPACE,
+                EXTERNAL_KEYWORD, EXCEPTION_KEYWORD, CLASS_KEYWORD, MODULE_KEYWORD, OPEN_KEYWORD, INCLUDE_KEYWORD
+            )
+        );
+    }
+
+    @NotNull
+    private ElementPattern atFileStart() {
+        return new FilterPattern(new ElementFilter() {
+            public boolean isAcceptable(@NotNull final Object element, @NotNull final PsiElement context) {
+                final CompletionParameters parameters = getCompletionParameters(element);
+                return parameters != null && OCamlPsiUtil.getNonWhiteSpacePreviousLeaf(parameters.getPosition()) == null;
+            }
+
+            public boolean isClassAcceptable(@NotNull final Class hintClass) {
+                return true;
+            }
+        });
+    }
+
+    @NotNull
+    private ElementPattern firstChildOf(final Class<? extends PsiElement> clazz) {
+        return new FilterPattern(new ElementFilter() {
+            public boolean isAcceptable(@NotNull final Object element, @NotNull final PsiElement context) {
+                final CompletionParameters parameters = getCompletionParameters(element);
+                if (parameters == null) return false;
+
+                PsiElement parent = parameters.getPosition();
+                while (parent != null) {
+                    if (clazz.isInstance(parent)) return true;
+                    if (OCamlPsiUtil.getStrictPrevSibling(parent) != null) break;
+                    parent = OCamlPsiUtil.getParent(parent);
+                }
+
+                return false;
+            }
+
+            public boolean isClassAcceptable(@NotNull final Class hintClass) {
+                return true;
+            }
+        });
     }
 
     @NotNull
@@ -211,11 +273,11 @@ public class OCamlCompletionContributor extends CompletionContributor {
     }
 
     @NotNull
-    private static CompletionProvider<CompletionParameters> createCompletionProvider(@NotNull final String word, @NotNull final TailType tailType) {
+    private static CompletionProvider<CompletionParameters> createCompletionProvider(@NotNull final TailType tailType, @NotNull final String... keywords) {
         return new CompletionProvider<CompletionParameters>() {
             @Override
             protected void addCompletions(@NotNull final CompletionParameters parameters, final ProcessingContext context, @NotNull final CompletionResultSet result) {
-                putKeywords(result, tailType, word);
+                putKeywords(result, tailType, keywords);
             }
         };
     }
@@ -230,16 +292,4 @@ public class OCamlCompletionContributor extends CompletionContributor {
         assert str.length() == 1;
         return str.charAt(0);
     }
-
-/*
-    private void collectVariantsFor(@NotNull final OCamlElementType type, @NotNull final CompletionResultSet result) {
-        final ASTNode astNode = OCamlASTNodeUtil.createLeaf(type, "");
-        final OCamlElement element = OCamlElementFactory.INSTANCE.createElement(astNode);
-
-        final LookupElement[] variants = OCamlResolvingUtil.getVariants(new ResolvingContext(), );
-        for (final LookupElement variant : variants) {
-            result.addElement(variant);
-        }
-    }
-*/
 }

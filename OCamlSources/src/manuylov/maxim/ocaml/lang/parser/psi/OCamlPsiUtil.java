@@ -25,6 +25,7 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Computable;
 import com.intellij.openapi.util.TextRange;
+import com.intellij.psi.PsiComment;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiErrorElement;
 import com.intellij.psi.PsiWhiteSpace;
@@ -75,7 +76,7 @@ public class OCamlPsiUtil {
     @Nullable
     private static PsiElement getNonWhiteSpaceLastChild(@NotNull final PsiElement element) {
         final PsiElement lastChild = element.getLastChild();
-        if (lastChild == null || (!(lastChild instanceof PsiWhiteSpace) && !isEmptyErrorMarker(lastChild))) return lastChild;
+        if (lastChild == null || !isWhiteSpace(lastChild)) return lastChild;
         return getNonWhiteSpacePrevSibling(lastChild);
     }
 
@@ -84,15 +85,19 @@ public class OCamlPsiUtil {
         PsiElement result = sibling;
 
         do {
-            final PsiElement currentResult = result;
-            result = ApplicationManager.getApplication().runReadAction(new Computable<PsiElement>() {
-                public PsiElement compute() {
-                    return currentResult.getPrevSibling();
-                }
-            });
+            result = getStrictPrevSibling(result);
         } while (result != null && !(result instanceof OCamlElement));
 
         return (OCamlElement) result;
+    }
+
+    @Nullable
+    public static PsiElement getStrictPrevSibling(@NotNull final PsiElement element) {
+        return ApplicationManager.getApplication().runReadAction(new Computable<PsiElement>() {
+            public PsiElement compute() {
+                return element.getPrevSibling();
+            }
+        });
     }
 
     @Nullable
@@ -100,15 +105,14 @@ public class OCamlPsiUtil {
         PsiElement result = sibling;
 
         do {
-            final PsiElement currentResult = result;
-            result = ApplicationManager.getApplication().runReadAction(new Computable<PsiElement>() {
-                public PsiElement compute() {
-                    return currentResult.getPrevSibling();
-                }
-            });
-        } while (result != null && (result instanceof PsiWhiteSpace || isEmptyErrorMarker(result)));
+            result = getStrictPrevSibling(result);
+        } while (result != null && isWhiteSpace(result));
 
         return result;
+    }
+
+    private static boolean isWhiteSpace(@NotNull final PsiElement element) {
+        return element instanceof PsiWhiteSpace || element instanceof PsiComment || isEmptyErrorMarker(element);
     }
 
     private static boolean isEmptyErrorMarker(@NotNull final PsiElement element) {
@@ -159,8 +163,8 @@ public class OCamlPsiUtil {
     }
 
     @NotNull
-    public static <T extends OCamlElement, Q extends OCamlElement> List<T> getModulePath(@NotNull final OCamlElement psiElement,
-                                                                                         @NotNull final Class<T> siblingsType) {
+    public static <T extends OCamlElement> List<T> getModulePath(@NotNull final OCamlElement psiElement,
+                                                                 @NotNull final Class<T> siblingsType) {
         final List<T> result = new ArrayList<T>();
 
         if (!(psiElement.getParent() instanceof OCamlPathElement)) {

@@ -32,39 +32,68 @@ import static manuylov.maxim.ocaml.lang.Keywords.*;
 @Test
 public class KeywordsCompletionTest extends CompletionTestCase {
     public void testAndKeyword() throws Exception {
-        doTest(1, "let a = 0 }{", AND_KEYWORD);
-        doTest(2, "let a = }{");
-        doTest(3, "let a = b }{ c", AND_KEYWORD);
-        doTest(4, "let a = }{ c");
-        doTest(5, "let a = b and f = g }{", AND_KEYWORD);
-        doTest(6, "let a = b and f = }{");
-        doTest(7, "let a = b and f = g }{ c", AND_KEYWORD);
-        doTest(8, "let a = b and f = }{ c");
-        doTest(9, "let a = 1 }{ in a", AND_KEYWORD);
-        doTest(10, "let a = }{ in a");
-        doTest(11, "class s = object end }{", AND_KEYWORD);
-        doTest(12, "class s = object }{");
-        doTest(13, "class type s = object end }{", AND_KEYWORD);
-        doTest(14, "class type s = object }{");
-        doTest(15, "type s = One }{", AND_KEYWORD);
-        doTest(16, "type s = }{");
-        doTest(17, "module type S = sig end with module M = M }{", AND_KEYWORD);
-        doTest(18, "module type S = sig end with module M = }{");
-        doTest(19, "let a = Constr }{", AND_KEYWORD);
+        setKeywords(AND_KEYWORD);
+
+        doTest(1, "let a = 0 }{", true);
+        doTest(2, "let a = }{", false);
+        doTest(3, "let a = b }{ c", true);
+        doTest(4, "let a = }{ c", false);
+        doTest(5, "let a = b and f = g }{", true);
+        doTest(6, "let a = b and f = }{", false);
+        doTest(7, "let a = b and f = g }{ c", true);
+        doTest(8, "let a = b and f = }{ c", false);
+        doTest(9, "let a = 1 }{ in a", true);
+        doTest(10, "let a = }{ in a", false);
+        doTest(11, "class s = object end }{", true);
+        doTest(12, "class s = object }{", false);
+        doTest(13, "class type s = object end }{", true);
+        doTest(14, "class type s = object }{", false);
+        doTest(15, "type s = One }{", true);
+        doTest(16, "type s = }{", false);
+        doTest(17, "module type S = sig end with module M = M }{", true);
+        doTest(18, "module type S = sig end with module M = }{", false);
+        doTest(19, "let a = Constr }{", true);
     }
 
     public void testAsKeyword() throws Exception {
-        doTest(1, "type s = _ }{", AS_KEYWORD, AND_KEYWORD);
-        doTest(2, "type s = }{");
-        doTest(3, "match 1 with _ }{", AS_KEYWORD);
-        doTest(4, "match 1 with Constr }{", AS_KEYWORD);
-        doTest(5, "match 1 with }{");
-        doTest(6, "class s = object inherit ss }{", AS_KEYWORD);
-        doTest(7, "class s = object inherit }{");
-        doTest(8, "class s = object inherit ss as v }{");
-        doTest(9, "class s = object inherit ss as }{");
+        setKeywords(AS_KEYWORD);
+
+        doTest(1, "type s = _ }{", true);
+        doTest(2, "type s = }{", false);
+        doTest(3, "match 1 with _ }{", true);
+        doTest(4, "match 1 with Constr }{", true);
+        doTest(5, "match 1 with }{", false);
+        doTest(6, "class s = object inherit ss }{", true);
+        doTest(7, "class s = object inherit }{", false);
+        doTest(8, "class s = object inherit ss as v }{", false);
+        doTest(9, "class s = object inherit ss as }{", false);
     }
     
+    public void testExpressionStart() throws Exception {
+        setKeywords(BEGIN_KEYWORD, IF_KEYWORD, WHILE_KEYWORD, FOR_KEYWORD, MATCH_KEYWORD, FUNCTION_KEYWORD,
+            FUN_KEYWORD, TRY_KEYWORD, NEW_KEYWORD, ASSERT_KEYWORD, LAZY_KEYWORD, TRUE_KEYWORD, FALSE_KEYWORD);
+
+        doTest(1, "let a = }{", true);
+        doTest(2, "}{", true);
+        doTest(3, "let }{", false);
+        doTest(4, "type t = }{", false);
+    }
+
+    public void testStatementStart() throws Exception {
+        setKeywords(EXTERNAL_KEYWORD, EXCEPTION_KEYWORD, CLASS_KEYWORD, MODULE_KEYWORD, OPEN_KEYWORD, INCLUDE_KEYWORD);
+
+        doTest(1, "let }{", false);
+        doTest(2, "}{", true);
+        doTest(3, ";; }{", true);
+        doTest(4, "let a = 0;; }{", true);
+        doTest(5, "module M = struct }{", true);
+        doTest(6, "module M = struct ;; }{", true);
+        doTest(7, "module M = struct let a = 0;; }{", true);
+        doTest(8, "module type M = sig }{", true);
+        doTest(9, "module type M = sig ;; }{", true);
+        doTest(10, "module type M = sig val a : int;; }{", true);
+    }
+
     @NotNull
     @Override
     protected CompletionType getCompletionType() {

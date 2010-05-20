@@ -41,9 +41,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.testng.annotations.BeforeMethod;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * @author Maxim.Manuylov
@@ -57,6 +56,8 @@ public abstract class CompletionTestCase extends BaseOCamlTestCase {
 
     private static int testNumber;
 
+    private String[] myVariants;
+
     @BeforeMethod
     public void setUp() {
         super.setUp();
@@ -68,7 +69,11 @@ public abstract class CompletionTestCase extends BaseOCamlTestCase {
 
     protected abstract int getInvocationCount();
 
-    protected void doTest(final int n, @NotNull final String text, @NotNull final String... variants) throws Exception {
+    protected void setKeywords(@NotNull final String... keywords) {
+        myVariants = keywords;
+    }
+
+    protected void doTest(final int n, @NotNull final String text, final boolean shouldContain) throws Exception {
         if (n <= testNumber) {
             throw new IllegalArgumentException("n = " + n + ", testNumber = " + testNumber);
         }
@@ -81,7 +86,7 @@ public abstract class CompletionTestCase extends BaseOCamlTestCase {
         final String actualText = remove(text, completionPosition, COMPLETION_POSITION.length());
         assertEquals(actualText.indexOf(COMPLETION_POSITION), -1, errorText);
 
-        doTest(actualText, completionPosition, variants, errorText);
+        doTest(actualText, completionPosition, shouldContain, errorText);
     }
 
     @NotNull
@@ -91,7 +96,7 @@ public abstract class CompletionTestCase extends BaseOCamlTestCase {
 
     private void doTest(@NotNull final String actualText,
                         final int completionPosition,
-                        @Nullable final String[] variants,
+                        final boolean shouldContain,
                         @NotNull final String errorText) throws Exception {
         final ASTNode originalRoot = ParserTestUtil.buildTree(actualText, ourParserDefinition);
         final OCamlElement originalPsiRoot = OCamlElementFactory.INSTANCE.createElement(originalRoot);
@@ -99,14 +104,19 @@ public abstract class CompletionTestCase extends BaseOCamlTestCase {
         final ASTNode dummyRoot = ParserTestUtil.buildTree(insertDummyIdentifier(actualText, completionPosition), ourParserDefinition);
         final OCamlElement dummyPsiRoot = OCamlElementFactory.INSTANCE.createElement(dummyRoot);
 
-        final Set<String> result = new HashSet<String>();
+        final Set<String> result = new TreeSet<String>();
         ourContributor.fillCompletionVariants(
             createCompletionParameters(originalPsiRoot, dummyPsiRoot, completionPosition),
             createResultSet(result)
         );
 
-        final HashSet<String> variantsSet = new HashSet<String>(Arrays.asList(variants));
-        assertEquals(result, variantsSet, errorText + "\nactual: " + result.toString() + "\nexpected: " + variantsSet.toString() + "\n");
+        for (final String variant : myVariants) {
+            assertEquals(result.contains(variant), shouldContain, errorText +
+                "\nkeyword: " + variant +
+                "\nshould contain: " + shouldContain +
+                "\nresult: " + result.toString()
+            );
+        }
     }
 
     @NotNull
