@@ -30,8 +30,8 @@ import org.jetbrains.annotations.NotNull;
  *         Date: 05.02.2009
  */
 public interface OCamlElementTypes {
-    @NotNull IFileElementType ML_FILE = new IFileElementType("ML_FILE", MLFileTypeLanguage.INSTANCE);
-    @NotNull IFileElementType MLI_FILE = new IFileElementType("MLI_FILE", MLIFileTypeLanguage.INSTANCE);
+    @NotNull IFileElementType ML_FILE = new IFileElementType("OCaml:ML_FILE", MLFileTypeLanguage.INSTANCE);
+    @NotNull IFileElementType MLI_FILE = new IFileElementType("OCaml:MLI_FILE", MLIFileTypeLanguage.INSTANCE);
 
     /* Let parsing { */
 
@@ -150,11 +150,15 @@ public interface OCamlElementTypes {
     @NotNull IElementType OPERATOR_NAME = new OCamlElementType("OPERATOR_NAME");
     @NotNull IElementType MODULE_PATH = new OCamlElementType("MODULE_PATH");
     @NotNull IElementType MODULE_NAME = new OCamlElementType("MODULE_NAME");
-    @NotNull IElementType CONSTRUCTOR_PATH = new OCamlElementType("CONSTRUCTOR_PATH");
-    @NotNull IElementType CONSTRUCTOR_NAME = new OCamlElementType("CONSTRUCTOR_NAME");
+    @NotNull IElementType CONSTRUCTOR_PATH_EXPRESSION = new OCamlElementType("CONSTRUCTOR_PATH_EXPRESSION");
+    @NotNull IElementType CONSTRUCTOR_NAME_EXPRESSION = new OCamlElementType("CONSTRUCTOR_NAME_EXPRESSION");
+    @NotNull IElementType CONSTRUCTOR_PATH_PATTERN = new OCamlElementType("CONSTRUCTOR_PATH_PATTERN");
+    @NotNull IElementType CONSTRUCTOR_NAME_PATTERN = new OCamlElementType("CONSTRUCTOR_NAME_PATTERN");
     @NotNull IElementType TYPE_CONSTRUCTOR_NAME = new OCamlElementType("TYPE_CONSTRUCTOR_NAME");
     @NotNull IElementType INST_VAR_NAME_DEFINITION = new OCamlElementType("INST_VAR_NAME_DEFINITION");
     @NotNull IElementType CONSTRUCTOR_NAME_DEFINITION = new OCamlElementType("CONSTRUCTOR_NAME_DEFINITION");
+    @NotNull IElementType CONSTRUCTOR_NAME = new OCamlElementType("CONSTRUCTOR_NAME");
+    @NotNull IElementType CONSTRUCTOR_PATH = new OCamlElementType("CONSTRUCTOR_PATH");
     @NotNull IElementType TYPE_PARAMETER_NAME = new OCamlElementType("TYPE_PARAMETER_NAME");
     @NotNull IElementType FIELD_NAME = new OCamlElementType("FIELD_NAME");
     @NotNull IElementType CLASS_PATH = new OCamlElementType("CLASS_PATH");
@@ -170,7 +174,6 @@ public interface OCamlElementTypes {
     @NotNull IElementType TAG_NAME = new OCamlElementType("TAG_NAME");
     @NotNull IElementType VALUE_PATH = new OCamlElementType("VALUE_PATH");
     @NotNull IElementType FIELD_PATH = new OCamlElementType("FIELD_PATH");
-    @NotNull IElementType CONSTANT = new OCamlElementType("CONSTANT");
     @NotNull IElementType FOR_EXPRESSION_INDEX_VARIABLE_NAME = new OCamlElementType("FOR_EXPRESSION_INDEX_VARIABLE_NAME");
 
     /* } */
@@ -216,6 +219,8 @@ public interface OCamlElementTypes {
     @NotNull IElementType PARAMETER = new OCamlElementType("PARAMETER");
     @NotNull IElementType LABEL_DEFINITION = new OCamlElementType("LABEL_DEFINITION");
     @NotNull IElementType PARENTHESES_EXPRESSION = new OCamlElementType("PARENTHESES_EXPRESSION");
+    @NotNull IElementType EXPRESSION_STATEMENT = new OCamlElementType("EXPRESSION_STATEMENT");
+    @NotNull IElementType CONSTANT_EXPRESSION = new OCamlElementType("CONSTANT_EXPRESSION");
 
     /* } */
 
@@ -237,6 +242,7 @@ public interface OCamlElementTypes {
     @NotNull IElementType CHAR_RANGE_PATTERN = new OCamlElementType("CHAR_RANGE_PATTERN");
     @NotNull IElementType PARENTHESES_PATTERN = new OCamlElementType("PARENTHESES_PATTERN");
     @NotNull IElementType UNDERSCORE_PATTERN = new OCamlElementType("UNDERSCORE_PATTERN");
+    @NotNull IElementType CONSTANT_PATTERN = new OCamlElementType("CONSTANT_PATTERN");
 
     /* } */
 

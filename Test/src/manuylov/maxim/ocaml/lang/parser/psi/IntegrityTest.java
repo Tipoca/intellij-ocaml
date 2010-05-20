@@ -129,6 +129,7 @@ public class IntegrityTest extends BaseOCamlTestCase {
                 if (name.endsWith("NameImpl")) return;
                 if (name.endsWith("NameDefinitionImpl")) return;
                 if (name.endsWith("NamePatternImpl")) return;
+                if (name.endsWith("NameExpressionImpl")) return;
                 if (name.startsWith("OCamlFile")) return;
                 if (name.startsWith("OCamlUnderscore")) return;
                 while (clazz != null && !clazz.equals(BaseOCamlElement.class)) {

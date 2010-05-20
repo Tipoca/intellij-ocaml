@@ -245,10 +245,16 @@ public class OCamlElementVisitorAdapter extends OCamlElementVisitor {
     public void visitModuleName(@NotNull final OCamlModuleName psiElement) {
     }
 
-    public void visitConstructorPath(@NotNull final OCamlConstructorPath psiElement) {
+    public void visitConstructorPathExpression(@NotNull final OCamlConstructorPathExpression psiElement) {
     }
 
-    public void visitConstructorName(@NotNull final OCamlConstructorName psiElement) {
+    public void visitConstructorNameExpression(@NotNull final OCamlConstructorNameExpression psiElement) {
+    }
+
+    public void visitConstructorPathPattern(@NotNull final OCamlConstructorPathPattern psiElement) {
+    }
+
+    public void visitConstructorNamePattern(@NotNull final OCamlConstructorNamePattern psiElement) {
     }
 
     public void visitTypeConstructorName(@NotNull final OCamlTypeConstructorName psiElement) {
@@ -296,7 +302,10 @@ public class OCamlElementVisitorAdapter extends OCamlElementVisitor {
     public void visitFieldPath(@NotNull final OCamlFieldPath psiElement) {
     }
 
-    public void visitConstant(@NotNull final OCamlConstant psiElement) {
+    public void visitConstantExpression(@NotNull final OCamlConstantExpression psiElement) {
+    }
+
+    public void visitConstantPattern(@NotNull final OCamlConstantPattern psiElement) {
     }
 
     public void visitMatchExpression(@NotNull final OCamlMatchExpression psiElement) {
@@ -540,5 +549,14 @@ public class OCamlElementVisitorAdapter extends OCamlElementVisitor {
     }
 
     public void visitUnderscorePattern(@NotNull final OCamlUnderscorePattern psiElement) {
+    }
+
+    public void visitExpressionStatement(@NotNull final OCamlExpressionStatement psiElement) {
+    }
+
+    public void visitConstructorName(@NotNull final OCamlConstructorName psiElement) {
+    }
+
+    public void visitConstructorPath(@NotNull final OCamlConstructorPath psiElement) {
     }
 }

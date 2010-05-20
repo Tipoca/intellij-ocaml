@@ -16,13 +16,23 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/gpl-2.0.html>.
  */
 
-package manuylov.maxim.ocaml.lang.parser.psi.element;
+package manuylov.maxim.ocaml.lang.parser.psi.element.impl;
 
-import manuylov.maxim.ocaml.lang.parser.psi.OCamlElement;
+import com.intellij.lang.ASTNode;
+import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
+import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlConstantExpression;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Maxim.Manuylov
- *         Date: 21.03.2009
+ *         Date: 20.05.2010
  */
-public interface OCamlConstant extends OCamlElement {
+public class OCamlConstantExpressionImpl extends BaseOCamlConstant implements OCamlConstantExpression {
+    public OCamlConstantExpressionImpl(@NotNull final ASTNode node) {
+        super(node);
+    }
+
+    public void visit(@NotNull final OCamlElementVisitor visitor) {
+        visitor.visitConstantExpression(this);
+    }
 }

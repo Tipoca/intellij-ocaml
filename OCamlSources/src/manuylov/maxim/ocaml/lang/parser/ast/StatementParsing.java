@@ -37,11 +37,11 @@ public class StatementParsing extends Parsing {
                 if (!tryParseDefinition(builder)) {
                     final PsiBuilder.Marker tempMarker = builder.mark();
 
-                    if (ExpressionParsing.tryParseExpression(builder)) {
+                    if (tryParseExpressionStatement(builder)) {
                         if (lastDoubleSemicolon[0] == Appearance.No) {
                             tempMarker.rollbackTo();
                             builder.mark().error(Strings.SEMICOLON_SEMICOLON_EXPECTED);
-                            ExpressionParsing.parseExpression(builder);
+                            parseExpressionStatement(builder);
                         }
                         else {
                             tempMarker.drop();
@@ -80,6 +80,24 @@ public class StatementParsing extends Parsing {
 
         while (!exitCondition.test()) {
             advanceLexerIfNothingWasParsed(builder, parsing);
+        }
+    }
+
+    private static boolean tryParseExpressionStatement(@NotNull final PsiBuilder builder) {
+        final PsiBuilder.Marker marker = builder.mark();
+
+        if (ExpressionParsing.tryParseExpression(builder)) {
+            marker.done(OCamlElementTypes.EXPRESSION_STATEMENT);
+            return true;
+        }
+
+        marker.rollbackTo();
+        return false;
+    }
+
+    private static void parseExpressionStatement(@NotNull final PsiBuilder builder) {
+        if (!tryParseExpressionStatement(builder)) {
+            builder.error(Strings.EXPRESSION_EXPECTED);
         }
     }
 
@@ -136,7 +154,7 @@ public class StatementParsing extends Parsing {
 
         checkMatches(builder, OCamlTokenTypes.VAL_KEYWORD, Strings.VAL_KEYWORD_EXPECTED);
 
-        NameParsing.parseValueName(builder, true);
+        NameParsing.parseValueName(builder, NameParsing.NameType.PATTERN);
 
         checkMatches(builder, OCamlTokenTypes.COLON, Strings.COLON_EXPECTED);
 
@@ -193,7 +211,7 @@ public class StatementParsing extends Parsing {
         doParseExceptionSpecification(builder);
 
         if (ignore(builder, OCamlTokenTypes.EQ)) {
-            NameParsing.parseConstructorPath(builder, false);
+            NameParsing.parseConstructorPath(builder, NameParsing.NameType.NONE);
         }
         else if (ignore(builder, OCamlTokenTypes.OF_KEYWORD)) {
             TypeParsing.parseTypeExpression(builder);
@@ -207,7 +225,7 @@ public class StatementParsing extends Parsing {
 
         checkMatches(builder, OCamlTokenTypes.EXTERNAL_KEYWORD, Strings.EXTERNAL_KEYWORD_EXPECTED);
 
-        NameParsing.parseValueName(builder, true);
+        NameParsing.parseValueName(builder, NameParsing.NameType.PATTERN);
 
         checkMatches(builder, OCamlTokenTypes.COLON, Strings.COLON_EXPECTED);
 
@@ -231,7 +249,7 @@ public class StatementParsing extends Parsing {
     private static void doParseExceptionSpecification(@NotNull final PsiBuilder builder) {
         checkMatches(builder, OCamlTokenTypes.EXCEPTION_KEYWORD, Strings.EXCEPTION_KEYWORD_EXPECTED);
 
-        NameParsing.parseConstructorName(builder, true);
+        NameParsing.parseConstructorName(builder, NameParsing.NameType.DEFINITION);
     }
 
     public static interface Condition {

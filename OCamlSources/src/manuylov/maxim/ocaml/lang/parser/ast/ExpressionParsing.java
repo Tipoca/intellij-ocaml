@@ -150,7 +150,7 @@ class ExpressionParsing extends Parsing {
         checkMatches(builder, OCamlTokenTypes.LBRACE_LT, Strings.LBRACE_LT_EXPECTED);
 
         do {
-            NameParsing.parseInstVarName(builder, false);
+            NameParsing.parseInstVarName(builder, NameParsing.NameType.NONE);
 
             checkMatches(builder, OCamlTokenTypes.EQ, Strings.EQ_EXPECTED);
 
@@ -244,7 +244,7 @@ class ExpressionParsing extends Parsing {
             castingOrTypeConstraintExpressionMarker.done(OCamlElementTypes.PARENTHESES_EXPRESSION);
         }
         else if (builder.getTokenType() == OCamlTokenTypes.LPAR) {
-            if (NameParsing.tryParseValueName(builder, false)) {
+            if (NameParsing.tryParseValueName(builder, NameParsing.NameType.NONE)) {
                 castingOrTypeConstraintExpressionMarker.drop();
                 return;
             }
@@ -258,7 +258,7 @@ class ExpressionParsing extends Parsing {
                     castingOrTypeConstraintExpressionMarker.done(OCamlElementTypes.PARENTHESES_EXPRESSION);
                 }
                 else {
-                    castingOrTypeConstraintExpressionMarker.done(OCamlElementTypes.CONSTANT);
+                    castingOrTypeConstraintExpressionMarker.done(OCamlElementTypes.CONSTANT_EXPRESSION);
                 }
             }
             else {
@@ -852,7 +852,7 @@ class ExpressionParsing extends Parsing {
     private static boolean tryParseConstructorApplicationExpression(@NotNull final PsiBuilder builder) {
         final PsiBuilder.Marker constructorApplicationExpressionMarker = builder.mark();
 
-        if (!NameParsing.tryParseConstructorPath(builder, false)) {
+        if (!NameParsing.tryParseConstructorPath(builder, NameParsing.NameType.EXPRESSION)) {
             constructorApplicationExpressionMarker.drop();
             return false;
         }
@@ -952,7 +952,7 @@ class ExpressionParsing extends Parsing {
                 taggedExpressionMarker.done(OCamlElementTypes.TAGGED_EXPRESSION);
             }
             else {
-                taggedExpressionMarker.done(OCamlElementTypes.CONSTANT);
+                taggedExpressionMarker.done(OCamlElementTypes.CONSTANT_EXPRESSION);
             }
         }
         else {
@@ -1007,7 +1007,7 @@ class ExpressionParsing extends Parsing {
         else {
             simpleExpressionMarker.drop();
 
-            if (!NameParsing.tryParseValuePath(builder) && !NameParsing.tryParseConstant(builder)) {
+            if (!NameParsing.tryParseValuePath(builder) && !NameParsing.tryParseConstant(builder, NameParsing.NameType.EXPRESSION)) {
                 return false;
             }
         }

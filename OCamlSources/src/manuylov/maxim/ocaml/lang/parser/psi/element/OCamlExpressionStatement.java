@@ -18,11 +18,13 @@
 
 package manuylov.maxim.ocaml.lang.parser.psi.element;
 
-import manuylov.maxim.ocaml.lang.parser.psi.OCamlElement;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Maxim.Manuylov
  *         Date: 21.03.2009
  */
-public interface OCamlConstant extends OCamlElement {
+public interface OCamlExpressionStatement extends OCamlStatement {
+    @Nullable
+    OCamlExpression getExpression();
 }

@@ -173,9 +173,13 @@ public abstract class OCamlElementVisitor extends PsiElementVisitor {
 
     public abstract void visitModuleName(@NotNull final OCamlModuleName psiElement);
 
-    public abstract void visitConstructorPath(@NotNull final OCamlConstructorPath psiElement);
+    public abstract void visitConstructorPathExpression(@NotNull final OCamlConstructorPathExpression psiElement);
 
-    public abstract void visitConstructorName(@NotNull final OCamlConstructorName psiElement);
+    public abstract void visitConstructorNameExpression(@NotNull final OCamlConstructorNameExpression psiElement);
+
+    public abstract void visitConstructorPathPattern(@NotNull final OCamlConstructorPathPattern psiElement);
+
+    public abstract void visitConstructorNamePattern(@NotNull final OCamlConstructorNamePattern psiElement);
 
     public abstract void visitTypeConstructorName(@NotNull final OCamlTypeConstructorName psiElement);
 
@@ -207,7 +211,9 @@ public abstract class OCamlElementVisitor extends PsiElementVisitor {
 
     public abstract void visitFieldPath(@NotNull final OCamlFieldPath psiElement);
 
-    public abstract void visitConstant(@NotNull final OCamlConstant psiElement);
+    public abstract void visitConstantExpression(@NotNull final OCamlConstantExpression psiElement);
+
+    public abstract void visitConstantPattern(@NotNull final OCamlConstantPattern psiElement);
 
     public abstract void visitMatchExpression(@NotNull final OCamlMatchExpression psiElement);
 
@@ -370,4 +376,10 @@ public abstract class OCamlElementVisitor extends PsiElementVisitor {
     public abstract void visitUnderscoreTypeExpression(@NotNull final OCamlUnderscoreTypeExpression psiElement);
 
     public abstract void visitUnderscorePattern(@NotNull final OCamlUnderscorePattern psiElement);
+
+    public abstract void visitExpressionStatement(@NotNull final OCamlExpressionStatement psiElement);
+
+    public abstract void visitConstructorName(@NotNull final OCamlConstructorName psiElement);
+
+    public abstract void visitConstructorPath(@NotNull final OCamlConstructorPath psiElement);
 }

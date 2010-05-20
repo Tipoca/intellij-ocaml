@@ -16,13 +16,25 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/gpl-2.0.html>.
  */
 
-package manuylov.maxim.ocaml.lang.parser.psi.element;
+package manuylov.maxim.ocaml.lang.parser.psi.element.impl;
 
-import manuylov.maxim.ocaml.lang.parser.psi.OCamlElement;
+import com.intellij.lang.ASTNode;
+import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
+import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlConstructorName;
+import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlConstructorPath;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Maxim.Manuylov
  *         Date: 21.03.2009
  */
-public interface OCamlConstant extends OCamlElement {
+abstract class BaseOCamlConstructorPath extends BaseOCamlElement implements OCamlConstructorPath {
+    public BaseOCamlConstructorPath(@NotNull final ASTNode node) {
+        super(node);
+    }
+
+    @Override
+    public boolean endsCorrectly() {
+        return OCamlPsiUtil.endsCorrectlyWith(this, OCamlConstructorName.class);
+    }
 }

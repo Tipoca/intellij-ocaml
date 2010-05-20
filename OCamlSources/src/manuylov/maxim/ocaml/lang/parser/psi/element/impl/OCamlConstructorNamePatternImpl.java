@@ -19,35 +19,20 @@
 package manuylov.maxim.ocaml.lang.parser.psi.element.impl;
 
 import com.intellij.lang.ASTNode;
-import com.intellij.psi.tree.IElementType;
-import manuylov.maxim.ocaml.lang.lexer.token.OCamlTokenTypes;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
-import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
-import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlConstant;
-import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlTagName;
+import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlConstructorNamePattern;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Maxim.Manuylov
- *         Date: 21.03.2009
+ *         Date: 20.05.2010
  */
-public class OCamlConstantImpl extends BaseOCamlElement implements OCamlConstant {
-    public OCamlConstantImpl(@NotNull final ASTNode node) {
+public class OCamlConstructorNamePatternImpl extends BaseOCamlConstructorName implements OCamlConstructorNamePattern {
+    public OCamlConstructorNamePatternImpl(@NotNull final ASTNode node) {
         super(node);
     }
 
-    @Override
-    public boolean endsCorrectly() {
-        final ASTNode firstChildNode = getNode().getFirstChildNode();
-        //noinspection SimplifiableIfStatement
-        if (firstChildNode == null) return false;
-        final IElementType type = firstChildNode.getElementType();
-        return type == OCamlTokenTypes.ACCENT && OCamlPsiUtil.endsCorrectlyWith(this, OCamlTagName.class)
-            || type == OCamlTokenTypes.LPAR && OCamlPsiUtil.endsWith(this, OCamlTokenTypes.RPAR)
-            || type != OCamlTokenTypes.ACCENT && type != OCamlTokenTypes.LPAR;
-    }
-
     public void visit(@NotNull final OCamlElementVisitor visitor) {
-        visitor.visitConstant(this);
+        visitor.visitConstructorNamePattern(this);
     }
 }

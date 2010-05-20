@@ -18,11 +18,9 @@
 
 package manuylov.maxim.ocaml.lang.parser.psi.element;
 
-import manuylov.maxim.ocaml.lang.parser.psi.OCamlElement;
-
 /**
  * @author Maxim.Manuylov
- *         Date: 21.03.2009
+ *         Date: 20.05.2010
  */
-public interface OCamlConstant extends OCamlElement {
+public interface OCamlConstantExpression extends OCamlExpression, OCamlConstant {
 }

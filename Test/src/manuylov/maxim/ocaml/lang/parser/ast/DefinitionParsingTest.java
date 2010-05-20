@@ -45,7 +45,7 @@ public class DefinitionParsingTest extends BaseStatementParsingTest {
         myTree.addNode(6, VALUE_NAME_PATTERN);
         myTree.addNode(7, LCFC_IDENTIFIER, "a");
         myTree.addNode(5, EQ);
-        myTree.addNode(5, CONSTANT);
+        myTree.addNode(5, CONSTANT_EXPRESSION);
         myTree.addNode(6, INTEGER_LITERAL, "7");
         myTree.addNode(3, LET_STATEMENT);
         myTree.addNode(4, LET_KEYWORD);
@@ -54,11 +54,12 @@ public class DefinitionParsingTest extends BaseStatementParsingTest {
         myTree.addNode(6, VALUE_NAME_PATTERN);
         myTree.addNode(7, LCFC_IDENTIFIER, "c");
         myTree.addNode(5, EQ);
-        myTree.addNode(5, CONSTANT);
+        myTree.addNode(5, CONSTANT_EXPRESSION);
         myTree.addNode(6, INTEGER_LITERAL, "0");
         myTree.addNode(3, SEMICOLON_SEMICOLON);
-        myTree.addNode(3, CONSTANT);
-        myTree.addNode(4, INTEGER_LITERAL, "4");
+        myTree.addNode(3, EXPRESSION_STATEMENT);
+        myTree.addNode(4, CONSTANT_EXPRESSION);
+        myTree.addNode(5, INTEGER_LITERAL, "4");
 
         doTest("let a = 7 let c = 0;; 4", myTree.getStringRepresentation());
 
@@ -71,38 +72,41 @@ public class DefinitionParsingTest extends BaseStatementParsingTest {
         myTree.addNode(6, VALUE_NAME_PATTERN);
         myTree.addNode(7, LCFC_IDENTIFIER, "c");
         myTree.addNode(5, EQ);
-        myTree.addNode(5, CONSTANT);
+        myTree.addNode(5, CONSTANT_EXPRESSION);
         myTree.addNode(6, INTEGER_LITERAL, "0");
         myTree.addNode(3, ERROR_ELEMENT, Strings.SEMICOLON_SEMICOLON_EXPECTED);
-        myTree.addNode(3, LET_EXPRESSION);
-        myTree.addNode(4, LET_KEYWORD);
-        myTree.addNode(4, LET_BINDING);
-        myTree.addNode(5, LET_BINDING_PATTERN);
-        myTree.addNode(6, VALUE_NAME_PATTERN);
-        myTree.addNode(7, LCFC_IDENTIFIER, "s");
-        myTree.addNode(5, EQ);
-        myTree.addNode(5, CONSTANT);
-        myTree.addNode(6, INTEGER_LITERAL, "2");
-        myTree.addNode(4, IN_KEYWORD);
-        myTree.addNode(4, VALUE_NAME);
-        myTree.addNode(5, LCFC_IDENTIFIER, "s");
+        myTree.addNode(3, EXPRESSION_STATEMENT);
+        myTree.addNode(4, LET_EXPRESSION);
+        myTree.addNode(5, LET_KEYWORD);
+        myTree.addNode(5, LET_BINDING);
+        myTree.addNode(6, LET_BINDING_PATTERN);
+        myTree.addNode(7, VALUE_NAME_PATTERN);
+        myTree.addNode(8, LCFC_IDENTIFIER, "s");
+        myTree.addNode(6, EQ);
+        myTree.addNode(6, CONSTANT_EXPRESSION);
+        myTree.addNode(7, INTEGER_LITERAL, "2");
+        myTree.addNode(5, IN_KEYWORD);
+        myTree.addNode(5, VALUE_NAME);
+        myTree.addNode(6, LCFC_IDENTIFIER, "s");
 
         doTest("let c = 0 let s = 2 in s", myTree.getStringRepresentation());
 
         recreateTree();
 
-        myTree.addNode(3, WHILE_EXPRESSION);
-        myTree.addNode(4, WHILE_KEYWORD);
-        myTree.addNode(4, VALUE_NAME);
-        myTree.addNode(5, LCFC_IDENTIFIER, "a");
-        myTree.addNode(4, DO_KEYWORD);
-        myTree.addNode(4, CONSTANT);
-        myTree.addNode(5, LPAR);
-        myTree.addNode(5, RPAR);
-        myTree.addNode(4, DONE_KEYWORD);
+        myTree.addNode(3, EXPRESSION_STATEMENT);
+        myTree.addNode(4, WHILE_EXPRESSION);
+        myTree.addNode(5, WHILE_KEYWORD);
+        myTree.addNode(5, VALUE_NAME);
+        myTree.addNode(6, LCFC_IDENTIFIER, "a");
+        myTree.addNode(5, DO_KEYWORD);
+        myTree.addNode(5, CONSTANT_EXPRESSION);
+        myTree.addNode(6, LPAR);
+        myTree.addNode(6, RPAR);
+        myTree.addNode(5, DONE_KEYWORD);
         myTree.addNode(3, ERROR_ELEMENT, Strings.SEMICOLON_SEMICOLON_EXPECTED);
-        myTree.addNode(3, CONSTANT);
-        myTree.addNode(4, INTEGER_LITERAL, "4");
+        myTree.addNode(3, EXPRESSION_STATEMENT);
+        myTree.addNode(4, CONSTANT_EXPRESSION);
+        myTree.addNode(5, INTEGER_LITERAL, "4");
 
         doTest("while a do () done 4", myTree.getStringRepresentation());
     }
@@ -135,6 +139,22 @@ public class DefinitionParsingTest extends BaseStatementParsingTest {
         myTree.addNode(5, UCFC_IDENTIFIER, "Error");
 
         doTest("exception Error1 = Error", myTree.getStringRepresentation());
+
+        recreateTree();
+
+        myTree.addNode(3, EXCEPTION_DEFINITION);
+        myTree.addNode(4, EXCEPTION_KEYWORD);
+        myTree.addNode(4, CONSTRUCTOR_NAME_DEFINITION);
+        myTree.addNode(5, UCFC_IDENTIFIER, "Error1");
+        myTree.addNode(4, EQ);
+        myTree.addNode(4, CONSTRUCTOR_PATH);
+        myTree.addNode(5, MODULE_NAME);
+        myTree.addNode(6, UCFC_IDENTIFIER, "Module1");
+        myTree.addNode(5, DOT);
+        myTree.addNode(5, CONSTRUCTOR_NAME);
+        myTree.addNode(6, UCFC_IDENTIFIER, "Error");
+
+        doTest("exception Error1 = Module1.Error", myTree.getStringRepresentation());
 
         recreateTree();
 

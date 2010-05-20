@@ -18,11 +18,14 @@
 
 package manuylov.maxim.ocaml.lang.parser.ast;
 
+import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IElementType;
+import manuylov.maxim.ocaml.lang.Strings;
 import manuylov.maxim.ocaml.lang.parser.ast.testCase.MLParsingTestCase;
 import org.jetbrains.annotations.NotNull;
 import org.testng.annotations.Test;
 
+import static com.intellij.psi.TokenType.ERROR_ELEMENT;
 import static manuylov.maxim.ocaml.lang.lexer.token.OCamlTokenTypes.*;
 import static manuylov.maxim.ocaml.lang.parser.ast.element.OCamlElementTypes.*;
 
@@ -81,7 +84,7 @@ public class NameParsingTest extends MLParsingTestCase {
         myTree.addNode(6, VALUE_NAME_PATTERN);
         myTree.addNode(7, LCFC_IDENTIFIER, "a");
         myTree.addNode(5, EQ);
-        myTree.addNode(5, CONSTANT);
+        myTree.addNode(5, CONSTANT_EXPRESSION);
         myTree.addNode(6, INTEGER_LITERAL, "0");
 
         doTest("let a ~label:a ~_label:a = 0", myTree.getStringRepresentation());
@@ -189,15 +192,17 @@ public class NameParsingTest extends MLParsingTestCase {
     }
 
     public void testValueName() throws Exception {
-        myTree.addNode(3, VALUE_NAME);
-        myTree.addNode(4, LCFC_IDENTIFIER, "a");
+        myTree.addNode(3, EXPRESSION_STATEMENT);
+        myTree.addNode(4, VALUE_NAME);
+        myTree.addNode(5, LCFC_IDENTIFIER, "a");
 
         doTest("a", myTree.getStringRepresentation());
 
         recreateTree();
 
-        myTree.addNode(3, VALUE_NAME);
-        myTree.addNode(4, LCFC_IDENTIFIER, "_a");
+        myTree.addNode(3, EXPRESSION_STATEMENT);
+        myTree.addNode(4, VALUE_NAME);
+        myTree.addNode(5, LCFC_IDENTIFIER, "_a");
 
         doTest("_a", myTree.getStringRepresentation());
 
@@ -235,32 +240,35 @@ public class NameParsingTest extends MLParsingTestCase {
     private void doTestOperatorName(final IElementType operatorType, @NotNull final String operator) throws Exception {
         recreateTree();
 
-        myTree.addNode(3, VALUE_NAME);
-        myTree.addNode(4, LPAR);
-        myTree.addNode(4, OPERATOR_NAME);
-        myTree.addNode(5, operatorType, operator);
-        myTree.addNode(4, RPAR);
+        myTree.addNode(3, EXPRESSION_STATEMENT);
+        myTree.addNode(4, VALUE_NAME);
+        myTree.addNode(5, LPAR);
+        myTree.addNode(5, OPERATOR_NAME);
+        myTree.addNode(6, operatorType, operator);
+        myTree.addNode(5, RPAR);
 
         doTest("( " + operator + " )", myTree.getStringRepresentation());
     }
 
     public void testConstructorPath() throws Exception {
-        myTree.addNode(3, CONSTRUCTOR_PATH);
-        myTree.addNode(4, MODULE_NAME);
-        myTree.addNode(5, UCFC_IDENTIFIER, "Module1");
-        myTree.addNode(4, DOT);
-        myTree.addNode(4, MODULE_NAME);
-        myTree.addNode(5, UCFC_IDENTIFIER, "Module2");
-        myTree.addNode(4, DOT);
-        myTree.addNode(4, CONSTRUCTOR_NAME);
-        myTree.addNode(5, UCFC_IDENTIFIER, "Constr");
+        myTree.addNode(3, EXPRESSION_STATEMENT);
+        myTree.addNode(4, CONSTRUCTOR_PATH_EXPRESSION);
+        myTree.addNode(5, MODULE_NAME);
+        myTree.addNode(6, UCFC_IDENTIFIER, "Module1");
+        myTree.addNode(5, DOT);
+        myTree.addNode(5, MODULE_NAME);
+        myTree.addNode(6, UCFC_IDENTIFIER, "Module2");
+        myTree.addNode(5, DOT);
+        myTree.addNode(5, CONSTRUCTOR_NAME_EXPRESSION);
+        myTree.addNode(6, UCFC_IDENTIFIER, "Constr");
 
         doTest("Module1.Module2.Constr", myTree.getStringRepresentation());
     }
 
     public void testConstructorName() throws Exception {
-        myTree.addNode(3, CONSTRUCTOR_NAME);
-        myTree.addNode(4, UCFC_IDENTIFIER, "Constr");
+        myTree.addNode(3, EXPRESSION_STATEMENT);
+        myTree.addNode(4, CONSTRUCTOR_NAME_EXPRESSION);
+        myTree.addNode(5, UCFC_IDENTIFIER, "Constr");
 
         doTest("Constr", myTree.getStringRepresentation());
     }
@@ -292,111 +300,120 @@ public class NameParsingTest extends MLParsingTestCase {
     }
 
     public void testFieldName() throws Exception {
-        myTree.addNode(3, RECORD_EXPRESSION);
-        myTree.addNode(4, LBRACE);
-        myTree.addNode(4, RECORD_FIELD_INITIALIZATION_IN_EXPRESSION);
-        myTree.addNode(5, FIELD_NAME);
-        myTree.addNode(6, LCFC_IDENTIFIER, "a");
-        myTree.addNode(5, EQ);
-        myTree.addNode(5, CONSTANT);
-        myTree.addNode(6, INTEGER_LITERAL, "0");
-        myTree.addNode(4, RBRACE);
+        myTree.addNode(3, EXPRESSION_STATEMENT);
+        myTree.addNode(4, RECORD_EXPRESSION);
+        myTree.addNode(5, LBRACE);
+        myTree.addNode(5, RECORD_FIELD_INITIALIZATION_IN_EXPRESSION);
+        myTree.addNode(6, FIELD_NAME);
+        myTree.addNode(7, LCFC_IDENTIFIER, "a");
+        myTree.addNode(6, EQ);
+        myTree.addNode(6, CONSTANT_EXPRESSION);
+        myTree.addNode(7, INTEGER_LITERAL, "0");
+        myTree.addNode(5, RBRACE);
 
         doTest("{a = 0}", myTree.getStringRepresentation());
 
         recreateTree();
 
-        myTree.addNode(3, RECORD_EXPRESSION);
-        myTree.addNode(4, LBRACE);
-        myTree.addNode(4, RECORD_FIELD_INITIALIZATION_IN_EXPRESSION);
-        myTree.addNode(5, FIELD_NAME);
-        myTree.addNode(6, LCFC_IDENTIFIER, "_a");
-        myTree.addNode(5, EQ);
-        myTree.addNode(5, CONSTANT);
-        myTree.addNode(6, INTEGER_LITERAL, "0");
-        myTree.addNode(4, RBRACE);
+        myTree.addNode(3, EXPRESSION_STATEMENT);
+        myTree.addNode(4, RECORD_EXPRESSION);
+        myTree.addNode(5, LBRACE);
+        myTree.addNode(5, RECORD_FIELD_INITIALIZATION_IN_EXPRESSION);
+        myTree.addNode(6, FIELD_NAME);
+        myTree.addNode(7, LCFC_IDENTIFIER, "_a");
+        myTree.addNode(6, EQ);
+        myTree.addNode(6, CONSTANT_EXPRESSION);
+        myTree.addNode(7, INTEGER_LITERAL, "0");
+        myTree.addNode(5, RBRACE);
 
         doTest("{_a = 0}", myTree.getStringRepresentation());
     }
 
     public void testClassPath() throws Exception {
-        myTree.addNode(3, NEW_INSTANCE_EXPRESSION);
-        myTree.addNode(4, NEW_KEYWORD);
-        myTree.addNode(4, CLASS_PATH);
-        myTree.addNode(5, MODULE_NAME);
-        myTree.addNode(6, UCFC_IDENTIFIER, "Module1");
-        myTree.addNode(5, DOT);
-        myTree.addNode(5, MODULE_NAME);
-        myTree.addNode(6, UCFC_IDENTIFIER, "Module2");
-        myTree.addNode(5, DOT);
-        myTree.addNode(5, CLASS_NAME);
-        myTree.addNode(6, LCFC_IDENTIFIER, "className");
+        myTree.addNode(3, EXPRESSION_STATEMENT);
+        myTree.addNode(4, NEW_INSTANCE_EXPRESSION);
+        myTree.addNode(5, NEW_KEYWORD);
+        myTree.addNode(5, CLASS_PATH);
+        myTree.addNode(6, MODULE_NAME);
+        myTree.addNode(7, UCFC_IDENTIFIER, "Module1");
+        myTree.addNode(6, DOT);
+        myTree.addNode(6, MODULE_NAME);
+        myTree.addNode(7, UCFC_IDENTIFIER, "Module2");
+        myTree.addNode(6, DOT);
+        myTree.addNode(6, CLASS_NAME);
+        myTree.addNode(7, LCFC_IDENTIFIER, "className");
 
         doTest("new Module1.Module2.className", myTree.getStringRepresentation());
     }
 
     public void testClassName() throws Exception {
-        myTree.addNode(3, NEW_INSTANCE_EXPRESSION);
-        myTree.addNode(4, NEW_KEYWORD);
-        myTree.addNode(4, CLASS_NAME);
-        myTree.addNode(5, LCFC_IDENTIFIER, "className");
+        myTree.addNode(3, EXPRESSION_STATEMENT);
+        myTree.addNode(4, NEW_INSTANCE_EXPRESSION);
+        myTree.addNode(5, NEW_KEYWORD);
+        myTree.addNode(5, CLASS_NAME);
+        myTree.addNode(6, LCFC_IDENTIFIER, "className");
 
         doTest("new className", myTree.getStringRepresentation());
 
         recreateTree();
 
-        myTree.addNode(3, NEW_INSTANCE_EXPRESSION);
-        myTree.addNode(4, NEW_KEYWORD);
-        myTree.addNode(4, CLASS_NAME);
-        myTree.addNode(5, LCFC_IDENTIFIER, "_className");
+        myTree.addNode(3, EXPRESSION_STATEMENT);
+        myTree.addNode(4, NEW_INSTANCE_EXPRESSION);
+        myTree.addNode(5, NEW_KEYWORD);
+        myTree.addNode(5, CLASS_NAME);
+        myTree.addNode(6, LCFC_IDENTIFIER, "_className");
 
         doTest("new _className", myTree.getStringRepresentation());
     }
 
     public void testMethodName() throws Exception {
-        myTree.addNode(3, CLASS_METHOD_ACCESSING_EXPRESSION);
-        myTree.addNode(4, VALUE_NAME);
-        myTree.addNode(5, LCFC_IDENTIFIER, "a");
-        myTree.addNode(4, HASH);
-        myTree.addNode(4, METHOD_NAME);
-        myTree.addNode(5, LCFC_IDENTIFIER, "m");
+        myTree.addNode(3, EXPRESSION_STATEMENT);
+        myTree.addNode(4, CLASS_METHOD_ACCESSING_EXPRESSION);
+        myTree.addNode(5, VALUE_NAME);
+        myTree.addNode(6, LCFC_IDENTIFIER, "a");
+        myTree.addNode(5, HASH);
+        myTree.addNode(5, METHOD_NAME);
+        myTree.addNode(6, LCFC_IDENTIFIER, "m");
 
         doTest("a#m", myTree.getStringRepresentation());
 
         recreateTree();
 
-        myTree.addNode(3, CLASS_METHOD_ACCESSING_EXPRESSION);
-        myTree.addNode(4, VALUE_NAME);
-        myTree.addNode(5, LCFC_IDENTIFIER, "a");
-        myTree.addNode(4, HASH);
-        myTree.addNode(4, METHOD_NAME);
-        myTree.addNode(5, LCFC_IDENTIFIER, "_m");
+        myTree.addNode(3, EXPRESSION_STATEMENT);
+        myTree.addNode(4, CLASS_METHOD_ACCESSING_EXPRESSION);
+        myTree.addNode(5, VALUE_NAME);
+        myTree.addNode(6, LCFC_IDENTIFIER, "a");
+        myTree.addNode(5, HASH);
+        myTree.addNode(5, METHOD_NAME);
+        myTree.addNode(6, LCFC_IDENTIFIER, "_m");
 
         doTest("a#_m", myTree.getStringRepresentation());
     }
 
     public void testInstVarName() throws Exception { 
-        myTree.addNode(3, INSTANCE_DUPLICATING_EXPRESSION);
-        myTree.addNode(4, LBRACE_LT);
-        myTree.addNode(4, INST_VAR_NAME);
-        myTree.addNode(5, LCFC_IDENTIFIER, "x");
-        myTree.addNode(4, EQ);
-        myTree.addNode(4, CONSTANT);
-        myTree.addNode(5, INTEGER_LITERAL, "0");
-        myTree.addNode(4, GT_RBRACE);
+        myTree.addNode(3, EXPRESSION_STATEMENT);
+        myTree.addNode(4, INSTANCE_DUPLICATING_EXPRESSION);
+        myTree.addNode(5, LBRACE_LT);
+        myTree.addNode(5, INST_VAR_NAME);
+        myTree.addNode(6, LCFC_IDENTIFIER, "x");
+        myTree.addNode(5, EQ);
+        myTree.addNode(5, CONSTANT_EXPRESSION);
+        myTree.addNode(6, INTEGER_LITERAL, "0");
+        myTree.addNode(5, GT_RBRACE);
 
         doTest("{< x = 0 >}", myTree.getStringRepresentation());
 
         recreateTree();
 
-        myTree.addNode(3, INSTANCE_DUPLICATING_EXPRESSION);
-        myTree.addNode(4, LBRACE_LT);
-        myTree.addNode(4, INST_VAR_NAME);
-        myTree.addNode(5, LCFC_IDENTIFIER, "_x");
-        myTree.addNode(4, EQ);
-        myTree.addNode(4, CONSTANT);
-        myTree.addNode(5, INTEGER_LITERAL, "0");
-        myTree.addNode(4, GT_RBRACE);
+        myTree.addNode(3, EXPRESSION_STATEMENT);
+        myTree.addNode(4, INSTANCE_DUPLICATING_EXPRESSION);
+        myTree.addNode(5, LBRACE_LT);
+        myTree.addNode(5, INST_VAR_NAME);
+        myTree.addNode(6, LCFC_IDENTIFIER, "_x");
+        myTree.addNode(5, EQ);
+        myTree.addNode(5, CONSTANT_EXPRESSION);
+        myTree.addNode(6, INTEGER_LITERAL, "0");
+        myTree.addNode(5, GT_RBRACE);
 
         doTest("{< _x = 0 >}", myTree.getStringRepresentation());
     }
@@ -489,128 +506,149 @@ public class NameParsingTest extends MLParsingTestCase {
     }
 
     public void testTagName() throws Exception {
-        myTree.addNode(3, TAGGED_EXPRESSION);
-        myTree.addNode(4, ACCENT);
-        myTree.addNode(4, TAG_NAME);
-        myTree.addNode(5, LCFC_IDENTIFIER, "tag");
-        myTree.addNode(4, VALUE_NAME);
-        myTree.addNode(5, LCFC_IDENTIFIER, "a");
+        myTree.addNode(3, EXPRESSION_STATEMENT);
+        myTree.addNode(4, TAGGED_EXPRESSION);
+        myTree.addNode(5, ACCENT);
+        myTree.addNode(5, TAG_NAME);
+        myTree.addNode(6, LCFC_IDENTIFIER, "tag");
+        myTree.addNode(5, VALUE_NAME);
+        myTree.addNode(6, LCFC_IDENTIFIER, "a");
 
         doTest("`tag a", myTree.getStringRepresentation());
 
         recreateTree();
 
-        myTree.addNode(3, TAGGED_EXPRESSION);
-        myTree.addNode(4, ACCENT);
-        myTree.addNode(4, TAG_NAME);
-        myTree.addNode(5, UCFC_IDENTIFIER, "Tag");
-        myTree.addNode(4, VALUE_NAME);
-        myTree.addNode(5, LCFC_IDENTIFIER, "a");
+        myTree.addNode(3, EXPRESSION_STATEMENT);
+        myTree.addNode(4, TAGGED_EXPRESSION);
+        myTree.addNode(5, ACCENT);
+        myTree.addNode(5, TAG_NAME);
+        myTree.addNode(6, UCFC_IDENTIFIER, "Tag");
+        myTree.addNode(5, VALUE_NAME);
+        myTree.addNode(6, LCFC_IDENTIFIER, "a");
 
         doTest("`Tag a", myTree.getStringRepresentation());
 
         recreateTree();
 
-        myTree.addNode(3, TAGGED_EXPRESSION);
-        myTree.addNode(4, ACCENT);
-        myTree.addNode(4, TAG_NAME);
-        myTree.addNode(5, LCFC_IDENTIFIER, "_tag");
-        myTree.addNode(4, VALUE_NAME);
-        myTree.addNode(5, LCFC_IDENTIFIER, "a");
+        myTree.addNode(3, EXPRESSION_STATEMENT);
+        myTree.addNode(4, TAGGED_EXPRESSION);
+        myTree.addNode(5, ACCENT);
+        myTree.addNode(5, TAG_NAME);
+        myTree.addNode(6, LCFC_IDENTIFIER, "_tag");
+        myTree.addNode(5, VALUE_NAME);
+        myTree.addNode(6, LCFC_IDENTIFIER, "a");
 
         doTest("`_tag a", myTree.getStringRepresentation());
     }
 
     public void testValuePath() throws Exception { 
-        myTree.addNode(3, VALUE_PATH);
-        myTree.addNode(4, MODULE_NAME);
-        myTree.addNode(5, UCFC_IDENTIFIER, "Module1");
-        myTree.addNode(4, DOT);
-        myTree.addNode(4, MODULE_NAME);
-        myTree.addNode(5, UCFC_IDENTIFIER, "Module2");
-        myTree.addNode(4, DOT);
-        myTree.addNode(4, VALUE_NAME);
-        myTree.addNode(5, LCFC_IDENTIFIER, "a");
+        myTree.addNode(3, EXPRESSION_STATEMENT);
+        myTree.addNode(4, VALUE_PATH);
+        myTree.addNode(5, MODULE_NAME);
+        myTree.addNode(6, UCFC_IDENTIFIER, "Module1");
+        myTree.addNode(5, DOT);
+        myTree.addNode(5, MODULE_NAME);
+        myTree.addNode(6, UCFC_IDENTIFIER, "Module2");
+        myTree.addNode(5, DOT);
+        myTree.addNode(5, VALUE_NAME);
+        myTree.addNode(6, LCFC_IDENTIFIER, "a");
 
         doTest("Module1.Module2.a", myTree.getStringRepresentation());
 
         recreateTree();
 
-        myTree.addNode(3, VALUE_PATH);
-        myTree.addNode(4, MODULE_NAME);
-        myTree.addNode(5, UCFC_IDENTIFIER, "Module1");
-        myTree.addNode(4, DOT);
-        myTree.addNode(4, MODULE_NAME);
-        myTree.addNode(5, UCFC_IDENTIFIER, "Module2");
-        myTree.addNode(4, DOT);
-        myTree.addNode(4, VALUE_NAME);
-        myTree.addNode(5, LPAR);
-        myTree.addNode(5, OPERATOR_NAME);
-        myTree.addNode(6, PREFIX_OPERATOR, "!!");
-        myTree.addNode(5, RPAR);
+        myTree.addNode(3, EXPRESSION_STATEMENT);
+        myTree.addNode(4, VALUE_PATH);
+        myTree.addNode(5, MODULE_NAME);
+        myTree.addNode(6, UCFC_IDENTIFIER, "Module1");
+        myTree.addNode(5, DOT);
+        myTree.addNode(5, MODULE_NAME);
+        myTree.addNode(6, UCFC_IDENTIFIER, "Module2");
+        myTree.addNode(5, DOT);
+        myTree.addNode(5, VALUE_NAME);
+        myTree.addNode(6, LPAR);
+        myTree.addNode(6, OPERATOR_NAME);
+        myTree.addNode(7, PREFIX_OPERATOR, "!!");
+        myTree.addNode(6, RPAR);
 
         doTest("Module1.Module2.(!!)", myTree.getStringRepresentation());
     }
 
     public void testFieldPath() throws Exception {
-        myTree.addNode(3, RECORD_EXPRESSION);
-        myTree.addNode(4, LBRACE);
-        myTree.addNode(4, RECORD_FIELD_INITIALIZATION_IN_EXPRESSION);
-        myTree.addNode(5, FIELD_PATH);
-        myTree.addNode(6, MODULE_NAME);
-        myTree.addNode(7, UCFC_IDENTIFIER, "Module1");
-        myTree.addNode(6, DOT);
-        myTree.addNode(6, MODULE_NAME);
-        myTree.addNode(7, UCFC_IDENTIFIER, "Module2");
-        myTree.addNode(6, DOT);
-        myTree.addNode(6, FIELD_NAME);
-        myTree.addNode(7, LCFC_IDENTIFIER, "a");
-        myTree.addNode(5, EQ);
-        myTree.addNode(5, CONSTANT);
-        myTree.addNode(6, INTEGER_LITERAL, "0");
-        myTree.addNode(4, RBRACE);
+        myTree.addNode(3, EXPRESSION_STATEMENT);
+        myTree.addNode(4, RECORD_EXPRESSION);
+        myTree.addNode(5, LBRACE);
+        myTree.addNode(5, RECORD_FIELD_INITIALIZATION_IN_EXPRESSION);
+        myTree.addNode(6, FIELD_PATH);
+        myTree.addNode(7, MODULE_NAME);
+        myTree.addNode(8, UCFC_IDENTIFIER, "Module1");
+        myTree.addNode(7, DOT);
+        myTree.addNode(7, MODULE_NAME);
+        myTree.addNode(8, UCFC_IDENTIFIER, "Module2");
+        myTree.addNode(7, DOT);
+        myTree.addNode(7, FIELD_NAME);
+        myTree.addNode(8, LCFC_IDENTIFIER, "a");
+        myTree.addNode(6, EQ);
+        myTree.addNode(6, CONSTANT_EXPRESSION);
+        myTree.addNode(7, INTEGER_LITERAL, "0");
+        myTree.addNode(5, RBRACE);
 
         doTest("{Module1.Module2.a = 0}", myTree.getStringRepresentation());
     }
 
     public void testConstant() throws Exception {
-        myTree.addNode(3, CONSTANT);
-        myTree.addNode(4, INTEGER_LITERAL, "1");
+        myTree.addNode(3, EXPRESSION_STATEMENT);
+        myTree.addNode(4, CONSTANT_EXPRESSION);
+        myTree.addNode(5, INTEGER_LITERAL, "1");
 
         doTest("1", myTree.getStringRepresentation());
 
         recreateTree();
 
-        myTree.addNode(3, CONSTANT);
-        myTree.addNode(4, FLOAT_LITERAL, "1.2");
+        myTree.addNode(3, EXPRESSION_STATEMENT);
+        myTree.addNode(4, CONSTANT_EXPRESSION);
+        myTree.addNode(5, FLOAT_LITERAL, "1.2");
 
         doTest("1.2", myTree.getStringRepresentation());
 
         recreateTree();
 
-        myTree.addNode(3, CONSTANT);
-        myTree.addNode(4, CHAR_LITERAL, "'w'");
+        myTree.addNode(3, EXPRESSION_STATEMENT);
+        myTree.addNode(4, CONSTANT_EXPRESSION);
+        myTree.addNode(5, CHAR_LITERAL, "'w'");
 
         doTest("'w'", myTree.getStringRepresentation());
 
         recreateTree();
 
-        myTree.addNode(3, CONSTANT);
-        myTree.addNode(4, STRING_LITERAL, "\"ww\"");
+        myTree.addNode(3, EXPRESSION_STATEMENT);
+        myTree.addNode(4, CONSTANT_EXPRESSION);
+        myTree.addNode(5, ERROR_ELEMENT, Strings.ILLEGAL_CHAR_LITERAL);
+        myTree.addNode(6, EMPTY_CHAR_LITERAL, "''");
+
+        doTest("''", myTree.getStringRepresentation());
+
+        recreateTree();
+
+        myTree.addNode(3, EXPRESSION_STATEMENT);
+        myTree.addNode(4, CONSTANT_EXPRESSION);
+        myTree.addNode(5, STRING_LITERAL, "\"ww\"");
 
         doTest("\"ww\"", myTree.getStringRepresentation());
 
         recreateTree();
 
-        myTree.addNode(3, CONSTANT);
-        myTree.addNode(4, FALSE_KEYWORD, "false");
+        myTree.addNode(3, EXPRESSION_STATEMENT);
+        myTree.addNode(4, CONSTANT_EXPRESSION);
+        myTree.addNode(5, FALSE_KEYWORD, "false");
 
         doTest("false", myTree.getStringRepresentation());
 
         recreateTree();
 
-        myTree.addNode(3, CONSTANT);
-        myTree.addNode(4, TRUE_KEYWORD, "true");
+        myTree.addNode(3, EXPRESSION_STATEMENT);
+        myTree.addNode(4, CONSTANT_EXPRESSION);
+        myTree.addNode(5, TRUE_KEYWORD, "true");
 
         doTest("true", myTree.getStringRepresentation());
     }

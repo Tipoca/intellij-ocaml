@@ -19,72 +19,20 @@
 package manuylov.maxim.ocaml.lang.parser.psi.element.impl;
 
 import com.intellij.lang.ASTNode;
-import manuylov.maxim.ocaml.lang.feature.resolving.NameType;
-import manuylov.maxim.ocaml.lang.feature.resolving.OCamlResolvedReference;
-import manuylov.maxim.ocaml.lang.feature.resolving.impl.BaseOCamlReference;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
-import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
-import manuylov.maxim.ocaml.lang.parser.psi.element.*;
+import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlConstructorName;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.*;
 
 /**
  * @author Maxim.Manuylov
- *         Date: 21.03.2009
+ *         Date: 20.05.2010
  */
-public class OCamlConstructorNameImpl extends BaseOCamlReference implements OCamlConstructorName {
-    @NotNull private static final Set<String> ourBundledConstructors = new HashSet<String>() {{
-        add("Division_by_zero");
-        add("End_of_file");
-        add("Failure");
-        add("Invalid_argument");
-        add("None");
-        add("Some");
-        add("Sys_error");
-    }};
-
-    @Override
-    public boolean isBundled() {
-        return ourBundledConstructors.contains(getName());
-    }
-
+public class OCamlConstructorNameImpl extends BaseOCamlConstructorName implements OCamlConstructorName {
     public OCamlConstructorNameImpl(@NotNull final ASTNode node) {
         super(node);
     }
 
     public void visit(@NotNull final OCamlElementVisitor visitor) {
         visitor.visitConstructorName(this);
-    }
-
-    @Nullable
-    public ASTNode getNameElement() {
-        return getNode();
-    }
-
-    @NotNull
-    public NameType getNameType() {
-        return NameType.UpperCase;
-    }
-
-    @NotNull
-    public String getDescription() {
-        return "constructor";
-    }
-
-    @NotNull
-    public List<Class<? extends OCamlResolvedReference>> getPossibleResolvedTypes() {
-        return Arrays.asList(OCamlConstructorDefinition.class, OCamlConstructorNameDefinition.class);
-    }
-
-    @NotNull
-    public List<OCamlModuleName> getModulePath() {
-        return OCamlPsiUtil.getModulePath(this, OCamlModuleName.class);
-    }
-
-    @NotNull
-    public List<OCamlResolvedMethod> getAvailableMethods() {
-        return Collections.emptyList();
     }
 }

@@ -415,7 +415,7 @@ public class ClassMLParsingTest extends BaseClassParsingTest {
         myTree.addNode(7, INST_VAR_NAME_DEFINITION);
         myTree.addNode(8, LCFC_IDENTIFIER, "x");
         myTree.addNode(7, EQ);
-        myTree.addNode(7, CONSTANT);
+        myTree.addNode(7, CONSTANT_EXPRESSION);
         myTree.addNode(8, INTEGER_LITERAL, "0");
         myTree.addNode(6, END_KEYWORD);
 
@@ -437,7 +437,7 @@ public class ClassMLParsingTest extends BaseClassParsingTest {
         myTree.addNode(7, INST_VAR_NAME_DEFINITION);
         myTree.addNode(8, LCFC_IDENTIFIER, "x");
         myTree.addNode(7, EQ);
-        myTree.addNode(7, CONSTANT);
+        myTree.addNode(7, CONSTANT_EXPRESSION);
         myTree.addNode(8, INTEGER_LITERAL, "0");
         myTree.addNode(6, END_KEYWORD);
 
@@ -461,7 +461,7 @@ public class ClassMLParsingTest extends BaseClassParsingTest {
         myTree.addNode(7, TYPE_CONSTRUCTOR_NAME);
         myTree.addNode(8, LCFC_IDENTIFIER, "int");
         myTree.addNode(7, EQ);
-        myTree.addNode(7, CONSTANT);
+        myTree.addNode(7, CONSTANT_EXPRESSION);
         myTree.addNode(8, INTEGER_LITERAL, "0");
         myTree.addNode(6, END_KEYWORD);
 
@@ -486,7 +486,7 @@ public class ClassMLParsingTest extends BaseClassParsingTest {
         myTree.addNode(7, TYPE_CONSTRUCTOR_NAME);
         myTree.addNode(8, LCFC_IDENTIFIER, "int");
         myTree.addNode(7, EQ);
-        myTree.addNode(7, CONSTANT);
+        myTree.addNode(7, CONSTANT_EXPRESSION);
         myTree.addNode(8, INTEGER_LITERAL, "0");
         myTree.addNode(6, END_KEYWORD);
 
@@ -552,7 +552,7 @@ public class ClassMLParsingTest extends BaseClassParsingTest {
         myTree.addNode(7, METHOD_NAME);
         myTree.addNode(8, LCFC_IDENTIFIER, "m");
         myTree.addNode(7, EQ);
-        myTree.addNode(7, CONSTANT);
+        myTree.addNode(7, CONSTANT_EXPRESSION);
         myTree.addNode(8, INTEGER_LITERAL, "0");
         myTree.addNode(6, END_KEYWORD);
 
@@ -574,7 +574,7 @@ public class ClassMLParsingTest extends BaseClassParsingTest {
         myTree.addNode(7, METHOD_NAME);
         myTree.addNode(8, LCFC_IDENTIFIER, "m");
         myTree.addNode(7, EQ);
-        myTree.addNode(7, CONSTANT);
+        myTree.addNode(7, CONSTANT_EXPRESSION);
         myTree.addNode(8, INTEGER_LITERAL, "0");
         myTree.addNode(6, END_KEYWORD);
 
@@ -604,7 +604,7 @@ public class ClassMLParsingTest extends BaseClassParsingTest {
         myTree.addNode(8, VALUE_NAME_PATTERN);
         myTree.addNode(9, LCFC_IDENTIFIER, "c");
         myTree.addNode(7, EQ);
-        myTree.addNode(7, CONSTANT);
+        myTree.addNode(7, CONSTANT_EXPRESSION);
         myTree.addNode(8, INTEGER_LITERAL, "0");
         myTree.addNode(6, END_KEYWORD);
 
@@ -637,7 +637,7 @@ public class ClassMLParsingTest extends BaseClassParsingTest {
         myTree.addNode(7, TYPE_CONSTRUCTOR_NAME);
         myTree.addNode(8, LCFC_IDENTIFIER, "int");
         myTree.addNode(7, EQ);
-        myTree.addNode(7, CONSTANT);
+        myTree.addNode(7, CONSTANT_EXPRESSION);
         myTree.addNode(8, INTEGER_LITERAL, "0");
         myTree.addNode(6, END_KEYWORD);
 
@@ -671,7 +671,7 @@ public class ClassMLParsingTest extends BaseClassParsingTest {
         myTree.addNode(8, TYPE_CONSTRUCTOR_NAME);
         myTree.addNode(9, LCFC_IDENTIFIER, "int");
         myTree.addNode(7, EQ);
-        myTree.addNode(7, CONSTANT);
+        myTree.addNode(7, CONSTANT_EXPRESSION);
         myTree.addNode(8, INTEGER_LITERAL, "0");
         myTree.addNode(6, END_KEYWORD);
 
@@ -777,7 +777,7 @@ public class ClassMLParsingTest extends BaseClassParsingTest {
         myTree.addNode(6, OBJECT_KEYWORD);
         myTree.addNode(6, INITIALIZER_CLASS_FIELD_DEFINITION);
         myTree.addNode(7, INITIALIZER_KEYWORD);
-        myTree.addNode(7, CONSTANT);
+        myTree.addNode(7, CONSTANT_EXPRESSION);
         myTree.addNode(8, LPAR);
         myTree.addNode(8, RPAR);
         myTree.addNode(6, END_KEYWORD);

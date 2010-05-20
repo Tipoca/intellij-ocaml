@@ -292,6 +292,12 @@ public class OCamlElementFactory {
         else if (elementType == CONSTRUCTOR_NAME_DEFINITION) {
             return new OCamlConstructorNameDefinitionImpl(node);
         }
+        else if (elementType == CONSTRUCTOR_NAME) {
+            return new OCamlConstructorNameImpl(node);
+        }
+        else if (elementType == CONSTRUCTOR_PATH) {
+            return new OCamlConstructorPathImpl(node);
+        }
         else if (elementType == OPERATOR_NAME) {
             return new OCamlOperatorNameImpl(node);
         }
@@ -301,11 +307,17 @@ public class OCamlElementFactory {
         else if (elementType == MODULE_NAME) {
             return new OCamlModuleNameImpl(node);
         }
-        else if (elementType == CONSTRUCTOR_PATH) {
-            return new OCamlConstructorPathImpl(node);
+        else if (elementType == CONSTRUCTOR_PATH_EXPRESSION) {
+            return new OCamlConstructorPathExpressionImpl(node);
         }
-        else if (elementType == CONSTRUCTOR_NAME) {
-            return new OCamlConstructorNameImpl(node);
+        else if (elementType == CONSTRUCTOR_NAME_EXPRESSION) {
+            return new OCamlConstructorNameExpressionImpl(node);
+        }
+        else if (elementType == CONSTRUCTOR_PATH_PATTERN) {
+            return new OCamlConstructorPathPatternImpl(node);
+        }
+        else if (elementType == CONSTRUCTOR_NAME_PATTERN) {
+            return new OCamlConstructorNamePatternImpl(node);
         }
         else if (elementType == TYPE_CONSTRUCTOR_NAME) {
             return new OCamlTypeConstructorNameImpl(node);
@@ -352,8 +364,11 @@ public class OCamlElementFactory {
         else if (elementType == FIELD_PATH) {
             return new OCamlFieldPathImpl(node);
         }
-        else if (elementType == CONSTANT) {
-            return new OCamlConstantImpl(node);
+        else if (elementType == CONSTANT_EXPRESSION) {
+            return new OCamlConstantExpressionImpl(node);
+        }
+        else if (elementType == CONSTANT_PATTERN) {
+            return new OCamlConstantPatternImpl(node);
         }
         else if (elementType == MATCH_EXPRESSION) {
             return new OCamlMatchExpressionImpl(node);
@@ -549,6 +564,9 @@ public class OCamlElementFactory {
         }
         else if (elementType == UNDERSCORE_PATTERN) {
             return new OCamlUnderscorePatternImpl(node);
+        }
+        else if (elementType == EXPRESSION_STATEMENT) {
+            return new OCamlExpressionStatementImpl(node);
         }
         else {
             return new OCamlUnknownElementImpl(node);

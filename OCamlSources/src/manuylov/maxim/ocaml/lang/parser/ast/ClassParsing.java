@@ -319,7 +319,7 @@ class ClassParsing extends Parsing {
         ignore(builder, OCamlTokenTypes.MUTABLE_KEYWORD);
         final boolean virtual = ignore(builder, OCamlTokenTypes.VIRTUAL_KEYWORD);
 
-        NameParsing.parseInstVarName(builder, true);
+        NameParsing.parseInstVarName(builder, NameParsing.NameType.DEFINITION);
 
         if (virtual) {
             checkMatches(builder, OCamlTokenTypes.COLON, Strings.COLON_EXPECTED);
@@ -365,7 +365,7 @@ class ClassParsing extends Parsing {
         parseClassExpression(builder);
 
         if (ignore(builder, OCamlTokenTypes.AS_KEYWORD)) {
-            NameParsing.parseInstVarName(builder, true);
+            NameParsing.parseInstVarName(builder, NameParsing.NameType.DEFINITION);
         }
 
         inheritClassFieldMarker.done(OCamlElementTypes.INHERIT_CLASS_FIELD_DEFINITION);
@@ -497,7 +497,7 @@ class ClassParsing extends Parsing {
         ignore(builder, OCamlTokenTypes.MUTABLE_KEYWORD);
         ignore(builder, OCamlTokenTypes.VIRTUAL_KEYWORD);
 
-        NameParsing.parseInstVarName(builder, true);
+        NameParsing.parseInstVarName(builder, NameParsing.NameType.DEFINITION);
 
         checkMatches(builder, OCamlTokenTypes.COLON, Strings.COLON_EXPECTED);
 

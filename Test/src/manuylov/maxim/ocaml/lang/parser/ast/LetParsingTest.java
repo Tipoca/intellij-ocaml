@@ -38,7 +38,7 @@ public class LetParsingTest extends MLParsingTestCase {
         myTree.addNode(6, VALUE_NAME_PATTERN);
         myTree.addNode(7, LCFC_IDENTIFIER, "x");
         myTree.addNode(5, EQ);
-        myTree.addNode(5, CONSTANT);
+        myTree.addNode(5, CONSTANT_EXPRESSION);
         myTree.addNode(6, INTEGER_LITERAL, "5");
         myTree.addNode(4, AND_KEYWORD);
         myTree.addNode(4, LET_BINDING);
@@ -46,7 +46,7 @@ public class LetParsingTest extends MLParsingTestCase {
         myTree.addNode(6, VALUE_NAME_PATTERN);
         myTree.addNode(7, LCFC_IDENTIFIER, "y");
         myTree.addNode(5, EQ);
-        myTree.addNode(5, CONSTANT);
+        myTree.addNode(5, CONSTANT_EXPRESSION);
         myTree.addNode(6, INTEGER_LITERAL, "8");
 
         doTest("let x = 5 and y = 8", myTree.getStringRepresentation());
@@ -83,7 +83,7 @@ public class LetParsingTest extends MLParsingTestCase {
         myTree.addNode(6, VALUE_NAME_PATTERN);
         myTree.addNode(7, LCFC_IDENTIFIER, "x");
         myTree.addNode(5, EQ);
-        myTree.addNode(5, CONSTANT);
+        myTree.addNode(5, CONSTANT_EXPRESSION);
         myTree.addNode(6, INTEGER_LITERAL, "5");
         myTree.addNode(4, AND_KEYWORD);
         myTree.addNode(4, LET_BINDING);
@@ -91,7 +91,7 @@ public class LetParsingTest extends MLParsingTestCase {
         myTree.addNode(6, VALUE_NAME_PATTERN);
         myTree.addNode(7, LCFC_IDENTIFIER, "y");
         myTree.addNode(5, EQ);
-        myTree.addNode(5, CONSTANT);
+        myTree.addNode(5, CONSTANT_EXPRESSION);
         myTree.addNode(6, INTEGER_LITERAL, "8");
 
         doTest("let rec x = 5 and y = 8", myTree.getStringRepresentation());
@@ -111,82 +111,85 @@ public class LetParsingTest extends MLParsingTestCase {
         myTree.addNode(6, VALUE_NAME_PATTERN);
         myTree.addNode(7, LCFC_IDENTIFIER, "b");
         myTree.addNode(5, EQ);
-        myTree.addNode(5, CONSTANT);
+        myTree.addNode(5, CONSTANT_EXPRESSION);
         myTree.addNode(6, INTEGER_LITERAL, "5");
 
         doTest("let x a b = 5", myTree.getStringRepresentation());
     }
 
     public void testLetExpression() throws Exception {
-        myTree.addNode(3, LET_EXPRESSION);
-        myTree.addNode(4, LET_KEYWORD);
-        myTree.addNode(4, LET_BINDING);
-        myTree.addNode(5, LET_BINDING_PATTERN);
-        myTree.addNode(6, VALUE_NAME_PATTERN);
-        myTree.addNode(7, LCFC_IDENTIFIER, "s");
-        myTree.addNode(5, EQ);
-        myTree.addNode(5, CONSTANT);
-        myTree.addNode(6, INTEGER_LITERAL, "2");
-        myTree.addNode(4, AND_KEYWORD);
-        myTree.addNode(4, LET_BINDING);
-        myTree.addNode(5, LET_BINDING_PATTERN);
-        myTree.addNode(6, VALUE_NAME_PATTERN);
-        myTree.addNode(7, LCFC_IDENTIFIER, "y");
-        myTree.addNode(5, EQ);
-        myTree.addNode(5, CONSTANT);
-        myTree.addNode(6, INTEGER_LITERAL, "0");
-        myTree.addNode(4, IN_KEYWORD);
-        myTree.addNode(4, VALUE_NAME);
-        myTree.addNode(5, LCFC_IDENTIFIER, "s");
+        myTree.addNode(3, EXPRESSION_STATEMENT);
+        myTree.addNode(4, LET_EXPRESSION);
+        myTree.addNode(5, LET_KEYWORD);
+        myTree.addNode(5, LET_BINDING);
+        myTree.addNode(6, LET_BINDING_PATTERN);
+        myTree.addNode(7, VALUE_NAME_PATTERN);
+        myTree.addNode(8, LCFC_IDENTIFIER, "s");
+        myTree.addNode(6, EQ);
+        myTree.addNode(6, CONSTANT_EXPRESSION);
+        myTree.addNode(7, INTEGER_LITERAL, "2");
+        myTree.addNode(5, AND_KEYWORD);
+        myTree.addNode(5, LET_BINDING);
+        myTree.addNode(6, LET_BINDING_PATTERN);
+        myTree.addNode(7, VALUE_NAME_PATTERN);
+        myTree.addNode(8, LCFC_IDENTIFIER, "y");
+        myTree.addNode(6, EQ);
+        myTree.addNode(6, CONSTANT_EXPRESSION);
+        myTree.addNode(7, INTEGER_LITERAL, "0");
+        myTree.addNode(5, IN_KEYWORD);
+        myTree.addNode(5, VALUE_NAME);
+        myTree.addNode(6, LCFC_IDENTIFIER, "s");
 
         doTest("let s = 2 and y = 0 in s", myTree.getStringRepresentation());
 
         recreateTree();
 
-        myTree.addNode(3, LET_EXPRESSION);
-        myTree.addNode(4, LET_KEYWORD);
-        myTree.addNode(4, REC_KEYWORD);
-        myTree.addNode(4, LET_BINDING);
-        myTree.addNode(5, LET_BINDING_PATTERN);
-        myTree.addNode(6, VALUE_NAME_PATTERN);
-        myTree.addNode(7, LCFC_IDENTIFIER, "s");
-        myTree.addNode(5, EQ);
-        myTree.addNode(5, CONSTANT);
-        myTree.addNode(6, INTEGER_LITERAL, "2");
-        myTree.addNode(4, AND_KEYWORD);
-        myTree.addNode(4, LET_BINDING);
-        myTree.addNode(5, LET_BINDING_PATTERN);
-        myTree.addNode(6, VALUE_NAME_PATTERN);
-        myTree.addNode(7, LCFC_IDENTIFIER, "y");
-        myTree.addNode(5, EQ);
-        myTree.addNode(5, CONSTANT);
-        myTree.addNode(6, INTEGER_LITERAL, "0");
-        myTree.addNode(4, IN_KEYWORD);
-        myTree.addNode(4, VALUE_NAME);
-        myTree.addNode(5, LCFC_IDENTIFIER, "s");
+        myTree.addNode(3, EXPRESSION_STATEMENT);
+        myTree.addNode(4, LET_EXPRESSION);
+        myTree.addNode(5, LET_KEYWORD);
+        myTree.addNode(5, REC_KEYWORD);
+        myTree.addNode(5, LET_BINDING);
+        myTree.addNode(6, LET_BINDING_PATTERN);
+        myTree.addNode(7, VALUE_NAME_PATTERN);
+        myTree.addNode(8, LCFC_IDENTIFIER, "s");
+        myTree.addNode(6, EQ);
+        myTree.addNode(6, CONSTANT_EXPRESSION);
+        myTree.addNode(7, INTEGER_LITERAL, "2");
+        myTree.addNode(5, AND_KEYWORD);
+        myTree.addNode(5, LET_BINDING);
+        myTree.addNode(6, LET_BINDING_PATTERN);
+        myTree.addNode(7, VALUE_NAME_PATTERN);
+        myTree.addNode(8, LCFC_IDENTIFIER, "y");
+        myTree.addNode(6, EQ);
+        myTree.addNode(6, CONSTANT_EXPRESSION);
+        myTree.addNode(7, INTEGER_LITERAL, "0");
+        myTree.addNode(5, IN_KEYWORD);
+        myTree.addNode(5, VALUE_NAME);
+        myTree.addNode(6, LCFC_IDENTIFIER, "s");
 
         doTest("let rec s = 2 and y = 0 in s", myTree.getStringRepresentation());
 
         recreateTree();
 
-        myTree.addNode(3, LET_EXPRESSION);
-        myTree.addNode(4, LET_KEYWORD);
-        myTree.addNode(4, LET_BINDING);
-        myTree.addNode(5, LET_BINDING_PATTERN);
-        myTree.addNode(6, VALUE_NAME_PATTERN);
-        myTree.addNode(7, LCFC_IDENTIFIER, "x");
-        myTree.addNode(5, PARAMETER);
-        myTree.addNode(6, VALUE_NAME_PATTERN);
-        myTree.addNode(7, LCFC_IDENTIFIER, "a");
-        myTree.addNode(5, PARAMETER);
-        myTree.addNode(6, VALUE_NAME_PATTERN);
-        myTree.addNode(7, LCFC_IDENTIFIER, "b");
-        myTree.addNode(5, EQ);
-        myTree.addNode(5, CONSTANT);
-        myTree.addNode(6, INTEGER_LITERAL, "5");
-        myTree.addNode(4, IN_KEYWORD);
-        myTree.addNode(4, CONSTANT);
-        myTree.addNode(5, INTEGER_LITERAL, "1");
+        myTree.addNode(3, EXPRESSION_STATEMENT);
+        myTree.addNode(4, LET_EXPRESSION);
+        myTree.addNode(5, LET_KEYWORD);
+        myTree.addNode(5, LET_BINDING);
+        myTree.addNode(6, LET_BINDING_PATTERN);
+        myTree.addNode(7, VALUE_NAME_PATTERN);
+        myTree.addNode(8, LCFC_IDENTIFIER, "x");
+        myTree.addNode(6, PARAMETER);
+        myTree.addNode(7, VALUE_NAME_PATTERN);
+        myTree.addNode(8, LCFC_IDENTIFIER, "a");
+        myTree.addNode(6, PARAMETER);
+        myTree.addNode(7, VALUE_NAME_PATTERN);
+        myTree.addNode(8, LCFC_IDENTIFIER, "b");
+        myTree.addNode(6, EQ);
+        myTree.addNode(6, CONSTANT_EXPRESSION);
+        myTree.addNode(7, INTEGER_LITERAL, "5");
+        myTree.addNode(5, IN_KEYWORD);
+        myTree.addNode(5, CONSTANT_EXPRESSION);
+        myTree.addNode(6, INTEGER_LITERAL, "1");
 
         doTest("let x a b = 5 in 1", myTree.getStringRepresentation());
     }
@@ -205,7 +208,7 @@ public class LetParsingTest extends MLParsingTestCase {
         myTree.addNode(8, VALUE_NAME_PATTERN);
         myTree.addNode(9, LCFC_IDENTIFIER, "s");
         myTree.addNode(7, EQ);
-        myTree.addNode(7, CONSTANT);
+        myTree.addNode(7, CONSTANT_EXPRESSION);
         myTree.addNode(8, INTEGER_LITERAL, "2");
         myTree.addNode(6, AND_KEYWORD);
         myTree.addNode(6, LET_BINDING);
@@ -213,7 +216,7 @@ public class LetParsingTest extends MLParsingTestCase {
         myTree.addNode(8, VALUE_NAME_PATTERN);
         myTree.addNode(9, LCFC_IDENTIFIER, "y");
         myTree.addNode(7, EQ);
-        myTree.addNode(7, CONSTANT);
+        myTree.addNode(7, CONSTANT_EXPRESSION);
         myTree.addNode(8, INTEGER_LITERAL, "0");
         myTree.addNode(6, IN_KEYWORD);
         myTree.addNode(6, CLASS_PATH);

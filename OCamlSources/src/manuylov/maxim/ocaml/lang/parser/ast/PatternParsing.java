@@ -49,7 +49,7 @@ class PatternParsing extends Parsing {
         }
 
         if (ignore(builder, OCamlTokenTypes.AS_KEYWORD)) {
-            NameParsing.parseValueName(builder, true);
+            NameParsing.parseValueName(builder, NameParsing.NameType.PATTERN);
 
             asPatternMarker.done(OCamlElementTypes.AS_PATTERN);
         }
@@ -137,7 +137,7 @@ class PatternParsing extends Parsing {
     private static boolean tryParseConstructorPattern(@NotNull final PsiBuilder builder) {
         final PsiBuilder.Marker constructorApplicationPatternMarker = builder.mark();
 
-        if (NameParsing.tryParseConstructorPath(builder, false)) {
+        if (NameParsing.tryParseConstructorPath(builder, NameParsing.NameType.PATTERN)) {
             if (tryParseSimplePattern(builder)) {
                 constructorApplicationPatternMarker.done(OCamlElementTypes.CONSTRUCTOR_APPLICATION_PATTERN);
             }
@@ -166,7 +166,7 @@ class PatternParsing extends Parsing {
                 marker.done(OCamlElementTypes.TAGGED_PATTERN);
             }
             else {
-                marker.done(OCamlElementTypes.CONSTANT);
+                marker.done(OCamlElementTypes.CONSTANT_PATTERN);
             }
         }
         else if (ignore(builder, OCamlTokenTypes.HASH)) {
@@ -217,7 +217,7 @@ class PatternParsing extends Parsing {
             marker.done(OCamlElementTypes.RECORD_PATTERN);
         }
         else if (builder.getTokenType() == OCamlTokenTypes.LPAR) {
-            if (NameParsing.tryParseValueName(builder, true)) {
+            if (NameParsing.tryParseValueName(builder, NameParsing.NameType.PATTERN)) {
                 marker.drop();
                 return true;
             }
@@ -238,7 +238,7 @@ class PatternParsing extends Parsing {
                     marker.done(OCamlElementTypes.PARENTHESES_PATTERN);
                 }
                 else {
-                    marker.done(OCamlElementTypes.CONSTANT);
+                    marker.done(OCamlElementTypes.CONSTANT_PATTERN);
                 }
             }
             else {
@@ -257,8 +257,8 @@ class PatternParsing extends Parsing {
         else {
             marker.drop();
 
-            if (!tryParseUnderscore(builder) && !NameParsing.tryParseValueName(builder, true) &&
-                !NameParsing.tryParseConstant(builder)) {
+            if (!tryParseUnderscore(builder) && !NameParsing.tryParseValueName(builder, NameParsing.NameType.PATTERN) &&
+                !NameParsing.tryParseConstant(builder, NameParsing.NameType.PATTERN)) {
                 return false;
             }
         }

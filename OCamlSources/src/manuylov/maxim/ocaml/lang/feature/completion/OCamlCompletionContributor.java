@@ -22,6 +22,7 @@ import com.intellij.codeInsight.TailType;
 import com.intellij.codeInsight.completion.*;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.codeInsight.lookup.TailTypeDecorator;
+import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.util.Key;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.openapi.util.UserDataHolder;
@@ -46,6 +47,7 @@ import static com.intellij.patterns.PlatformPatterns.psiElement;
  *         Date: 09.05.2010
  */
 public class OCamlCompletionContributor extends CompletionContributor {
+    @NotNull public static final String DUMMY_IDENTIFIER = "lowerCase";
     @NotNull private static final Key<CompletionParameters> PARAMETERS = Key.create("OCamlCompletionContributorCompletionParameters");
 
     @NotNull private static final PsiElementPattern.Capture<PsiElement> OCAML_ELEMENT =
@@ -56,7 +58,7 @@ public class OCamlCompletionContributor extends CompletionContributor {
 
     @Override
     public void beforeCompletion(@NotNull final CompletionInitializationContext context) {
-        context.setFileCopyPatcher(new DummyIdentifierPatcher("lowerCase"));
+        context.setFileCopyPatcher(new DummyIdentifierPatcher(DUMMY_IDENTIFIER));
     }
 
     @Override
@@ -72,8 +74,8 @@ public class OCamlCompletionContributor extends CompletionContributor {
     }
 
     public OCamlCompletionContributor() {
-        addAndKeywordCompletion();
-        addAsKeywordCompletion();
+        registerAndKeywordCompletionProvider();
+        registerAsKeywordCompletionProvider();
 
 
         /*
@@ -122,72 +124,78 @@ public class OCamlCompletionContributor extends CompletionContributor {
         //todo UpperCase basic completion + ModuleName (ClassName?) completion + smart completion
     }
 
-    private void addAndKeywordCompletion() {
+    private void registerAndKeywordCompletionProvider() {
         extend(CompletionType.BASIC,
             OCAML_ELEMENT.andOr(
-                after(OCamlClassBinding.class, OCamlClassDefinition.class),
-                after(OCamlClassSpecificationBinding.class, OCamlClassSpecification.class),
-                after(OCamlClassTypeBinding.class, OCamlClassTypeDefinition.class),
-                after(OCamlLetBinding.class, OCamlLetElement.class),
-                after(OCamlModuleTypeConstraint.class, OCamlModuleElement.class),
-                after(OCamlTypeBinding.class, OCamlTypeDefinition.class)
+                after(OCamlClassBinding.class),
+                after(OCamlClassSpecificationBinding.class),
+                after(OCamlClassTypeBinding.class),
+                after(OCamlLetBinding.class),
+                after(OCamlModuleTypeConstraint.class),
+                after(OCamlTypeBinding.class)
             ),
             createCompletionProvider(Keywords.AND_KEYWORD, TailType.SPACE)
         );
     }
 
-    private void addAsKeywordCompletion() {
-   /*     extend(CompletionType.BASIC,
+    private void registerAsKeywordCompletionProvider() {
+        extend(CompletionType.BASIC,
+            OCAML_ELEMENT.and(after(OCamlTypeExpression.class)),
+            createCompletionProvider(Keywords.AS_KEYWORD, new TailType() {
+                @Override
+                public int processTail(@NotNull final Editor editor, final int tailOffset) {
+                    return insertChar(editor, TailType.SPACE.processTail(editor, tailOffset), toCharacter(Keywords.QUOTE));
+                }
+            })
+        );
+        extend(CompletionType.BASIC,
             OCAML_ELEMENT.andOr(
-                after(OCamlClassBinding.class, OCamlClassDefinition.class),
-                after(OCamlClassSpecificationBinding.class, OCamlClassSpecification.class),
-                after(OCamlClassTypeBinding.class, OCamlClassTypeDefinition.class),
-                after(OCamlLetBinding.class, OCamlLetElement.class),
-                after(OCamlModuleTypeConstraint.class, OCamlModuleElement.class),
-                after(OCamlTypeBinding.class, OCamlTypeDefinition.class)
+                after(OCamlPattern.class),
+                OCAML_ELEMENT.and(after(OCamlInheritClassFieldDefinition.class)).and(after(OCamlClassExpression.class))
             ),
-            createCompletionProvider(Keywords.AND_KEYWORD, TailType.SPACE)
-        );*/
+            createCompletionProvider(Keywords.AS_KEYWORD, TailType.SPACE)
+        );
     }
 
     @NotNull
-    private ElementPattern after(@NotNull final Class<? extends PsiElement> clazz, @Nullable final Class<? extends PsiElement> parentToParseClass) {
+    private static ElementPattern after(@NotNull final Class<? extends PsiElement> clazz) {
         return new FilterPattern(new ElementFilter() {
             public boolean isAcceptable(@NotNull final Object element, @NotNull final PsiElement context) {
                 final CompletionParameters parameters = getCompletionParameters(element);
                 if (parameters == null) return false;
 
                 final PsiElement originalElement = parameters.getOriginalPosition();
-                if (originalElement == null) return false;
 
-                final PsiElement previousLeaf = OCamlPsiUtil.getPreviousLeaf(originalElement);
+                final PsiElement previousLeaf = originalElement == null
+                    ? OCamlPsiUtil.getNonWhiteSpaceLastLeaf(parameters.getOriginalFile())
+                    : OCamlPsiUtil.getNonWhiteSpacePreviousLeaf(originalElement);
                 if (previousLeaf == null) return false;
 
-                final int positionStartOffset = parameters.getOffset();
+                final int positionStartOffset = parameters.getPosition().getTextRange().getStartOffset();
 
                 PsiElement parent = previousLeaf;
                 while (parent != null) {
                     if (parent.getTextRange().getEndOffset() > positionStartOffset) break;
-                    if (clazz.isInstance(parent)) return true;
+                    if (clazz.isInstance(parent)) return OCamlPsiUtil.endsCorrectlyIfOCamlElement(parent);
                     parent = OCamlPsiUtil.getParent(parent);
                 }
 
-                if (parentToParseClass == null) return false;
-
-                final PsiElement clazzElement = OCamlPsiUtil.getParentOfType(originalElement, clazz);
+                final PsiElement notNullElement = originalElement == null ? previousLeaf : originalElement;
+                
+                final PsiElement clazzElement = OCamlPsiUtil.getParentOfType(notNullElement, clazz);
                 if (clazzElement == null) return false;
 
-                final PsiElement parentToParse = OCamlPsiUtil.getParentOfType(originalElement, parentToParseClass);
-                if (parentToParse == null) return false;
+                final PsiElement parentStatement = OCamlPsiUtil.getParentOfType(notNullElement, OCamlStatement.class);
+                if (parentStatement == null) return false;
 
-                final int parentToParseStartOffset = parentToParse.getTextRange().getStartOffset();
-                final int positionStartOffsetInParent = positionStartOffset - parentToParseStartOffset;
-                final int clazzElementStartOffsetInParent = clazzElement.getTextRange().getStartOffset() - parentToParseStartOffset;
+                final int parentStatementStartOffset = parentStatement.getTextRange().getStartOffset();
+                final int positionStartOffsetInParent = positionStartOffset - parentStatementStartOffset;
+                final int clazzElementStartOffsetInParent = clazzElement.getTextRange().getStartOffset() - parentStatementStartOffset;
                 
-                final String text = parentToParse.getText().substring(0, positionStartOffsetInParent);
+                final String text = parentStatement.getText().substring(0, positionStartOffsetInParent);
                 final TextRange textRange = new TextRange(clazzElementStartOffsetInParent, positionStartOffsetInParent);
 
-                return OCamlPsiUtil.isElementOfType(text, textRange, clazz, clazzElement.getLanguage(), clazzElement.getProject());
+                return OCamlPsiUtil.isElementOfType(text, textRange, clazz, clazzElement.getLanguage(), parameters.getOriginalFile().getProject());
             }
 
             public boolean isClassAcceptable(@NotNull final Class hintClass) {
@@ -216,6 +224,11 @@ public class OCamlCompletionContributor extends CompletionContributor {
         for (final String word : words) {
             result.addElement(TailTypeDecorator.withTail(LookupElementBuilder.create(word).setBold(), tail));
         }
+    }
+
+    private char toCharacter(@NotNull final String str) {
+        assert str.length() == 1;
+        return str.charAt(0);
     }
 
 /*

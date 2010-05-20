@@ -147,7 +147,7 @@ class TypeParsing extends Parsing {
     private static void parseTypeConstructorDefinition(@NotNull final PsiBuilder builder) {
         final PsiBuilder.Marker typeConstructorDefinitionMarker = builder.mark();
 
-        NameParsing.parseConstructorName(builder, false);
+        NameParsing.parseConstructorName(builder, NameParsing.NameType.NONE);
 
         if (ignore(builder, OCamlTokenTypes.OF_KEYWORD)) {
             parseTypeExpression(builder);
