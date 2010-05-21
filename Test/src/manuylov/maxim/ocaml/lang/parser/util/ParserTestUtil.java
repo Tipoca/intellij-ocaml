@@ -20,11 +20,8 @@ package manuylov.maxim.ocaml.lang.parser.util;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.ParserDefinition;
-import com.intellij.lang.PsiBuilder;
-import com.intellij.lang.PsiParser;
-import com.intellij.lang.impl.PsiBuilderImpl;
 import com.intellij.openapi.command.impl.DummyProject;
-import com.intellij.openapi.project.Project;
+import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -34,17 +31,8 @@ import org.jetbrains.annotations.NotNull;
 public class ParserTestUtil {
     @NotNull
     public static ASTNode buildTree(@NotNull final String text, @NotNull final ParserDefinition parserDefinition) throws Exception {
-        final Project someProject = DummyProject.getInstance();
-        final PsiBuilder builder = new PsiBuilderImpl(parserDefinition.createLexer(someProject), parserDefinition.getWhitespaceTokens(), parserDefinition.getCommentTokens(), text);
-        builder.setDebugMode(true);
-        final PsiParser parser = parserDefinition.createParser(someProject);
-        final ASTNode root;
-        try {
-            root = parser.parse(parserDefinition.getFileNodeType(), builder);
-        }
-        catch (final RuntimeException e) {
-            throw new Exception(e);
-        }
+        final ASTNode root = OCamlPsiUtil.parse(text, parserDefinition, DummyProject.getInstance()).getNode();
+        assert root != null;
         return root;
     }
 }

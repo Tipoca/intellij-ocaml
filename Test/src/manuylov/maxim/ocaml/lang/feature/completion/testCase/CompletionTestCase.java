@@ -37,6 +37,7 @@ import manuylov.maxim.ocaml.lang.feature.completion.OCamlCompletionContributor;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElement;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementFactory;
 import manuylov.maxim.ocaml.lang.parser.util.ParserTestUtil;
+import manuylov.maxim.ocaml.util.OCamlStringUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.testng.annotations.BeforeMethod;
@@ -101,7 +102,10 @@ public abstract class CompletionTestCase extends BaseOCamlTestCase {
         final ASTNode originalRoot = ParserTestUtil.buildTree(actualText, ourParserDefinition);
         final OCamlElement originalPsiRoot = OCamlElementFactory.INSTANCE.createElement(originalRoot);
 
-        final ASTNode dummyRoot = ParserTestUtil.buildTree(insertDummyIdentifier(actualText, completionPosition), ourParserDefinition);
+        final String dummyText = OCamlStringUtil.insert(
+            actualText, completionPosition, OCamlCompletionContributor.UPPER_CASE_DUMMY_IDENTIFIER
+        );
+        final ASTNode dummyRoot = ParserTestUtil.buildTree(dummyText, ourParserDefinition);
         final OCamlElement dummyPsiRoot = OCamlElementFactory.INSTANCE.createElement(dummyRoot);
 
         final Set<String> result = new TreeSet<String>();
@@ -117,13 +121,6 @@ public abstract class CompletionTestCase extends BaseOCamlTestCase {
                 "\nresult: " + result.toString()
             );
         }
-    }
-
-    @NotNull
-    private String insertDummyIdentifier(@NotNull final String text, final int position) {
-        final StringBuilder sb = new StringBuilder(text);
-        sb.insert(position, OCamlCompletionContributor.DUMMY_IDENTIFIER);
-        return sb.toString();
     }
 
     @NotNull

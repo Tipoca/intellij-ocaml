@@ -34,6 +34,7 @@ import com.intellij.psi.tree.TokenSet;
 import com.intellij.psi.util.PsiTreeUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlModuleName;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlPathElement;
+import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlStatement;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -111,6 +112,17 @@ public class OCamlPsiUtil {
         return result;
     }
 
+    @Nullable
+    public static PsiElement getNonWhiteSpaceNextSibling(@NotNull final PsiElement sibling) {
+        PsiElement result = sibling;
+
+        do {
+            result = getStrictNextSibling(result);
+        } while (result != null && isWhiteSpace(result));
+
+        return result;
+    }
+
     private static boolean isWhiteSpace(@NotNull final PsiElement element) {
         return element instanceof PsiWhiteSpace || element instanceof PsiComment || isEmptyErrorMarker(element);
     }
@@ -124,15 +136,19 @@ public class OCamlPsiUtil {
         PsiElement result = sibling;
 
         do {
-            final PsiElement currentResult = result;
-            result = ApplicationManager.getApplication().runReadAction(new Computable<PsiElement>() {
-                public PsiElement compute() {
-                    return currentResult.getNextSibling();
-                }
-            });
+            result = getStrictNextSibling(result);
         } while (result != null && !(result instanceof OCamlElement));
 
         return (OCamlElement) result;
+    }
+
+    @Nullable
+    private static PsiElement getStrictNextSibling(@NotNull final PsiElement element) {
+        return ApplicationManager.getApplication().runReadAction(new Computable<PsiElement>() {
+            public PsiElement compute() {
+                return element.getNextSibling();
+            }
+        });
     }
 
     @Nullable
@@ -147,8 +163,8 @@ public class OCamlPsiUtil {
     }
 
     @Nullable
-    public static <T extends PsiElement> T getParentOfType(@NotNull final PsiElement node, @NotNull final Class<T> clazz) {
-        OCamlElement parent = node instanceof OCamlElement ? (OCamlElement) node : getParent(node);
+    public static <T extends PsiElement> T getParentOfType(@NotNull final PsiElement element, @NotNull final Class<T> clazz) {
+        OCamlElement parent = element instanceof OCamlElement ? (OCamlElement) element : getParent(element);
 
         while (parent != null && !clazz.isInstance(parent)) {
             parent = getParent(parent);
@@ -305,17 +321,23 @@ public class OCamlPsiUtil {
                                                       final int endOffset) {
         PsiElement element1 = root.findElementAt(startOffset);
         PsiElement element2 = root.findElementAt(endOffset - 1);
-        while (element1 instanceof PsiWhiteSpace) {
-          element1 = root.findElementAt(element1.getTextRange().getEndOffset());
-        }
-        while (element2 instanceof PsiWhiteSpace) {
-          element2 = root.findElementAt(element2.getTextRange().getStartOffset() - 1);
-        }
-        if (element1 == null || element2 == null) {
-          return null;
+
+        if (element1 != null && isWhiteSpace(element1)) {
+            element1 = getNonWhiteSpaceNextSibling(element1);
         }
 
-        final PsiElement parent = PsiTreeUtil.getParentOfType(findCommonParent(element1, element2), elementClass, false);
+        if (element2 != null && isWhiteSpace(element2)) {
+            element2 = getNonWhiteSpacePrevSibling(element2);
+        }
+
+        if (element1 == null || element2 == null) {
+            return null;
+        }
+
+        final PsiElement commonParent = findCommonParent(element1, element2);
+        if (commonParent == null) return null;
+
+        final PsiElement parent = getParentOfType(commonParent, elementClass);
         if (parent != null && new TextRange(startOffset, endOffset).contains(parent.getTextRange())) {
             return parent;
         }
@@ -323,22 +345,25 @@ public class OCamlPsiUtil {
         return null;
     }
 
-    public static boolean isElementOfType(@NotNull final String text,
-                                          @NotNull final TextRange range,
-                                          @NotNull final Class<? extends PsiElement> clazz,
-                                          @NotNull final Language language,
-                                          @NotNull final Project project) {
+    @Nullable
+    public static PsiElement findElementInRange(@NotNull final String text,
+                                                @NotNull final TextRange range,
+                                                @NotNull final Language language,
+                                                @NotNull final Project project) {
         final ParserDefinition parserDefinition = LanguageParserDefinitions.INSTANCE.forLanguage(language);
-        if (parserDefinition == null) return false;
+        if (parserDefinition == null) return null;
 
+        final PsiElement psiRoot = parse(text, parserDefinition, project);
+
+        return findElementOfTypeInRange(psiRoot, PsiElement.class, range.getStartOffset(), range.getEndOffset());
+    }
+
+    @NotNull
+    public static PsiElement parse(@NotNull final CharSequence text, @NotNull final ParserDefinition parserDefinition, @NotNull final Project project) {
         final Lexer lexer = parserDefinition.createLexer(project);
         final PsiParser parser = parserDefinition.createParser(project);
         final PsiBuilderImpl builder = new PsiBuilderImpl(lexer, parserDefinition.getWhitespaceTokens(), parserDefinition.getCommentTokens(), text);
-        final ASTNode astRoot = parser.parse(parserDefinition.getFileNodeType(), builder);
-        final PsiElement psiRoot = parserDefinition.createElement(astRoot);
-
-        final PsiElement element = findElementOfTypeInRange(psiRoot, clazz, range.getStartOffset(), range.getEndOffset());
-        return element != null && endsCorrectlyIfOCamlElement(element);
+        return parserDefinition.createElement(parser.parse(parserDefinition.getFileNodeType(), builder));
     }
 
     public static boolean endsCorrectlyIfOCamlElement(@NotNull final PsiElement element) {
@@ -374,5 +399,10 @@ public class OCamlPsiUtil {
                 return element.getLastChild();
             }
         });
+    }
+
+    @Nullable
+    public static OCamlStatement getStatementOf(@NotNull final PsiElement element) {
+        return OCamlPsiUtil.getParentOfType(element, OCamlStatement.class);
     }
 }

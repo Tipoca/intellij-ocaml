@@ -61,4 +61,16 @@ public class OCamlStringUtil {
     private static boolean isUpperCase(final char letter) {
         return letter == Character.toUpperCase(letter);
     }
+
+    @NotNull
+    public static String insert(@NotNull final String text, final int position, @NotNull final String textToInsert) {
+        final StringBuilder sb = new StringBuilder(text);
+        if (position == sb.length()) {
+            sb.append(textToInsert);
+        }
+        else {
+            sb.insert(position, textToInsert);
+        }
+        return sb.toString();
+    }
 }
