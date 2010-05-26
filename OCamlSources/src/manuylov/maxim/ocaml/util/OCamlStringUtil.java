@@ -62,15 +62,12 @@ public class OCamlStringUtil {
         return letter == Character.toUpperCase(letter);
     }
 
-    @NotNull
-    public static String insert(@NotNull final String text, final int position, @NotNull final String textToInsert) {
-        final StringBuilder sb = new StringBuilder(text);
-        if (position == sb.length()) {
-            sb.append(textToInsert);
+    public static void insert(@NotNull final StringBuilder builder, final int position, @NotNull final String textToInsert) {
+        if (position == builder.length()) {
+            builder.append(textToInsert);
         }
         else {
-            sb.insert(position, textToInsert);
+            builder.insert(position, textToInsert);
         }
-        return sb.toString();
     }
 }

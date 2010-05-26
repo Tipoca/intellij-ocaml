@@ -187,6 +187,9 @@ public class OCamlElementFactory {
         else if (elementType == OBJECT_SELF_DEFINITION) {
             return new OCamlObjectSelfDefinitionImpl(node);
         }
+        else if (elementType == OBJECT_SELF_SPECIFICATION) {
+            return new OCamlObjectSelfSpecificationImpl(node);
+        }
         else if (elementType == INHERIT_CLASS_FIELD_DEFINITION) {
             return new OCamlInheritClassFieldDefinitionImpl(node);
         }

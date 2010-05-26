@@ -20,6 +20,7 @@ package manuylov.maxim.ocaml.lang.parser.psi;
 
 import com.intellij.psi.PsiElementVisitor;
 import manuylov.maxim.ocaml.lang.parser.psi.element.*;
+import manuylov.maxim.ocaml.lang.parser.psi.element.impl.OCamlObjectSelfSpecificationImpl;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -382,4 +383,6 @@ public abstract class OCamlElementVisitor extends PsiElementVisitor {
     public abstract void visitConstructorName(@NotNull final OCamlConstructorName psiElement);
 
     public abstract void visitConstructorPath(@NotNull final OCamlConstructorPath psiElement);
+
+    public abstract void visitObjectSelfSpecification(@NotNull final OCamlObjectSelfSpecification psiElement);
 }

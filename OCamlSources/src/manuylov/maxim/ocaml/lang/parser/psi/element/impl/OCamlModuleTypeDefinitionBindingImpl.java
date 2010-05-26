@@ -19,6 +19,7 @@
 package manuylov.maxim.ocaml.lang.parser.psi.element.impl;
 
 import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiElement;
 import manuylov.maxim.ocaml.lang.feature.resolving.NameType;
 import manuylov.maxim.ocaml.lang.feature.resolving.ResolvingBuilder;
 import manuylov.maxim.ocaml.lang.feature.resolving.impl.BaseOCamlResolvedReference;
@@ -72,7 +73,8 @@ public class OCamlModuleTypeDefinitionBindingImpl extends BaseOCamlResolvedRefer
 
     @Nullable
     public OCamlModuleType getExpression() {
-        return OCamlPsiUtil.getLastChildOfType(this, OCamlModuleType.class);
+        final PsiElement lastChild = OCamlPsiUtil.getNonWhiteSpaceLastChild(this, false);
+        return lastChild instanceof OCamlModuleType ? (OCamlModuleType) lastChild : null;
     }
 
     @Nullable

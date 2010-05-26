@@ -38,41 +38,29 @@ public class OCamlFoldingBuilder implements FoldingBuilder {
     @NotNull
     public FoldingDescriptor[] buildFoldRegions(@NotNull final ASTNode node, @NotNull final Document document) {
        final List<FoldingDescriptor> descriptors = new ArrayList<FoldingDescriptor>();
-       appendDescriptors(node, document, descriptors);
+       appendDescriptors(node, descriptors);
        return descriptors.toArray(new FoldingDescriptor[descriptors.size()]); 
     }
 
-    private void appendDescriptors(@NotNull final ASTNode node, @NotNull final Document document, @NotNull final List<FoldingDescriptor> descriptors) {
+    private void appendDescriptors(@NotNull final ASTNode node, @NotNull final List<FoldingDescriptor> descriptors) {
         final ASTNode firstChildNode = node.getFirstChildNode();
 
-        if (node.getElementType() == OCamlElementTypes.PARENTHESES_EXPRESSION && firstChildNode != null && firstChildNode.getElementType() == OCamlTokenTypes.BEGIN_KEYWORD) {
-            descriptors.add(new FoldingDescriptor(node, node.getTextRange()));
-        }
-        else if (node.getElementType() == OCamlElementTypes.STRUCT_END_MODULE_EXPRESSION) {
-            descriptors.add(new FoldingDescriptor(node, node.getTextRange()));
-        }
-        else if (node.getElementType() == OCamlElementTypes.SIG_END_MODULE_TYPE) {
-            descriptors.add(new FoldingDescriptor(node, node.getTextRange()));
-        }
-        else if (node.getElementType() == OCamlElementTypes.OBJECT_CLASS_BODY_END_EXPRESSION) {
-            descriptors.add(new FoldingDescriptor(node, node.getTextRange()));
-        }
-        else if (node.getElementType() == OCamlElementTypes.OBJECT_END_CLASS_BODY_TYPE) {
-            descriptors.add(new FoldingDescriptor(node, node.getTextRange()));
-        }
-        else if (node.getElementType() == OCamlElementTypes.OBJECT_END_CLASS_EXPRESSION) {
-            descriptors.add(new FoldingDescriptor(node, node.getTextRange()));
-        }
-        else if (node.getElementType() == OCamlElementTypes.COMMENT_BLOCK) {
-            descriptors.add(new FoldingDescriptor(node, node.getTextRange()));
-        }
-        else if (node.getElementType() == OCamlElementTypes.UNCLOSED_COMMENT) {
+        if (node.getText().isEmpty()) return;
+
+        if (node.getElementType() == OCamlElementTypes.PARENTHESES_EXPRESSION && firstChildNode != null && firstChildNode.getElementType() == OCamlTokenTypes.BEGIN_KEYWORD
+            || node.getElementType() == OCamlElementTypes.STRUCT_END_MODULE_EXPRESSION
+            || node.getElementType() == OCamlElementTypes.SIG_END_MODULE_TYPE
+            || node.getElementType() == OCamlElementTypes.OBJECT_CLASS_BODY_END_EXPRESSION
+            || node.getElementType() == OCamlElementTypes.OBJECT_END_CLASS_BODY_TYPE
+            || node.getElementType() == OCamlElementTypes.OBJECT_END_CLASS_EXPRESSION
+            || node.getElementType() == OCamlElementTypes.COMMENT_BLOCK
+            || node.getElementType() == OCamlElementTypes.UNCLOSED_COMMENT) {            
             descriptors.add(new FoldingDescriptor(node, node.getTextRange()));
         }
 
         ASTNode child = firstChildNode;
         while (child != null) {
-            appendDescriptors(child, document, descriptors);
+            appendDescriptors(child, descriptors);
             child = child.getTreeNext();
         }
     }

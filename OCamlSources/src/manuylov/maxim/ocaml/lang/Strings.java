@@ -26,6 +26,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface Strings {
     @NotNull String CLASS_EXPECTED = "'class' expected";
+    @NotNull String CLASS_TYPE_EXPECTED = "Class type expected";
     @NotNull String TYPE_EXPECTED = "'type' expected";
     @NotNull String INITIALIZER_KEYWORD_EXPECTED = "'initializer' expected";
     @NotNull String METHOD_KEYWORD_EXPECTED = "'method' expected";
@@ -86,12 +87,15 @@ public interface Strings {
     @NotNull String TO_OR_DOWNTO_EXPECTED = "'to' or 'downto' expected";
     @NotNull String TYPE_OR_MODULE_EXPECTED = "'type' or 'module' expected";
     @NotNull String MODULE_NAME_EXPECTED = "Module name expected";
+    @NotNull String MODULE_TYPE_EXPECTED = "Module type expected";
     @NotNull String CONSTRUCTOR_PATH_EXPECTED = "Constructor path expected";
     @NotNull String IDENTIFIER_EXPECTED = "Identifier expected";
     @NotNull String CLASS_PATH_EXPECTED = "Class path expected";
     @NotNull String METHOD_NAME_EXPECTED = "Method name expected";
     @NotNull String LABEL_NAME_EXPECTED = "Label name expected";
     @NotNull String MODULE_TYPE_NAME_EXPECTED = "Module type name expected";
+    @NotNull String MODULE_PATH_EXPECTED = "Module path expected";
+    @NotNull String MODULE_EXPRESSION_EXPECTED = "Module expression expected";
     @NotNull String EXTENDED_MODULE_PATH_EXPECTED = "Extended module path expected";
     @NotNull String EXTENDED_MODULE_NAME_EXPECTED = "Extended module name expected";
     @NotNull String TYPE_CONSTRUCTOR_PATH_EXPECTED = "Type constructor path expected";

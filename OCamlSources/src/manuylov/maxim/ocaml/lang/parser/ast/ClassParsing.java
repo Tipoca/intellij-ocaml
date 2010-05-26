@@ -170,7 +170,7 @@ class ClassParsing extends Parsing {
         }
 
         if (ignore(builder, OCamlTokenTypes.COLON)) {
-            tryParseClassType(builder);
+            parseClassType(builder);
         }
 
         checkMatches(builder, OCamlTokenTypes.EQ, Strings.EQ_EXPECTED);
@@ -178,6 +178,12 @@ class ClassParsing extends Parsing {
         parseClassExpression(builder);
 
         classBindingMarker.done(OCamlElementTypes.CLASS_BINDING);
+    }
+
+    private static void parseClassType(@NotNull final PsiBuilder builder) {
+        if (!tryParseClassType(builder)) {
+            builder.error(Strings.CLASS_TYPE_EXPECTED);
+        }
     }
 
     private static void parseClassPathClassExpression(@NotNull final PsiBuilder builder) {
@@ -423,7 +429,7 @@ class ClassParsing extends Parsing {
 
             checkMatches(builder, OCamlTokenTypes.RPAR, Strings.RPAR_EXPECTED);
 
-            marker.done(OCamlElementTypes.PARENTHESES);
+            marker.done(OCamlElementTypes.OBJECT_SELF_SPECIFICATION);
         }
         else {
             marker.drop();
@@ -608,13 +614,18 @@ class ClassParsing extends Parsing {
     private static boolean tryParseClassFunctionType(@NotNull final PsiBuilder builder) {
         final PsiBuilder.Marker classFunctionTypeMarker = builder.mark();
 
-        NameParsing.tryParseQuestAndLabel(builder);
+        final boolean labelParsed = NameParsing.tryParseQuestAndLabel(builder);
 
         TypeParsing.parseTupleTypeExpression(builder); //todo test it (int -> int -> myClass) BaseClassParsingTest.testClassType
 
         if (!ignore(builder, OCamlTokenTypes.MINUS_GT)) {
-            classFunctionTypeMarker.rollbackTo();
-            return false;
+            if (labelParsed) {
+                builder.error(Strings.MINUS_GT_EXPECTED);
+            }
+            else {
+                classFunctionTypeMarker.rollbackTo();
+                return false;
+            }
         }
 
         tryParseClassType(builder);

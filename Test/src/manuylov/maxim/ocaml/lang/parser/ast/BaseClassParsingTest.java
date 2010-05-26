@@ -150,7 +150,7 @@ public abstract class BaseClassParsingTest extends ParsingTestCase {
         addCommonNodes();
         myTree.addNode(5, OBJECT_END_CLASS_BODY_TYPE);
         myTree.addNode(6, OBJECT_KEYWORD);
-        myTree.addNode(6, PARENTHESES);
+        myTree.addNode(6, OBJECT_SELF_SPECIFICATION);
         myTree.addNode(7, LPAR);
         myTree.addNode(7, TYPE_CONSTRUCTOR_NAME);
         myTree.addNode(8, LCFC_IDENTIFIER, "int");
@@ -285,7 +285,7 @@ public abstract class BaseClassParsingTest extends ParsingTestCase {
         addCommonNodes();
         myTree.addNode(5, OBJECT_END_CLASS_BODY_TYPE);
         myTree.addNode(6, OBJECT_KEYWORD);
-        myTree.addNode(6, PARENTHESES);
+        myTree.addNode(6, OBJECT_SELF_SPECIFICATION);
         myTree.addNode(7, LPAR);
         myTree.addNode(7, TYPE_CONSTRUCTOR_NAME);
         myTree.addNode(8, LCFC_IDENTIFIER, "int");

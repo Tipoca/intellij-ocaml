@@ -18,6 +18,8 @@
 
 package manuylov.maxim.ocaml.lang;
 
+import com.intellij.lang.ASTFactory;
+import com.intellij.lang.LanguageASTFactory;
 import com.intellij.lang.LanguageParserDefinitions;
 import com.intellij.openapi.application.ex.ApplicationManagerEx;
 import manuylov.maxim.ocaml.fileType.OCamlFileTypeLanguage;
@@ -45,5 +47,6 @@ public class BaseOCamlTestCase extends Assert {
 
     private void register(@NotNull final OCamlFileTypeLanguage language) {
         LanguageParserDefinitions.INSTANCE.addExplicitExtension(language, language.getParserDefinition());
+        LanguageASTFactory.INSTANCE.addExplicitExtension(language, ASTFactory.DEFAULT);
     }
 }

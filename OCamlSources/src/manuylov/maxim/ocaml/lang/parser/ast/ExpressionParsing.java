@@ -149,17 +149,19 @@ class ExpressionParsing extends Parsing {
 
         checkMatches(builder, OCamlTokenTypes.LBRACE_LT, Strings.LBRACE_LT_EXPECTED);
 
-        do {
-            NameParsing.parseInstVarName(builder, NameParsing.NameType.NONE);
+        if (!ignore(builder, OCamlTokenTypes.GT_RBRACE)) {
+            do {
+                NameParsing.parseInstVarName(builder, NameParsing.NameType.NONE);
 
-            checkMatches(builder, OCamlTokenTypes.EQ, Strings.EQ_EXPECTED);
+                checkMatches(builder, OCamlTokenTypes.EQ, Strings.EQ_EXPECTED);
 
-            if (!tryParseExpressionStartingWithKeyword(builder)) {
-                parseAssignmentExpression(builder);
-            }
-        } while (ignore(builder, OCamlTokenTypes.SEMICOLON));
+                if (!tryParseExpressionStartingWithKeyword(builder)) {
+                    parseAssignmentExpression(builder);
+                }
+            } while (ignore(builder, OCamlTokenTypes.SEMICOLON));
 
-        checkMatches(builder, OCamlTokenTypes.GT_RBRACE, Strings.GT_RBRACE_EXPECTED);
+            checkMatches(builder, OCamlTokenTypes.GT_RBRACE, Strings.GT_RBRACE_EXPECTED);
+        }
 
         instanceDuplicatingExpressionMarker.done(OCamlElementTypes.INSTANCE_DUPLICATING_EXPRESSION);
     }
@@ -251,39 +253,16 @@ class ExpressionParsing extends Parsing {
 
             ignore(builder, OCamlTokenTypes.LPAR);
 
-            final boolean expressionParsed = tryParseExpression(builder);
-
-            if (ignore(builder, OCamlTokenTypes.RPAR)) {
-                if (expressionParsed) {
-                    castingOrTypeConstraintExpressionMarker.done(OCamlElementTypes.PARENTHESES_EXPRESSION);
-                }
-                else {
-                    castingOrTypeConstraintExpressionMarker.done(OCamlElementTypes.CONSTANT_EXPRESSION);
-                }
+            if (!tryParseExpression(builder)) {
+                checkMatches(builder, OCamlTokenTypes.RPAR, Strings.RPAR_EXPECTED);
+                castingOrTypeConstraintExpressionMarker.done(OCamlElementTypes.CONSTANT_EXPRESSION);
+                return;
             }
-            else {
-                if (!expressionParsed) {
-                    builder.error(Strings.EXPRESSION_EXPECTED);
-                }
 
-                if (ignore(builder, OCamlTokenTypes.COLON)) {
-                    TypeParsing.parseTypeExpression(builder);
+            if (ignore(builder, OCamlTokenTypes.COLON)) {
+                TypeParsing.parseTypeExpression(builder);
 
-                    if (ignore(builder, OCamlTokenTypes.RPAR)) {
-                        castingOrTypeConstraintExpressionMarker.done(OCamlElementTypes.TYPE_CONSTRAINT_EXPRESSION);
-                    }
-                    else if (ignore(builder, OCamlTokenTypes.COLON_GT)) {
-                        TypeParsing.parseTypeExpression(builder);
-
-                        checkMatches(builder, OCamlTokenTypes.RPAR, Strings.RPAR_EXPECTED);
-
-                        castingOrTypeConstraintExpressionMarker.done(OCamlElementTypes.CASTING_EXPRESSION);
-                    }
-                    else {
-                        builder.error(Strings.RPAR_OR_COLON_GT_EXPECTED);
-                    }
-                }
-                else if (ignore(builder, OCamlTokenTypes.COLON_GT)) {
+                if (ignore(builder, OCamlTokenTypes.COLON_GT)) {
                     TypeParsing.parseTypeExpression(builder);
 
                     checkMatches(builder, OCamlTokenTypes.RPAR, Strings.RPAR_EXPECTED);
@@ -291,9 +270,21 @@ class ExpressionParsing extends Parsing {
                     castingOrTypeConstraintExpressionMarker.done(OCamlElementTypes.CASTING_EXPRESSION);
                 }
                 else {
-                    builder.error(Strings.RPAR_OR_COLON_OR_COLON_GT_EXPECTED);
-                    castingOrTypeConstraintExpressionMarker.drop();
+                    checkMatches(builder, OCamlTokenTypes.RPAR, Strings.RPAR_OR_COLON_GT_EXPECTED);
+
+                    castingOrTypeConstraintExpressionMarker.done(OCamlElementTypes.TYPE_CONSTRAINT_EXPRESSION);
                 }
+            }
+            else if (ignore(builder, OCamlTokenTypes.COLON_GT)) {
+                TypeParsing.parseTypeExpression(builder);
+
+                checkMatches(builder, OCamlTokenTypes.RPAR, Strings.RPAR_EXPECTED);
+
+                castingOrTypeConstraintExpressionMarker.done(OCamlElementTypes.CASTING_EXPRESSION);
+            }
+            else {
+                checkMatches(builder, OCamlTokenTypes.RPAR, Strings.RPAR_OR_COLON_OR_COLON_GT_EXPECTED);
+                castingOrTypeConstraintExpressionMarker.done(OCamlElementTypes.PARENTHESES_EXPRESSION);
             }
         }
         else {

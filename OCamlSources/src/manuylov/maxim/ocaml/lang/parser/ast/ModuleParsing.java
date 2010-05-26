@@ -47,8 +47,8 @@ class ModuleParsing extends Parsing {
             parseFunctorModuleExpression(builder);
         } else if (builder.getTokenType() == OCamlTokenTypes.LPAR) {
             parseModuleExpressionInParentheses(builder, true);
-        } else {
-            NameParsing.parseModulePath(builder);
+        } else if (!NameParsing.tryParseModulePath(builder)) {
+            builder.error(Strings.MODULE_EXPRESSION_EXPECTED);
         }
 
         while (builder.getTokenType() == OCamlTokenTypes.LPAR) {
@@ -70,8 +70,8 @@ class ModuleParsing extends Parsing {
             parseFunctorModuleType(builder);
         } else if (builder.getTokenType() == OCamlTokenTypes.SIG_KEYWORD) {
             parseSigModuleType(builder);
-        } else {
-            parseModuleTypePathModuleType(builder);
+        } else if (!NameParsing.tryParseModuleTypePath(builder)) {
+            builder.error(Strings.MODULE_TYPE_EXPECTED);
         }
 
         if (ignore(builder, OCamlTokenTypes.WITH_KEYWORD)) {

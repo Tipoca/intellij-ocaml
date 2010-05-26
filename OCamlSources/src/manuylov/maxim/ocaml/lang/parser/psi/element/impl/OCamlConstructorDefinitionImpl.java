@@ -27,7 +27,7 @@ import manuylov.maxim.ocaml.lang.parser.ast.util.OCamlASTTreeUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementVisitor;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlConstructorDefinition;
-import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlConstructorName;
+import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlConstructorNameDefinition;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlTypeExpression;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -47,7 +47,7 @@ public class OCamlConstructorDefinitionImpl extends BaseOCamlResolvedReference i
             return OCamlPsiUtil.endsCorrectlyWith(this, OCamlTypeExpression.class);
         }
         else {
-            return OCamlPsiUtil.endsCorrectlyWith(this, OCamlConstructorName.class);
+            return OCamlPsiUtil.endsCorrectlyWith(this, OCamlConstructorNameDefinition.class);
         }
     }
 
@@ -57,7 +57,7 @@ public class OCamlConstructorDefinitionImpl extends BaseOCamlResolvedReference i
 
     @Nullable
     public ASTNode getNameElement() {
-        return OCamlASTTreeUtil.findChildOfType(getNode(), OCamlElementTypes.CONSTRUCTOR_NAME);
+        return OCamlASTTreeUtil.findChildOfType(getNode(), OCamlElementTypes.CONSTRUCTOR_NAME_DEFINITION);
     }
 
     @NotNull

@@ -42,7 +42,7 @@ abstract class BaseOCamlSurroundDescriptor implements SurroundDescriptor {
 
     @NotNull
     public PsiElement[] getElementsToSurround(@NotNull final PsiFile file, final int startOffset, final int endOffset) {
-        final PsiElement element = OCamlPsiUtil.findElementOfTypeInRange(file, myElementClass, startOffset, endOffset);
+        final PsiElement element = OCamlPsiUtil.findElementOfTypeInRange(file, myElementClass, startOffset, endOffset, true);
         return element == null ? PsiElement.EMPTY_ARRAY : new PsiElement[] { element };
     }
 

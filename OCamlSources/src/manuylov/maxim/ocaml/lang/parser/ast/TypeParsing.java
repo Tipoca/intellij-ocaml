@@ -147,7 +147,7 @@ class TypeParsing extends Parsing {
     private static void parseTypeConstructorDefinition(@NotNull final PsiBuilder builder) {
         final PsiBuilder.Marker typeConstructorDefinitionMarker = builder.mark();
 
-        NameParsing.parseConstructorName(builder, NameParsing.NameType.NONE);
+        NameParsing.parseConstructorName(builder, NameParsing.NameType.DEFINITION);
 
         if (ignore(builder, OCamlTokenTypes.OF_KEYWORD)) {
             parseTypeExpression(builder);
@@ -267,8 +267,13 @@ class TypeParsing extends Parsing {
         boolean lastItemHasLabel = NameParsing.tryParseQuestAndLabel(builder);
 
         if (!tryParseTupleTypeExpression(builder)) {
-            functionTypeExpressionMarker.rollbackToTheFirstMark();
-            return false;
+            if (lastItemHasLabel) {
+                builder.error(Strings.TYPE_EXPRESSION_EXPECTED);
+            }
+            else {
+                functionTypeExpressionMarker.rollbackToTheFirstMark();
+                return false;
+            }
         }
 
         while (ignore(builder, OCamlTokenTypes.MINUS_GT)) {
@@ -482,7 +487,7 @@ class TypeParsing extends Parsing {
             return false;
         }
 
-        if (!ignore(builder, OCamlTokenTypes.DOT_DOT)) {
+        if (!ignore(builder, OCamlTokenTypes.DOT_DOT) && builder.getTokenType() != OCamlTokenTypes.GT) {
             parseMethodType(builder);
 
             while (ignore(builder, OCamlTokenTypes.SEMICOLON)) {

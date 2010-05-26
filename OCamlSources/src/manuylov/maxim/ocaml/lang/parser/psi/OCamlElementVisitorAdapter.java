@@ -559,4 +559,7 @@ public class OCamlElementVisitorAdapter extends OCamlElementVisitor {
 
     public void visitConstructorPath(@NotNull final OCamlConstructorPath psiElement) {
     }
+
+    public void visitObjectSelfSpecification(@NotNull final OCamlObjectSelfSpecification psiElement) {
+    }
 }

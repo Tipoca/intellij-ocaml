@@ -21,16 +21,15 @@ package manuylov.maxim.ocaml.lang.feature.completion.testCase;
 import com.intellij.codeInsight.completion.*;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.lang.ASTNode;
+import com.intellij.lang.Language;
 import com.intellij.lang.ParserDefinition;
 import com.intellij.mock.MockPsiManager;
 import com.intellij.openapi.command.impl.DummyProject;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.project.Project;
-import com.intellij.psi.DummyHolderViewProvider;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiElementVisitor;
-import com.intellij.psi.PsiFile;
+import com.intellij.psi.*;
 import com.intellij.psi.impl.source.PsiFileImpl;
+import manuylov.maxim.ocaml.fileType.OCamlFileTypeLanguage;
 import manuylov.maxim.ocaml.fileType.ml.MLFileTypeLanguage;
 import manuylov.maxim.ocaml.lang.BaseOCamlTestCase;
 import manuylov.maxim.ocaml.lang.feature.completion.OCamlCompletionContributor;
@@ -52,7 +51,7 @@ import java.util.TreeSet;
 public abstract class CompletionTestCase extends BaseOCamlTestCase {
     @NotNull private static final String COMPLETION_POSITION = "}{";
 
-    @NotNull private static final ParserDefinition ourParserDefinition = MLFileTypeLanguage.INSTANCE.getParserDefinition();
+    @NotNull private static final OCamlFileTypeLanguage ourLanguage = MLFileTypeLanguage.INSTANCE;
     @NotNull private static final CompletionContributor ourContributor = new OCamlCompletionContributor();
 
     private static int testNumber;
@@ -70,8 +69,8 @@ public abstract class CompletionTestCase extends BaseOCamlTestCase {
 
     protected abstract int getInvocationCount();
 
-    protected void setKeywords(@NotNull final String... keywords) {
-        myVariants = keywords;
+    protected void setVariants(@NotNull final String... variants) {
+        myVariants = variants;
     }
 
     protected void doTest(final int n, @NotNull final String text, final boolean shouldContain) throws Exception {
@@ -95,17 +94,19 @@ public abstract class CompletionTestCase extends BaseOCamlTestCase {
         return text.substring(0, start) + text.substring(start + length);
     }
 
-    private void doTest(@NotNull final String actualText,
+    private void doTest(@NotNull final String text,
                         final int completionPosition,
                         final boolean shouldContain,
                         @NotNull final String errorText) throws Exception {
-        final ASTNode originalRoot = ParserTestUtil.buildTree(actualText, ourParserDefinition);
+        final ParserDefinition parserDefinition = ourLanguage.getParserDefinition();
+
+        final ASTNode originalRoot = ParserTestUtil.buildTree(text, parserDefinition);
         final OCamlElement originalPsiRoot = OCamlElementFactory.INSTANCE.createElement(originalRoot);
 
-        final String dummyText = OCamlStringUtil.insert(
-            actualText, completionPosition, OCamlCompletionContributor.UPPER_CASE_DUMMY_IDENTIFIER
+        final String dummyText = insert(
+            text, completionPosition, OCamlCompletionContributor.LOWER_CASE_DUMMY_IDENTIFIER
         );
-        final ASTNode dummyRoot = ParserTestUtil.buildTree(dummyText, ourParserDefinition);
+        final ASTNode dummyRoot = ParserTestUtil.buildTree(dummyText, parserDefinition);
         final OCamlElement dummyPsiRoot = OCamlElementFactory.INSTANCE.createElement(dummyRoot);
 
         final Set<String> result = new TreeSet<String>();
@@ -116,7 +117,7 @@ public abstract class CompletionTestCase extends BaseOCamlTestCase {
 
         for (final String variant : myVariants) {
             assertEquals(result.contains(variant), shouldContain, errorText +
-                "\nkeyword: " + variant +
+                "\nvariant: " + variant +
                 "\nshould contain: " + shouldContain +
                 "\nresult: " + result.toString()
             );
@@ -171,12 +172,28 @@ public abstract class CompletionTestCase extends BaseOCamlTestCase {
     }
 
     @NotNull
-    private PsiFile createFakeFile(@NotNull final OCamlElement originalPsiRoot) {
+    public PsiFile createFakeFile(@NotNull final OCamlElement originalPsiRoot) {
         return new PsiFileImpl(new DummyHolderViewProvider(new MockPsiManager())) {
             @NotNull
             public FileType getFileType() {
                 //noinspection ConstantConditions
                 return null;
+            }
+
+            @Override
+            public PsiReference findReferenceAt(final int offset) {
+                return null;
+            }
+
+            @Override
+            public ASTNode getNode() {
+                return originalPsiRoot.getNode();
+            }
+
+            @NotNull
+            @Override
+            public Language getLanguage() {
+                return ourLanguage;
             }
 
             @NotNull
@@ -193,5 +210,12 @@ public abstract class CompletionTestCase extends BaseOCamlTestCase {
 
             public void accept(@NotNull final PsiElementVisitor visitor) {}
         };
+    }
+
+    @NotNull
+    public static String insert(@NotNull final String text, final int position, @NotNull final String textToInsert) {
+        final StringBuilder sb = new StringBuilder(text);
+        OCamlStringUtil.insert(sb, position, textToInsert);
+        return sb.toString();
     }
 }

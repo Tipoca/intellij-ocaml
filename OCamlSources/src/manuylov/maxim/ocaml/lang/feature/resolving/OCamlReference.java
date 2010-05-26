@@ -18,6 +18,7 @@
 
 package manuylov.maxim.ocaml.lang.feature.resolving;
 
+import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.psi.PsiReference;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlExtendedModuleName;
 import org.jetbrains.annotations.NotNull;
@@ -32,6 +33,9 @@ import java.util.List;
 public interface OCamlReference extends OCamlNamedElement, PsiReference {
     @Nullable
     OCamlResolvedReference resolve();
+
+    @NotNull
+    LookupElement[] getVariants();
 
     @NotNull
     List<Class<? extends OCamlResolvedReference>> getPossibleResolvedTypes();

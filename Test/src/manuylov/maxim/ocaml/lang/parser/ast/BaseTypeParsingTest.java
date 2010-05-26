@@ -252,11 +252,11 @@ public abstract class BaseTypeParsingTest extends ParsingTestCase {
         addCommonNodes();
         myTree.addNode(5, VARIANT_TYPE_DEFINITION);
         myTree.addNode(6, CONSTRUCTOR_DEFINITION);
-        myTree.addNode(7, CONSTRUCTOR_NAME);
+        myTree.addNode(7, CONSTRUCTOR_NAME_DEFINITION);
         myTree.addNode(8, UCFC_IDENTIFIER, "Constr");
         myTree.addNode(6, VBAR);
         myTree.addNode(6, CONSTRUCTOR_DEFINITION);
-        myTree.addNode(7, CONSTRUCTOR_NAME);
+        myTree.addNode(7, CONSTRUCTOR_NAME_DEFINITION);
         myTree.addNode(8, UCFC_IDENTIFIER, "AnotherConstr");
         myTree.addNode(7, OF_KEYWORD);
         myTree.addNode(7, TYPE_CONSTRUCTOR_NAME);
@@ -283,7 +283,7 @@ public abstract class BaseTypeParsingTest extends ParsingTestCase {
 
         addCommonNodes();
         myTree.addNode(5, CONSTRUCTOR_DEFINITION);
-        myTree.addNode(6, CONSTRUCTOR_NAME);
+        myTree.addNode(6, CONSTRUCTOR_NAME_DEFINITION);
         myTree.addNode(7, UCFC_IDENTIFIER, "Constr");
         myTree.addNode(5, CONSTRAINT_KEYWORD);
         myTree.addNode(5, TYPE_DEFINITION_CONSTRAINT);

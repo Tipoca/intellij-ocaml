@@ -16,23 +16,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/gpl-2.0.html>.
  */
 
-package manuylov.maxim.ocaml.lang.parser.util;
+package manuylov.maxim.ocaml.lang.feature.completion;
 
-import com.intellij.lang.ASTNode;
-import com.intellij.lang.ParserDefinition;
-import com.intellij.openapi.command.impl.DummyProject;
-import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
-import org.jetbrains.annotations.NotNull;
+import java.lang.annotation.*;
 
 /**
  * @author Maxim.Manuylov
- *         Date: 18.06.2009
+ *         Date: 22.05.2010
  */
-public class ParserTestUtil {
-    @NotNull
-    public static ASTNode buildTree(@NotNull final String text, @NotNull final ParserDefinition parserDefinition) throws Exception {
-        final ASTNode root = OCamlPsiUtil.parse(text, parserDefinition, DummyProject.getInstance(), true).getNode();
-        assert root != null;
-        return root;
-    }
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.FIELD})
+public @interface DoNotSuggestInCompletionVariants {
 }

@@ -32,23 +32,8 @@ import org.jetbrains.annotations.NotNull;
  */
 class NameParsing extends Parsing {
     public static void parseModulePath(@NotNull final PsiBuilder builder) {
-        final PsiBuilder.Marker modulePathMarker = builder.mark();
-
-        boolean dotParsed = false;
-
-        do {
-            parseModuleName(builder);
-
-            if (builder.getTokenType() == OCamlTokenTypes.DOT) {
-                dotParsed = true;
-            }
-        } while (ignore(builder, OCamlTokenTypes.DOT));
-
-        if (dotParsed) {
-            modulePathMarker.done(OCamlElementTypes.MODULE_PATH);
-        }
-        else {
-            modulePathMarker.drop();
+        if (!tryParseModulePath(builder)) {
+            builder.error(Strings.MODULE_PATH_EXPECTED);
         }
     }
 
@@ -187,7 +172,7 @@ class NameParsing extends Parsing {
         }
     }
 
-    private static boolean tryParseModuleTypePath(@NotNull final PsiBuilder builder) {
+    public static boolean tryParseModuleTypePath(@NotNull final PsiBuilder builder) {
         final PsiBuilder.Marker moduleTypePathMarker = builder.mark();
 
         final boolean extendedModuleNameParsed = doTryParseExtendedModuleNames(builder);
@@ -378,6 +363,10 @@ class NameParsing extends Parsing {
 
     public static boolean tryParseClassPath(@NotNull final PsiBuilder builder) {
         return tryParseModulePathWithLastPart(builder, OCamlElementTypes.CLASS_PATH, NameType.NONE);
+    }
+
+    public static boolean tryParseModulePath(@NotNull final PsiBuilder builder) {
+        return tryParseModulePathWithLastPart(builder, OCamlElementTypes.MODULE_PATH, NameType.NONE);
     }
 
     private static boolean tryParseClassName(@NotNull final PsiBuilder builder) {
@@ -581,6 +570,9 @@ class NameParsing extends Parsing {
         }
         else if (pathType == OCamlElementTypes.FIELD_PATH) {
             lastPartParseResult = tryParseFieldName(builder);
+        }
+        else if (pathType == OCamlElementTypes.MODULE_PATH) {
+            lastPartParseResult = tryParseModuleName(builder);
         }
         else {
             //noinspection SimplifiableIfStatement

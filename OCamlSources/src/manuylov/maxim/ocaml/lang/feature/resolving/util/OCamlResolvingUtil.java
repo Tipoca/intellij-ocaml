@@ -106,6 +106,8 @@ public class OCamlResolvingUtil {
 
         if (builder.getModulePathOffset() == 0) {
             final PsiFile sourceFile = builder.getContext().getSourceElement().getContainingFile();
+            if (sourceFile == null) return;
+
             if (tryProcessPervasives(builder, sourceFile)) return;
 
             String moduleName = null;
