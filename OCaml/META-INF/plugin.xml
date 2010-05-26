@@ -21,8 +21,33 @@
     <name>OCaml Support</name>
     <id>OCamlSupport</id>
     <description>OCaml language support</description>
-    <change-notes> </change-notes>
-    <version>0.9</version>
+    <change-notes><![CDATA[
+        <h3>&nbsp;OCaml Support v0.9.5</h3>
+        <ul>
+            <li>Context-dependent code completion for keywords</li>
+            <li>Choosing sources directory step in module creating wizard</li>
+            <li>Bug fixing</li>
+        </ul>
+        <h3>&nbsp;OCaml Support v0.9</h3>
+        <ul>
+            <li>Syntax and errors highlighting</li>
+            <li>References resolving</li>
+            <li>Compilation and executing</li>
+            <li>Automatic dependencies detection</li>
+            <li>Run configurations producer</li>
+            <li>Top level console (including support for several consoles running simultaneously)</li>
+            <li>Quick switching between ".ml" and ".mli" files (Shift + Alt + M)</li>
+            <li>Code completion for identifiers</li>
+            <li>Rename refactoring</li>
+            <li>Find usages</li>
+            <li>Surround with</li>
+            <li>Code commenting/uncommenting</li>
+            <li>Code folding</li>
+            <li>Brace matching</li>
+            <li>Quotes and backspace handlers</li>
+        </ul>
+    ]]></change-notes>
+    <version>0.9.5</version>
     <vendor email="maxim.manuylov@gmail.com" logo="/img/ocaml-small.png">Maxim Manuylov</vendor>
     <category>Custom Languages</category>
     <idea-version since-build="10000"/>
