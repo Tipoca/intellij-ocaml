@@ -50,7 +50,10 @@ public class OCamlModuleType extends ModuleType<OCamlModuleBuilder> {
         final ArrayList<ModuleWizardStep> steps = new ArrayList<ModuleWizardStep>();
         steps.add(new OCamlSourcesPathStep(moduleBuilder, null, null));
         steps.add(new OCamlSdkSelectStep(moduleBuilder, null, null, wizardContext.getProject()));
-        steps.add(ProjectWizardStepFactory.getInstance().createSupportForFrameworksStep(wizardContext, moduleBuilder));
+        final ModuleWizardStep supportForFrameworksStep = ProjectWizardStepFactory.getInstance().createSupportForFrameworksStep(wizardContext, moduleBuilder);
+        if (supportForFrameworksStep != null) {
+            steps.add(supportForFrameworksStep);
+        }
         return steps.toArray(new ModuleWizardStep[steps.size()]);
     }
 
