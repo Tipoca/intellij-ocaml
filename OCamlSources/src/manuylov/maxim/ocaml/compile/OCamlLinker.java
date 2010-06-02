@@ -140,10 +140,8 @@ public class OCamlLinker extends BaseOCamlCompiler implements ClassInstrumenting
 
         try {
             final ProcessOutput processOutput = OCamlSystemUtil.execute(cmd);
-            processLines(processOutput.getStdoutLines(), context, null, INFORMATION);
-
-            final List<String> errLines = processOutput.getStderrLines();
-            processLines(errLines, context, null, ERROR);
+            processInfoLines(processOutput.getStdoutLines(), context, null);
+            processErrorAndWarningLines(processOutput.getStderrLines(), context, null);
         }
         catch (final ExecutionException e) {
             context.addMessage(ERROR, e.getLocalizedMessage(), null, -1, -1);

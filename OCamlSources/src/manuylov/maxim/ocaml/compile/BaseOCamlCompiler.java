@@ -20,7 +20,6 @@ package manuylov.maxim.ocaml.compile;
 
 import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.openapi.compiler.CompileContext;
-import com.intellij.openapi.compiler.CompilerMessageCategory;
 import com.intellij.openapi.compiler.FileProcessingCompiler;
 import com.intellij.openapi.compiler.ValidityState;
 import com.intellij.openapi.module.Module;
@@ -28,6 +27,7 @@ import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.roots.ProjectFileIndex;
 import com.intellij.openapi.util.Key;
+import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import manuylov.maxim.ocaml.entity.OCamlModule;
 import manuylov.maxim.ocaml.run.OCamlRunConfiguration;
@@ -38,12 +38,19 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
+import static com.intellij.openapi.compiler.CompilerMessageCategory.*;
 import static com.intellij.openapi.compiler.CompilerMessageCategory.ERROR;
 
 abstract class BaseOCamlCompiler {
     @NotNull protected static final Key<Boolean> THERE_WAS_RECOMPILATION = new Key<Boolean>("THERE_WAS_RECOMPILATION");
+    @NotNull private static final String FILE = "File";
+    @NotNull private static final String LINE = "line";
+    @NotNull private static final String CHARACTERS = "characters";
+    @NotNull private static final String WARNING_ = "Warning:";
+    private static final int INVALID_INT = -1;
 
     @NotNull
     protected OCamlModule getMainOCamlModule(@NotNull final OCamlCompileContext ocamlContext) {
@@ -66,13 +73,13 @@ abstract class BaseOCamlCompiler {
                                                                    final boolean isDebugMode) {
         final Module module = fileIndex.getModuleForFile(file);
         if (module == null) {
-            context.addMessage(ERROR, "Cannot determine module for \"" + OCamlFileUtil.getPathToDisplay(file) + "\" file.", file.getUrl(), -1, -1);
+            context.addMessage(ERROR, "Cannot determine module for \"" + OCamlFileUtil.getPathToDisplay(file) + "\" file.", file.getUrl(), INVALID_INT, INVALID_INT);
             return null;
         }
 
         final Sdk sdk = ModuleRootManager.getInstance(module).getSdk();
         if (!OCamlModuleUtil.isOCamlSdk(sdk)) {
-            context.addMessage(ERROR, "Sdk of module \"" + module.getName() + "\" is invalid.", file.getUrl(), -1, -1);
+            context.addMessage(ERROR, "Sdk of module \"" + module.getName() + "\" is invalid.", file.getUrl(), INVALID_INT, INVALID_INT);
             return null;
         }
 
@@ -90,11 +97,111 @@ abstract class BaseOCamlCompiler {
         return cmd;
     }
 
-    protected void processLines(@NotNull final List<String> lines, @NotNull final CompileContext context, @Nullable final VirtualFile file, @NotNull final CompilerMessageCategory category) {
+    protected void processInfoLines(@NotNull final List<String> lines, @NotNull final CompileContext context, @Nullable final VirtualFile file) {
         for (final String line : lines) {
             final String url = file == null ? null : file.getUrl();
-            context.addMessage(category, line, url, -1, -1);
+            context.addMessage(INFORMATION, line, url, INVALID_INT, INVALID_INT);
         }
+    }
+
+    protected boolean processErrorAndWarningLines(@NotNull final List<String> lines, @NotNull final CompileContext context, @Nullable final VirtualFile file) {
+        boolean hasError = false;
+        final List<FailureMessage> failures = parseOutput(lines);
+        for (final FailureMessage failure : failures) {
+            final boolean isError = failure.getType() == FailureMessage.Type.ERROR;
+            final String url = file == null ? findUrl(failure) : file.getUrl();
+            context.addMessage(isError ? ERROR : WARNING, failure.getMessageText(), url, failure.getLineNumber(), failure.getStartPosition());
+            hasError |= isError;
+        }
+        return hasError;
+    }
+
+    @NotNull
+    private List<FailureMessage> parseOutput(@NotNull final List<String> lines) {
+        final List<FailureMessage> result = new ArrayList<FailureMessage>();
+        final int size = lines.size();
+        int i = 0;
+        while (i < size) {
+            final String current = lines.get(i);
+            final int nextIndex = i + 1;
+            if (nextIndex < size && current.startsWith(FILE)) {
+                result.add(createFailureMessage(current, lines.get(nextIndex)));
+                i += 2;
+            }
+            else {
+                result.add(new FailureMessage(FailureMessage.Type.ERROR, current, null, INVALID_INT, INVALID_INT, INVALID_INT));
+                i++;
+            }
+        }
+        return result;
+    }
+
+    @NotNull
+    private FailureMessage createFailureMessage(@NotNull final String firstLine, @NotNull final String secondLine) {
+        final String[] parts = firstLine.split(", ");
+        final int partsCount = parts.length;
+
+        final String firstPart = parts[0];
+        final String quotedFilePath = firstPart.startsWith(FILE) ? firstPart.substring(FILE.length()).trim() : null;
+        final String filePath = quotedFilePath == null
+            ? null
+            : (quotedFilePath.startsWith("\"") && quotedFilePath.endsWith("\"") ? quotedFilePath.substring(1, quotedFilePath.length() - 1) : null);
+
+        int lineNum = INVALID_INT;
+        if (partsCount > 1) {
+            final String secondPart = parts[1];
+            final String lineNumStr = secondPart.startsWith(LINE) ? secondPart.substring(LINE.length()).trim() : null;
+            if (lineNumStr != null) {
+                lineNum = parseInt(lineNumStr);
+            }
+        }
+
+        int startPos = INVALID_INT, endPos = INVALID_INT;
+        if (partsCount > 2) {
+            final String thirdPart = parts[2];
+            final String charactersWithColonStr = thirdPart.startsWith(CHARACTERS) ? thirdPart.substring(CHARACTERS.length()).trim() : null;
+            if (charactersWithColonStr != null) {
+                final String charactersStr = charactersWithColonStr.endsWith(":")
+                    ? charactersWithColonStr.substring(0, charactersWithColonStr.length() - 1)
+                    : charactersWithColonStr;
+                final String[] positions = charactersStr.split("-");
+                if (positions.length == 2) {
+                    startPos = parseInt(positions[0]);
+                    endPos = parseInt(positions[1]);
+                }
+            }
+        }
+        
+        if (startPos != INVALID_INT) startPos++;
+        if (endPos != INVALID_INT) endPos++;
+
+        final boolean isWarning = secondLine.startsWith(WARNING_);
+
+        final FailureMessage.Type type = isWarning ? FailureMessage.Type.WARNING : FailureMessage.Type.ERROR;
+        
+        String messageText = isWarning ? secondLine.substring(WARNING_.length()).trim() : secondLine;
+
+        if (startPos != INVALID_INT && endPos != INVALID_INT) {
+            messageText += " (" + CHARACTERS + " " + startPos + "-" + endPos + ")";
+        }
+
+        return new FailureMessage(type, messageText, filePath, lineNum, startPos, endPos);
+    }
+
+    private int parseInt(@NotNull final String string) {
+        try {
+            return Integer.parseInt(string);
+        } catch (final NumberFormatException e) {
+            return INVALID_INT;
+        }
+    }
+
+    @Nullable
+    private String findUrl(@NotNull final FailureMessage failure) {
+        final String path = failure.getFilePath();
+        if (path == null) return null;
+        final VirtualFile file = LocalFileSystem.getInstance().findFileByPath(path);
+        return file == null ? null : file.getUrl();
     }
 
     @NotNull

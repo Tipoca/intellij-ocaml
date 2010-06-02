@@ -224,19 +224,16 @@ public class OCamlCompiler extends BaseOCamlCompiler implements SourceInstrument
 
         try {
             final ProcessOutput processOutput = OCamlSystemUtil.execute(cmd);
-            processLines(processOutput.getStdoutLines(), context, file, INFORMATION);
 
-            final List<String> errLines = processOutput.getStderrLines();
-            processLines(errLines, context, file, ERROR);
+            processInfoLines(processOutput.getStdoutLines(), context, file);
+            final boolean hasErrors = processErrorAndWarningLines(processOutput.getStderrLines(), context, file);
 
-            if (!errLines.isEmpty()) return false;
+            return !hasErrors;
         }
         catch (final ExecutionException e) {
             context.addMessage(ERROR, e.getLocalizedMessage(), file.getUrl(), -1, -1);
             return false;
         }
-
-        return true;
     }
 
     private void addPath(@NotNull final GeneralCommandLine cmd, @NotNull final Set<String> addedPaths, @NotNull final String path) {
