@@ -24,6 +24,7 @@ import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleManager;
 import com.intellij.openapi.project.ModuleAdapter;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.project.ProjectManager;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowAnchor;
 import com.intellij.openapi.wm.ToolWindowManager;
@@ -52,15 +53,23 @@ public class OCamlToolWindowComponent implements ProjectComponent {
         myConnection.subscribe(ProjectTopics.MODULES, new ModuleAdapter() {
             @Override
             public void moduleAdded(@NotNull final Project project, @NotNull final Module module) {
-                registerToolWindowIfNeeded();
+                if (hasOpenedProjects()) {
+                    registerToolWindowIfNeeded();
+                }
             }
 
             @Override
             public void moduleRemoved(@NotNull final Project project, @NotNull final Module module) {
-                unregisterToolWindowIfNeeded();
+                if (hasOpenedProjects()) {
+                    unregisterToolWindowIfNeeded();
+                }
             }
         });
         myProject = project;
+    }
+
+    private boolean hasOpenedProjects() {
+        return ProjectManager.getInstance().getOpenProjects().length > 0;
     }
 
     @NotNull
