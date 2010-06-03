@@ -427,4 +427,8 @@ public class OCamlPsiUtil {
         }
         return false;
     }
+
+    public static boolean hasChildOfType(@NotNull final PsiElement parent, @NotNull final Class<? extends OCamlElement> clazz) {
+        return !getChildrenOfType(parent, clazz).isEmpty();
+    }
 }

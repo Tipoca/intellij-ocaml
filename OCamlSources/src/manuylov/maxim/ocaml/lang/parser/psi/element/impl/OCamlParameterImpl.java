@@ -49,6 +49,8 @@ public class OCamlParameterImpl extends BaseOCamlElement implements OCamlParamet
 
     @Override
     public boolean processDeclarations(@NotNull final ResolvingBuilder builder) {
-        return OCamlDeclarationsUtil.processDeclarationsInChildren(builder, this, OCamlPattern.class, OCamlParentheses.class);
+        return OCamlPsiUtil.hasChildOfType(this, OCamlPattern.class) 
+            ? OCamlDeclarationsUtil.processDeclarationsInChildren(builder, this, OCamlPattern.class)
+            : OCamlDeclarationsUtil.processDeclarationsInChildren(builder, this, OCamlLabelDefinition.class);
     }
 }

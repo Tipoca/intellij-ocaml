@@ -394,5 +394,14 @@ public class ValueNameResolvingTest extends ResolvingTestCase {
             "           end = struct end;; " +
             "module M1 = M;; " +
             "let a = M1.}{f;;");
-   }
+
+        doTest(66, "" +
+            "let f ?({{x}} = 0) = }{x;; ");
+
+        doTest(67, "" +
+            "let f ?x:y = }{x;; ");
+
+        doTest(68, "" +
+            "let f ?x:{{y}} = }{y;; ");
+    }
 }

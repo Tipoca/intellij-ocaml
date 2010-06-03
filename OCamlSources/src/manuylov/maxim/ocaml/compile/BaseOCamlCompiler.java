@@ -123,17 +123,26 @@ abstract class BaseOCamlCompiler {
         int i = 0;
         while (i < size) {
             final String current = lines.get(i);
-            final int nextIndex = i + 1;
-            if (nextIndex < size && current.startsWith(FILE)) {
-                result.add(createFailureMessage(current, lines.get(nextIndex)));
-                i += 2;
+            int nextIndex = i + 1;
+            while (nextIndex < size && !lines.get(nextIndex).startsWith(FILE)) nextIndex++;
+            if (current.startsWith(FILE)) {
+                result.add(createFailureMessage(current, join(lines, i + 1, nextIndex)));
             }
             else {
-                result.add(new FailureMessage(FailureMessage.Type.ERROR, current, null, INVALID_INT, INVALID_INT, INVALID_INT));
-                i++;
+                result.add(new FailureMessage(FailureMessage.Type.ERROR, join(lines, i, nextIndex), null, INVALID_INT, INVALID_INT, INVALID_INT));
             }
+            i = nextIndex;
         }
         return result;
+    }
+
+    @NotNull
+    private String join(@NotNull final List<String> lines, final int startIndex, final int endIndex) {
+        final StringBuilder sb = new StringBuilder();
+        for (int i = startIndex; i < endIndex; i++) {
+            sb.append("\n").append(lines.get(i).trim());
+        }
+        return sb.toString().trim();
     }
 
     @NotNull

@@ -50,7 +50,7 @@ public class OCamlLabelDefinitionImpl extends BaseOCamlResolvedReference impleme
 
     @Nullable
     public ASTNode getNameElement() {
-        return OCamlASTTreeUtil.findChildOfType(getNode().getFirstChildNode(), OCamlElementTypes.LABEL_NAME);
+        return OCamlASTTreeUtil.findChildOfType(getNode(), OCamlElementTypes.LABEL_NAME);
     }
 
     @NotNull
