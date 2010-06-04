@@ -113,6 +113,8 @@
         <lang.surroundDescriptor language="OCAML_MLI" implementationClass="manuylov.maxim.ocaml.lang.feature.refactoring.surround.OCamlTypeExpressionSurroundDescriptor"/>
         <!-- } -->
 
+        <renamePsiElementProcessor implementation="manuylov.maxim.ocaml.lang.feature.refactoring.rename.OCamlRenamePsiElementProcessor"/>
+
         <quoteHandler fileType="OCAML_ML_FILE" className="manuylov.maxim.ocaml.editor.OCamlQuoteHandler"/>
         <quoteHandler fileType="OCAML_MLI_FILE" className="manuylov.maxim.ocaml.editor.OCamlQuoteHandler"/>
         <backspaceHandlerDelegate implementation="manuylov.maxim.ocaml.editor.OCamlBackspaceHandler"/>

@@ -18,6 +18,8 @@
 
 package manuylov.maxim.ocaml.lang.feature.resolving.impl;
 
+import com.intellij.codeInsight.lookup.LookupElement;
+import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.lang.ASTNode;
 import manuylov.maxim.ocaml.lang.feature.resolving.OCamlResolvedReference;
 import manuylov.maxim.ocaml.lang.feature.resolving.ResolvingBuilder;
@@ -54,8 +56,14 @@ public abstract class BaseOCamlSelfResolvedReference extends BaseOCamlReference 
     }
 
     @Override
-    public OCamlResolvedReference resolve() {  //todo getVariants()???
+    public OCamlResolvedReference resolve() {
         return this;
+    }
+
+    @NotNull
+    @Override
+    public LookupElement[] getVariants() {
+        return new LookupElement[] { LookupElementBuilder.create(this) };
     }
 
     @Override
