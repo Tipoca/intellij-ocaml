@@ -25,12 +25,14 @@ import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtil;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Computable;
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiReference;
 import com.intellij.psi.search.FilenameIndex;
 import com.intellij.psi.search.GlobalSearchScope;
-import manuylov.maxim.ocaml.lang.feature.resolving.*;
 import manuylov.maxim.ocaml.fileType.ml.MLFileType;
 import manuylov.maxim.ocaml.fileType.mli.MLIFileType;
+import manuylov.maxim.ocaml.lang.feature.resolving.*;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElement;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.element.*;
@@ -40,9 +42,7 @@ import manuylov.maxim.ocaml.util.OCamlStringUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static com.intellij.psi.search.GlobalSearchScope.getScopeRestrictedByFileTypes;
 import static com.intellij.psi.search.GlobalSearchScope.moduleWithDependenciesAndLibrariesScope;
@@ -53,6 +53,8 @@ import static com.intellij.psi.search.GlobalSearchScope.moduleWithDependenciesAn
  */
 public class OCamlResolvingUtil {
     @NotNull public static final String PERVASIVES = "Pervasives";
+
+    @NotNull private static Map<String, OCamlElement> ourFakeModules = new HashMap<String, OCamlElement>();
 
     @NotNull
     public static List<OCamlStructuredElement> findActualDefinitionsOfStructuredElementReference(@NotNull final OCamlReference reference) {
@@ -71,6 +73,22 @@ public class OCamlResolvingUtil {
             }
         }
         return result;
+    }
+
+    @Nullable
+    public static PsiElement resolveWithFakeModules(@NotNull final PsiReference reference, @NotNull final OCamlFile... fakeModules) {
+        try {
+            for (final OCamlFile fakeModule : fakeModules) {
+                final String moduleName = fakeModule.getModuleName();
+                if (moduleName != null) {
+                    ourFakeModules.put(moduleName, fakeModule.getModuleBinding(OCamlStructuredBinding.class));
+                }
+            }
+            return reference.resolve();
+        }
+        finally {
+            ourFakeModules.clear();
+        }
     }
 
     @NotNull
@@ -152,6 +170,11 @@ public class OCamlResolvingUtil {
 
     @Nullable
     private static OCamlElement findFileModule(@NotNull final PsiFile sourceFile, @NotNull final String moduleName) {
+        final OCamlElement fakeModule = ourFakeModules.get(moduleName);
+        if (fakeModule != null) {
+            return fakeModule;
+        }
+
         if (OCamlFileUtil.isImplementationFile(sourceFile)) {
             final OCamlElement targetModule = findFileModuleDefinition(sourceFile, moduleName);
             if (targetModule != null) {
@@ -212,11 +235,5 @@ public class OCamlResolvingUtil {
         }
 
         return null;
-    }
-
-    private static void addIfNotNull(@NotNull final List<OCamlStructuredElement> list, @Nullable final OCamlStructuredElement item) {
-        if (item != null) {
-            list.add(item);
-        }
     }
 }

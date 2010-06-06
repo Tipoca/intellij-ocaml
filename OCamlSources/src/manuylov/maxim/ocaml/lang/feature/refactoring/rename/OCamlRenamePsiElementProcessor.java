@@ -18,19 +18,27 @@
 
 package manuylov.maxim.ocaml.lang.feature.refactoring.rename;
 
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiNamedElement;
-import com.intellij.psi.PsiReference;
+import com.intellij.openapi.util.Pair;
+import com.intellij.openapi.vfs.LocalFileSystem;
+import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.psi.*;
 import com.intellij.refactoring.rename.RenamePsiElementProcessor;
 import com.intellij.util.IncorrectOperationException;
 import com.intellij.util.containers.MultiMap;
-import manuylov.maxim.ocaml.lang.feature.resolving.OCamlNamedElement;
+import manuylov.maxim.ocaml.entity.OCamlModule;
+import manuylov.maxim.ocaml.lang.feature.resolving.OCamlReference;
+import manuylov.maxim.ocaml.lang.feature.resolving.util.OCamlResolvingUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlElement;
+import manuylov.maxim.ocaml.lang.parser.psi.OCamlElementProcessorAdapter;
+import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
+import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlFile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.File;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 
 /**
  * @author Maxim.Manuylov
@@ -48,36 +56,56 @@ public class OCamlRenamePsiElementProcessor extends RenamePsiElementProcessor {
 
         //noinspection UnnecessaryLocalVariable
         final PsiElement elementBefore = element;
-        final Collection<PsiReference> referencesBefore = collectReferences(elementBefore);
+        final String oldName = getName(elementBefore);
+        if (oldName == null) return;
 
+        final Collection<PsiReference> referencesBefore = getReferences(elementBefore, true, null);
         for (final PsiReference referenceBefore : referencesBefore) {
             final PsiElement referenceElementBefore = referenceBefore.getElement();
             if (referenceElementBefore == null) continue;
-            final PsiElement referenceElementAfter = referenceElementBefore.copy();
+            final PsiElement referenceElementAfter = OCamlPsiUtil.copy(referenceElementBefore);
             final PsiReference referenceAfter = referenceElementAfter.getReference();
             if (referenceAfter == null) continue;
-            final PsiElement definitionAfter = referenceAfter.resolve(); //todo it can be in another file
-            if (definitionAfter == null) continue; //todo now is null - why?
+            PsiElement definitionAfter = referenceAfter.resolve();
+            if (definitionAfter == null) continue;
             if (!rename(referenceElementAfter, newName)) continue;
-            if (!rename(definitionAfter, newName)) continue;
-            final PsiElement actualDefinitionAfter = referenceAfter.resolve();
+            final PsiFile referenceOriginalFile = referenceElementBefore.getContainingFile();
+            final PsiFile referenceFakeFile = referenceElementAfter.getContainingFile();
+            final PsiFile definitionOriginalFile = definitionAfter.getContainingFile();
+            final PsiFile definitionFakeFile;
+            final PsiElement actualDefinitionAfter;
+            if (definitionOriginalFile == referenceFakeFile) {
+                if (!rename(definitionAfter, newName)) continue;
+                definitionFakeFile = null;
+                actualDefinitionAfter = referenceAfter.resolve();
+            }
+            else {
+                definitionAfter = OCamlPsiUtil.copy(definitionAfter);
+                if (!rename(definitionAfter, newName)) continue;
+                definitionFakeFile = definitionAfter.getContainingFile();
+                if (!(definitionFakeFile instanceof OCamlFile)) continue;
+                actualDefinitionAfter = OCamlResolvingUtil.resolveWithFakeModules(referenceAfter, (OCamlFile) definitionFakeFile);
+            }
             if (actualDefinitionAfter == null) continue;
             if (definitionAfter != actualDefinitionAfter) {
-                addConflictIfNeeded(conflicts, actualDefinitionAfter, "Warning: %s is already defined.");
+                if (!rename(referenceElementAfter, oldName)) continue;
+                if (!rename(definitionAfter, oldName)) continue;
+                addConflictIfNeeded(conflicts, actualDefinitionAfter, "Warning: %s is already defined.",
+                    Pair.create(referenceFakeFile, referenceOriginalFile),
+                    Pair.create(definitionFakeFile, definitionOriginalFile)
+                );
             }
         }
 
-        final OCamlNamedElement elementAfter = (OCamlNamedElement) element.copy();
+        final PsiElement elementAfter = OCamlPsiUtil.copy(element);
         if (!rename(elementAfter, newName)) return;
 
-        final Collection<PsiReference> newReferencesAfter = collectReferences(elementAfter);
         final PsiFile originalFile = elementBefore.getContainingFile();
         final PsiFile fakeFile = elementAfter.getContainingFile();
+        final Collection<PsiReference> newReferencesAfter = getReferences(elementAfter, false, originalFile);
+        if (!rename(elementAfter, oldName)) return;
         for (final PsiReference reference : newReferencesAfter) {
-            final PsiElement originalElement = getOriginal(reference.getElement(), fakeFile, originalFile);
-            if (originalElement != null) {
-                addConflictIfNeeded(conflicts, originalElement, "Warning: there is a usage of %s.");
-            }
+            addConflictIfNeeded(conflicts, reference.getElement(), "Warning: there is a usage of %s.", Pair.create(fakeFile, originalFile));
         }
     }
 
@@ -95,26 +123,101 @@ public class OCamlRenamePsiElementProcessor extends RenamePsiElementProcessor {
     }
 
     @Nullable
-    private PsiElement getOriginal(@NotNull final PsiElement element, @NotNull final PsiElement fakeFile, final PsiFile originalFile) {
-        if (element.getContainingFile() != fakeFile) {
-            return element;
+    private String getName(@NotNull final PsiElement element) {
+        if (element instanceof PsiNamedElement) {
+            return ((PsiNamedElement) element).getName();
         }
-        return originalFile.findElementAt(element.getTextRange().getStartOffset());
+        return null;
     }
 
     private void addConflictIfNeeded(@NotNull final MultiMap<PsiElement, String> conflicts,
                                      @NotNull final PsiElement conflictingElement,
-                                     @NotNull final String text) {
-        if (!conflicts.containsKey(conflictingElement)) {
-            conflicts.putValue(conflictingElement, String.format(text, conflictingElement.toString()));
+                                     @NotNull final String text,
+                                     @NotNull final Pair<PsiFile, PsiFile>... pairs) {
+        final PsiElement originalElement = getOriginal(conflictingElement, pairs);
+        if (originalElement != null) {
+            if (!conflicts.containsKey(originalElement)) {
+                conflicts.putValue(originalElement, String.format(text, originalElement.toString()));
+            }
         }
     }
 
+    @Nullable
+    private PsiElement getOriginal(@NotNull final PsiElement element, @NotNull final Pair<PsiFile, PsiFile>... pairs) {
+        final PsiFile elementFile = element.getContainingFile();
+        for (final Pair<PsiFile, PsiFile> pair : pairs) {
+            final PsiFile fakeFile = pair.getFirst();
+            if (fakeFile != null && elementFile == fakeFile) {
+                final PsiFile originalFile = pair.getSecond();
+                return OCamlPsiUtil.findElementInRange(originalFile, element.getTextRange());
+            }
+        }
+        return element;
+    }
+
     @NotNull
-    private Collection<PsiReference> collectReferences(@NotNull final PsiElement element) {
-        final Collection<PsiReference> references = findReferences(element);
+    private Collection<PsiReference> getReferences(@NotNull final PsiElement element, final boolean useCache, @Nullable final PsiFile originalFile) {
+        final Collection<PsiReference> references = !useCache && originalFile != null ? findNewReferences(element, originalFile) : findReferences(element);
         //noinspection SuspiciousMethodCalls
         references.remove(element);
         return references;
+    }
+
+    @NotNull
+    private Collection<PsiReference> findNewReferences(@NotNull final PsiElement element, @NotNull final PsiFile originalFile) {
+        final PsiFile psiFile = element.getContainingFile();
+        if (!(psiFile instanceof OCamlFile)) return Collections.emptySet();
+        final OCamlFile fakeFile = (OCamlFile) psiFile;
+        final VirtualFile file = originalFile.getVirtualFile();
+        if (file == null) return Collections.emptySet();
+        final OCamlModule fileModule = OCamlModule.getBySourceFile(file, element.getProject());
+        if (fileModule == null) return Collections.emptySet();
+/*
+        final Collection<OCamlModule> modules = fileModule.collectAllDependenciesIgnoringCycles(); //todo fix it: should be not dependencies but depends on
+        modules.add(fileModule);
+*/
+        final Collection<PsiReference> references = new HashSet<PsiReference>();
+/*
+        for (final OCamlModule module : modules) {
+            collectReferencesInFile(element, fakeFile, module.getImplementationFile(), references);
+            collectReferencesInFile(element, fakeFile, module.getInterfaceFile(), references);
+        }
+*/
+        collectReferences(element, fakeFile, references);
+//        collectReferencesInFile(element, fakeFile, fakeFile.getAnotherFile(), references); //todo is it needed?
+        return references;
+    }
+
+    private void collectReferences(@NotNull final PsiElement element,
+                                   @NotNull final OCamlFile fakeFile,
+                                   @NotNull final Collection<PsiReference> references) {
+        OCamlPsiUtil.acceptRecursively(fakeFile, new OCamlElementProcessorAdapter() {
+            public void process(@NotNull final OCamlElement psiElement) {
+                final PsiReference reference = psiElement.getReference();
+                if (reference == null) return;
+                if (reference.isReferenceTo(element)) {
+                    references.add(reference);
+                }
+            }
+        });
+    }
+
+    private void collectReferencesInFile(@NotNull final PsiElement element,
+                                         @NotNull final OCamlFile fakeFile,
+                                         @NotNull final File file,
+                                         @NotNull final Collection<PsiReference> references) {
+        final VirtualFile virtualFile = LocalFileSystem.getInstance().findFileByIoFile(file);
+        if (virtualFile == null) return;
+        final PsiFile psiFile = PsiManager.getInstance(element.getProject()).findFile(virtualFile);
+        if (psiFile == null) return;
+        OCamlPsiUtil.acceptRecursively(psiFile, new OCamlElementProcessorAdapter() {
+            public void process(@NotNull final OCamlElement psiElement) {
+                final PsiReference reference = psiElement.getReference();
+                if (reference == null || !(reference instanceof OCamlReference)) return;
+                if (((OCamlReference) reference).isReferenceToWithFakeModules(element, fakeFile)) {
+                    references.add(reference);
+                }
+            }
+        });
     }
 }

@@ -70,7 +70,22 @@ public class OCamlModule {
     }
 
     @NotNull
-    public List<OCamlModule> collectAllDependencies() throws CyclicDependencyException {        
+    public List<OCamlModule> collectAllDependencies() throws CyclicDependencyException {
+        return doCollectAllDependencies(false);
+    }
+
+    @NotNull
+    public Collection<OCamlModule> collectAllDependenciesIgnoringCycles() {
+        try {
+            return doCollectAllDependencies(true);
+        }
+        catch (final CyclicDependencyException ignore) {
+            return Collections.emptySet();
+        }
+    }
+
+    @NotNull
+    private List<OCamlModule> doCollectAllDependencies(final boolean ignoreCycles) throws CyclicDependencyException {
         final List<OCamlModule> result = new ArrayList<OCamlModule>();
         final Set<OCamlModule> processedModules = new HashSet<OCamlModule>();
         final Queue<TreeNode<OCamlModule>> queue = new LinkedList<TreeNode<OCamlModule>>();
@@ -80,7 +95,12 @@ public class OCamlModule {
             final TreeNode<OCamlModule> node = queue.remove();
             final OCamlModule module = node.getData();
             if (processedModules.contains(module)) {
-                throw new CyclicDependencyException(node);
+                if (ignoreCycles){
+                    continue;
+                }
+                else {
+                    throw new CyclicDependencyException(node);
+                }
             }
             result.add(module);
             processedModules.add(module);

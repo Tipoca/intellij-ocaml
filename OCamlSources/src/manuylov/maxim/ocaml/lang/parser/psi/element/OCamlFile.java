@@ -29,4 +29,7 @@ import org.jetbrains.annotations.Nullable;
 public interface OCamlFile extends PsiFile {
     @Nullable
     <T extends OCamlStructuredBinding> T getModuleBinding(@NotNull Class<T> type);
+
+    @Nullable
+    String getModuleName();
 }

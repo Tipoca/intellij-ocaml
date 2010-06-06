@@ -282,9 +282,10 @@ public abstract class BaseTypeParsingTest extends ParsingTestCase {
         recreateTree();
 
         addCommonNodes();
-        myTree.addNode(5, CONSTRUCTOR_DEFINITION);
-        myTree.addNode(6, CONSTRUCTOR_NAME_DEFINITION);
-        myTree.addNode(7, UCFC_IDENTIFIER, "Constr");
+        myTree.addNode(5, VARIANT_TYPE_DEFINITION);
+        myTree.addNode(6, CONSTRUCTOR_DEFINITION);
+        myTree.addNode(7, CONSTRUCTOR_NAME_DEFINITION);
+        myTree.addNode(8, UCFC_IDENTIFIER, "Constr");
         myTree.addNode(5, CONSTRAINT_KEYWORD);
         myTree.addNode(5, TYPE_DEFINITION_CONSTRAINT);
         myTree.addNode(6, QUOTE);

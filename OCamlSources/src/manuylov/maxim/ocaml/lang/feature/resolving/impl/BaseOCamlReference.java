@@ -29,6 +29,7 @@ import manuylov.maxim.ocaml.lang.feature.resolving.OCamlReference;
 import manuylov.maxim.ocaml.lang.feature.resolving.OCamlResolvedReference;
 import manuylov.maxim.ocaml.lang.feature.resolving.ResolvingContext;
 import manuylov.maxim.ocaml.lang.feature.resolving.util.OCamlResolvingUtil;
+import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlFile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -73,9 +74,24 @@ public abstract class BaseOCamlReference extends BaseOCamlNamedElement implement
     }
 
     public boolean isReferenceTo(@NotNull final PsiElement element) {
-        return element instanceof OCamlResolvedReference
-            && Comparing.equal(getName(), ((OCamlResolvedReference) element).getName())
-            && resolve() == element;
+        return isReferenceTo_weak(element) && resolve() == element;
+    }
+
+    public boolean isReferenceToWithFakeModules(@NotNull final PsiElement element, @NotNull final OCamlFile... fakeModules) {
+        return isReferenceTo_weak(element) && OCamlResolvingUtil.resolveWithFakeModules(this, fakeModules) == element;
+    }
+
+    private boolean isReferenceTo_weak(@NotNull final PsiElement element) {
+        return hasPossibleType(element) && Comparing.equal(getName(), ((OCamlResolvedReference) element).getName());
+    }
+
+    private boolean hasPossibleType(@NotNull final PsiElement element) {
+        for (final Class<? extends OCamlResolvedReference> type : getPossibleResolvedTypes()) {
+            if (type.isInstance(element)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @NotNull

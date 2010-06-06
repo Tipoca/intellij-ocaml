@@ -46,8 +46,8 @@ abstract class BaseOCamlFileModuleBinding<T extends OCamlStructuredElement> exte
     @Override
     @Nullable
     public String getName() {
-        final VirtualFile file = getVirtualFile();
-        return file == null ? null : OCamlStringUtil.firstLetterToUpperCase(file.getNameWithoutExtension());
+        final OCamlFile file = getFile();
+        return file == null ? null : file.getModuleName();
     }
 
     @Override

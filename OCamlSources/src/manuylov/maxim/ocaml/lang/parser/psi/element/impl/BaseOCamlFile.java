@@ -20,10 +20,12 @@ package manuylov.maxim.ocaml.lang.parser.psi.element.impl;
 
 import com.intellij.extapi.psi.PsiFileBase;
 import com.intellij.lang.Language;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.FileViewProvider;
 import manuylov.maxim.ocaml.lang.parser.psi.OCamlPsiUtil;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlFile;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlStructuredBinding;
+import manuylov.maxim.ocaml.util.OCamlStringUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -39,5 +41,11 @@ public abstract class BaseOCamlFile extends PsiFileBase implements OCamlFile {
     @Nullable
     public <T extends OCamlStructuredBinding> T getModuleBinding(@NotNull final Class<T> type) {
         return OCamlPsiUtil.getFirstChildOfType(this, type);
+    }
+
+    @Nullable
+    public String getModuleName() {
+        final VirtualFile file = getVirtualFile();
+        return file == null ? null : OCamlStringUtil.firstLetterToUpperCase(file.getNameWithoutExtension());
     }
 }

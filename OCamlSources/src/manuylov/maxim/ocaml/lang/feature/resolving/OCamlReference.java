@@ -19,8 +19,10 @@
 package manuylov.maxim.ocaml.lang.feature.resolving;
 
 import com.intellij.codeInsight.lookup.LookupElement;
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlExtendedModuleName;
+import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlFile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -44,4 +46,6 @@ public interface OCamlReference extends OCamlNamedElement, PsiReference {
     List<? extends OCamlExtendedModuleName> getModulePath();
 
     boolean isBundled();
+
+    boolean isReferenceToWithFakeModules(@NotNull final PsiElement element, @NotNull final OCamlFile... fakeModules);
 }

@@ -25,10 +25,7 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Computable;
 import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.PsiComment;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiErrorElement;
-import com.intellij.psi.PsiWhiteSpace;
+import com.intellij.psi.*;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
 import manuylov.maxim.ocaml.lang.parser.psi.element.OCamlModuleName;
@@ -273,7 +270,7 @@ public class OCamlPsiUtil {
 
     public static List<OCamlModuleName> collectModuleReferences(@NotNull final OCamlElement psiElement) {
         final List<OCamlModuleName> moduleReferences = new ArrayList<OCamlModuleName>();
-        visitRecursively(psiElement, new OCamlElementVisitorAdapter() {
+        acceptRecursively(psiElement, new OCamlElementVisitorAdapter() {
             @Override
             public void visitModuleName(@NotNull final OCamlModuleName psiElement) {
                 moduleReferences.add(psiElement);
@@ -282,12 +279,12 @@ public class OCamlPsiUtil {
         return moduleReferences;
     }
 
-    public static void visitRecursively(@NotNull final OCamlElement psiElement, @NotNull final OCamlElementVisitor visitor) {
-        final Stack<OCamlElement> stack = new Stack<OCamlElement>();
+    public static void acceptRecursively(@NotNull final PsiElement psiElement, @NotNull final PsiElementVisitor visitor) {
+        final Stack<PsiElement> stack = new Stack<PsiElement>();
         stack.push(psiElement);
         while (!stack.isEmpty()) {
-            final OCamlElement element = stack.pop();
-            element.visit(visitor);
+            final PsiElement element = stack.pop();
+            element.accept(visitor);
             stack.addAll(getChildren(element));
         }
     }
@@ -362,7 +359,7 @@ public class OCamlPsiUtil {
 
         final PsiElement psiRoot = parse(text, parserDefinition, project, false);
 
-        return findElementOfTypeInRange(psiRoot, PsiElement.class, range.getStartOffset(), range.getEndOffset(), true);
+        return findElementInRange(psiRoot, range);
     }
 
     @NotNull
@@ -430,5 +427,28 @@ public class OCamlPsiUtil {
 
     public static boolean hasChildOfType(@NotNull final PsiElement parent, @NotNull final Class<? extends OCamlElement> clazz) {
         return !getChildrenOfType(parent, clazz).isEmpty();
+    }
+
+    @NotNull
+    public static PsiElement copy(@NotNull final PsiElement element) {
+        final PsiElement fileCopy = element.getContainingFile().copy();
+        final TextRange range = element.getTextRange();
+        final PsiElement result = findElementInRange(fileCopy, range);
+        assert result != null;
+        return result;
+    }
+
+    @Nullable
+    public static PsiElement findElementInRange(@NotNull final PsiElement root, @NotNull final TextRange range) {
+        return findElementOfTypeInRange(root, PsiElement.class, range.getStartOffset(), range.getEndOffset(), true);
+    }
+
+    public static boolean isParentOf(@NotNull final PsiElement parent, @NotNull final PsiElement child) {
+        PsiElement current = child;
+        while (current != null) {
+          if (current == parent) return true;
+          current = getParent(current);
+        }
+        return false;
     }
 }

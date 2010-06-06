@@ -129,19 +129,11 @@ class TypeParsing extends Parsing {
     private static void parseVariantTypeDeclaration(@NotNull final PsiBuilder builder) {
         final PsiBuilder.Marker variantTypeDeclarationMarker = builder.mark();
 
-        int constructorsCount = 0;
-
         do {
             parseTypeConstructorDefinition(builder);
-            constructorsCount++;
         } while (ignore(builder, OCamlTokenTypes.VBAR));
 
-        if (constructorsCount > 1) {
-            variantTypeDeclarationMarker.done(OCamlElementTypes.VARIANT_TYPE_DEFINITION);
-        }
-        else {
-            variantTypeDeclarationMarker.drop();
-        }
+        variantTypeDeclarationMarker.done(OCamlElementTypes.VARIANT_TYPE_DEFINITION);
     }
 
     private static void parseTypeConstructorDefinition(@NotNull final PsiBuilder builder) {
